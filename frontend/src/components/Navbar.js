@@ -19,10 +19,10 @@ export default class Navbar extends Component {
                                 <Link to="/homepage" className="nav-link">Inicio</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Que es la ICPC?</a>
+                                <Link to="/inicio" className="nav-link">Que es la ICPC?</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/eventos">Eventos</a>
+                                <a className="nav-link" href="/ListaEventos">Eventos</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Competencias</a>

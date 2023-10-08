@@ -19,6 +19,7 @@ function App() {
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/listaEventos" element={<ListaEventos/>} />
           <Route path="/inicio" element={<QueEsICPC/>} />
+          
         </Routes>
       </BrowserRouter>
     </div>
