@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import './Navbar.css';
+import './css/Navbar.css';
+import './css/fondo.css';
 
 export default class Navbar extends Component {
     render() {
