@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import './Navbar.css';
 
 export default class Navbar extends Component {
     render() {
@@ -36,6 +36,8 @@ export default class Navbar extends Component {
         );
     }
 }
+
+
 
 if (document.getElementById('navbar')) {
     ReactDOM.render(<Navbar />, document.getElementById('navbar'));

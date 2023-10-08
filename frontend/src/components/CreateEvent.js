@@ -42,61 +42,9 @@ const CreateEvento = () => {
 
     }
     
-  return (/*
+  return (
     <div>
-        <Navbar />
-        <h2>Crear evento</h2>
-        <form onSubmit={store}>
-            <div className='mb-3'>
-                <label className='form-label'>Name</label>
-                <input 
-                    value={nombre_evento} 
-                    onChange={ (e)=> setNombreEvento(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
-            </div>
-            <div className='mb-3'>
-                <label className='form-label'>Last Name</label>
-                <input 
-                    value={tipo_evento} 
-                    onChange={ (e)=> setTipoEvento(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
-            </div>
-            <div className='mb-3'>
-                <label className='form-label'>Job</label>
-                <input 
-                    value={fecha_inicio} 
-                    onChange={ (e)=> setFechaInicio(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
-            </div>
-            <div className='mb-3'>
-                <label className='form-label'>Phone</label>
-                <input 
-                    value={fecha_fin} 
-                    onChange={ (e)=> setFechaFin(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
-            </div>
-            <div className='mb-3'>
-                <label className='form-label'>Address</label>
-                <input 
-                    value={descripcion} 
-                    onChange={ (e)=> setDescripcion(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
-            </div>
-            <button type='submit' className='btn btn-success'>Save</button>
-        </form>
-    </div>*/
-    <div>
-        <Navbar />
+        <Navbar/>
         <div className="container mt-5">
       <div className="row">
         <div className="col-md-8 mx-auto">
