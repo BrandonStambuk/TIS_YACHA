@@ -1,0 +1,42 @@
+.tarjeta{
+    border-radius: 10px;
+    border: 1px solid #221959;
+    opacity: 0.85;
+    background: rgba(34, 25, 89, 0.75);
+    box-shadow: 0px 15px 4px 0px #000;
+    padding: 20px;
+  }
+  
+  /* Alinea los nombres de los formularios a la izquierda */
+  label {
+    color: #fff;
+    text-align: left; /* Agrega esta línea para alinear el texto a la izquierda */
+  }
+  
+  /* Opcional: Estilo para el título "Descripción" */
+  h3 {
+    font-size: 18px;
+  }
+  
+  /* Aplicar margen a los botones si es necesario */
+  .boton-1,
+  .boton-2,
+  .boton-3 {
+    margin-top: 20px;
+    margin-left: 15px;
+  }
+  
+  /* Estilo para los campos de entrada */
+  .form-control {
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para los radio buttons */
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  /* Estilo para el select */
+  .form-select {
+    margin-bottom: 15px;
+  }
