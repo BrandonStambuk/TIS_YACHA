@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/crearAfiche.css'; // Asegúrate de importar el archivo CSS
 import imagen1 from './images/plantilla1.jpg';
 import imagen2 from './images/plantilla2.jpg';
+import html2canvas from 'html2canvas';
 
 const CrearAfiche = () => {
   // Estado para el texto del título, descripción, la imagen del afiche y el color de la letra
@@ -42,7 +43,7 @@ const CrearAfiche = () => {
   };
 
   const plantillaStyle = {
-    width: '100%',
+    width: '80%',
     height: 'auto',
     cursor: 'pointer',
     marginBottom: '20px',
@@ -51,13 +52,25 @@ const CrearAfiche = () => {
     WebkitBoxShadow: '-12px 21px 20px 0px rgba(0,0,0,0.75)',
     MozBoxShadow: '-12px 21px 20px 0px rgba(0,0,0,0.75)',
   };
-
+  const generarImagen = () => {
+    // Selecciona el elemento que deseas convertir en imagen (en este caso, el afiche-space)
+    const aficheElement = document.querySelector('.afiche-space');
+  
+    // Utiliza html2canvas para capturar el contenido del elemento
+    html2canvas(aficheElement).then((canvas) => {
+      // Crea un enlace para descargar la imagen
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'mi_afiche.png';
+      a.click();
+    });
+  };
   return (
     <div>
       <Navbar />
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-3 card-translucent">
             {/* Columna de Plantillas */}
             <h4>Plantillas</h4>
             <img
@@ -72,12 +85,13 @@ const CrearAfiche = () => {
               style={plantillaStyle}
               onClick={() => handlePlantillaClick(imagen2)}
             />
+            <button onClick={generarImagen}>Generar Imagen</button>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4 card-translucent">
             {/* Columna del Formulario */}
             <h2 className="text-center">Crear Afiche</h2>
             <div className="mb-3">
-              <label htmlFor="titulo" className="form-label">Título</label>
+              <label htmlFor="titulo" className="form-label label-style">Título</label>
               <input
                 type="text"
                 className="form-control input"
@@ -88,7 +102,7 @@ const CrearAfiche = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="descripcion" className="form-label">Descripción</label>
+              <label htmlFor="descripcion" className="form-label label-style">Descripción</label>
               <textarea
                 className="form-control"
                 id="descripcion"
@@ -98,7 +112,7 @@ const CrearAfiche = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="footer" className="form-label">Footer</label>
+              <label htmlFor="footer" className="form-label label-style">Footer</label>
               <input
                 type="text"
                 className="form-control"
@@ -109,10 +123,10 @@ const CrearAfiche = () => {
               />
             </div>
             <div className="mb-3 text-center">
-              <label htmlFor="colorLetra" className="form-label">Color de la Letra</label>
+              <label htmlFor="colorLetra" className="form-label label-style">Color de la Letra</label>
               <input
                 type="color"
-                className="form-control form-control-color w-50 mx-auto"
+                className="form-control form-control-color w-30 mx-auto"
                 id="colorLetra"
                 name="colorLetra"
                 value={colorLetra}
@@ -120,7 +134,7 @@ const CrearAfiche = () => {
               />
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-5">
             {/* Columna de Vista previa del Afiche */}
             <div className="afiche-space" style={aficheBackgroundStyle}>
               <h3 className="afiche-title" style={{ color: colorLetra }}>{titulo}</h3>
