@@ -180,7 +180,7 @@ const EditEvento = () => {
                           <option value="4">4 horas</option>
                         </select>
                       </div>
-                      <button type="submit" className="btn btn-primary">Guardar</button>
+                      <button type="submit" className="btn btn-primary">Actualizar</button>
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
