@@ -5,10 +5,10 @@ import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import derImage from './images/der.png';
-import izqImage from './images/izq.png';
-import cenImage from './images/cen.png';
-import jusImage from './images/jus.png';
+//import derImage from './images/der.png';
+//import izqImage from './images/izq.png';
+//import cenImage from './images/cen.png';
+//import jusImage from './images/jus.png';
 
 const inputStyle = {
   width: '170px',
