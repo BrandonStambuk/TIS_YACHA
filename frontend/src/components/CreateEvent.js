@@ -18,6 +18,7 @@ const inputStyle = {
 
 const endpoint = 'http://localhost:8000/api/crearevento';
 
+
 const CreateEvento = () => {
   const [nombre_evento, setNombreEvento] = useState('');
   const [tipo_evento, setTipoEvento] = useState('');
@@ -186,6 +187,7 @@ const CreateEvento = () => {
                         </select>
                       </div>
                       <button type="submit" className="btn btn-primary">Guardar</button>
+                      <button type="button" className="btn btn-primary" >Crear afiche</button>
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
