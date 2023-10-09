@@ -3,3 +3,21 @@
     margin-left: 300px;
     margin-top: 800px;
   }
+
+  /* eventList.css */
+
+  .btn-editar {
+    background-color: #f2b705; 
+    color: #fff; /* Color del texto blanco */
+  }
+  
+  /* Clase para el botón de Eliminar */
+  .btn-eliminar {
+    background-color: #d92323; /* Color rojo */
+    color: #fff; /* Color del texto blanco */
+  }
+  .centrado {
+    text-align: center;
+  }
+
+ 

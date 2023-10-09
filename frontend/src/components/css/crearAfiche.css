@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Rampart+One&display=swap');
+.afiche-space {
+    width: 400px; /* Personaliza el tamaño del espacio del afiche */
+    height: 600px; /* Personaliza el tamaño del espacio del afiche */
+    background-color: lightgray; /* Puedes establecer un color de fondo */
+    border: 1px solid #ccc; /* Agrega un borde */
+    position: relative;
+  }
+  
+  /* Estilo para la imagen dentro del afiche */
+  .afiche-space img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  /* Estilo para el título en el afiche */
+  .afiche-title {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive;
+    font-size: 60px; /* Ajusta el tamaño de fuente según tus preferencias */
+  }
+  
+  /* Estilo para la descripción en el afiche */
+  .afiche-description {
+    position: absolute;
+    top: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
+    font-size: 40px;
+  }
+
+  label{
+    color: black;
+    text-align: left;
+  }
