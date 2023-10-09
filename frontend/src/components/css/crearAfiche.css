@@ -41,7 +41,47 @@
     font-size: 40px;
   }
 
+  .afiche-footer{
+    position: absolute;
+    top: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
+    font-size: 30px;
+  }
+
+
+
   label{
     color: black;
     text-align: left;
+    font-size: 25px;
+  }
+
+  .input {
+  
+    height: 45px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .input:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .input:active {
+    transform: scale(0.95);
+  }
+  
+  .input:focus {
+    border: 2px solid grey;
   }
