@@ -51,12 +51,12 @@
     text-align: center;
     width: 100%;
     font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
-    font-size: 30px;
+    font-size: 0px;
   }
 
 
 
-  label{
+  .label{
     color: black;
     text-align: left;
     font-size: 25px;
