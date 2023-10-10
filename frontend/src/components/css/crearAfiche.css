@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Rampart+One&display=swap');
 .afiche-space {
-    width: 400px; /* Personaliza el tamaño del espacio del afiche */
-    height: 600px; /* Personaliza el tamaño del espacio del afiche */
+    width: 300px; /* Personaliza el tamaño del espacio del afiche */
+    height: 450px; /* Personaliza el tamaño del espacio del afiche */
     background-color: lightgray; /* Puedes establecer un color de fondo */
-    border: 1px solid #ccc; /* Agrega un borde */
+   
     position: relative;
+    margin: 0 auto;
   }
   
   /* Estilo para la imagen dentro del afiche */
@@ -16,7 +17,7 @@
   /* Estilo para el título en el afiche */
   .afiche-title {
     position: absolute;
-    top: 20px;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -30,7 +31,7 @@
   /* Estilo para la descripción en el afiche */
   .afiche-description {
     position: absolute;
-    top: 230px;
+    top: 200px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -43,7 +44,7 @@
 
   .afiche-footer{
     position: absolute;
-    top: 500px;
+    top: 380px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -52,14 +53,18 @@
     width: 100%;
     font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
     font-size: 0px;
+    font-size: 14px; /* Tamaño de fuente para el footer */
+    font-weight: bold; /*
   }
 
+  .col-md-3 h4 {
+    margin-top: 20px; /* Ajusta la cantidad de espacio deseado */
+  }
 
-
-  .label{
+  .label-style{
     color: black;
     text-align: left;
-    font-size: 25px;
+    font-size: 20px;
   }
 
   .input {
