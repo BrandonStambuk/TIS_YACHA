@@ -23,5 +23,5 @@ Route::controller(EventoController::class)->group(function (){
     Route::post('/crearevento', 'store');
     Route::get('/crearevento/{id}', 'show');
     Route::put('/crearevento/{id}', 'update');
-    Route::delete('/crearevento/{id}', 'destroy');
+    Route::delete('/eventos/{id}', 'destroy');
 });

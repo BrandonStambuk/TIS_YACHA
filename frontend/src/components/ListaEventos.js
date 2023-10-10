@@ -20,7 +20,7 @@ const ListaEventos = () => {
   };
 
   const deleteEvento = async (id) => {
-    await axios.delete(`${endpoint}/evento/${id}`);
+    await axios.delete(`${endpoint}/eventos/${id}`);
     getAllEventos();
   };
 
