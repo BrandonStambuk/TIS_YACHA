@@ -52,7 +52,7 @@ const CreateEvento = () => {
       fecha_fin: fecha_fin,
       descripcion: descripcion,
     });
-    navigate('/');
+    navigate('/ListaEventos');
   };
   // Estados para el tamaño de fuente y la alineación del texto
   const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
@@ -70,6 +70,7 @@ const CreateEvento = () => {
     maxWidth: '24px',
     maxHeight: '24px',
 };
+
   return (
     <div>
       <Navbar />
@@ -187,7 +188,7 @@ const CreateEvento = () => {
                         </select>
                       </div>
                       <button type="submit" className="btn btn-primary">Guardar</button>
-                      <button type="button" className="btn btn-primary" >Crear afiche</button>
+                      <button type="button" className="btn btn-primary"onClick={() => navigate('/crearafiche')} >Crear afiche</button>
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
