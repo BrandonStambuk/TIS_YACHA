@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect} from 'react';
+import { useNavigate, useParams} from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,6 +25,7 @@ const EditEvento = () => {
   const [fecha_fin, setFechaFin] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const navigate = useNavigate();
+  const {id} = useParams()
 
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
@@ -42,9 +43,9 @@ const EditEvento = () => {
     setDescripcion(event.target.value);
   };
 
-  const store = async (e) => {
+  const update = async (e) => {
     e.preventDefault();
-    await axios.post(endpoint, {
+    await axios.put(`${endpoint}/${id}`, {
       nombre_evento: nombre_evento,
       tipo_evento: tipo_evento,
       fecha_inicio: fecha_inicio,
@@ -53,6 +54,25 @@ const EditEvento = () => {
     });
     navigate('/');
   };
+
+
+  useEffect(() => {
+    const getEventById = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/${id}`);
+        console.log("Respuesta del servidor:", response.data); // Agrega este console.log
+        setNombreEvento(response.data.nombre_evento);
+        setTipoEvento(response.data.tipo_evento);
+        setFechaInicio(response.data.fecha_inicio);
+        setFechaFin(response.data.fecha_fin);
+        setDescripcion(response.data.descripcion);
+      } catch (error) {
+        console.error("Error al obtener los datos del evento:", error);
+      }
+    };
+    getEventById();
+  }, []);
+
   // Estados para el tamaño de fuente y la alineación del texto
   const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
   const [textAlign, setTextAlign] = useState('left'); // Alineación inicial
@@ -79,7 +99,7 @@ const EditEvento = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    <form onSubmit={store} className="text-left">
+                    <form onSubmit={update} className="text-left">
                       <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
                         <input
