@@ -44,7 +44,7 @@ class EventoController extends Controller
      */
     public function show($id)
     {
-        $evento = Employee::find($id);
+        $evento = Evento::findOrFail($id);
         return $evento;
     }
 
@@ -78,4 +78,9 @@ class EventoController extends Controller
         $evento = Evento::destroy($id);
         return $evento;
     }
+
+    /*public function get(){
+        $evento = Evento::all();
+        return $evento;
+    }*/
 }

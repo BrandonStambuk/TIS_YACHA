@@ -18,7 +18,7 @@ const WICPC = () => {
                       <CarouselComponent/>
                   </div>
                   <div className="col-md-6">
-                    <h3 className="card-header">Que es la ICPC UMSS?</h3>
+                  <h3 className="card-header" style={{ backgroundColor: '#0f5fa6', color: 'white' }}>Que es la ICPC UMSS?</h3>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Phasellus et metus nec libero condimentum fermentum. Nullam

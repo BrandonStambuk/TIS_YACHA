@@ -5,10 +5,10 @@ import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//import derImage from './images/der.png';
-//import izqImage from './images/izq.png';
-//import cenImage from './images/cen.png';
-//import jusImage from './images/jus.png';
+import izqImage from './images/izq.png';
+import derImage from './images/der.png';
+import cenImage from './images/cen.png';
+import jusImage from './images/jus.png';
 
 const inputStyle = {
   width: '170px',
@@ -52,7 +52,7 @@ const CreateEvento = () => {
       fecha_fin: fecha_fin,
       descripcion: descripcion,
     });
-    navigate('/');
+    navigate('/ListaEventos');
   };
   // Estados para el tamaño de fuente y la alineación del texto
   const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
@@ -65,6 +65,12 @@ const CreateEvento = () => {
   const handleTextAlignChange = (alignment) => {
     setTextAlign(alignment);
   };
+
+  const buttonImageStyle = {
+    maxWidth: '24px',
+    maxHeight: '24px',
+};
+
   return (
     <div>
       <Navbar />
@@ -182,7 +188,7 @@ const CreateEvento = () => {
                         </select>
                       </div>
                       <button type="submit" className="btn btn-primary">Guardar</button>
-                      <button type="button" className="btn btn-primary" >Crear afiche</button>
+                      {/*<button type="button" className="btn btn-primary"onClick={() => navigate('/crearafiche')} >Crear afiche</button>*/}
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
@@ -210,28 +216,28 @@ const CreateEvento = () => {
                             className={`btn btn-light ${textAlign === 'left' ? 'active' : ''
                               }`}
                           >
-                            Izquierda
+                            <img src={izqImage} alt="Izquierda" style={buttonImageStyle}/>
                           </button>
                           <button
                             onClick={() => handleTextAlignChange('center')}
                             className={`btn btn-light ${textAlign === 'center' ? 'active' : ''
                               }`}
                           >
-                            Centro
+                            <img src={cenImage} alt="Centro" style={buttonImageStyle}/>
                           </button>
                           <button
                             onClick={() => handleTextAlignChange('right')}
                             className={`btn btn-light ${textAlign === 'right' ? 'active' : ''
                               }`}
                           >
-                            Derecha
+                            <img src={derImage} alt="Derecha" style={buttonImageStyle}/>
                           </button>
                           <button
                             onClick={() => handleTextAlignChange('justify')}
                             className={`btn btn-light ${textAlign === 'justify' ? 'active' : ''
                               }`}
                           >
-                            Justificado
+                            <img src={jusImage} alt="Justificado" style={buttonImageStyle}/>
                           </button>
                         </div>
                       </div>

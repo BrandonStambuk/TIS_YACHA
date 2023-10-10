@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import imagen1 from '../components/images/mi_afiche.png';
 //const endpoint = 'http://localhost:8000/api/crearevento';
 
 const HomePage = () => {
@@ -45,11 +46,13 @@ const HomePage = () => {
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card card-translucent">
-                            <h3 className="card-header">Eventos UMSS Contest</h3>
+                            <h3 className="card-header">Competencia Local UMSS </h3>
                             <div className="card-body">
                                 <div>
+                                    <img src={imagen1} alt="Afiche de Evento" />
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et metus nec libero condimentum fermentum. Nullam vehicula, velit eu consequat hendrerit, dolor tortor rhoncus nisl, non varius nisi ipsum nec ex. Nulla eu sapien nec sapien sodales iaculis. Fusce vel purus eu felis rhoncus ultricies eu non tellus. Aenean tristique odio nec tortor ultricies, a ultrices orci cursus. Proin tristique, sapien vel pellentesque mattis, odio arcu fringilla tellus, eu vehicula eros tellus vel dui. Vestibulum volutpat metus vel ex hendrerit, vel lacinia nunc facilisis. Integer interdum elit eu mi vehicula vehicula. Vivamus in augue vel orci scelerisque rhoncus. Vivamus venenatis quam non est vehicula, ut auctor orci fermentum. Suspendisse sit amet euismod odio, eu fringilla justo. Vivamus vel risus vel justo efficitur iaculis in ac lacus. Nulla facilisi.
+                                       Se esta llevando acabo la primera competencia de progamacion competitiva ICPC en la Universidad Mayor de San Simon!
+                                       Tendra lugar el 15/10/2023 en el laboratorio 1 del departamento de Informatica. Ven y demuestra tus habilidades!
                                     </p>
                                     
                                 </div>

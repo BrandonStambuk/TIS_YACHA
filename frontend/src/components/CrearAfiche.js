@@ -2,13 +2,34 @@ import React, { useState } from 'react';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/crearAfiche.css'; // Asegúrate de importar el archivo CSS
+import imagen1 from './images/plantilla1.jpg';
+import imagen2 from './images/plantilla2.jpg';
+import html2canvas from 'html2canvas';
 
 const CrearAfiche = () => {
-  // Estado para el texto del título, descripción, la imagen del afiche y el color de la letra
+  // Estados para el texto del título, descripción, el footer y los colores de letra
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [imagenAfiche, setImagenAfiche] = useState(null);
-  const [colorLetra, setColorLetra] = useState('#000000'); // Valor inicial del color
+  const [colorLetraTitulo, setColorLetraTitulo] = useState('#000000');
+  const [footer, setFooter] = useState('');
+  const [colorLetraDescripcion, setColorLetraDescripcion] = useState('#000000');
+  const [colorLetraFooter, setColorLetraFooter] = useState('#000000');
+
+  // Estados para las fuentes de título, descripción y pie de página
+  const [fuenteTitulo, setFuenteTitulo] = useState('Arial, sans-serif');
+  const [fuenteDescripcion, setFuenteDescripcion] = useState('Arial, sans-serif');
+  const [fuenteFooter, setFuenteFooter] = useState('Arial, sans-serif');
+
+  // Estado para la plantilla seleccionada
+  const [plantillaSeleccionada, setPlantillaSeleccionada] = useState(null);
+
+  // Estado para el estilo de fondo del afiche-space
+  const [aficheBackgroundStyle, setAficheBackgroundStyle] = useState({
+    backgroundImage: 'none', // Sin fondo inicialmente
+  });
+
+  // Estado para manejar la imagen cargada
+  const [imagen, setImagen] = useState(null);
 
   const handleTituloChange = (e) => {
     setTitulo(e.target.value);
@@ -18,35 +39,132 @@ const CrearAfiche = () => {
     setDescripcion(e.target.value);
   };
 
-  const handleImagenAficheChange = (e) => {
-    const imagenSeleccionada = e.target.files[0];
-    setImagenAfiche(imagenSeleccionada);
+  const handleFooterChange = (e) => {
+    setFooter(e.target.value);
+  };
+
+  const handleColorLetraTituloChange = (e) => {
+    setColorLetraTitulo(e.target.value);
+  };
+
+  const handleColorLetraDescripcionChange = (e) => {
+    setColorLetraDescripcion(e.target.value);
+  };
+
+  const handleColorLetraFooterChange = (e) => {
+    setColorLetraFooter(e.target.value);
+  };
+
+  const handleFuenteTituloChange = (e) => {
+    setFuenteTitulo(e.target.value);
+  };
+
+  const handleFuenteDescripcionChange = (e) => {
+    setFuenteDescripcion(e.target.value);
+  };
+
+  const handleFuenteFooterChange = (e) => {
+    setFuenteFooter(e.target.value);
+  };
+
+  const handlePlantillaClick = (plantilla) => {
+    setPlantillaSeleccionada(plantilla);
+    setAficheBackgroundStyle({
+      backgroundImage: `url(${plantilla})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+    });
+  };
+
+  const handleImagenChange = (e) => {
+    const file = e.target.files[0];
+    setImagen(file);
+  };
+
+  const plantillaStyle = {
+    width: '80%',
+    height: 'auto',
+    cursor: 'pointer',
+    marginBottom: '20px',
+    borderRadius: '10px',
+    boxShadow: '-12px -4px 20px 0px rgba(0,0,0,0.75)',
+    WebkitBoxShadow: '-12px 21px 20px 0px rgba(0,0,0,0.75)',
+    MozBoxShadow: '-12px 21px 20px 0px rgba(0,0,0,0.75)',
+  };
+
+  const generarImagen = () => {
+    const aficheElement = document.querySelector('.afiche-space');
+    html2canvas(aficheElement).then((canvas) => {
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'mi_afiche.png';
+      a.click();
+    });
   };
 
   return (
     <div>
       <Navbar />
       <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-lg-10">
-            <div className="card">
+        <div className="row">
+          <div className="col-md-7">
+            <div className="card" style={{ borderRadius: '20px' }}>
+              <h2 className="card-header text-center">Crear Afiche</h2>
               <div className="card-body">
-                <h2 className="card-title text-center">Crear Afiche</h2>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-3">
+                    <h4>Plantillas</h4>
+                    <img
+                      src={imagen1}
+                      alt="Plantilla 1"
+                      style={plantillaStyle}
+                      onClick={() => handlePlantillaClick(imagen1)}
+                    />
+                    <img
+                      src={imagen2}
+                      alt="Plantilla 2"
+                      style={plantillaStyle}
+                      onClick={() => handlePlantillaClick(imagen2)}
+                    />
+                    <button onClick={generarImagen}>Generar Imagen</button>
+                  </div>
+                  <div className="col-md-9">
                     <div className="mb-3 text-start">
-                      <label htmlFor="titulo" className="form-label">Título</label>
+                      <label htmlFor="titulo" className="form-label label-style">Título</label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control input"
                         id="titulo"
                         name="titulo"
                         value={titulo}
                         onChange={handleTituloChange}
                       />
+                      <label htmlFor="color-title" className="form-label label-style">Color titulo:</label>
+                      <input
+                        type="color"
+                        className="form-control form-control-color custom-title"
+                        id="colorLetraTitulo"
+                        name="colorLetraTitulo"
+                        value={colorLetraTitulo}
+                        onChange={handleColorLetraTituloChange}
+                        style={{ marginTop: '-35px'}}
+                      />
+                      <label htmlFor="fuenteTitulo" className="form-label label-style">Fuente del Título</label>
+                      <select
+                        className="form-select"
+                        id="fuenteTitulo"
+                        name="fuenteTitulo"
+                        value={fuenteTitulo}
+                        onChange={handleFuenteTituloChange}
+                      >
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Amatic SC, cursive">Amatic SC</option>
+                        {/* Agrega más opciones de fuente aquí */}
+                      </select>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="descripcion" className="form-label">Descripción</label>
+                      <label htmlFor="descripcion" className="form-label label-style">Descripción</label>
                       <textarea
                         className="form-control"
                         id="descripcion"
@@ -54,47 +172,98 @@ const CrearAfiche = () => {
                         value={descripcion}
                         onChange={handleDescripcionChange}
                       />
+                      <label htmlFor="color-description" className="form-label label-style">Color Descripcion:</label>
+                      <input
+                        type="color"
+                        className="form-control form-control-color custom-color-input"
+                        id="colorLetraDescripcion"
+                        name="colorLetraDescripcion"
+                        value={colorLetraDescripcion}
+                        onChange={handleColorLetraDescripcionChange}
+                        style={{ marginTop: '-35px'}}
+                      />
+                      <label htmlFor="fuenteDescripcion" className="form-label label-style">Fuente de la Descripción</label>
+                      <select
+                        className="form-select"
+                        id="fuenteDescripcion"
+                        name="fuenteDescripcion"
+                        value={fuenteDescripcion}
+                        onChange={handleFuenteDescripcionChange}
+                      >
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Amatic SC, cursive">Amatic SC</option>
+                        {/* Agrega más opciones de fuente aquí */}
+                      </select>
+                    </div>
+                    <div className="mb-3 text-start ">
+                      <label htmlFor="footer" className="form-label label-style">Footer</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="footer"
+                        name="footer"
+                        value={footer}
+                        onChange={handleFooterChange}
+                      />
+                      <label htmlFor="color-footer" className="form-label label-style">Color Footer:</label>
+                      <input
+                        type="color"
+                        className="form-control form-control-color custom-footer"
+                        id="colorLetraFooter"
+                        name="colorLetraFooter"
+                        value={colorLetraFooter}
+                        onChange={handleColorLetraFooterChange}
+                        style={{ marginTop: '-35px'}}
+                      />
+                      <label htmlFor="fuenteFooter" className="form-label label-style">Fuente del Footer</label>
+                      <select
+                        className="form-select"
+                        id="fuenteFooter"
+                        name="fuenteFooter"
+                        value={fuenteFooter}
+                        onChange={handleFuenteFooterChange}
+                      >
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Amatic SC, cursive">Amatic SC</option>
+                        {/* Agrega más opciones de fuente aquí */}
+                      </select>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="imagenAfiche" className="form-label">Seleccionar Imagen</label>
+                      <label htmlFor="imagen" className="form-label label-style">Logo</label>
                       <input
                         type="file"
                         className="form-control"
-                        id="imagenAfiche"
-                        name="imagenAfiche"
+                        id="imagen"
+                        name="imagen"
                         accept="image/*"
-                        onChange={handleImagenAficheChange}
+                        onChange={handleImagenChange}
                       />
-                    </div>
-                    <div className="mb-3 text-start">
-                      <label htmlFor="colorLetra" className="form-label">Color de la Letra</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color"
-                        id="colorLetra"
-                        name="colorLetra"
-                        value={colorLetra}
-                        onChange={(e) => setColorLetra(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center justify-content-center justify-content-md-end">
-                      <div className="afiche-space">
-                        {imagenAfiche && (
-                          <img
-                            src={URL.createObjectURL(imagenAfiche)}
-                            alt="Afiche"
-                            className="afiche-image"
-                          />
-                        )}
-                        <h3 className="afiche-title" style={{ color: colorLetra }}>{titulo}</h3>
-                        <p className="afiche-description" style={{ color: colorLetra, marginTop: '10px' }}>{descripcion}</p>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="col-md-5">
+            <div className="afiche-space" style={{ ...aficheBackgroundStyle, marginTop: '0px', borderRadius: '20px' }}>
+              <h3 className="afiche-title" style={{ color: colorLetraTitulo, fontFamily: fuenteTitulo }}>{titulo}</h3>
+              <p className="afiche-description" style={{ color: colorLetraDescripcion, fontFamily: fuenteDescripcion, marginTop: '10px' }}>{descripcion}</p>
+              <p className="afiche-footer" style={{ color: colorLetraFooter, fontFamily: fuenteFooter, marginTop: 'auto' }}>{footer}</p>
+              {imagen && (
+                <img
+                  src={URL.createObjectURL(imagen)}
+                  alt="Imagen cargada"
+                  style={{
+                    position: 'absolute',
+                    top: '20px',
+                    left: '30px',
+                    maxWidth: '100px',
+                    maxHeight: '100px',
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
