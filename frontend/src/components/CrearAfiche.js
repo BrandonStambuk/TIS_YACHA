@@ -5,6 +5,9 @@ import './css/crearAfiche.css'; // Asegúrate de importar el archivo CSS
 import imagen1 from './images/plantilla1.jpg';
 import imagen2 from './images/plantilla2.jpg';
 import html2canvas from 'html2canvas';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const CrearAfiche = () => {
   // Estados para el texto del título, descripción, el footer y los colores de letra
@@ -130,117 +133,146 @@ const CrearAfiche = () => {
                   </div>
                   <div className="col-md-9">
                     <div className="mb-3 text-start">
-                      <label htmlFor="titulo" className="form-label label-style">Título</label>
-                      <input
-                        type="text"
-                        className="form-control input"
-                        id="titulo"
-                        name="titulo"
-                        value={titulo}
-                        onChange={handleTituloChange}
-                      />
-                      <label htmlFor="color-title" className="form-label label-style">Color titulo:</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-title"
-                        id="colorLetraTitulo"
-                        name="colorLetraTitulo"
-                        value={colorLetraTitulo}
-                        onChange={handleColorLetraTituloChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="fuenteTitulo" className="form-label label-style">Fuente del Título</label>
-                      <select
-                        className="form-select"
-                        id="fuenteTitulo"
-                        name="fuenteTitulo"
-                        value={fuenteTitulo}
-                        onChange={handleFuenteTituloChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Título</Card.Title>
+                          <input
+                            type="text"
+                            className="form-control input"
+                            id="titulo"
+                            name="titulo"
+                            value={titulo}
+                            onChange={handleTituloChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-title" className="form-label label-style">Color título:</label>
+                                <input
+                                  type="color"
+                                  className="form-control form-control-color custom-title"
+                                  id="colorLetraTitulo"
+                                  name="colorLetraTitulo"
+                                  value={colorLetraTitulo}
+                                  onChange={handleColorLetraTituloChange}
+                                />
+                            </Col>
+                            <Col sm={6}>
+                              <label htmlFor="fuenteTitulo" className="form-label label-style">Fuente del Título</label>
+                              <select
+                                className="form-select"
+                                id="fuenteTitulo"
+                                name="fuenteTitulo"
+                                value={fuenteTitulo}
+                                onChange={handleFuenteTituloChange}
+                              >
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="Times New Roman, serif">Times New Roman</option>
+                                <option value="Amatic SC, cursive">Amatic SC</option>
+                                {/* Agrega más opciones de fuente aquí */}
+                              </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="descripcion" className="form-label label-style">Descripción</label>
-                      <textarea
-                        className="form-control"
-                        id="descripcion"
-                        name="descripcion"
-                        value={descripcion}
-                        onChange={handleDescripcionChange}
-                      />
-                      <label htmlFor="color-description" className="form-label label-style">Color Descripcion:</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-color-input"
-                        id="colorLetraDescripcion"
-                        name="colorLetraDescripcion"
-                        value={colorLetraDescripcion}
-                        onChange={handleColorLetraDescripcionChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="fuenteDescripcion" className="form-label label-style">Fuente de la Descripción</label>
-                      <select
-                        className="form-select"
-                        id="fuenteDescripcion"
-                        name="fuenteDescripcion"
-                        value={fuenteDescripcion}
-                        onChange={handleFuenteDescripcionChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
-                    </div>
-                    <div className="mb-3 text-start ">
-                      <label htmlFor="footer" className="form-label label-style">Footer</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="footer"
-                        name="footer"
-                        value={footer}
-                        onChange={handleFooterChange}
-                      />
-                      <label htmlFor="color-footer" className="form-label label-style">Color Footer:</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-footer"
-                        id="colorLetraFooter"
-                        name="colorLetraFooter"
-                        value={colorLetraFooter}
-                        onChange={handleColorLetraFooterChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="fuenteFooter" className="form-label label-style">Fuente del Footer</label>
-                      <select
-                        className="form-select"
-                        id="fuenteFooter"
-                        name="fuenteFooter"
-                        value={fuenteFooter}
-                        onChange={handleFuenteFooterChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Descripción</Card.Title>
+                          <textarea
+                            className="form-control"
+                            id="descripcion"
+                            name="descripcion"
+                            value={descripcion}
+                            onChange={handleDescripcionChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-description" className="form-label label-style">Color Descripcion:</label>
+                              <input
+                                type="color"
+                                className="form-control form-control-color custom-color-input"
+                                id="colorLetraDescripcion"
+                                name="colorLetraDescripcion"
+                                value={colorLetraDescripcion}
+                                onChange={handleColorLetraDescripcionChange}
+                                style={{ marginTop: '-35px'}}//revisar
+                              />
+                            </Col>
+                            <Col sm={6}>
+                            <label htmlFor="fuenteDescripcion" className="form-label label-style">Fuente de la Descripción</label>
+                            <select
+                              className="form-select"
+                              id="fuenteDescripcion"
+                              name="fuenteDescripcion"
+                              value={fuenteDescripcion}
+                              onChange={handleFuenteDescripcionChange}
+                            >
+                              <option value="Arial, sans-serif">Arial</option>
+                              <option value="Times New Roman, serif">Times New Roman</option>
+                              <option value="Amatic SC, cursive">Amatic SC</option>
+                              {/* Agrega más opciones de fuente aquí */}
+                            </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="imagen" className="form-label label-style">Logo</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="imagen"
-                        name="imagen"
-                        accept="image/*"
-                        onChange={handleImagenChange}
-                      />
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Footer</Card.Title>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="footer"
+                            name="footer"
+                            value={footer}
+                            onChange={handleFooterChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-footer" className="form-label label-style">Color Footer:</label>
+                              <input
+                                type="color"
+                                className="form-control form-control-color custom-footer"
+                                id="colorLetraFooter"
+                                name="colorLetraFooter"
+                                value={colorLetraFooter}
+                                onChange={handleColorLetraFooterChange}
+                                style={{ marginTop: '-35px'}}
+                              />
+                            </Col>
+                            <Col sm={6}>
+                            <label htmlFor="fuenteFooter" className="form-label label-style">Fuente del Footer</label>
+                            <select
+                              className="form-select"
+                              id="fuenteFooter"
+                              name="fuenteFooter"
+                              value={fuenteFooter}
+                              onChange={handleFuenteFooterChange}
+                            >
+                              <option value="Arial, sans-serif">Arial</option>
+                              <option value="Times New Roman, serif">Times New Roman</option>
+                              <option value="Amatic SC, cursive">Amatic SC</option>
+                              {/* Agrega más opciones de fuente aquí */}
+                            </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
+                  </div>
+                  <div className="mb-3 text-start">
+                    <label htmlFor="imagen" className="form-label label-style">Logo</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="imagen"
+                      name="imagen"
+                      accept="image/*"
+                      onChange={handleImagenChange}
+                    />
                   </div>
                 </div>
               </div>
