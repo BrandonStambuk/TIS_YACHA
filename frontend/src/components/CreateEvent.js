@@ -24,6 +24,7 @@ const CreateEvento = () => {
   const [tipo_evento, setTipoEvento] = useState('');
   const [fecha_inicio, setFechaInicio] = useState('');
   const [fecha_fin, setFechaFin] = useState('');
+  const [hora, setHora] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const navigate = useNavigate();
 
@@ -40,8 +41,10 @@ const CreateEvento = () => {
   };
 
   const handleHorasChange = (event) => {
-    setDescripcion(event.target.value);
+    setHora(event.target.value);
   };
+
+
 
   const store = async (e) => {
     e.preventDefault();
@@ -50,6 +53,7 @@ const CreateEvento = () => {
       tipo_evento: tipo_evento,
       fecha_inicio: fecha_inicio,
       fecha_fin: fecha_fin,
+      hora: hora,
       descripcion: descripcion,
     });
     navigate('/ListaEventos');
@@ -177,7 +181,7 @@ const CreateEvento = () => {
                           id="horas"
                           name="horas"
                           style={inputStyle}
-                          value={descripcion}
+                          value={hora}
                           onChange={handleHorasChange}
                         >
                           <option value="">Seleccionar horas</option>
@@ -246,7 +250,7 @@ const CreateEvento = () => {
                         id="descripcion"
                         name="descripcion"
                         value={descripcion}
-                        onChange={handleHorasChange}
+                        onChange={(e) => setDescripcion(e.target.value)}
                         rows="4"
                         style={{
                           fontSize: `${fontSize}px`,
