@@ -27,3 +27,20 @@ tbody tr {
 	background-color: #ddd;
 }
 
+
+/* En tu archivo Homepage.css o en el lugar donde tengas tus estilos */
+.event-info {
+	padding: 20px;
+	font-size: 20px;
+  }
+  
+  .event-info-text {
+	margin-bottom: 35px;
+	font-size: 20px;
+  }
+
+  .event-info-text.left {
+	text-align: left;
+	font-size: 20px;
+  }
+

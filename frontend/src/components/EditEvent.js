@@ -25,8 +25,12 @@ const EditEvento = () => {
   const [fecha_fin, setFechaFin] = useState('');
   const [hora, setHora] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [fechaInicioError, setFechaInicioError] = useState('');
+  const [fechaFinError, setFechaFinError] = useState('');
+  const [nombreEventoError, setNombreEventoError] = useState('');
+  const [isValid, setIsValid] = useState(true);
   const navigate = useNavigate();
-  const {id} = useParams()
+  const { id } = useParams();
 
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
@@ -37,6 +41,7 @@ const EditEvento = () => {
   };
 
   const handleFechaFinChange = (event) => {
+
     setFechaFin(event.target.value);
   };
 
@@ -46,15 +51,42 @@ const EditEvento = () => {
 
   const update = async (e) => {
     e.preventDefault();
-    await axios.put(`${endpoint}/${id}`, {
-      nombre_evento: nombre_evento,
-      tipo_evento: tipo_evento,
-      fecha_inicio: fecha_inicio,
-      fecha_fin: fecha_fin,
-      hora: hora,
-      descripcion: descripcion,
-    });
-    navigate('/');
+  
+    // Validación del nombre del evento
+    if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
+      setNombreEventoError(
+        'No están permitidos caracteres especiales ni más de 21 caracteres.'
+      );
+    } else {
+      setNombreEventoError('');
+      const selectedStartDate = new Date(fecha_inicio);
+      const selectedEndDate = new Date(fecha_fin);
+      const currentDate = new Date();
+  
+      if (selectedStartDate <= currentDate) {
+        setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
+      } else {
+        setFechaInicioError('');
+  
+        if (selectedEndDate < selectedStartDate) {
+          setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
+        } else {
+          setFechaFinError('');
+  
+          // Todas las validaciones pasaron
+          await axios.put(`${endpoint}/${id}`, {
+            nombre_evento: nombre_evento,
+            tipo_evento: tipo_evento,
+            fecha_inicio: fecha_inicio,
+            fecha_fin: fecha_fin,
+            hora: hora,
+            descripcion: descripcion,
+          });
+  
+          navigate('/ListaEventos');
+        }
+      }
+    }
   };
 
 
@@ -62,7 +94,6 @@ const EditEvento = () => {
     const getEventById = async () => {
       try {
         const response = await axios.get(`${endpoint}/${id}`);
-        console.log("Respuesta del servidor:", response.data); // Agrega este console.log
         setNombreEvento(response.data.nombre_evento);
         setTipoEvento(response.data.tipo_evento);
         setFechaInicio(response.data.fecha_inicio);
@@ -70,7 +101,7 @@ const EditEvento = () => {
         setHora(response.data.hora);
         setDescripcion(response.data.descripcion);
       } catch (error) {
-        console.error("Error al obtener los datos del evento:", error);
+        console.error('Error al obtener los datos del evento:', error);
       }
     };
     getEventById();
@@ -103,17 +134,26 @@ const EditEvento = () => {
                 <div className="row">
                   <div className="col-md-6">
                     <form onSubmit={update} className="text-left">
-                      <div className="mb-3">
-                        <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
+                    <div className="mb-3">
+                        <label htmlFor="nombreEvento" className="form-label">
+                          Nombre del Evento
+                        </label>
                         <input
                           value={nombre_evento}
                           onChange={(e) => setNombreEvento(e.target.value)}
                           type="text"
-                          className="form-control"
+                          className={`form-control ${
+                            nombreEventoError ? 'is-invalid' : ''
+                          }`}
                           id="nombreEvento"
                           name="nombreEvento"
                           style={inputStyle}
                         />
+                        {nombreEventoError && (
+                          <div className="invalid-feedback">
+                            {nombreEventoError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Tipo de Evento</label>
@@ -163,28 +203,46 @@ const EditEvento = () => {
                         </div>
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="fechaInicio" className="form-label">Fecha de Inicio</label>
+                        <label htmlFor="fechaInicio" className="form-label">
+                          Fecha de Inicio
+                        </label>
                         <input
                           type="date"
-                          className="form-control"
+                          className={`form-control ${
+                            fechaInicioError ? "is-invalid" : ""
+                          }`}
                           id="fechaInicio"
                           name="fechaInicio"
                           style={inputStyle}
                           value={fecha_inicio}
                           onChange={handleFechaInicioChange}
                         />
+                        {fechaInicioError && (
+                          <div className="invalid-feedback">
+                            {fechaInicioError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="fechaFin" className="form-label">Fecha de Fin</label>
+                        <label htmlFor="fechaFin" className="form-label">
+                          Fecha de Fin
+                        </label>
                         <input
                           type="date"
-                          className="form-control"
+                          className={`form-control ${
+                            fechaFinError ? "is-invalid" : ""
+                          }`}
                           id="fechaFin"
                           name="fechaFin"
                           style={inputStyle}
                           value={fecha_fin}
                           onChange={handleFechaFinChange}
                         />
+                        {fechaFinError && (
+                          <div className="invalid-feedback">
+                            {fechaFinError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
                         <label htmlFor="horas" className="form-label">Horas</label>
