@@ -29,6 +29,7 @@ const EditEvento = () => {
   const [fechaFinError, setFechaFinError] = useState('');
   const [nombreEventoError, setNombreEventoError] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const [publico, setPublico] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -80,6 +81,7 @@ const EditEvento = () => {
             fecha_inicio: fecha_inicio,
             fecha_fin: fecha_fin,
             hora: hora,
+            publico: publico,
             descripcion: descripcion,
           });
   
@@ -99,6 +101,7 @@ const EditEvento = () => {
         setFechaInicio(response.data.fecha_inicio);
         setFechaFin(response.data.fecha_fin);
         setHora(response.data.hora);
+        setPublico(response.data.publico)
         setDescripcion(response.data.descripcion);
       } catch (error) {
         console.error('Error al obtener los datos del evento:', error);
@@ -260,6 +263,12 @@ const EditEvento = () => {
                           <option value="3">3 horas</option>
                           <option value="4">4 horas</option>
                         </select>
+                      </div>
+                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div class="form-check form-switch">                        
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
+                        checked={publico}
+                        onChange={(e) => setPublico(e.target.checked)}/>                                               
                       </div>
                       <button type="submit" className="btn btn-primary">Actualizar</button>
                     </form>
