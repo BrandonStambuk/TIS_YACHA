@@ -32,6 +32,7 @@ class EventoController extends Controller
         $evento->tipo_evento = $request->tipo_evento;
         $evento->fecha_inicio = $request->fecha_inicio;
         $evento->fecha_fin = $request->fecha_fin;
+        $evento->hora = $request->hora;
         $evento->descripcion = $request->descripcion;
         $evento->save();
     }
@@ -62,6 +63,7 @@ class EventoController extends Controller
         $evento->tipo_evento = $request->tipo_evento;
         $evento->fecha_inicio = $request->fecha_inicio;
         $evento->fecha_fin = $request->fecha_fin;
+        $evento->hora = $request->hora;
         $evento->descripcion = $request->descripcion;
         $evento->save();
         return $evento;
