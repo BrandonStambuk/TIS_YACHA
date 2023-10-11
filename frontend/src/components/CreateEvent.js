@@ -29,6 +29,7 @@ const CreateEvento = () => {
   const navigate = useNavigate();
   const [fechaInicioError, setFechaInicioError] = useState("");
   const [fechaFinError, setFechaFinError] = useState("");
+  const [publico, setPublico] = useState(false);
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
   };
@@ -87,6 +88,7 @@ const CreateEvento = () => {
           fecha_inicio: fecha_inicio,
           fecha_fin: fecha_fin,
           hora: hora,
+          publico: publico,
           descripcion: descripcion,
         });
         navigate("/ListaEventos");
@@ -258,6 +260,12 @@ const CreateEvento = () => {
                           <option value="3">3 horas</option>
                           <option value="4">4 horas</option>
                         </select>
+                      </div>
+                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div class="form-check form-switch">                        
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
+                        checked={publico}
+                        onChange={(e) => setPublico(e.target.checked)}/>                                               
                       </div>
                       <button type="submit" className="btn btn-primary">
                         Guardar

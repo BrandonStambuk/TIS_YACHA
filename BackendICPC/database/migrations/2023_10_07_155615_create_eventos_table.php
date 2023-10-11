@@ -21,6 +21,7 @@ class CreateEventosTable extends Migration
             $table->date('fecha_fin');
             $table->string('hora');
             $table->string('descripcion');
+            $table->boolean('publico')->default(false);
             $table->timestamps();
         });
     }
