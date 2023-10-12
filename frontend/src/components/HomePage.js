@@ -30,14 +30,14 @@ const HomePage = () => {
               <div className="card-body">
                 {eventos.map((evento) => (
                 <div className="row">                  
-                  <div className="col-md-8">
+                  <div className="col-md-6">
                     <img src={imagen1} alt="Afiche de Evento" />
                   </div>
                   <div className="col-md-6">                    
                     <div className="event-info">
-                      <p className="event-info-text left">Inicio del evento: {evento.fecha_inicio}</p>
-                      <p className="event-info-text left">Descripción:{evento.descripcion}</p>
-                      <p className="event-info-text left">Lugar: Laboratorio 1 del Departamento de Informática</p>                     
+                      <p className="event-info-text left"> <strong>Inicio del evento: </strong>{evento.fecha_inicio}</p>
+                      <p className="event-info-text left"><strong>Lugar: </strong>Laboratorio 1 del Departamento de Informática</p>  
+                      <p className="event-info-text left"> <strong>Descripción: </strong>{evento.descripcion}</p>                   
                     </div>                    
                   </div>                  
                 </div>
