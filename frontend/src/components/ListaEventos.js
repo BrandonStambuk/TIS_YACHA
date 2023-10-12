@@ -55,7 +55,7 @@ const ListaEventos = () => {
       <Navbar />
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-10">
             <div className="card card-translucent">
               <h3 className="card-header">Eventos Disponibles</h3>
               <div className="card-body table-responsive tabla-contenedor">
@@ -96,8 +96,8 @@ const ListaEventos = () => {
               </div>
             </div>
           </div>
-          <div>
-            <Link to="/create" className="btn btn-success mt-1 mb-2 text-white crear">
+          <div className="col-md-2 d-flex align-items-center">
+            <Link to="/create" className="btn btn-success text-white crear">
               Crear Evento
             </Link>
           </div>

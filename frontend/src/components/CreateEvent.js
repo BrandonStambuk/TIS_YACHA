@@ -270,7 +270,6 @@ const CreateEvento = () => {
                       <button type="submit" className="btn btn-primary">
                         Guardar
                       </button>
-                      {/*<button type="button" className="btn btn-primary"onClick={() => navigate('/crearafiche')} >Crear afiche</button>*/}
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
@@ -360,6 +359,9 @@ const CreateEvento = () => {
                           resize: "none",
                         }}
                       ></textarea>
+                    </div>
+                    <div>
+                    <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
                     </div>
                   </div>
                 </div>
