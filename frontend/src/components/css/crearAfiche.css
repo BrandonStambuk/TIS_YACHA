@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Rampart+One&display=swap');
 .afiche-space {
-  width: 700px; /* Ajusta el ancho deseado */
-  height: 900px; /* Ajusta la altura deseada */
+  width: 500px; /* Ajusta el ancho deseado */
+  height: 700px; /* Ajusta la altura deseada */
   background-color: lightgray; /* Puedes establecer un color de fondo si lo deseas */
   position: relative;
   margin: 0 auto;
