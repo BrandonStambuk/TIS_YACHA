@@ -28,9 +28,9 @@ export default class Navbar extends Component {
                                 <a className="nav-link" href="#">Competencias</a>
                             </li>
 
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/crearafiche" className="nav-link">Crear Afiche</Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="ml-auto">
