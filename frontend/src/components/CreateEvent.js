@@ -9,6 +9,7 @@ import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
 
+import Swal from 'sweetalert2';
 const inputStyle = {
   width: "170px",
   height: "30px",
@@ -79,7 +80,17 @@ const CreateEvento = () => {
     } else {
       setNombreEventoError("");
       setIsValid(true);
-
+      if (
+        !nombre_evento ||
+        !tipo_evento ||
+        !fecha_inicio ||
+        !fecha_fin ||
+        !hora ||
+        !descripcion
+      ){
+        Swal.fire('Ingrese todos los datos!')
+        return;
+      }
       // Realiza la solicitud POST solo si la validación es exitosa
       if (isValid) {
         await axios.post(endpoint, {
