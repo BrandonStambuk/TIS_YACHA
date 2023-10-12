@@ -133,10 +133,10 @@ const CreateEvento = () => {
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center">Crear Evento</h2>
+                    <h2 className="card-title text-center text-white">Crear Evento</h2>
                   </div>
                 </div>
-                <div className="row">
+                <div className="row text-white">
                   <div className="col-md-6">
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">
