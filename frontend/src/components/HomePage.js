@@ -28,7 +28,7 @@ const HomePage = () => {
               <h3 className="card-header">Competencia Local UMSS</h3>
               <div className="card-body">
                 {eventos.map((evento) => (
-                <div className="row">                  
+                <div className="row mt-3">                  
                   <div className="col-md-6">
                     <img src={imagen1} alt="Afiche de Evento" />
                   </div>
