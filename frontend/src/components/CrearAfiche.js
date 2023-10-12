@@ -304,4 +304,4 @@ const CrearAfiche = () => {
   );
 };
 
-export default CrearAfiche;
+export default CrearAfiche;

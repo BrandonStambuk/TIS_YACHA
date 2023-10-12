@@ -47,7 +47,7 @@
   /* Estilo para la descripción en el afiche */
   .afiche-description {
     position: absolute;
-    top: 350px;
+    top: 380px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -106,4 +106,65 @@
   
   .input:focus {
     border: 2px solid grey;
+  }
+
+  @media (max-width: 767px) {
+    .container {
+      padding: 0;
+    }
+  
+    .card {
+      border-radius: 0; /* Quita los bordes redondeados de la tarjeta */
+    }
+  
+    .card-header {
+      border-radius: 0; /* Quita los bordes redondeados del encabezado de la tarjeta */
+    }
+  
+    .afiche-space {
+      width: 100%; /* Haz que el afiche ocupe todo el ancho de la pantalla */
+    }
+  }
+  
+  /* Estilos para pantallas con un ancho máximo de 620px */
+  @media (max-width: 620px) {
+    .afiche-space {
+      font-size: 14px; /* Cambia el tamaño de fuente para que quepa en pantallas más pequeñas */
+    }
+  }
+
+  @media (max-width: 767px) {
+    .container {
+      padding: 0;
+    }
+  
+    .card {
+      border-radius: 0; /* Quita los bordes redondeados de la tarjeta */
+    }
+  
+    .card-header {
+      border-radius: 0; /* Quita los bordes redondeados del encabezado de la tarjeta */
+    }
+  
+    .afiche-space {
+      width: 100%; /* Haz que el afiche ocupe todo el ancho de la pantalla */
+    }
+  
+    /* Ajusta la posición de la descripción en pantallas más pequeñas */
+    .afiche-description {
+      text-align: center; /* Centra el texto en la descripción */
+      margin-top: 150px; /* Mueve la descripción hacia abajo en pantalla móvil */
+    }
+
+    .afiche-footer{
+      text-align: center;
+      margin-top: 70px;
+    }
+  }
+  
+  /* Estilos para pantallas con un ancho máximo de 620px */
+  @media (max-width: 620px) {
+    .afiche-space {
+      font-size: 14px; /* Cambia el tamaño de fuente para que quepa en pantallas más pequeñas */
+    }
   }
