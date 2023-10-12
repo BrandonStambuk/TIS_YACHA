@@ -63,7 +63,7 @@ const ListaEventos = () => {
               <h3 className="card-header">Eventos Disponibles</h3>
               <div className="card-body table-responsive tabla-contenedor">
                 <table>
-                  <thead>
+                  <thead className='text-white'>
                     <tr>
                       <th>Nombre</th>
                       <th>Tipo</th>

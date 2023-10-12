@@ -13,15 +13,15 @@ export default class Navbar extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
+                        <ul className="navbar-nav ">
                             {/* Cambia la ruta a "/homepage" */}
-                            <li className="nav-item">
+                            <li className="nav-item p-2">
                                 <Link to="/homepage" className="nav-link">Inicio</Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-2">
                                 <Link to="/inicio" className="nav-link">Que es la ICPC?</Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-2">
                                 <a className="nav-link" href="/ListaEventos">Eventos</a>
                             </li>
                         </ul>
