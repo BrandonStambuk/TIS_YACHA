@@ -1,75 +1,73 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/crearAfiche.css';
+import './css/crearAfiche.css'; // Asegúrate de importar el archivo CSS
 import imagen1 from './images/plantilla1.jpg';
 import imagen2 from './images/plantilla2.jpg';
 import html2canvas from 'html2canvas';
+import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const CrearAfiche = () => {
-  const [titulo, setTitulo] = useState({
-    texto: '',
-    color: '#000000',
-    fuente: 'Arial, sans-serif'
-  });
+  // Estados para el texto del título, descripción, el footer y los colores de letra
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [colorLetraTitulo, setColorLetraTitulo] = useState('#000000');
+  const [footer, setFooter] = useState('');
+  const [colorLetraDescripcion, setColorLetraDescripcion] = useState('#000000');
+  const [colorLetraFooter, setColorLetraFooter] = useState('#000000');
 
-  const [descripcion, setDescripcion] = useState({
-    texto: '',
-    color: '#000000',
-    fuente: 'Arial, sans-serif'
-  });
+  // Estados para las fuentes de título, descripción y pie de página
+  const [fuenteTitulo, setFuenteTitulo] = useState('Arial, sans-serif');
+  const [fuenteDescripcion, setFuenteDescripcion] = useState('Arial, sans-serif');
+  const [fuenteFooter, setFuenteFooter] = useState('Arial, sans-serif');
 
-  const [footer, setFooter] = useState({
-    texto: '',
-    color: '#000000',
-    fuente: 'Arial, sans-serif'
-  });
-
+  // Estado para la plantilla seleccionada
   const [plantillaSeleccionada, setPlantillaSeleccionada] = useState(null);
+
+  // Estado para el estilo de fondo del afiche-space
   const [aficheBackgroundStyle, setAficheBackgroundStyle] = useState({
-    backgroundImage: 'none',
+    backgroundImage: 'none', // Sin fondo inicialmente
   });
+
+  // Estado para manejar la imagen cargada
   const [imagen, setImagen] = useState(null);
 
   const handleTituloChange = (e) => {
-    setTitulo({
-      ...titulo,
-      texto: e.target.value
-    });
+    setTitulo(e.target.value);
   };
 
   const handleDescripcionChange = (e) => {
-    setDescripcion({
-      ...descripcion,
-      texto: e.target.value
-    });
+    setDescripcion(e.target.value);
   };
 
   const handleFooterChange = (e) => {
-    setFooter({
-      ...footer,
-      texto: e.target.value
-    });
+    setFooter(e.target.value);
   };
 
-  const handleColorYFuenteChange = (e) => {
-    const { name, value } = e.target;
-    if (name.startsWith('titulo')) {
-      setTitulo({
-        ...titulo,
-        [name.split('-')[1]]: value
-      });
-    } else if (name.startsWith('descripcion')) {
-      setDescripcion({
-        ...descripcion,
-        [name.split('-')[1]]: value
-      });
-    } else if (name.startsWith('footer')) {
-      setFooter({
-        ...footer,
-        [name.split('-')[1]]: value
-      });
-    }
+  const handleColorLetraTituloChange = (e) => {
+    setColorLetraTitulo(e.target.value);
+  };
+
+  const handleColorLetraDescripcionChange = (e) => {
+    setColorLetraDescripcion(e.target.value);
+  };
+
+  const handleColorLetraFooterChange = (e) => {
+    setColorLetraFooter(e.target.value);
+  };
+
+  const handleFuenteTituloChange = (e) => {
+    setFuenteTitulo(e.target.value);
+  };
+
+  const handleFuenteDescripcionChange = (e) => {
+    setFuenteDescripcion(e.target.value);
+  };
+
+  const handleFuenteFooterChange = (e) => {
+    setFuenteFooter(e.target.value);
   };
 
   const handlePlantillaClick = (plantilla) => {
@@ -135,117 +133,146 @@ const CrearAfiche = () => {
                   </div>
                   <div className="col-md-9">
                     <div className="mb-3 text-start">
-                      <label htmlFor="titulo" className="form-label label-style">Título</label>
-                      <input
-                        type="text"
-                        className="form-control input"
-                        id="titulo"
-                        name="titulo-texto"
-                        value={titulo.texto}
-                        onChange={handleTituloChange}
-                      />
-                      <label htmlFor="titulo-color" className="form-label label-style">Color</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-title"
-                        id="titulo-color"
-                        name="titulo-color"
-                        value={titulo.color}
-                        onChange={handleColorYFuenteChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="titulo-fuente" className="form-label label-style">Fuente</label>
-                      <select
-                        className="form-select"
-                        id="titulo-fuente"
-                        name="titulo-fuente"
-                        value={titulo.fuente}
-                        onChange={handleColorYFuenteChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Título</Card.Title>
+                          <input
+                            type="text"
+                            className="form-control input"
+                            id="titulo"
+                            name="titulo"
+                            value={titulo}
+                            onChange={handleTituloChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-title" className="form-label label-style">Color título:</label>
+                                <input
+                                  type="color"
+                                  className="form-control form-control-color custom-title"
+                                  id="colorLetraTitulo"
+                                  name="colorLetraTitulo"
+                                  value={colorLetraTitulo}
+                                  onChange={handleColorLetraTituloChange}
+                                />
+                            </Col>
+                            <Col sm={6}>
+                              <label htmlFor="fuenteTitulo" className="form-label label-style">Fuente del Título</label>
+                              <select
+                                className="form-select"
+                                id="fuenteTitulo"
+                                name="fuenteTitulo"
+                                value={fuenteTitulo}
+                                onChange={handleFuenteTituloChange}
+                              >
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="Times New Roman, serif">Times New Roman</option>
+                                <option value="Amatic SC, cursive">Amatic SC</option>
+                                {/* Agrega más opciones de fuente aquí */}
+                              </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="descripcion" className="form-label label-style">Descripción</label>
-                      <textarea
-                        className="form-control"
-                        id="descripcion"
-                        name="descripcion-texto"
-                        value={descripcion.texto}
-                        onChange={handleDescripcionChange}
-                      />
-                      <label htmlFor="descripcion-color" className="form-label label-style">Color</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-title"
-                        id="descripcion-color"
-                        name="descripcion-color"
-                        value={descripcion.color}
-                        onChange={handleColorYFuenteChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="descripcion-fuente" className="form-label label-style">Fuente</label>
-                      <select
-                        className="form-select"
-                        id="descripcion-fuente"
-                        name="descripcion-fuente"
-                        value={descripcion.fuente}
-                        onChange={handleColorYFuenteChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
-                    </div>
-                    <div className="mb-3 text-start ">
-                      <label htmlFor="footer" className="form-label label-style">Footer</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="footer"
-                        name="footer-texto"
-                        value={footer.texto}
-                        onChange={handleFooterChange}
-                      />
-                      <label htmlFor="footer-color" className="form-label label-style">Color</label>
-                      <input
-                        type="color"
-                        className="form-control form-control-color custom-title"
-                        id="footer-color"
-                        name="footer-color"
-                        value={footer.color}
-                        onChange={handleColorYFuenteChange}
-                        style={{ marginTop: '-35px'}}
-                      />
-                      <label htmlFor="footer-fuente" className="form-label label-style">Fuente</label>
-                      <select
-                        className="form-select"
-                        id="footer-fuente"
-                        name="footer-fuente"
-                        value={footer.fuente}
-                        onChange={handleColorYFuenteChange}
-                      >
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Amatic SC, cursive">Amatic SC</option>
-                        {/* Agrega más opciones de fuente aquí */}
-                      </select>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Descripción</Card.Title>
+                          <textarea
+                            className="form-control"
+                            id="descripcion"
+                            name="descripcion"
+                            value={descripcion}
+                            onChange={handleDescripcionChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-description" className="form-label label-style">Color Descripcion:</label>
+                              <input
+                                type="color"
+                                className="form-control form-control-color custom-color-input"
+                                id="colorLetraDescripcion"
+                                name="colorLetraDescripcion"
+                                value={colorLetraDescripcion}
+                                onChange={handleColorLetraDescripcionChange}
+                                style={{ marginTop: '-35px'}}//revisar
+                              />
+                            </Col>
+                            <Col sm={6}>
+                            <label htmlFor="fuenteDescripcion" className="form-label label-style">Fuente de la Descripción</label>
+                            <select
+                              className="form-select"
+                              id="fuenteDescripcion"
+                              name="fuenteDescripcion"
+                              value={fuenteDescripcion}
+                              onChange={handleFuenteDescripcionChange}
+                            >
+                              <option value="Arial, sans-serif">Arial</option>
+                              <option value="Times New Roman, serif">Times New Roman</option>
+                              <option value="Amatic SC, cursive">Amatic SC</option>
+                              {/* Agrega más opciones de fuente aquí */}
+                            </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
                     <div className="mb-3 text-start">
-                      <label htmlFor="imagen" className="form-label label-style">Logo</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="imagen"
-                        name="imagen"
-                        accept="image/*"
-                        onChange={handleImagenChange}
-                      />
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Footer</Card.Title>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="footer"
+                            name="footer"
+                            value={footer}
+                            onChange={handleFooterChange}
+                          />
+                          <Row>
+                            <Col sm={6}>
+                              <label htmlFor="color-footer" className="form-label label-style">Color Footer:</label>
+                              <input
+                                type="color"
+                                className="form-control form-control-color custom-footer"
+                                id="colorLetraFooter"
+                                name="colorLetraFooter"
+                                value={colorLetraFooter}
+                                onChange={handleColorLetraFooterChange}
+                                style={{ marginTop: '-35px'}}
+                              />
+                            </Col>
+                            <Col sm={6}>
+                            <label htmlFor="fuenteFooter" className="form-label label-style">Fuente del Footer</label>
+                            <select
+                              className="form-select"
+                              id="fuenteFooter"
+                              name="fuenteFooter"
+                              value={fuenteFooter}
+                              onChange={handleFuenteFooterChange}
+                            >
+                              <option value="Arial, sans-serif">Arial</option>
+                              <option value="Times New Roman, serif">Times New Roman</option>
+                              <option value="Amatic SC, cursive">Amatic SC</option>
+                              {/* Agrega más opciones de fuente aquí */}
+                            </select>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </div>
+                  </div>
+                  <div className="mb-3 text-start">
+                    <label htmlFor="imagen" className="form-label label-style">Logo</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="imagen"
+                      name="imagen"
+                      accept="image/*"
+                      onChange={handleImagenChange}
+                    />
                   </div>
                 </div>
               </div>
@@ -253,9 +280,9 @@ const CrearAfiche = () => {
           </div>
           <div className="col-md-5">
             <div className="afiche-space" style={{ ...aficheBackgroundStyle, marginTop: '0px', borderRadius: '20px' }}>
-              <h3 className="afiche-title" style={{ color: titulo.color, fontFamily: titulo.fuente }}>{titulo.texto}</h3>
-              <p className="afiche-description" style={{ color: descripcion.color, fontFamily: descripcion.fuente }}>{descripcion.texto}</p>
-              <p className="afiche-footer" style={{ color: footer.color, fontFamily: footer.fuente }}>{footer.texto}</p>
+              <h3 className="afiche-title" style={{ color: colorLetraTitulo, fontFamily: fuenteTitulo }}>{titulo}</h3>
+              <p className="afiche-description" style={{ color: colorLetraDescripcion, fontFamily: fuenteDescripcion, marginTop: '10px' }}>{descripcion}</p>
+              <p className="afiche-footer" style={{ color: colorLetraFooter, fontFamily: fuenteFooter, marginTop: 'auto' }}>{footer}</p>
               {imagen && (
                 <img
                   src={URL.createObjectURL(imagen)}
@@ -277,4 +304,4 @@ const CrearAfiche = () => {
   );
 };
 
-export default CrearAfiche;
+export default CrearAfiche;
