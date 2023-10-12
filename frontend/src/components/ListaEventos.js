@@ -47,12 +47,15 @@ const ListaEventos = () => {
     setPagina(nuevaPagina);
   };
 
-  const eventosPorPagina = 7;
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
+  const eventosPorPagina=5;
+  const inicio=pagina*eventosPorPagina;
+  const fin=inicio+eventosPorPagina;
+  const eventosVisibles=eventos.slice(inicio,fin);
+  const totalPaginas=Math.ceil(eventos.length/eventosPorPagina);
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">
@@ -71,7 +74,7 @@ const ListaEventos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {eventos.map((evento) => (
+                    {eventosVisibles.map((evento) => (
                       <tr key={evento.id}>
                         <td>{evento.nombre_evento}</td>
                         <td>{evento.tipo_evento}</td>
