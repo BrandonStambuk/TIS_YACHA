@@ -73,7 +73,7 @@ const CreateEvento = () => {
     // Validación del nombre del evento
     if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
       setNombreEventoError(
-        "No esta permitidos caracteres especiales ni mas de 21 caracteres."
+        "No esta permitidos caracteres especiales ni mas de 21 caracteres y el titulo que empezar por mayuscula."
       );
       setIsValid(false);
     } else {
@@ -345,7 +345,8 @@ const CreateEvento = () => {
                         </div>
                       </div>
                       <textarea
-                        className="form-control"
+                         className="form-control-descArea textarea-estilo"
+
                         id="descripcion"
                         name="descripcion"
                         value={descripcion}
