@@ -24,7 +24,6 @@ const CreateEvento = () => {
   const [fecha_fin, setFechaFin] = useState("");
   const [hora, setHora] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState(null); // Nuevo estado para la imagen
   const [nombreEventoError, setNombreEventoError] = useState("");
   const [isValid, setIsValid] = useState(true);
   const navigate = useNavigate();
@@ -68,18 +67,13 @@ const CreateEvento = () => {
     setHora(event.target.value);
   };
 
-  const handleImagenChange = (e) => {
-    const selectedImage = e.target.files[0];
-    setImagen(selectedImage);
-  };
-
   const store = async (e) => {
     e.preventDefault();
 
     // Validación del nombre del evento
     if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
       setNombreEventoError(
-        "No está permitido caracteres especiales ni más de 21 caracteres."
+        "No esta permitidos caracteres especiales ni mas de 21 caracteres."
       );
       setIsValid(false);
     } else {
@@ -88,22 +82,16 @@ const CreateEvento = () => {
 
       // Realiza la solicitud POST solo si la validación es exitosa
       if (isValid) {
-        const formData = new FormData();
-        formData.append("nombre_evento", nombre_evento);
-        formData.append("tipo_evento", tipo_evento);
-        formData.append("fecha_inicio", fecha_inicio);
-        formData.append("fecha_fin", fecha_fin);
-        formData.append("hora", hora);
-        formData.append("publico", publico);
-        formData.append("descripcion", descripcion);
-        formData.append("imagen", imagen); // Agrega la imagen al formulario
-
-        try {
-          await axios.post(endpoint, formData);
-          navigate("/ListaEventos");
-        } catch (error) {
-          console.error("Error al guardar el evento:", error);
-        }
+        await axios.post(endpoint, {
+          nombre_evento: nombre_evento,
+          tipo_evento: tipo_evento,
+          fecha_inicio: fecha_inicio,
+          fecha_fin: fecha_fin,
+          hora: hora,
+          publico: publico,
+          descripcion: descripcion,
+        });
+        navigate("/ListaEventos");
       }
     }
   };
@@ -273,36 +261,16 @@ const CreateEvento = () => {
                           <option value="4">4 horas</option>
                         </select>
                       </div>
-                      <div>
-                        <label className="form-check-label" for="flexSwitchCheckDefault">
-                          Publicar evento
-                        </label>
-                      </div>
-                      <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          role="switch"
-                          id="flexSwitchCheckDefault"
-                          checked={publico}
-                          onChange={(e) => setPublico(e.target.checked)}
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="imagen" className="form-label">
-                          Imagen del Evento
-                        </label>
-                        <input
-                          type="file"
-                          className="form-control"
-                          id="imagen"
-                          name="imagen"
-                          onChange={handleImagenChange}
-                        />
+                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div class="form-check form-switch">                        
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
+                        checked={publico}
+                        onChange={(e) => setPublico(e.target.checked)}/>                                               
                       </div>
                       <button type="submit" className="btn btn-primary">
                         Guardar
                       </button>
+                      {/*<button type="button" className="btn btn-primary"onClick={() => navigate('/crearafiche')} >Crear afiche</button>*/}
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">

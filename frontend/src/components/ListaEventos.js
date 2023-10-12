@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/eventList.css';
+import Swal from 'sweetalert2';
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -20,9 +21,21 @@ const ListaEventos = () => {
   };
 
   const confirmarEliminacion = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este evento?')) {
-      deleteEvento(id);
-    }
+    Swal.fire({
+      title: '¿Estás seguro de que deseas eliminar este evento?',
+      text: 'No podrás revertir esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, elimina el evento
+        deleteEvento(id);
+        Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+      }
+    });
   };
 
   const deleteEvento = async (id) => {
