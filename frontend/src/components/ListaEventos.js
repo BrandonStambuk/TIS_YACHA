@@ -19,6 +19,12 @@ const ListaEventos = () => {
     setEventos(response.data);
   };
 
+  const confirmarEliminacion = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este evento?')) {
+      deleteEvento(id);
+    }
+  };
+
   const deleteEvento = async (id) => {
     await axios.delete(`${endpoint}/eventos/${id}`);
     getAllEventos();
@@ -64,7 +70,7 @@ const ListaEventos = () => {
                             Editar
                           </Link>
                           <button
-                            onClick={() => deleteEvento(evento.id)}
+                            onClick={() => confirmarEliminacion(evento.id)}
                             className="btn btn-eliminar"
                           >
                             Eliminar
