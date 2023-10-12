@@ -108,7 +108,7 @@ const CrearAfiche = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-5">
+      <div className="container mt-5 - cardEditor">
         <div className="row">
           <div className="col-md-7">
             <div className="card" style={{ borderRadius: '20px' }}>

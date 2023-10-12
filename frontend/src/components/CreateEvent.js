@@ -9,6 +9,7 @@ import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
 
+import Swal from 'sweetalert2';
 const inputStyle = {
   width: "170px",
   height: "30px",
@@ -79,7 +80,17 @@ const CreateEvento = () => {
     } else {
       setNombreEventoError("");
       setIsValid(true);
-
+      if (
+        !nombre_evento ||
+        !tipo_evento ||
+        !fecha_inicio ||
+        !fecha_fin ||
+        !hora ||
+        !descripcion
+      ){
+        Swal.fire('Ingrese todos los datos!')
+        return;
+      }
       // Realiza la solicitud POST solo si la validación es exitosa
       if (isValid) {
         await axios.post(endpoint, {
@@ -122,10 +133,10 @@ const CreateEvento = () => {
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center">Crear Evento</h2>
+                    <h2 className="card-title text-center text-white">Crear Evento</h2>
                   </div>
                 </div>
-                <div className="row">
+                <div className="row text-white">
                   <div className="col-md-6">
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">
@@ -270,7 +281,6 @@ const CreateEvento = () => {
                       <button type="submit" className="btn btn-primary">
                         Guardar
                       </button>
-                      {/*<button type="button" className="btn btn-primary"onClick={() => navigate('/crearafiche')} >Crear afiche</button>*/}
                     </form>
                   </div>
                   <div className="col-md-6 mx-auto">
@@ -359,6 +369,9 @@ const CreateEvento = () => {
                           resize: "none",
                         }}
                       ></textarea>
+                    </div>
+                    <div>
+                    <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
                     </div>
                   </div>
                 </div>
