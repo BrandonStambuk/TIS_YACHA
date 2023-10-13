@@ -34,6 +34,7 @@ const HomePage = () => {
                   </div>
                   <div className="col-md-6">                    
                     <div className="event-info">
+                      <p className="event-info-text left"> <strong>Nombre Evento: </strong>{evento.nombre_evento}</p>
                       <p className="event-info-text left"> <strong>Inicio del evento: </strong>{evento.fecha_inicio}</p>
                       <p className="event-info-text left"><strong>Duracion: </strong>{evento.hora} Horas </p>  
                       <p className="event-info-text left"> <strong>Descripción: </strong>{evento.descripcion}</p>                   
