@@ -8,7 +8,7 @@ import html2canvas from 'html2canvas';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+//probando para subir al main
 const CrearAfiche = () => {
   // Estados para el texto del título, descripción, el footer y los colores de letra
   const [titulo, setTitulo] = useState('');
@@ -108,7 +108,7 @@ const CrearAfiche = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-5">
+      <div className="container mt-5 - cardEditor">
         <div className="row">
           <div className="col-md-7">
             <div className="card" style={{ borderRadius: '20px' }}>

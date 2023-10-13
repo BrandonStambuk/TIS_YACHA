@@ -4,7 +4,7 @@ import { useNavigate, useParams} from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Swal from 'sweetalert2';
 //import derImage from './images/der.png';
 //import izqImage from './images/izq.png';
 //import cenImage from './images/cen.png';
@@ -63,7 +63,17 @@ const EditEvento = () => {
       const selectedStartDate = new Date(fecha_inicio);
       const selectedEndDate = new Date(fecha_fin);
       const currentDate = new Date();
-  
+      if (
+        !nombre_evento ||
+        !tipo_evento ||
+        !fecha_inicio ||
+        !fecha_fin ||
+        !hora ||
+        !descripcion
+      ){
+        Swal.fire('Ingrese todos los datos!')
+        return;
+      }
       if (selectedStartDate <= currentDate) {
         setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
       } else {

@@ -7,7 +7,6 @@
   margin: 0 auto;
   /* Otros estilos... */
 }
-  
   /* Estilo para la imagen dentro del afiche */
   .afiche-space img {
     max-width: 100%;
@@ -32,7 +31,7 @@
   /* Estilo para el título en el afiche */
   .afiche-title {
     position: absolute;
-    top: 15px;
+    top: 1px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -47,7 +46,7 @@
   /* Estilo para la descripción en el afiche */
   .afiche-description {
     position: absolute;
-    top: 380px;
+    top: 350px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -61,7 +60,7 @@
 
   .afiche-footer{
     position: absolute;
-    top: 700px;
+    top: 600px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;

@@ -47,20 +47,23 @@ const ListaEventos = () => {
     setPagina(nuevaPagina);
   };
 
-  const eventosPorPagina = 7;
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
+  const eventosPorPagina=5;
+  const inicio=pagina*eventosPorPagina;
+  const fin=inicio+eventosPorPagina;
+  const eventosVisibles=eventos.slice(inicio,fin);
+  const totalPaginas=Math.ceil(eventos.length/eventosPorPagina);
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-10">
             <div className="card card-translucent">
               <h3 className="card-header">Eventos Disponibles</h3>
               <div className="card-body table-responsive tabla-contenedor">
                 <table>
-                  <thead>
+                  <thead className='text-white'>
                     <tr>
                       <th>Nombre</th>
                       <th>Tipo</th>
@@ -71,7 +74,7 @@ const ListaEventos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {eventos.map((evento) => (
+                    {eventosVisibles.map((evento) => (
                       <tr key={evento.id}>
                         <td>{evento.nombre_evento}</td>
                         <td>{evento.tipo_evento}</td>
@@ -96,8 +99,8 @@ const ListaEventos = () => {
               </div>
             </div>
           </div>
-          <div>
-            <Link to="/create" className="btn btn-success mt-1 mb-2 text-white crear">
+          <div className="col-md-2 d-flex align-items-center">
+            <Link to="/create" className="btn btn-success text-white crear">
               Crear Evento
             </Link>
           </div>
