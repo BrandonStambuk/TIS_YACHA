@@ -16,7 +16,7 @@ const HomePage = () => {
   }, []);
 
   const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/eventos`);
+    const response = await axios.get(`${endpoint}/mostrarPublico`);
     setEventos(response.data);
   };
   return (
