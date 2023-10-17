@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="container">
+      <div className="login">
         <div className="heading">Iniciar Sesion  ICPC UMSS</div>
         <form action="" className="form">
           <input
