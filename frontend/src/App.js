@@ -8,6 +8,7 @@ import HomePage from './components/HomePage';
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
+import RegistroEvento from './components/RegistroEvento';
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
           <Route path="/inicio" element={<QueEsICPC/>} />
           <Route path="/crearafiche" element={<CrearAfiche/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/registroEvento" element={<RegistroEvento/>}/>
         </Routes>
       </BrowserRouter>
     </div>

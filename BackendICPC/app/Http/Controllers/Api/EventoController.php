@@ -19,6 +19,13 @@ class EventoController extends Controller
         return $evento;
     }
 
+    public function publicar()
+{
+    $evento = Evento::where('publico', 1)->get();
+    
+    return $evento;
+}
+
     /**
      * Store a newly created resource in storage.
      *
