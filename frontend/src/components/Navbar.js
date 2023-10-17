@@ -13,24 +13,18 @@ export default class Navbar extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
+                        <ul className="navbar-nav ">
                             {/* Cambia la ruta a "/homepage" */}
-                            <li className="nav-item">
+                            <li className="nav-item p-2">
                                 <Link to="/homepage" className="nav-link">Inicio</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to="/inicio" className="nav-link">Que es la ICPC?</Link>
+                            <li className="nav-item p-2">
+                                <Link to="/inicio" className="nav-link">Qué es la ICPC?</Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item p-2">
                                 <a className="nav-link" href="/ListaEventos">Eventos</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Competencias</a>
-                            </li>
                         </ul>
-                    </div>
-                    <div className="ml-auto">
-                        <a className="nav-link" href="#">Iniciar Sesion</a>
                     </div>
                 </div>
             </nav>

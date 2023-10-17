@@ -1,5 +1,5 @@
 .card-translucent {
-	background-color: rgba(221, 221, 221, 0.251);
+	background-color: rgba(221, 221, 221, 0.301);
 }
 
 
@@ -28,5 +28,19 @@ tbody tr {
 }
 
 
+/* En tu archivo Homepage.css o en el lugar donde tengas tus estilos */
+.event-info {
+	padding: 20px;
+	font-size: 20px;
+  }
+  
+  .event-info-text {
+	margin-bottom: 35px;
+	font-size: 20px;
+  }
 
+  .event-info-text.left {
+	text-align: left;
+	font-size: 20px;
+  }
 

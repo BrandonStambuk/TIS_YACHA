@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Rampart+One&display=swap');
+.afiche-space {
+  width: 500px; /* Ajusta el ancho deseado */
+  height: 700px; /* Ajusta la altura deseada */
+  background-color: lightgray; /* Puedes establecer un color de fondo si lo deseas */
+  position: relative;
+  margin: 0 auto;
+  /* Otros estilos... */
+}
+  /* Estilo para la imagen dentro del afiche */
+  .afiche-space img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .custom-color-input{
+    width: 40px; /* Ajusta el ancho deseado */
+    /* Otros estilos... */
+    margin-left: 170px;
+  }
+  .custom-title{
+    width: 40px; /* Ajusta el ancho deseado */
+    /* Otros estilos... */
+    margin-left: 110px;
+  }
+  .custom-footer{
+    width: 40px;/* Ajusta el ancho deseado */
+    /* Otros estilos... */
+    margin-left: 125px;
+  }
+  
+  /* Estilo para el título en el afiche */
+  .afiche-title {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive;
+    font-size: 110px; /* Ajusta el tamaño de fuente según tus preferencias */
+    margin-top: 125px;
+  }
+  
+  /* Estilo para la descripción en el afiche */
+  .afiche-description {
+    position: absolute;
+    top: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
+    font-size: 60px;
+    
+  }
+
+  .afiche-footer{
+    position: absolute;
+    top: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-family: 'Amatic SC', cursive; /* Cambia 'Tu-Fuente-De-Descripcion' por la fuente que deseas */
+    font-size: 0px;
+    font-size: 34px; /* Tamaño de fuente para el footer */
+    
+  }
+
+  .col-md-3 h4 {
+    margin-top: 20px; /* Ajusta la cantidad de espacio deseado */
+  }
+
+  .label-style{
+    color: black;
+    text-align: left;
+    font-size: 20px;
+  }
+
+  .input {
+  
+    height: 45px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+  }
+  
+  .input:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  
+  .input:active {
+    transform: scale(0.95);
+  }
+  
+  .input:focus {
+    border: 2px solid grey;
+  }
+
+  @media (max-width: 767px) {
+    .container {
+      padding: 0;
+    }
+  
+    .card {
+      border-radius: 0; /* Quita los bordes redondeados de la tarjeta */
+    }
+  
+    .card-header {
+      border-radius: 0; /* Quita los bordes redondeados del encabezado de la tarjeta */
+    }
+  
+    .afiche-space {
+      width: 100%; /* Haz que el afiche ocupe todo el ancho de la pantalla */
+    }
+  }
+  
+  /* Estilos para pantallas con un ancho máximo de 620px */
+  @media (max-width: 620px) {
+    .afiche-space {
+      font-size: 14px; /* Cambia el tamaño de fuente para que quepa en pantallas más pequeñas */
+    }
+  }
+
+  @media (max-width: 767px) {
+    .container {
+      padding: 0;
+    }
+  
+    .card {
+      border-radius: 0; /* Quita los bordes redondeados de la tarjeta */
+    }
+  
+    .card-header {
+      border-radius: 0; /* Quita los bordes redondeados del encabezado de la tarjeta */
+    }
+  
+    .afiche-space {
+      width: 100%; /* Haz que el afiche ocupe todo el ancho de la pantalla */
+    }
+  
+    /* Ajusta la posición de la descripción en pantallas más pequeñas */
+    .afiche-description {
+      text-align: center; /* Centra el texto en la descripción */
+      margin-top: 150px; /* Mueve la descripción hacia abajo en pantalla móvil */
+    }
+
+    .afiche-footer{
+      text-align: center;
+      margin-top: 70px;
+    }
+  }
+  
+  /* Estilos para pantallas con un ancho máximo de 620px */
+  @media (max-width: 620px) {
+    .afiche-space {
+      font-size: 14px; /* Cambia el tamaño de fuente para que quepa en pantallas más pequeñas */
+    }
+  }

@@ -17,9 +17,11 @@ class CreateEventosTable extends Migration
             $table->id();
             $table->string('nombre_evento');
             $table->string('tipo_evento');
-            $table->string('fecha_inicio');
-            $table->string('fecha_fin');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->string('hora');
             $table->string('descripcion');
+            $table->boolean('publico')->default(false);
             $table->timestamps();
         });
     }
