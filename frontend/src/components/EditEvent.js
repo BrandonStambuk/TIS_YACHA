@@ -54,7 +54,7 @@ const EditEvento = () => {
     e.preventDefault();
   
     // Validación del nombre del evento
-    if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
+    if (!/^[A-Z][A-Za-z\- ]{0,20}$/.test(nombre_evento)) {
       setNombreEventoError(
         'No están permitidos caracteres especiales ni más de 21 caracteres.'
       );
@@ -149,7 +149,7 @@ const EditEvento = () => {
                     <form onSubmit={update} className="text-left">
                     <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">
-                          Nombre del Evento
+                          Nombre de evento
                         </label>
                         <input
                           value={nombre_evento}

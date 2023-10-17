@@ -72,7 +72,7 @@ const CreateEvento = () => {
     e.preventDefault();
 
     // Validación del nombre del evento
-    if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
+    if (!/^[A-Z][A-Za-z\- ]{0,20}$/.test(nombre_evento)) {
       setNombreEventoError(
         "No esta permitidos caracteres especiales ni mas de 21 caracteres y el titulo que empezar por mayuscula."
       );
@@ -141,7 +141,7 @@ const CreateEvento = () => {
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">
-                          Nombre del Evento
+                          Nombre de evento
                         </label>
                         <input
                           value={nombre_evento}

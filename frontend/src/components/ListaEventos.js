@@ -67,6 +67,7 @@ const ListaEventos = () => {
                     <tr>
                       <th>Nombre</th>
                       <th>Tipo</th>
+                      <th>Descripcion</th>
                       <th>Fecha de inicio</th>
                       <th>Fecha Fin</th>
                       <th>Duración (horas)</th>
@@ -78,6 +79,7 @@ const ListaEventos = () => {
                       <tr key={evento.id}>
                         <td>{evento.nombre_evento}</td>
                         <td>{evento.tipo_evento}</td>
+                        <td>{evento.descripcion}</td>
                         <td>{evento.fecha_inicio}</td>
                         <td>{evento.fecha_fin}</td>
                         <td className="centrado">{evento.hora}</td>
