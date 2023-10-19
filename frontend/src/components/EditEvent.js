@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useState, useEffect} from 'react';
-import { useNavigate, useParams} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,7 +28,6 @@ const EditEvento = () => {
   const [fechaInicioError, setFechaInicioError] = useState('');
   const [fechaFinError, setFechaFinError] = useState('');
   const [nombreEventoError, setNombreEventoError] = useState('');
-  const [isValid, setIsValid] = useState(true);
   const [publico, setPublico] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
@@ -52,52 +51,67 @@ const EditEvento = () => {
 
   const update = async (e) => {
     e.preventDefault();
-  
+    const selectedStartDate = new Date(fecha_inicio);
+    const selectedEndDate = new Date(fecha_fin);
+    const currentDate = new Date();
+    let todosErrores=[];
+    if (
+      !nombre_evento ||
+      !tipo_evento ||
+      !fecha_inicio ||
+      !fecha_fin ||
+      !hora ||
+      !descripcion
+    ) {
+      Swal.fire('Ingrese todos los datos!')
+      return;
+    }
     // Validación del nombre del evento
-    if (!/^[A-Z][A-Za-z0-9 ]{0,20}$/.test(nombre_evento)) {
-      setNombreEventoError(
-        'No están permitidos caracteres especiales ni más de 21 caracteres.'
-      );
+    let errores = [];
+    if (!/^[A-Z]/.test(nombre_evento)) {
+      errores.push('El primer carácter debe ser una letra mayúscula.');
+    }
+
+    if (!/^[A-Za-z\- ]+$/.test(nombre_evento)) {
+      errores.push('Solo están permitidos letras, espacios y guiones.');
+    }
+
+    if (nombre_evento.length > 21) {
+      errores.push('No se permiten más de 21 caracteres.');
+    }
+
+    if (errores.length > 0) {
+      setNombreEventoError(errores.join(' '));
+      todosErrores.push(errores);
     } else {
       setNombreEventoError('');
-      const selectedStartDate = new Date(fecha_inicio);
-      const selectedEndDate = new Date(fecha_fin);
-      const currentDate = new Date();
-      if (
-        !nombre_evento ||
-        !tipo_evento ||
-        !fecha_inicio ||
-        !fecha_fin ||
-        !hora ||
-        !descripcion
-      ){
-        Swal.fire('Ingrese todos los datos!')
-        return;
-      }
-      if (selectedStartDate <= currentDate) {
-        setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
-      } else {
-        setFechaInicioError('');
-  
-        if (selectedEndDate < selectedStartDate) {
-          setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
-        } else {
-          setFechaFinError('');
-  
-          // Todas las validaciones pasaron
-          await axios.put(`${endpoint}/${id}`, {
-            nombre_evento: nombre_evento,
-            tipo_evento: tipo_evento,
-            fecha_inicio: fecha_inicio,
-            fecha_fin: fecha_fin,
-            hora: hora,
-            publico: publico,
-            descripcion: descripcion,
-          });
-  
-          navigate('/ListaEventos');
-        }
-      }
+    }
+    if (selectedStartDate <= currentDate) {
+      setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
+      todosErrores.push('La fecha de inicio debe ser posterior al día de hoy.');
+    } else {
+      setFechaInicioError('');
+
+    }
+    if (selectedEndDate < selectedStartDate) {
+      setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
+      todosErrores.push('La fecha de fin no puede ser anterior a la fecha de inicio.');
+    } else {
+      setFechaFinError('');
+    }
+    if (todosErrores.length===0) {
+      await axios.put(`${endpoint}/${id}`, {
+        // Todas las validaciones pasaron
+        nombre_evento: nombre_evento,
+        tipo_evento: tipo_evento,
+        fecha_inicio: fecha_inicio,
+        fecha_fin: fecha_fin,
+        hora: hora,
+        publico: publico,
+        descripcion: descripcion,
+      });
+
+      navigate('/ListaEventos');
     }
   };
 
@@ -147,17 +161,16 @@ const EditEvento = () => {
                 <div className="row">
                   <div className="col-md-6">
                     <form onSubmit={update} className="text-left">
-                    <div className="mb-3">
+                      <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">
-                          Nombre del Evento
+                          Nombre de evento
                         </label>
                         <input
                           value={nombre_evento}
                           onChange={(e) => setNombreEvento(e.target.value)}
                           type="text"
-                          className={`form-control ${
-                            nombreEventoError ? 'is-invalid' : ''
-                          }`}
+                          className={`form-control ${nombreEventoError ? 'is-invalid' : ''
+                            }`}
                           id="nombreEvento"
                           name="nombreEvento"
                           style={inputStyle}
@@ -221,9 +234,8 @@ const EditEvento = () => {
                         </label>
                         <input
                           type="date"
-                          className={`form-control ${
-                            fechaInicioError ? "is-invalid" : ""
-                          }`}
+                          className={`form-control ${fechaInicioError ? "is-invalid" : ""
+                            }`}
                           id="fechaInicio"
                           name="fechaInicio"
                           style={inputStyle}
@@ -242,9 +254,8 @@ const EditEvento = () => {
                         </label>
                         <input
                           type="date"
-                          className={`form-control ${
-                            fechaFinError ? "is-invalid" : ""
-                          }`}
+                          className={`form-control ${fechaFinError ? "is-invalid" : ""
+                            }`}
                           id="fechaFin"
                           name="fechaFin"
                           style={inputStyle}
@@ -275,10 +286,10 @@ const EditEvento = () => {
                         </select>
                       </div>
                       <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
-                      <div class="form-check form-switch">                        
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" 
-                        checked={publico}
-                        onChange={(e) => setPublico(e.target.checked)}/>                                               
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                          checked={publico}
+                          onChange={(e) => setPublico(e.target.checked)} />
                       </div>
                       <button type="submit" className="btn btn-primary">Actualizar</button>
                     </form>

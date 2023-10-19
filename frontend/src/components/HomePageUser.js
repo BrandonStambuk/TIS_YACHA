@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
+import { Link } from 'react-router-dom';
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -38,7 +39,8 @@ const HomePage = () => {
                       <p className="event-info-text left"> <strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
                       <p className="event-info-text left"> <strong>Inicio del evento: </strong>{evento.fecha_inicio}</p>
                       <p className="event-info-text left"><strong>Duracion: </strong>{evento.hora} Horas </p>  
-                      <p className="event-info-text left"> <strong>Descripción: </strong>{evento.descripcion}</p>                   
+                      <p className="event-info-text left"> <strong>Descripción: </strong>{evento.descripcion}</p>
+                      <Link to={`/registroEvento/${evento.id}`} className='btn btn-info'>inscripción</Link>                   
                     </div>                    
                   </div>                  
                 </div>
