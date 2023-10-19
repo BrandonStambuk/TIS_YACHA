@@ -100,23 +100,23 @@ const CreateEvento = () => {
 
     if (errores.length > 0) {
       setNombreEventoError(errores.join(' '));
-      todosErrores.push("a");
+      todosErrores.push(errores);
     } else {
       setNombreEventoError("");
     }
     if (selectedStartDate <= currentDate) {
       setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
-      todosErrores.push("a");
+      todosErrores.push('La fecha de inicio debe ser posterior al día de hoy.');
     } else {
       setFechaInicioError('');
     }
     if (selectedEndDate < selectedStartDate) {
       setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
-      todosErrores.push("a");
+      todosErrores.push('La fecha de fin no puede ser anterior a la fecha de inicio.');
     } else {
       setFechaFinError('');
     }
-    if (todosErrores===0) {
+    if (todosErrores.length===0) {
       await axios.post(endpoint, {
         nombre_evento: nombre_evento,
         tipo_evento: tipo_evento,
