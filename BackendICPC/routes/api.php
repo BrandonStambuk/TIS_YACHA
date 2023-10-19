@@ -27,3 +27,5 @@ Route::controller(EventoController::class)->group(function (){
     Route::put('/crearevento/{id}', 'update');
     Route::delete('/eventos/{id}', 'destroy');
 });
+
+
