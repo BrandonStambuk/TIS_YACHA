@@ -116,7 +116,7 @@ const CreateEvento = () => {
     } else {
       setFechaFinError('');
     }
-    if (todosErrores===0) {
+    if (todosErrores.length===0) {
       await axios.post(endpoint, {
         nombre_evento: nombre_evento,
         tipo_evento: tipo_evento,
