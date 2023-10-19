@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventoController;
+use App\Http\Controllers\Api\UsuarioController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,4 +29,10 @@ Route::controller(EventoController::class)->group(function (){
     Route::delete('/eventos/{id}', 'destroy');
 });
 
-
+Route::controller(UsuarioController::class)->group(function (){
+    Route::get('/usuarios', 'index');
+    Route::post('/crearusuario', 'store');
+    //Route::get('/crearusuario/{id}', 'show');
+    //Route::put('/crearusuario/{id}', 'update');
+    //Route::delete('/usuarios/{id}', 'destroy');
+});
