@@ -15,14 +15,14 @@ const RegistroEvento = () => {
           </div>
           <div className="col-md-6">
             <div className="card card-custom p-4">
-              <h2 className="text-center mb-4 text-white">Registro</h2>
-              <form className='text-white'>
+              <h2 className="text-center mb-4 heading">Registro</h2>
+              <form className='form textForm'>
                 <div className="mb-3">
                   <label htmlFor="nombreCompleto" className="form-label">Nombre Completo</label>
                   <input
                     required
                     type="text"
-                    className="form-control"
+                    className="form-control input"
                     id="nombreCompleto"
                     placeholder="Nombre Completo"
                   />
@@ -32,7 +32,7 @@ const RegistroEvento = () => {
                   <input
                     required
                     type="text"
-                    className="form-control"
+                    className="form-control input"
                     id="correo"
                     placeholder="Correo"
                   />
@@ -42,7 +42,7 @@ const RegistroEvento = () => {
                   <input
                     required
                     type="text"
-                    className="form-control"
+                    className="form-control input"
                     id="institucion"
                     placeholder="Institución"
                   />
@@ -54,7 +54,7 @@ const RegistroEvento = () => {
                       <input
                         required
                         type="telephone"
-                        className="form-control"
+                        className="form-control input"
                         id="celular"
                         placeholder="Celular"
                       />
@@ -64,7 +64,7 @@ const RegistroEvento = () => {
                       <input
                         required
                         type="date"
-                        className="form-control"
+                        className="form-control input"
                         id="fechaNacimiento"
                         placeholder="Fecha de Nacimiento"
                       />
@@ -72,7 +72,7 @@ const RegistroEvento = () => {
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="submit" className="btn btn-primary">Registrar</button>
+                  <button type="submit" className="btn register-button">Registrar</button>
                 </div>
               </form>
             </div>
