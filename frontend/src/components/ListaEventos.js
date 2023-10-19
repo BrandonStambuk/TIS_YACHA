@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/eventList.css';
+import Swal from 'sweetalert2';
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -19,6 +20,24 @@ const ListaEventos = () => {
     setEventos(response.data);
   };
 
+  const confirmarEliminacion = (id) => {
+    Swal.fire({
+      title: '¿Estás seguro de que deseas eliminar este evento?',
+      text: 'No podrás revertir esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, elimina el evento
+        deleteEvento(id);
+        Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+      }
+    });
+  };
+
   const deleteEvento = async (id) => {
     await axios.delete(`${endpoint}/eventos/${id}`);
     getAllEventos();
@@ -28,23 +47,27 @@ const ListaEventos = () => {
     setPagina(nuevaPagina);
   };
 
-  const eventosPorPagina = 7;
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
+  const eventosPorPagina=5;
+  const inicio=pagina*eventosPorPagina;
+  const fin=inicio+eventosPorPagina;
+  const eventosVisibles=eventos.slice(inicio,fin);
+  const totalPaginas=Math.ceil(eventos.length/eventosPorPagina);
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-10">
             <div className="card card-translucent">
               <h3 className="card-header">Eventos Disponibles</h3>
               <div className="card-body table-responsive tabla-contenedor">
                 <table>
-                  <thead>
+                  <thead className='text-white'>
                     <tr>
                       <th>Nombre</th>
                       <th>Tipo</th>
+                      <th>Descripcion</th>
                       <th>Fecha de inicio</th>
                       <th>Fecha Fin</th>
                       <th>Duración (horas)</th>
@@ -52,19 +75,20 @@ const ListaEventos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {eventos.map((evento) => (
+                    {eventosVisibles.map((evento) => (
                       <tr key={evento.id}>
                         <td>{evento.nombre_evento}</td>
                         <td>{evento.tipo_evento}</td>
+                        <td>{evento.descripcion}</td>
                         <td>{evento.fecha_inicio}</td>
                         <td>{evento.fecha_fin}</td>
-                        <td className="centrado">{evento.descripcion}</td>
+                        <td className="centrado">{evento.hora}</td>
                         <td className="centrar-botones">
                           <Link to={`/edit/${evento.id}`} className="btn btn-editar">
                             Editar
                           </Link>
                           <button
-                            onClick={() => deleteEvento(evento.id)}
+                            onClick={() => confirmarEliminacion(evento.id)}
                             className="btn btn-eliminar"
                           >
                             Eliminar
@@ -77,35 +101,10 @@ const ListaEventos = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="card card-translucent">
-              <h3 className="card-header">Eventos Pasados</h3>
-              <div className="card-body table-responsive tabla-contenedor">
-                <table>
-                  <thead>
-                    <tr>
-                      <th className='text-white'>Nombre</th>
-                      <th className='text-white'>Tipo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Evento 1</td>
-                      <td>Tipo 1</td>
-                    </tr>
-                    <tr>
-                      <td>Evento 2</td>
-                      <td>Tipo 2</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div>
-              <Link to="/create" className="btn btn-success mt-1 mb-2 text-white crear">
-                Crear Evento
-              </Link>
-            </div>
+          <div className="col-md-2 d-flex align-items-center">
+            <Link to="/create" className="btn btn-success text-white crear">
+              Crear Evento
+            </Link>
           </div>
         </div>
         <div className="row mt-3">

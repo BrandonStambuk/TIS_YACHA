@@ -1,10 +1,10 @@
 import axios from 'axios';
-import React, { useState, useEffect} from 'react';
-import { useNavigate, useParams} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Swal from 'sweetalert2';
 //import derImage from './images/der.png';
 //import izqImage from './images/izq.png';
 //import cenImage from './images/cen.png';
@@ -23,9 +23,14 @@ const EditEvento = () => {
   const [tipo_evento, setTipoEvento] = useState('');
   const [fecha_inicio, setFechaInicio] = useState('');
   const [fecha_fin, setFechaFin] = useState('');
+  const [hora, setHora] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [fechaInicioError, setFechaInicioError] = useState('');
+  const [fechaFinError, setFechaFinError] = useState('');
+  const [nombreEventoError, setNombreEventoError] = useState('');
+  const [publico, setPublico] = useState('');
   const navigate = useNavigate();
-  const {id} = useParams()
+  const { id } = useParams();
 
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
@@ -36,23 +41,78 @@ const EditEvento = () => {
   };
 
   const handleFechaFinChange = (event) => {
+
     setFechaFin(event.target.value);
   };
 
   const handleHorasChange = (event) => {
-    setDescripcion(event.target.value);
+    setHora(event.target.value);
   };
 
   const update = async (e) => {
     e.preventDefault();
-    await axios.put(`${endpoint}/${id}`, {
-      nombre_evento: nombre_evento,
-      tipo_evento: tipo_evento,
-      fecha_inicio: fecha_inicio,
-      fecha_fin: fecha_fin,
-      descripcion: descripcion,
-    });
-    navigate('/');
+    const selectedStartDate = new Date(fecha_inicio);
+    const selectedEndDate = new Date(fecha_fin);
+    const currentDate = new Date();
+    let todosErrores=[];
+    if (
+      !nombre_evento ||
+      !tipo_evento ||
+      !fecha_inicio ||
+      !fecha_fin ||
+      !hora ||
+      !descripcion
+    ) {
+      Swal.fire('Ingrese todos los datos!')
+      return;
+    }
+    // Validación del nombre del evento
+    let errores = [];
+    if (!/^[A-Z]/.test(nombre_evento)) {
+      errores.push('El primer carácter debe ser una letra mayúscula.');
+    }
+
+    if (!/^[A-Za-z\- ]+$/.test(nombre_evento)) {
+      errores.push('Solo están permitidos letras, espacios y guiones.');
+    }
+
+    if (nombre_evento.length > 21) {
+      errores.push('No se permiten más de 21 caracteres.');
+    }
+
+    if (errores.length > 0) {
+      setNombreEventoError(errores.join(' '));
+      todosErrores.push(errores);
+    } else {
+      setNombreEventoError('');
+    }
+    if (selectedStartDate <= currentDate) {
+      setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
+      todosErrores.push('La fecha de inicio debe ser posterior al día de hoy.');
+    } else {
+      setFechaInicioError('');
+
+    }
+    if (selectedEndDate < selectedStartDate) {
+      setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
+      todosErrores.push('La fecha de fin no puede ser anterior a la fecha de inicio.');
+    } else {
+      setFechaFinError('');
+    }
+    if (todosErrores.length===0) {
+      await axios.put(`${endpoint}/${id}`, {
+        // Todas las validaciones pasaron
+        nombre_evento: nombre_evento,
+        tipo_evento: tipo_evento,
+        fecha_inicio: fecha_inicio,
+        fecha_fin: fecha_fin,
+        hora: hora,
+        publico: publico,
+        descripcion: descripcion,
+      });
+
+      navigate('/ListaEventos');
+    }
   };
 
 
@@ -60,14 +120,15 @@ const EditEvento = () => {
     const getEventById = async () => {
       try {
         const response = await axios.get(`${endpoint}/${id}`);
-        console.log("Respuesta del servidor:", response.data); // Agrega este console.log
         setNombreEvento(response.data.nombre_evento);
         setTipoEvento(response.data.tipo_evento);
         setFechaInicio(response.data.fecha_inicio);
         setFechaFin(response.data.fecha_fin);
+        setHora(response.data.hora);
+        setPublico(response.data.publico)
         setDescripcion(response.data.descripcion);
       } catch (error) {
-        console.error("Error al obtener los datos del evento:", error);
+        console.error('Error al obtener los datos del evento:', error);
       }
     };
     getEventById();
@@ -101,16 +162,24 @@ const EditEvento = () => {
                   <div className="col-md-6">
                     <form onSubmit={update} className="text-left">
                       <div className="mb-3">
-                        <label htmlFor="nombreEvento" className="form-label">Nombre del Evento</label>
+                        <label htmlFor="nombreEvento" className="form-label">
+                          Nombre de evento
+                        </label>
                         <input
                           value={nombre_evento}
                           onChange={(e) => setNombreEvento(e.target.value)}
                           type="text"
-                          className="form-control"
+                          className={`form-control ${nombreEventoError ? 'is-invalid' : ''
+                            }`}
                           id="nombreEvento"
                           name="nombreEvento"
                           style={inputStyle}
                         />
+                        {nombreEventoError && (
+                          <div className="invalid-feedback">
+                            {nombreEventoError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Tipo de Evento</label>
@@ -160,28 +229,44 @@ const EditEvento = () => {
                         </div>
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="fechaInicio" className="form-label">Fecha de Inicio</label>
+                        <label htmlFor="fechaInicio" className="form-label">
+                          Fecha de Inicio
+                        </label>
                         <input
                           type="date"
-                          className="form-control"
+                          className={`form-control ${fechaInicioError ? "is-invalid" : ""
+                            }`}
                           id="fechaInicio"
                           name="fechaInicio"
                           style={inputStyle}
                           value={fecha_inicio}
                           onChange={handleFechaInicioChange}
                         />
+                        {fechaInicioError && (
+                          <div className="invalid-feedback">
+                            {fechaInicioError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="fechaFin" className="form-label">Fecha de Fin</label>
+                        <label htmlFor="fechaFin" className="form-label">
+                          Fecha de Fin
+                        </label>
                         <input
                           type="date"
-                          className="form-control"
+                          className={`form-control ${fechaFinError ? "is-invalid" : ""
+                            }`}
                           id="fechaFin"
                           name="fechaFin"
                           style={inputStyle}
                           value={fecha_fin}
                           onChange={handleFechaFinChange}
                         />
+                        {fechaFinError && (
+                          <div className="invalid-feedback">
+                            {fechaFinError}
+                          </div>
+                        )}
                       </div>
                       <div className="mb-3">
                         <label htmlFor="horas" className="form-label">Horas</label>
@@ -190,7 +275,7 @@ const EditEvento = () => {
                           id="horas"
                           name="horas"
                           style={inputStyle}
-                          value={descripcion}
+                          value={hora}
                           onChange={handleHorasChange}
                         >
                           <option value="">Seleccionar horas</option>
@@ -199,6 +284,12 @@ const EditEvento = () => {
                           <option value="3">3 horas</option>
                           <option value="4">4 horas</option>
                         </select>
+                      </div>
+                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                          checked={publico}
+                          onChange={(e) => setPublico(e.target.checked)} />
                       </div>
                       <button type="submit" className="btn btn-primary">Actualizar</button>
                     </form>
@@ -258,7 +349,7 @@ const EditEvento = () => {
                         id="descripcion"
                         name="descripcion"
                         value={descripcion}
-                        onChange={handleHorasChange}
+                        onChange={(e) => setDescripcion(e.target.value)}
                         rows="4"
                         style={{
                           fontSize: `${fontSize}px`,
