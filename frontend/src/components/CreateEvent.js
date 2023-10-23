@@ -33,6 +33,7 @@ const CreateEvento = () => {
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
   };
+  const [file, setFile] = useState(null);
 
   const handleFechaInicioChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -47,6 +48,31 @@ const CreateEvento = () => {
     }
 
     setFechaInicio(event.target.value);
+  };
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+
+  };
+  const handleUpload = async (id) => {
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+    let fileName=id+'.jpg';
+    const formData = new FormData();
+    formData.append('image', file,fileName);
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
   const handleFechaFinChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -72,7 +98,7 @@ const CreateEvento = () => {
     const selectedStartDate = new Date(fecha_inicio);
     const selectedEndDate = new Date(fecha_fin);
     const currentDate = new Date();
-    let todosErrores=[];
+    let todosErrores = [];
     // Validación del nombre del evento
     if (
       !nombre_evento ||
@@ -116,8 +142,8 @@ const CreateEvento = () => {
     } else {
       setFechaFinError('');
     }
-    if (todosErrores.length===0) {
-      await axios.post(endpoint, {
+    if (todosErrores.length === 0) {
+      let response=await axios.post(endpoint, {
         nombre_evento: nombre_evento,
         tipo_evento: tipo_evento,
         fecha_inicio: fecha_inicio,
@@ -126,6 +152,7 @@ const CreateEvento = () => {
         publico: publico,
         descripcion: descripcion,
       });
+      handleUpload(response.data.id);
       navigate("/ListaEventos");
     }
 
@@ -293,9 +320,9 @@ const CreateEvento = () => {
                           <option value="4">4 horas</option>
                         </select>
                       </div>
-                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                      <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div className="form-check form-switch">
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                           checked={publico}
                           onChange={(e) => setPublico(e.target.checked)} />
                       </div>
@@ -390,6 +417,9 @@ const CreateEvento = () => {
                     </div>
                     <div>
                       <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
+                      <br></br>
+                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }} id="subirAfiche" />
+                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2">Subir afiche</label>
                     </div>
                   </div>
                 </div>

@@ -18,6 +18,13 @@ const HomePage = () => {
     const response = await axios.get(`${endpoint}/mostrarPublico`);
     setEventos(response.data);
   };
+  const getEventoImage = (id) => {
+    try {
+      return require(`../../../BackendICPC/storage/app/public/uploads/${id}.jpg`);
+    } catch (err) {
+      return imagen1;
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -28,9 +35,9 @@ const HomePage = () => {
               <h3 className="card-header">Competencia Local UMSS</h3>
               <div className="card-body">
                 {eventos.map((evento) => (
-                <div className="row mt-3">                  
+                <div className="row mt-3" key={evento.id}>                  
                   <div className="col-md-6">
-                    <img src={imagen1} alt="Afiche de Evento" />
+                  <img src={getEventoImage(evento.id)} alt={evento.nombre_evento} />
                   </div>
                   <div className="col-md-6">                    
                     <div className="event-info">
