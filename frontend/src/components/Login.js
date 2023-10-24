@@ -62,7 +62,6 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <span className="forgot-password"></span>
           <input className="login-button" type="submit" value="Iniciar Sesion" />
           {error && <div className="error-message">{error}</div>}
           <label>Si olvidaste la contraseña, contacta a la empresa.</label>
