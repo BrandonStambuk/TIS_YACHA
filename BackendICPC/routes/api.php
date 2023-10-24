@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,9 +16,7 @@ use App\Http\Controllers\Api\UsuarioController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');
@@ -35,4 +34,21 @@ Route::controller(UsuarioController::class)->group(function (){
     //Route::get('/crearusuario/{id}', 'show');
     //Route::put('/crearusuario/{id}', 'update');
     //Route::delete('/usuarios/{id}', 'destroy');
+});
+
+Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
+Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
+    Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
+});
+
+
+
+
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
