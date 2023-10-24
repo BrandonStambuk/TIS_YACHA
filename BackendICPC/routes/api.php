@@ -27,7 +27,19 @@ Route::controller(EventoController::class)->group(function (){
     Route::put('/crearevento/{id}', 'update');
     Route::delete('/eventos/{id}', 'destroy');
 });
-
+Route::post('/upload', function (Request $request) {
+    if (!$request->hasFile('image')) {
+      return response()->json(['upload_file_not_found'], 400);
+    }
+    $file = $request->file('image');
+    if (!$file->isValid()) {
+      return response()->json(['invalid_file_upload'], 400);
+    }
+    $path = '/uploads/' . $file->getClientOriginalName();
+    Storage::disk('public')->put($path, file_get_contents($file));
+  
+    return response()->json(['path' => $path], 200);
+  });
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarios', 'index');
     Route::post('/crearusuario', 'store');

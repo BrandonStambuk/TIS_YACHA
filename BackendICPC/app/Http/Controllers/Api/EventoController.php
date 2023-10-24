@@ -43,6 +43,7 @@ class EventoController extends Controller
         $evento->descripcion = $request->descripcion;
         $evento->publico = $request->publico;
         $evento->save();
+        return $evento;
     }
 
     /**
