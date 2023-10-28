@@ -3,7 +3,7 @@
   background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
   border-radius: 40px;
   border:rgb(255, 255, 255);
-  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
+  box-shadow: rgba(113, 210, 255, 0.878) 0px 30px 30px -20px;
 }
 .heading {
   text-align: center;
@@ -56,7 +56,7 @@
   padding-block: 15px;
   margin: 20px auto;
   border-radius: 20px;
-  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+  box-shadow: rgba(125, 204, 241, 0.878) 0px 20px 10px -15px;
   border: none;
   transition: all 0.2s ease-in-out;
 }
