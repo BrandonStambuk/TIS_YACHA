@@ -10,6 +10,7 @@ import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
 import RegistroEvento from './components/RegistroEvento';
 import HomePageUser from './components/HomePageUser';
+import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
           <Route path='/edit/:id' element={ <EditEvento/>} />
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/home" element={<HomePageUser />} />
+          <Route path="/mostrar/:id" element={<MostrarEventoUsuario />} />
           <Route path="/listaEventos" element={<ListaEventos/>} />
           <Route path="/inicio" element={<QueEsICPC/>} />
           <Route path="/crearafiche" element={<CrearAfiche/>}/>
