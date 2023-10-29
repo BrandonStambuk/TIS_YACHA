@@ -11,6 +11,7 @@ const endpoint = 'http://localhost:8000/api';
 const HomePage = () => {
   const containerRef = useRef();
   const [eventos, setEventos] = useState([]);
+  const [scrolling, setScrolling] = useState(0);
 
   useEffect(() => {
     getAllEventos();
@@ -24,6 +25,14 @@ const HomePage = () => {
   const scrollContainer = (scrollAmount) => {
     const container = containerRef.current;
     container.scrollLeft += scrollAmount;
+  };
+
+  const startScrolling = (scrollAmount) => {
+    setScrolling(setInterval(() => scrollContainer(scrollAmount), 10));
+  };
+
+  const stopScrolling = () => {
+    clearInterval(scrolling);
   };
 
   return (
@@ -59,8 +68,8 @@ const HomePage = () => {
         </div>
       </div>
       <div className="scroll-buttons">
-        <button onClick={() => scrollContainer(-100)}>&lt;</button>
-        <button onClick={() => scrollContainer(100)}>&gt;</button>
+        <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
+        <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
       </div>
     </div>
   );
