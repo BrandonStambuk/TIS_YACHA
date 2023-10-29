@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={ <HomePage/>} />
+          <Route path='/' element={ <HomePageUser/>} />
           <Route path='/create' element={ <CreateEvento/>} />
           <Route path='/edit/:id' element={ <EditEvento/>} />
           <Route path="/homepage" element={<HomePage />} />
