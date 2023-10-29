@@ -48,7 +48,7 @@ const HomePage = () => {
                           <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
                           <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
                         </div>
-                        <Link to={`/registroEvento/${evento.id}`} className="btn btn-info">inscripción</Link>
+                        <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
                       </div>
                     </div>
                   </div>
