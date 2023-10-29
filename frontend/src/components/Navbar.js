@@ -12,8 +12,8 @@ export default class Navbar extends Component {
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav ">
+                    <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
+                        <ul className="navbar-nav">
                             {/* Cambia la ruta a "/homepage" */}
                             <li className="nav-item p-2">
                                 <Link to="/homepage" className="nav-link">Inicio</Link>
@@ -23,6 +23,11 @@ export default class Navbar extends Component {
                             </li>
                             <li className="nav-item p-2">
                                 <a className="nav-link" href="/ListaEventos">Eventos</a>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav">
+                            <li className="nav-item p-2">
+                                <a className="nav-link" href="/login">Iniciar sesión</a>
                             </li>
                         </ul>
                     </div>
