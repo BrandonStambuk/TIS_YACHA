@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import imagen1 from "../components/images/mi_afiche.png";
-
+import Swal from 'sweetalert2'; 
 const endpoint = "http://localhost:8000/api/crearusuario";
 
 const RegistroEvento = () => {
@@ -20,10 +20,17 @@ const RegistroEvento = () => {
   const [institucionError, setInstitucionError] = useState("");
   const [telefonoError, setTelefonoError] = useState(""); // Nuevo estado para el mensaje de error del teléfono
   const navigate = useNavigate();
+  const allowedEmailDomains = ['outlook.com', 'gmail.com', 'hotmail.com', 'yahoo.com'];
 
   useEffect(() => {
     setId_evento(window.location.href.split("/")[4]);
   }, []);
+
+  const handleCorreoChange = (e) => {
+    if (e.target.value.split('@')[0].length <= 60) {
+      setCorreo(e.target.value);
+    }
+  };
 
   const store = async (e) => {
     e.preventDefault();
@@ -48,11 +55,18 @@ const RegistroEvento = () => {
     }
 
     // Validación del correo electrónico (formato básico)
-    if (!/^\S+@\S+\.\S+$/.test(correo_electronico)) {
-      setCorreoError("El correo electrónico debe tener un formato válido.");
+    if (!/^\S+@\S+\.(com|es|org)$/i.test(correo_electronico)) {
+      setCorreoError("El correo electrónico debe tener un formato válido (ejemplo: usuario@dominio.com, usuario@dominio.es, usuario@dominio.org).");
       isValid = false;
     } else {
-      setCorreoError("");
+      // Verifica el dominio del correo electrónico
+      const emailParts = correo_electronico.split('@');
+      const emailDomain = emailParts[1];
+
+      if (!allowedEmailDomains.includes(emailDomain)) {
+        setCorreoError("Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com.");
+        isValid = false;
+      }
     }
 
     // Validación de la institución
@@ -76,6 +90,10 @@ const RegistroEvento = () => {
         evento_id: evento_id,
       });
       navigate("/home");
+      Swal.fire('Registro Exitoso', 'Tu registro se ha completado con éxito', 'success')
+      .then(() => {
+        navigate("/home");
+      });
     }
   };
 
@@ -125,14 +143,16 @@ const RegistroEvento = () => {
                   <input
                     required
                     value={correo_electronico}
-                    onChange={(e) => setCorreo(e.target.value)}
+                    onChange={handleCorreoChange}
                     type="email"
                     className="form-control input"
                     id="correo"
                     placeholder="Correo"
                   />
-                  {correoError && (
-                    <p className="error-message">{correoError}</p>
+                  {correoError  && (
+                    <p style={{ fontSize: "13px", color: "red" }}>
+                      {correoError}
+                    </p>
                   )}
                 </div>
                 <div className="mb-3">
@@ -145,7 +165,7 @@ const RegistroEvento = () => {
                     onChange={(e) => setInstitucion(e.target.value)}
                     type="text"
                     className="form-control input"
-                    id="institucion"
+                    id ="institucion"
                     placeholder="Institución"
                   />
                   {institucionError && (
