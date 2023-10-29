@@ -2,20 +2,6 @@
 	background-color: rgba(221, 221, 221, 0.301);
 }
 
-
-table {
-	/*background-color: white;*/
-	text-align: left;
-	border-collapse: collapse;
-	width: 100%;
-}
-
-th,
-td {
-	padding: 10px;
-    
-}
-
 thead {
 	background-color: #0F5FA6;
 	border-bottom: solid 7px #ffffff;

@@ -31,7 +31,7 @@ const HomePage = () => {
       <Navbar />
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
               <h3 className="card-header">Competencia Local UMSS</h3>
               <div ref={containerRef} className="card-body event-container">
