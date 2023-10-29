@@ -11,16 +11,20 @@ const endpoint = "http://localhost:8000/api/crearusuario";
 const RegistroEvento = () => {
   const [nombre_usuario, setNombreUsuario] = useState("");
   const [correo_electronico, setCorreo] = useState("");
-  const [institucion, setInstitucion] = useState("");
+  const [institucion, setInstitucion] = useState("UMSS");
+  const [otraInstitucion, setOtraInstitucion] = useState("");
   const [telefono, setCelular] = useState("");
   const [fecha_nacimiento, setFechaNacimiento] = useState("");
   const [evento_id, setId_evento] = useState("");
   const [nombreError, setNombreError] = useState("");
   const [correoError, setCorreoError] = useState("");
   const [institucionError, setInstitucionError] = useState("");
-  const [telefonoError, setTelefonoError] = useState(""); // Nuevo estado para el mensaje de error del teléfono
+  const [otraInstitucionError, setOtraInstitucionError] = useState("");
+  const [telefonoError, setTelefonoError] = useState("");
+  const [fechaNacimientoError, setFechaNacimientoError] = useState("");
   const navigate = useNavigate();
   const allowedEmailDomains = ['outlook.com', 'gmail.com', 'hotmail.com', 'yahoo.com'];
+  const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 
   useEffect(() => {
     setId_evento(window.location.href.split("/")[4]);
@@ -29,6 +33,22 @@ const RegistroEvento = () => {
   const handleCorreoChange = (e) => {
     if (e.target.value.split('@')[0].length <= 60) {
       setCorreo(e.target.value);
+    }
+  };
+
+  const handleFechaNacimientoChange = (e) => {
+    const inputDate = e.target.value;
+    const currentYear = new Date().getFullYear();
+    const selectedYear = new Date(inputDate).getFullYear();
+
+    // Validación de la fecha de nacimiento
+    if (selectedYear < 1980 || selectedYear > 2006) {
+      // Muestra un mensaje de error si el año está fuera del rango permitido
+      setFechaNacimientoError("El año de nacimiento debe estar entre 1980 y 2006.");
+    } else {
+      // Si la fecha es válida, elimina el mensaje de error
+      setFechaNacimientoError("");
+      setFechaNacimiento(inputDate);
     }
   };
 
@@ -70,11 +90,17 @@ const RegistroEvento = () => {
     }
 
     // Validación de la institución
-    if (institucion.trim() === "") {
-      setInstitucionError("La institución es obligatoria.");
-      isValid = false;
-    } else {
-      setInstitucionError("");
+    if (institucion === "Otro") {
+      if (otraInstitucion.trim() === "") {
+        setInstitucionError("La institución es obligatoria si seleccionas 'Otro'.");
+        isValid = false;
+      } else if (specialChars.test(otraInstitucion)) {
+        setOtraInstitucionError("No se permiten caracteres especiales.");
+        isValid = false;
+      } else {
+        setInstitucionError("");
+        setOtraInstitucionError("");
+      }
     }
 
     // Resto de validaciones para otros campos (fecha de nacimiento) sin mensajes de error
@@ -84,7 +110,7 @@ const RegistroEvento = () => {
       await axios.post(endpoint, {
         nombre_usuario: nombre_usuario,
         correo_electronico: correo_electronico,
-        institucion: institucion,
+        institucion: institucion === "Otro" ? otraInstitucion : institucion,
         telefono: telefono,
         fecha_nacimiento: fecha_nacimiento,
         evento_id: evento_id,
@@ -149,7 +175,7 @@ const RegistroEvento = () => {
                     id="correo"
                     placeholder="Correo"
                   />
-                  {correoError  && (
+                  {correoError && (
                     <p style={{ fontSize: "13px", color: "red" }}>
                       {correoError}
                     </p>
@@ -159,17 +185,44 @@ const RegistroEvento = () => {
                   <label htmlFor="institucion" className="form-label">
                     Institución
                   </label>
-                  <input
-                    required
+                  <select
                     value={institucion}
-                    onChange={(e) => setInstitucion(e.target.value)}
-                    type="text"
-                    className="form-control input"
-                    id ="institucion"
-                    placeholder="Institución"
-                  />
+                    onChange={(e) => {
+                      if (e.target.value === "Otro") {
+                        setInstitucion("Otro");
+                      } else {
+                        setInstitucion(e.target.value);
+                      }
+                    }}
+                    className="form-select input"
+                    id="institucion"
+                    style={{ fontSize: "14px"}}
+                  >
+                    <option value="Universidad Mayor de San Simón">Universidad Mayor de San Simón</option>
+                    <option value="Universidad Privada Boliviana">Universidad Privada Boliviana</option>
+                    <option value="Universidad Domingo Savio">Universidad Domingo Savio</option>
+                    <option value="Universidad Católica Boliviana">Universidad Católica Boliviana</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                  {institucion === "Otro" && (
+                    <input
+                      value={otraInstitucion}
+                      onChange={(e) => setOtraInstitucion(e.target.value.substring(0, 100))}
+                      type="text"
+                      className="form-control input"
+                      id="otraInstitucion"
+                      placeholder="Escribe tu institución"
+                    />
+                  )}
                   {institucionError && (
-                    <p className="error-message">{institucionError}</p>
+                    <p style={{ fontSize: "13px", color: "red" }}>
+                      {institucionError}
+                    </p>
+                  )}
+                  {otraInstitucionError && (
+                    <p style={{ fontSize: "13px", color: "red" }}>
+                      {otraInstitucionError}
+                    </p>
                   )}
                 </div>
                 <div className="mb-3 row">
@@ -204,12 +257,17 @@ const RegistroEvento = () => {
                     <input
                       required
                       value={fecha_nacimiento}
-                      onChange={(e) => setFechaNacimiento(e.target.value)}
+                      onChange={handleFechaNacimientoChange}
                       type="date"
                       className="form-control input"
                       id="fechaNacimiento"
                       placeholder="Fecha de Nacimiento"
                     />
+                    {fechaNacimientoError && (
+                      <p style={{ fontSize: "13px", color: "red" }}>
+                        {fechaNacimientoError}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="text-center">
