@@ -29,18 +29,68 @@ tbody tr {
 
 
 /* En tu archivo Homepage.css o en el lugar donde tengas tus estilos */
-.event-info {
+/* .event-info {
 	padding: 20px;
 	font-size: 20px;
-  }
+  }*/
   
   .event-info-text {
-	margin-bottom: 35px;
+	/* margin-bottom: 35px; */
 	font-size: 20px;
   }
 
   .event-info-text.left {
 	text-align: left;
 	font-size: 20px;
+  } 
+
+  .event-container {
+	display: flex;
+	/* overflow-x: scroll;  */
+	overflow-x: hidden; 
+	padding: 24px;
+	scroll-snap-type: x mandatory;
+	scroll-padding-top: 24px; 
+	border-radius: 8px; 
+	gap: 20px;
+  }
+  .event-container .card {
+	  height: 100px;
+	  overflow: hidden;
+	  border-radius: 8px;
+	  scroll-snap-align: start;
+	}
+  .image-container {
+	position: relative;
+  }
+  .test{
+	color: #ffffff;
+	text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+	position: absolute; 
+	text-align: left;
+	top: 5px; left: 10px;
+	font-size:25px;
+	max-width: 290px; 
+	max-height: 200px;
+    overflow: hidden; 
+    text-overflow: ellipsis;
   }
 
+  .scroll-buttons {
+	position: fixed;
+	top: 45%; 
+	left: 50%;
+	transform: translate(-50%, -10%);
+	display: flex;
+	justify-content: space-between;
+	width: 98%
+	
+}
+  
+  .scroll-buttons button {
+	background: transparent; 
+	border: none;
+	padding: 0; 
+	font-size: 50px; 
+	color: #979393;
+}
