@@ -4,6 +4,9 @@ import Navbar from './Navbar';
 import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/cabeza.jpg';
+import imagen2 from '../components/images/cabeza2.jpg';
+import imagen3 from '../components/images/cabeza3.jpg';
+import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
 
 const endpoint = 'http://localhost:8000/api';
@@ -17,6 +20,13 @@ const HomePage = () => {
   useEffect(() => {
     getAllEventos();
   }, []);
+
+  const imagenesEvento = {
+    "Reclutamiento": imagen1,
+    "Taller de reclutamiento": imagen2,
+    "Competencia de entrenamiento": imagen3,
+    "Competencia interna": imagen4
+  };
 
   const getAllEventos = async () => {
     const response = await axios.get(`${endpoint}/mostrarPublico`);
@@ -71,7 +81,7 @@ const HomePage = () => {
                   (filtroTipo === '' || evento.tipo_evento === filtroTipo) && (
                     <div className="mt-1" key={evento.id}>
                       <div className="image-container">
-                        <img src={imagen1} alt="Cabeza" />
+                        <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
                         <p className="test">{evento.nombre_evento}</p>
                       </div>
                       <div className="card-footer bg-white shadow image-container">
