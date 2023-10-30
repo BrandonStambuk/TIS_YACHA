@@ -62,7 +62,7 @@ const HomePage = () => {
                   <option value="Reclutamiento">Reclutamiento</option>
                   <option value="Taller de reclutamiento">Taller de reclutamiento</option>
                   <option value="Competencia de entrenamiento">Competencia de entrenamiento</option>
-                  <option value="Competencia interna">Reclutamiento</option>
+                  <option value="Competencia interna">Competencia interna</option>
                   {/* Refactorizar */}
                 </select>
               </div>
