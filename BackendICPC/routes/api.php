@@ -49,12 +49,17 @@ Route::controller(UsuarioController::class)->group(function (){
 });
 
 Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
-Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
+Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
     Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
+    //Route::get('eventos', [App\Http\Controllers\EventoController::class, 'index']);
+    //Route::get('/eventos', [App\Http\Controllers\EventoController::class, 'index']);
+    //Route::get('/listaEventos', 'EventoController@index');
+    //Route::get('/crearafiche', 'EventoController@crearafiche');
 });
 
 
