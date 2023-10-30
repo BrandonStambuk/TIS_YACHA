@@ -62,7 +62,7 @@ const HomePage = () => {
       <div className="card card-custom p-4" style={gradientBackground}>
 
           <div className="" style={hide(id)}>
-            <img src={getEventoImage(id)} alt={nombre_evento} />
+            <img className="imagenevento" src={getEventoImage(id)} alt={nombre_evento} />
           </div>
           <div className="event-info-text left">
             <h2 event-info-text left>{nombre_evento}</h2>
