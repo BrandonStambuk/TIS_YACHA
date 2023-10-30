@@ -73,10 +73,12 @@ const HomePage = () => {
                     </div>                    
                   </div>
           <div>
+          <p className="event-info-text left"> <strong>Descripción:</strong></p>
           <p className="event-info-text left"> {descripcion}</p>  
           </div>
           <div>
-          <Link to={`/registroEvento/${id}`} className='btn btn-info'>inscripción</Link> 
+          <Link to={`/home`} className='btn btn-danger'>Atras</Link> 
+          <Link to={`/registroEvento/${id}`} className='btn btn-info'>Ir a registro</Link> 
           </div>                  
         </div>
           
