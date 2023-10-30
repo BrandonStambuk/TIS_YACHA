@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import imagen1 from "../components/images/mi_afiche.png";
-import Swal from 'sweetalert2'; 
+import Swal from "sweetalert2";
 const endpoint = "http://localhost:8000/api/crearusuario";
 
 const RegistroEvento = () => {
@@ -23,7 +23,12 @@ const RegistroEvento = () => {
   const [telefonoError, setTelefonoError] = useState("");
   const [fechaNacimientoError, setFechaNacimientoError] = useState("");
   const navigate = useNavigate();
-  const allowedEmailDomains = ['outlook.com', 'gmail.com', 'hotmail.com', 'yahoo.com'];
+  const allowedEmailDomains = [
+    "outlook.com",
+    "gmail.com",
+    "hotmail.com",
+    "yahoo.com",
+  ];
   const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 
   useEffect(() => {
@@ -31,7 +36,7 @@ const RegistroEvento = () => {
   }, []);
 
   const handleCorreoChange = (e) => {
-    if (e.target.value.split('@')[0].length <= 60) {
+    if (e.target.value.split("@")[0].length <= 60) {
       setCorreo(e.target.value);
     }
   };
@@ -44,7 +49,9 @@ const RegistroEvento = () => {
     // Validación de la fecha de nacimiento
     if (selectedYear < 1980 || selectedYear > 2006) {
       // Muestra un mensaje de error si el año está fuera del rango permitido
-      setFechaNacimientoError("El año de nacimiento debe estar entre 1980 y 2006.");
+      setFechaNacimientoError(
+        "El año de nacimiento debe estar entre 1980 y 2006."
+      );
     } else {
       // Si la fecha es válida, elimina el mensaje de error
       setFechaNacimientoError("");
@@ -68,7 +75,9 @@ const RegistroEvento = () => {
 
     // Validación del número de teléfono
     if (telefono.length < 8) {
-      setTelefonoError("El número de celular no puede ser menor a los 8 dígitos");
+      setTelefonoError(
+        "El número de celular no puede ser menor a los 8 dígitos"
+      );
       isValid = false;
     } else {
       setTelefonoError("");
@@ -76,15 +85,19 @@ const RegistroEvento = () => {
 
     // Validación del correo electrónico (formato básico)
     if (!/^\S+@\S+\.(com|es|org)$/i.test(correo_electronico)) {
-      setCorreoError("El correo electrónico debe tener un formato válido (ejemplo: usuario@dominio.com, usuario@dominio.es, usuario@dominio.org).");
+      setCorreoError(
+        "El correo electrónico debe tener un formato válido (ejemplo: usuario@dominio.com, usuario@dominio.es, usuario@dominio.org)."
+      );
       isValid = false;
     } else {
       // Verifica el dominio del correo electrónico
-      const emailParts = correo_electronico.split('@');
+      const emailParts = correo_electronico.split("@");
       const emailDomain = emailParts[1];
 
       if (!allowedEmailDomains.includes(emailDomain)) {
-        setCorreoError("Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com.");
+        setCorreoError(
+          "Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com."
+        );
         isValid = false;
       }
     }
@@ -92,7 +105,9 @@ const RegistroEvento = () => {
     // Validación de la institución
     if (institucion === "Otro") {
       if (otraInstitucion.trim() === "") {
-        setInstitucionError("La institución es obligatoria si seleccionas 'Otro'.");
+        setInstitucionError(
+          "La institución es obligatoria si seleccionas 'Otro'."
+        );
         isValid = false;
       } else if (specialChars.test(otraInstitucion)) {
         setOtraInstitucionError("No se permiten caracteres especiales.");
@@ -116,8 +131,11 @@ const RegistroEvento = () => {
         evento_id: evento_id,
       });
       navigate("/home");
-      Swal.fire('Registro Exitoso', 'Tu registro se ha completado con éxito', 'success')
-      .then(() => {
+      Swal.fire(
+        "Registro Exitoso",
+        "Tu registro se ha completado con éxito",
+        "success"
+      ).then(() => {
         navigate("/home");
       });
     }
@@ -196,18 +214,28 @@ const RegistroEvento = () => {
                     }}
                     className="form-select input"
                     id="institucion"
-                    style={{ fontSize: "14px"}}
+                    style={{ fontSize: "14px" }}
                   >
-                    <option value="Universidad Mayor de San Simón">Universidad Mayor de San Simón</option>
-                    <option value="Universidad Privada Boliviana">Universidad Privada Boliviana</option>
-                    <option value="Universidad Domingo Savio">Universidad Domingo Savio</option>
-                    <option value="Universidad Católica Boliviana">Universidad Católica Boliviana</option>
+                    <option value="Universidad Mayor de San Simón">
+                      Universidad Mayor de San Simón
+                    </option>
+                    <option value="Universidad Privada Boliviana">
+                      Universidad Privada Boliviana
+                    </option>
+                    <option value="Universidad Domingo Savio">
+                      Universidad Domingo Savio
+                    </option>
+                    <option value="Universidad Católica Boliviana">
+                      Universidad Católica Boliviana
+                    </option>
                     <option value="Otro">Otro</option>
                   </select>
                   {institucion === "Otro" && (
                     <input
                       value={otraInstitucion}
-                      onChange={(e) => setOtraInstitucion(e.target.value.substring(0, 100))}
+                      onChange={(e) =>
+                        setOtraInstitucion(e.target.value.substring(0, 100))
+                      }
                       type="text"
                       className="form-control input"
                       id="otraInstitucion"
@@ -235,7 +263,7 @@ const RegistroEvento = () => {
                       value={telefono}
                       onChange={(e) => {
                         const inputPhone = e.target.value;
-                        if (/^[67]\d{0,7}$/.test(inputPhone)) {
+                        if (/^[67]?\d{0,7}$/.test(inputPhone)) {
                           setCelular(inputPhone);
                         }
                       }}
