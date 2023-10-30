@@ -12,7 +12,7 @@ const HomePage = () => {
   const containerRef = useRef();
   const [eventos, setEventos] = useState([]);
   const [scrolling, setScrolling] = useState(0);
-  const [filtroTipo, setFiltroTipo] = useState(''); // Estado para el tipo de evento seleccionado
+  const [filtroTipo, setFiltroTipo] = useState('');
 
   useEffect(() => {
     getAllEventos();
@@ -35,6 +35,15 @@ const HomePage = () => {
   const stopScrolling = () => {
     clearInterval(scrolling);
   };
+
+  const resetScroll = () => {
+    const container = containerRef.current;
+    container.scrollTo({ left: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    resetScroll();
+  }, [filtroTipo]);
 
   return (
     <div>
