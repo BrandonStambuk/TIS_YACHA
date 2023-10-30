@@ -52,7 +52,7 @@ const HomePage = () => {
         <div className="row">
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
-              <h3 className="card-header">Competencia Local UMSS</h3>
+              <h3 className="card-header">Eventos Próximos UMSS</h3>
               {/* Filtro */}
               <div className="mb-3">
                 <select id="tipoEvento" className="form-select form-select-lg" value={filtroTipo}
