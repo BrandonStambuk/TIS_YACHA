@@ -19,7 +19,9 @@ const HomePage = () => {
     const [imagen, setImagen] = useState('');
     const navigate = useNavigate();
     const { id } = useParams();
-
+    const gradientBackground = {
+  background: 'linear-gradient(to bottom,#007bff ,#ffffff )'
+    };
   useEffect(() => {
     const getEventById = async () => {
       try {
@@ -57,7 +59,7 @@ const HomePage = () => {
     <div>
       <Navbar />
       <div className="container mt-5 center">
-        <div className="card card-custom p-4">
+      <div className="card card-custom p-4" style={gradientBackground}>
 
           <div className="" style={hide(id)}>
             <img src={getEventoImage(id)} alt={nombre_evento} />
@@ -76,7 +78,7 @@ const HomePage = () => {
           <p className="event-info-text left"> {descripcion}</p>  
           </div>
           <div>
-          <Link to={`/registroEvento/${id}`} className='btn btn-info'>inscripción</Link> 
+          <Link to={`/registroEvento/${id}`} className='btn btn-info'>Inscripción</Link> 
           </div>                  
         </div>
           
