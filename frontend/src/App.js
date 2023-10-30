@@ -14,6 +14,7 @@ import RegistroEvento from './components/RegistroEvento';
 import HomePageUser from './components/HomePageUser';
 import SignOut from './components/SignOut';
 import Register from './components/Register';
+import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -22,11 +23,12 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={ <HomePage/>} />   
+          <Route path='/' element={ <HomePageUser/>} />   
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} />    
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} />   
           <Route path="/homepage" element={<HomePage />} /> 
           <Route path="/home" element={<HomePageUser />} />  
+          <Route path="/mostrar/:id" element={<MostrarEventoUsuario />} />
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
           <Route path="/inicio" element={<QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated ? <CrearAfiche/>: <Login/>}/>
