@@ -70,6 +70,10 @@
 	color: #979393;
 }
 
+.scroll-buttons button:active {
+	color: #000000;
+}
+
 #tipoEvento {
 	width: 200px;
 	margin: 0;
@@ -77,4 +81,4 @@
 
 #tipoEvento option {
 	color: #333;
-}
+}   
