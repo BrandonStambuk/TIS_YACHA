@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import imagen1 from "../components/images/mi_afiche.png";
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 const endpoint = "http://localhost:8000/api/crearusuario";
 
 const RegistroEvento = () => {
@@ -57,14 +57,18 @@ const RegistroEvento = () => {
     let isValid = true;
 
     // Validación del nombre
-    if (!/^[A-Za-z\s]{5,}$/.test(nombre_usuario)) {
-      setNombreError(
-        "El nombre debe tener al menos 5 caracteres y contener solo letras y espacios."
-      );
+    let mensajeError = "";
+
+    if (nombre_usuario.length < 5) {
+      mensajeError = "El nombre no puede ser menor a los 5 caracteres.";
       isValid = false;
-    } else {
-      setNombreError("");
     }
+    if (!/^[A-Za-z\s]+$/.test(nombre_usuario)) {
+      mensajeError = "No se permiten caracteres especiales en el nombre.";
+      isValid = false;
+    }
+
+    setNombreError(mensajeError);
 
     // Validación del número de teléfono
     if (telefono.length < 8) {
@@ -75,20 +79,28 @@ const RegistroEvento = () => {
     }
 
     // Validación del correo electrónico (formato básico)
-    if (!/^\S+@\S+\.(com|es|org)$/i.test(correo_electronico)) {
-      setCorreoError("El correo electrónico debe tener un formato válido (ejemplo: usuario@dominio.com, usuario@dominio.es, usuario@dominio.org).");
+
+    if(correo_electronico.length < 5){
+      setCorreoError("El correo electrónico no puede ser menor a los 5 caracteres.");
+      isValid = false;
+    }else if (correo_electronico.length > 100) {
+      setCorreoError("El correo electrónico no debe tener más de 100 caracteres.");
       isValid = false;
     } else {
-      // Verifica el dominio del correo electrónico
-      const emailParts = correo_electronico.split('@');
-      const emailDomain = emailParts[1];
-
-      if (!allowedEmailDomains.includes(emailDomain)) {
-        setCorreoError("Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com.");
+      if (!/^\S+@\S+\.(com|es|org)$/i.test(correo_electronico)) {
+        setCorreoError("No es un correo válido, (ejemplo: usuario@dominio.com, usuario@dominio.es, usuario@dominio.org).");
         isValid = false;
+      } else {
+        // Verifica el dominio del correo electrónico
+        const emailParts = correo_electronico.split('@');
+        const emailDomain = emailParts[1];
+
+        if (!allowedEmailDomains.includes(emailDomain)) {
+          setCorreoError("Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com.");
+          isValid = false;
+        }
       }
     }
-
     // Validación de la institución
     if (institucion === "Otro") {
       if (otraInstitucion.trim() === "") {
@@ -117,9 +129,9 @@ const RegistroEvento = () => {
       });
       navigate("/home");
       Swal.fire('Registro Exitoso', 'Tu registro se ha completado con éxito', 'success')
-      .then(() => {
-        navigate("/home");
-      });
+        .then(() => {
+          navigate("/home");
+        });
     }
   };
 
@@ -196,12 +208,13 @@ const RegistroEvento = () => {
                     }}
                     className="form-select input"
                     id="institucion"
-                    style={{ fontSize: "14px"}}
+                    style={{ fontSize: "14px" }}
                   >
                     <option value="Universidad Mayor de San Simón">Universidad Mayor de San Simón</option>
                     <option value="Universidad Privada Boliviana">Universidad Privada Boliviana</option>
                     <option value="Universidad Domingo Savio">Universidad Domingo Savio</option>
                     <option value="Universidad Católica Boliviana">Universidad Católica Boliviana</option>
+                    <option value="Universidad UCATEC">Universidad UCATEC</option>
                     <option value="Otro">Otro</option>
                   </select>
                   {institucion === "Otro" && (
