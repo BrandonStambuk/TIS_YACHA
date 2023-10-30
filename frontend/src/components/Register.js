@@ -10,12 +10,13 @@ import axios from "axios";
 
 
 
-const endpoint = "http://localhost:8000/api/login"; // Asegúrate de que esta sea la URL correcta de tu backend
+const endpoint = "http://localhost:8000/api/register"; // Asegúrate de que esta sea la URL correcta de tu backend
 //const cors = require("cors");
 
 
 const Login = () => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -28,21 +29,10 @@ const Login = () => {
     try {
       const response = await axios.post(endpoint, {
         name: name, 
+        email: email,
         password: password, 
       });
-      const token = response.data.token;
-        localStorage.setItem('token', token);
-      //setIsAuthenticated(true);
-      const currentPath = window.location.pathname;
-
-    // Comprobar si la ruta actual es "ListaEventos"
-    if (currentPath === '/listaEventos') {
-      // Recargar la página si estamos en "ListaEventos"
-      window.location.reload();
-    } else {
-      // Navegar a la ruta "ListaEventos" si no estamos en esa página
-      navigate('/listaEventos');
-    }
+      navigate('/login');
 
     } catch (error) {
       setError("Credenciales incorrectas. Inténtalo de nuevo.");
@@ -68,6 +58,16 @@ const Login = () => {
           <input
             required=""
             className="input"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Ingrese email usuario"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            required=""
+            className="input"
             type="password"
             name="password"
             id="password"
@@ -75,7 +75,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input className="login-button" type="submit" value="Iniciar Sesion" />
+          <input className="login-button" type="submit" value="Registrarse" />
           {error && <div className="error-message">{error}</div>}
           <label>Si olvidaste la contraseña, contacta a la empresa.</label>
         </form>
