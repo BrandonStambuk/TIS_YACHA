@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 const Navbar = () => {
-    const isAuthenticated = localStorage.getItem('token');
-   
+  const isAuthenticated = localStorage.getItem('token');
+
 
   return (
     <nav className="navbar navbar-expand-lg">
@@ -16,9 +16,9 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav me-auto">
             <li className="nav-item p-2">
-              <Link to="/homepage" className="nav-link">Inicio</Link>
+              <Link to="/home" className="nav-link">Inicio</Link>
             </li>
             <li className="nav-item p-2">
               <Link to="/inicio" className="nav-link">¿Qué es la ICPC?</Link>
@@ -26,12 +26,13 @@ const Navbar = () => {
             <li className="nav-item p-2">
               <a className="nav-link" href="/listaEventos">Eventos</a>
             </li>
-
+          </ul>
+          <ul className="navbar-nav ms-auto">
             {isAuthenticated ? (
-                <li><Link to="/signout">Cerrar Sesión</Link></li>
-                ) : (
-                <li><Link to="/login">Iniciar Sesión</Link></li>
-                )}
+              <li className="nav-item p-2"><Link to="/signout" className="nav-link">Cerrar Sesión</Link></li>
+            ) : (
+              <li className="nav-item p-2"><Link to="/login" className="nav-link">Iniciar Sesión</Link></li>
+            )}
           </ul>
         </div>
       </div>

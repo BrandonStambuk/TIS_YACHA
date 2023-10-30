@@ -64,14 +64,18 @@ const RegistroEvento = () => {
     let isValid = true;
 
     // Validación del nombre
-    if (!/^[A-Za-z\s]{5,}$/.test(nombre_usuario)) {
-      setNombreError(
-        "El nombre debe tener al menos 5 caracteres y contener solo letras y espacios."
-      );
+    let mensajeError = "";
+
+    if (nombre_usuario.length < 5) {
+      mensajeError = "El nombre no puede ser menor a los 5 caracteres.";
       isValid = false;
-    } else {
-      setNombreError("");
     }
+    if (!/^[A-Za-z\s]+$/.test(nombre_usuario)) {
+      mensajeError = "No se permiten caracteres especiales en el nombre.";
+      isValid = false;
+    }
+
+    setNombreError(mensajeError);
 
     // Validación del número de teléfono
     if (telefono.length < 8) {
@@ -99,9 +103,17 @@ const RegistroEvento = () => {
           "Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com."
         );
         isValid = false;
+      } else {
+        // Verifica el dominio del correo electrónico
+        const emailParts = correo_electronico.split('@');
+        const emailDomain = emailParts[1];
+
+        if (!allowedEmailDomains.includes(emailDomain)) {
+          setCorreoError("Solo se permiten correos con los dominios: outlook.com, gmail.com, hotmail.com, yahoo.com.");
+          isValid = false;
+        }
       }
     }
-
     // Validación de la institución
     if (institucion === "Otro") {
       if (otraInstitucion.trim() === "") {
@@ -216,18 +228,11 @@ const RegistroEvento = () => {
                     id="institucion"
                     style={{ fontSize: "14px" }}
                   >
-                    <option value="Universidad Mayor de San Simón">
-                      Universidad Mayor de San Simón
-                    </option>
-                    <option value="Universidad Privada Boliviana">
-                      Universidad Privada Boliviana
-                    </option>
-                    <option value="Universidad Domingo Savio">
-                      Universidad Domingo Savio
-                    </option>
-                    <option value="Universidad Católica Boliviana">
-                      Universidad Católica Boliviana
-                    </option>
+                    <option value="Universidad Mayor de San Simón">Universidad Mayor de San Simón</option>
+                    <option value="Universidad Privada Boliviana">Universidad Privada Boliviana</option>
+                    <option value="Universidad Domingo Savio">Universidad Domingo Savio</option>
+                    <option value="Universidad Católica Boliviana">Universidad Católica Boliviana</option>
+                    <option value="Universidad UCATEC">Universidad UCATEC</option>
                     <option value="Otro">Otro</option>
                   </select>
                   {institucion === "Otro" && (
