@@ -29,7 +29,9 @@ const RegistroEvento = () => {
     "yahoo.com",
   ];
   const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-
+  const handleAtrasClick = () => {
+    navigate(`/mostrar/${evento_id}`);
+  };
   useEffect(() => {
     setId_evento(window.location.href.split("/")[4]);
   }, []);
@@ -299,7 +301,15 @@ const RegistroEvento = () => {
                   <button type="submit" className="btn register-button">
                     Registrar
                   </button>
+                   
                 </div>
+                <button 
+                type="submit" 
+                className="btn register-button"
+                onClick={handleAtrasClick}
+                 >
+                    Atras
+                  </button>
               </form>
             </div>
           </div>
