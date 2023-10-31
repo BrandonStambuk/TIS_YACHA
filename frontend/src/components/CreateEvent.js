@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import izqImage from "./images/izq.png";
@@ -176,7 +176,7 @@ const CreateEvento = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavbarAdmin />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">

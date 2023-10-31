@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from './Navbar';
+import NavbarAdmin from './NavbarAdmin';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
@@ -147,7 +147,7 @@ const EditEvento = () => {
   };
   return (
     <div>
-      <Navbar />
+      <NavbarAdmin />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">

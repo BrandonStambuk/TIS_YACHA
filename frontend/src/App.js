@@ -6,7 +6,6 @@ import { useState } from 'react';
 import CreateEvento from './components/CreateEvent';
 import ListaEventos from './components/ListaEventos';
 import EditEvento from './components/EditEvent';
-import HomePage from './components/HomePage';
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
@@ -26,7 +25,7 @@ function App() {
           <Route path='/' element={ <HomePageUser/>} />   
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} />    
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} />   
-          <Route path="/homepage" element={<HomePage />} /> 
+          
           <Route path="/home" element={<HomePageUser />} />  
           <Route path="/mostrar/:id" element={<MostrarEventoUsuario />} />
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  

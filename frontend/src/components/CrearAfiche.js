@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
+import NavbarAdmin from './NavbarAdmin';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/crearAfiche.css'; // Asegúrate de importar el archivo CSS
 import imagen1 from './images/plantilla1.jpg';
@@ -107,7 +107,7 @@ const CrearAfiche = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavbarAdmin />
       <div className="container mt-5 - cardEditor">
         <div className="row">
           <div className="col-md-7">

@@ -5,7 +5,7 @@ import './css/fondo.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const Navbar = () => {
+const NavbarAdmin = () => {
   const isAuthenticated = localStorage.getItem('token');
 
 
@@ -17,12 +17,10 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
+            
             <li className="nav-item p-2">
-              <Link to="/home" className="nav-link">Inicio</Link>
+              <a className="nav-link" href="/listaEventos">Eventos</a>
             </li>
-            <li className="nav-item p-2">
-              <Link to="/inicio" className="nav-link">¿Qué es la ICPC?</Link>
-            </li>            
           </ul>
           <ul className="navbar-nav ms-auto">
             {isAuthenticated ? (
@@ -37,4 +35,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarAdmin;

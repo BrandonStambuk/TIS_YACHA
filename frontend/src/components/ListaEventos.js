@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
+import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
 
@@ -55,7 +55,7 @@ const ListaEventos = () => {
 
   return (
     <div>
-      <Navbar/>
+      <NavbarAdmin/>
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">

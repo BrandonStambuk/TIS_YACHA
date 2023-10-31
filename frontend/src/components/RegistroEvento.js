@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import imagen1 from "../components/images/mi_afiche.png";
 import Swal from "sweetalert2";
 const endpoint = "http://localhost:8000/api/crearusuario";
 
@@ -157,14 +156,7 @@ const RegistroEvento = () => {
     <div>
       <Navbar />
       <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-4">
-            <img
-              src={imagen1}
-              alt="Afiche de Evento"
-              className="img-fluid h-100"
-            />
-          </div>
+        <div className="row justify-content-center">          
           <div className="col-md-6">
             <div className="card card-custom p-4">
               <h2 className="text-center mb-4 heading">Registro</h2>
