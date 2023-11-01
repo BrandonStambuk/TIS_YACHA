@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
+import { navRoute } from "./constantes";
 
-const endpoint = 'http://localhost:8000/api';
+const endpoint = navRoute;
 
 const ListaEventos = () => {
   const [pagina, setPagina] = useState(0);
@@ -75,7 +76,7 @@ const ListaEventos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {eventosVisibles.map((evento) => (
+                    {eventosVisibles&&eventosVisibles.length>0&&eventosVisibles.map((evento) => (
                       <tr key={evento.id}>
                         <td>{evento.nombre_evento}</td>
                         <td>{evento.tipo_evento}</td>

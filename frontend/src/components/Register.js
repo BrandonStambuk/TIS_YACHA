@@ -7,10 +7,10 @@ import "./css/fondo.css";
 import Navbar from "./Navbar";
 import "./css/Login.css";
 import axios from "axios";
+import { navRoute } from "./constantes";
 
 
-
-const endpoint = "http://localhost:8000/api/register"; // Asegúrate de que esta sea la URL correcta de tu backend
+const endpoint = navRoute+"/register"; // Asegúrate de que esta sea la URL correcta de tu backend
 //const cors = require("cors");
 
 

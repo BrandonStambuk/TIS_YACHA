@@ -1,0 +1,1 @@
+export const navRoute="http://yachaypacha.tis.cs.umss.edu.bo/api";

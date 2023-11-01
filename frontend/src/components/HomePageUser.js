@@ -8,8 +8,9 @@ import imagen2 from '../components/images/cabeza2.jpg';
 import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
+import { navRoute } from "./constantes";
 
-const endpoint = 'http://localhost:8000/api';
+const endpoint = navRoute;
 
 const HomePage = () => {
   const containerRef = useRef();
@@ -77,7 +78,7 @@ const HomePage = () => {
                 </select>
               </div>
               <div ref={containerRef} className="card-body event-container">
-                {eventos.map((evento) => (
+                {eventos&&eventos.length>0&&eventos.map((evento) => (
                   (filtroTipo === '' || evento.tipo_evento === filtroTipo) && (
                     <div className="mt-1" key={evento.id}>
                       <div className="image-container">
