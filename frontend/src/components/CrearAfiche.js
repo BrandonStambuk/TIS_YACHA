@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 //probando para subir al main
+//hola
 const CrearAfiche = () => {
   // Estados para el texto del título, descripción, el footer y los colores de letra
   const [titulo, setTitulo] = useState('');
