@@ -8,7 +8,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
-
+import { urlApi } from "./const";
 import Swal from 'sweetalert2';
 const inputStyle = {
   width: "170px",
@@ -16,7 +16,7 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = "http://localhost:8000/api/crearevento";
+const endpoint = urlApi+"/crearevento";
 
 const CreateEvento = () => {
   const [nombre_evento, setNombreEvento] = useState("");
@@ -63,7 +63,7 @@ const CreateEvento = () => {
     formData.append('image', file,fileName);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/upload', formData, {
+      const response = await axios.post(urlApi+'/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

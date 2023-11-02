@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
-
-const endpoint = 'http://localhost:8000/api';
+import { urlApi } from "./const";
+const endpoint = urlApi;
 
 const ListaEventos = () => {
   const [pagina, setPagina] = useState(0);

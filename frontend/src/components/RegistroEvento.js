@@ -5,7 +5,8 @@ import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-const endpoint = "http://localhost:8000/api/crearusuario";
+import { urlApi } from "./const";
+const endpoint = urlApi+"/crearusuario";
 
 const RegistroEvento = () => {
   const [nombre_usuario, setNombreUsuario] = useState("");

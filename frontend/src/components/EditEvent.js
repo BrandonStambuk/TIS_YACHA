@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { urlApi } from "./const";
 import Swal from 'sweetalert2';
 //import derImage from './images/der.png';
 //import izqImage from './images/izq.png';
@@ -16,7 +17,7 @@ const inputStyle = {
   fontSize: '14px',
 };
 
-const endpoint = 'http://localhost:8000/api/crearevento';
+const endpoint = urlApi+'/crearevento';
 
 const EditEvento = () => {
   const [nombre_evento, setNombreEvento] = useState('');

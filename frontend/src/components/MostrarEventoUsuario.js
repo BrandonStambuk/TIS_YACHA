@@ -6,8 +6,9 @@ import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
 import { Link } from 'react-router-dom';
+import { urlApi } from "./const";
 
-const endpoint = 'http://localhost:8000/api/crearevento';
+const endpoint = urlApi+'/crearevento';
 
 const HomePage = () => {
     const [nombre_evento, setNombreEvento] = useState('');
