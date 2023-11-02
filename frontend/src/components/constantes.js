@@ -1,1 +1,1 @@
-export const navRoute="http://yachaypacha.tis.cs.umss.edu.bo/api";
+export const navRoute="http://yachay.tis.cs.umss.edu.bo/api";
