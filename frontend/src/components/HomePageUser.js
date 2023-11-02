@@ -77,10 +77,11 @@ const HomePage = () => {
                 </select>
               </div>
               <div ref={containerRef} className="card-body event-container">
-                {eventos && eventos.length > 0 && (() => {
+                {eventos && (() => {
                   let elements = [];
                   for (let i = 0; i < eventos.length; i++) {
                     let evento = eventos[i];
+                    console.log("Evento:", evento); 
                     if (filtroTipo === '' || evento.tipo_evento === filtroTipo) {
                       elements.push(
                         <div className="mt-1" key={evento.id}>
@@ -102,6 +103,7 @@ const HomePage = () => {
                       );
                     }
                   }
+                  console.log("Elementos construidos:", elements); 
                   return elements;
                 })()}
               </div>
