@@ -77,26 +77,33 @@ const HomePage = () => {
                 </select>
               </div>
               <div ref={containerRef} className="card-body event-container">
-                {eventos.map((evento) => (
-                  (filtroTipo === '' || evento.tipo_evento === filtroTipo) && (
-                    <div className="mt-1" key={evento.id}>
-                      <div className="image-container">
-                        <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
-                        <p className="test">{evento.nombre_evento}</p>
-                      </div>
-                      <div className="card-footer bg-white shadow image-container">
-                        <div className="event-info">
-                          <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
-                          <div className="row">
-                            <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
-                            <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
+                {eventos && eventos.length > 0 && (() => {
+                  let elements = [];
+                  for (let i = 0; i < eventos.length; i++) {
+                    let evento = eventos[i];
+                    if (filtroTipo === '' || evento.tipo_evento === filtroTipo) {
+                      elements.push(
+                        <div className="mt-1" key={evento.id}>
+                          <div className="image-container">
+                            <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
+                            <p className="test">{evento.nombre_evento}</p>
                           </div>
-                          <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
+                          <div className="card-footer bg-white shadow image-container">
+                            <div className="event-info">
+                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
+                              <div className="row">
+                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
+                                <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
+                              </div>
+                              <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  )
-                ))}
+                      );
+                    }
+                  }
+                  return elements;
+                })()}
               </div>
             </div>
           </div>
