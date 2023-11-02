@@ -48,15 +48,15 @@ const ListaEventos = () => {
     setPagina(nuevaPagina);
   };
 
-  const eventosPorPagina=5;
-  const inicio=pagina*eventosPorPagina;
-  const fin=inicio+eventosPorPagina;
-  const eventosVisibles=eventos.slice(inicio,fin);
-  const totalPaginas=Math.ceil(eventos.length/eventosPorPagina);
+  const eventosPorPagina = 5;
+  const inicio = pagina * eventosPorPagina;
+  const fin = inicio + eventosPorPagina;
+  const eventosVisibles = eventos.slice(inicio, fin);
+  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
 
   return (
     <div>
-      <NavbarAdmin/>
+      <NavbarAdmin />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">
@@ -76,27 +76,34 @@ const ListaEventos = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {eventosVisibles&&eventosVisibles.length>0&&eventosVisibles.map((evento) => (
-                      <tr key={evento.id}>
-                        <td>{evento.nombre_evento}</td>
-                        <td>{evento.tipo_evento}</td>
-                        <td>{evento.descripcion}</td>
-                        <td>{evento.fecha_inicio}</td>
-                        <td>{evento.fecha_fin}</td>
-                        <td className="centrado">{evento.hora}</td>
-                        <td className="centrar-botones">
-                          <Link to={`/edit/${evento.id}`} className="btn btn-editar">
-                            Editar
-                          </Link>
-                          <button
-                            onClick={() => confirmarEliminacion(evento.id)}
-                            className="btn btn-eliminar"
-                          >
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {eventosVisibles && eventosVisibles.length > 0 && (() => {
+                      let rows = [];
+                      for (let i = 0; i < eventosVisibles.length; i++) {
+                        let evento = eventosVisibles[i];
+                        rows.push(
+                          <tr key={evento.id}>
+                            <td>{evento.nombre_evento}</td>
+                            <td>{evento.tipo_evento}</td>
+                            <td>{evento.descripcion}</td>
+                            <td>{evento.fecha_inicio}</td>
+                            <td>{evento.fecha_fin}</td>
+                            <td className="centrado">{evento.hora}</td>
+                            <td className="centrar-botones">
+                              <Link to={`/edit/${evento.id}`} className="btn btn-editar">
+                                Editar
+                              </Link>
+                              <button
+                                onClick={() => confirmarEliminacion(evento.id)}
+                                className="btn btn-eliminar"
+                              >
+                                Eliminar
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      }
+                      return rows;
+                    })()}
                   </tbody>
                 </table>
               </div>
