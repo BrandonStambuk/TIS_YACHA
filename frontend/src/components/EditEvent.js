@@ -175,6 +175,7 @@ const EditEvento = () => {
                           name="nombreEvento"
                           style={inputStyle}
                         />
+                        {nombre_evento !== ''}
                         {nombreEventoError && (
                           <div className="invalid-feedback">
                             {nombreEventoError}
@@ -285,9 +286,9 @@ const EditEvento = () => {
                           <option value="4">4 horas</option>
                         </select>
                       </div>
-                      <div><label class="form-check-label" for="flexSwitchCheckDefault">Publicar evento</label> </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                      <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div className="form-check form-switch">
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                           checked={publico}
                           onChange={(e) => setPublico(e.target.checked)} />
                       </div>
