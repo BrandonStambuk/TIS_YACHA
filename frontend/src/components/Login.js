@@ -10,7 +10,7 @@ import axios from "axios";
 import { urlApi } from "./const";
 
 
-const endpoint = urlApi+"login"; // Asegúrate de que esta sea la URL correcta de tu backend
+const endpoint = urlApi+"/login"; // Asegúrate de que esta sea la URL correcta de tu backend
 //const cors = require("cors");
 
 
