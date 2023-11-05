@@ -2,8 +2,9 @@ import React from 'react';
 import { useAuth } from './AuthContext'; // Importa el contexto de autenticación
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { URL_API } from '../const';
 
-const endpoint = "http://localhost:8000/api/logout"; 
+const endpoint = `${URL_API}/logout`;
 
 const SignOut = () => {
   const { logout } = useAuth();
