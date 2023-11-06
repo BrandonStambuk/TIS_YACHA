@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+
 class AuthController extends Controller
 {
     //
@@ -22,42 +23,29 @@ class AuthController extends Controller
 
     }
 
-        public function login(Request $request) {
-            /*$credentials = $request->only('email','password');
+    public function login(Request $request) {
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-                $token = $user->createToken('authToken')->plainTextToken;
-                $cookie = cookie('jwt', $token, 60 * 24); // 1 day
-                return response(['message' => 'Inicio de sesión exitoso'], Response::HTTP_OK)->withCookie($cookie);
-            }
-
-            return response(['message' => 'Credenciales incorrectas'], Response::HTTP_UNAUTHORIZED);*/
-
-            if(!Auth::attempt($request->only('name','password'))){
-                return response([
-                    'message' => 'Invalid credentials'
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-            
-            $user = Auth::user();
-            $token = $user->createToken('authToken')->plainTextToken;
-            
+        if(!Auth::attempt($request->only('name','password'))){
             return response([
-                'message' => 'Success',
-                'token' => $token, // Incluye el token en la respuesta
-            ]);
+                'message' => 'Invalid credentials'
+            ], Response::HTTP_UNAUTHORIZED);
         }
+        
+        $user = Auth::user();
+        $token = $user->createToken('authToken')->plainTextToken;
+
+
+        return response([
+            'message' => 'Success',
+            'token' => $token, // Incluye el token en la respuesta
+        ]);
+    }
 
     public function user(){
         return Auth::user();
     }
 
     public function logout(){
-        /*$cookie = Cookie::forget('jwt');
-        return response([
-            'message' => 'Success'
-        ])->withCookie($cookie);*/
         auth()->user()->tokens()->delete();
         return [
             'message' => 'Logged out'
