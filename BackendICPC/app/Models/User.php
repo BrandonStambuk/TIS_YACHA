@@ -19,4 +19,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function tokenExpiresIn()
+    {
+        return now()->addMinutes(5); // Configura la duración del token en 5 minutos
+    }
 }

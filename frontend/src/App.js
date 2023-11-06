@@ -22,17 +22,17 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={ <HomePageUser/>} />   
+          <Route path='/' element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />   
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} />    
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} />   
           
-          <Route path="/home" element={<HomePageUser />} />  
-          <Route path="/mostrar/:id" element={<MostrarEventoUsuario />} />
+          <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />    
+          <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
-          <Route path="/inicio" element={<QueEsICPC/>} />    
+          <Route path="/inicio" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated ? <CrearAfiche/>: <Login/>}/>
           <Route path="/login" element={<Login/>}/> 
-          <Route path='/registroEvento/:id' element={<RegistroEvento/>}/>  
+          <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
           <Route path="/register" element={<Register/>} />
         </Routes>
