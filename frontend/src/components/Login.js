@@ -7,10 +7,10 @@ import "./css/fondo.css";
 import Navbar from "./Navbar";
 import "./css/Login.css";
 import axios from "axios";
-import { urlApi } from "./const";
+import { URL_API } from '../const';
 
 
-const endpoint = urlApi+"/login"; // Asegúrate de que esta sea la URL correcta de tu backend
+const endpoint = `${URL_API}/login`; // Asegúrate de que esta sea la URL correcta de tu backend
 //const cors = require("cors");
 
 

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthContext'; // Importa el contexto de autenticación
 import { useState } from 'react';
 import CreateEvento from './components/CreateEvent';
+import CreateCompe from './components/CreateCompe';
 import ListaEventos from './components/ListaEventos';
 import EditEvento from './components/EditEvent';
 import QueEsICPC from './components/QueEsICPC';
@@ -23,7 +24,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={ <HomePageUser/>} />   
-          <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} />    
+          <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} /> 
+          <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} />   
           
           <Route path="/home" element={<HomePageUser />} />  
