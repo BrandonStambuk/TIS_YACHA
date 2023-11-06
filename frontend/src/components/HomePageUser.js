@@ -8,8 +8,9 @@ import imagen2 from '../components/images/cabeza2.jpg';
 import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
+import { URL_API } from '../const';
 
-const endpoint = 'http://localhost:8000/api';
+const endpoint = URL_API;
 
 const HomePage = () => {
   const containerRef = useRef();
