@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './components/AuthContext'; // Importa el 
 import { useState } from 'react';
 import CreateEvento from './components/CreateEvent';
 import CreateCompe from './components/CreateCompe';
+import CreateCompe from './components/CreateCompe';
 import ListaEventos from './components/ListaEventos';
 import EditEvento from './components/EditEvent';
 import QueEsICPC from './components/QueEsICPC';
