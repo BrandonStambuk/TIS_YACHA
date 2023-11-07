@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\CompetenciaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +27,13 @@ Route::controller(EventoController::class)->group(function (){
     //Route::get('/crearevento/{id}', 'get');
     Route::put('/crearevento/{id}', 'update');
     Route::delete('/eventos/{id}', 'destroy');
+});
+Route::controller(CompetenciaController::class)->group(function (){
+  Route::get('/competencias', 'index');
+  Route::post('/crearcompe', 'store');
+  Route::get('/crearcompe/{id}', 'show');
+  Route::put('/crearcompe/{id}', 'update');
+  Route::delete('/competencias/{id}', 'destroy');
 });
 Route::post('/upload', function (Request $request) {
     if (!$request->hasFile('image')) {

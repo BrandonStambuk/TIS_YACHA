@@ -78,21 +78,21 @@ const ListaCompetecias = () => {
                     {eventosVisibles && eventosVisibles.length > 0 && (() => {
                       let rows = [];
                       for (let i = 0; i < eventosVisibles.length; i++) {
-                        let evento = eventosVisibles[i];
+                        let competencia = eventosVisibles[i];
                         rows.push(
-                          <tr key={evento.id}>
-                            <td>{evento.nombre_evento}</td>
-                            <td>{evento.tipo_evento}</td>
-                            <td>{evento.descripcion}</td>
-                            <td>{evento.fecha_inicio}</td>
-                            <td>{evento.fecha_fin}</td>
-                            <td className="centrado">{evento.hora}</td>
+                          <tr key={competencia.id}>
+                            <td>{competencia.nombre_competencia}</td>
+                            <td>{competencia.tipo_competencia}</td>
+                            <td>{competencia.descripcion_competencia}</td>
+                            <td>{competencia.fecha_inicio_competencia}</td>
+                            <td>{competencia.fecha_fin_competencia}</td>
+                            <td className="centrado">{competencia.horas_competencia}</td>
                             <td className="centrar-botones">
-                              <Link to={`/edit/${evento.id}`} className="btn btn-editar">
+                              <Link to={`/editCompetencia/${competencia.id}`} className="btn btn-editar">
                                 Editar
                               </Link>
                               <button
-                                onClick={() => confirmarEliminacion(evento.id)}
+                                onClick={() => confirmarEliminacion(competencia.id)}
                                 className="btn btn-eliminar"
                               >
                                 Eliminar
@@ -109,8 +109,8 @@ const ListaCompetecias = () => {
             </div>
           </div>
           <div className="col-md-2 d-flex align-items-center">
-            <Link to="/create" className="btn btn-success text-white crear">
-              Crear Evento
+            <Link to="/createCompetencia" className="btn btn-success text-white crear">
+              Crear Competencia
             </Link>
           </div>
         </div>

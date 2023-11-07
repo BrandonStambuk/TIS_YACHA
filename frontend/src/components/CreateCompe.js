@@ -146,13 +146,13 @@ const CreateCompe = () => {
     }
     if (todosErrores.length === 0) {
       let response = await axios.post(endpoint, {
-        nombre_compe: nombre_compe,
-        numero_miembro: numero_miembro,
-        fecha_inicio: fecha_inicio,
-        fecha_fin: fecha_fin,
-        hora: hora,
-        publico: publico,
-        descripcion: descripcion,
+        nombre_competencia: nombre_compe,
+        integrantes_competencia: numero_miembro,
+        fecha_inicio_competencia: fecha_inicio,
+        fecha_fin_competencia: fecha_fin,
+        hora_competencia: hora,
+        publicado_competencia: publico,
+        descripcion_competencia: descripcion,
       });
       handleUpload(response.data.id);
       navigate("/ListaCompe");
