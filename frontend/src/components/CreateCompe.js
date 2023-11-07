@@ -8,6 +8,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
+import { urlApi } from "./const";
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -16,7 +17,7 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = "http://localhost:8000/api/crearcompe";
+const endpoint = `${urlApi}/crearcompe`;
 
 const CreateCompe = () => {
   const [nombre_compe, setNombreCompe] = useState("");
@@ -150,12 +151,12 @@ const CreateCompe = () => {
         integrantes_competencia: numero_miembro,
         fecha_inicio_competencia: fecha_inicio,
         fecha_fin_competencia: fecha_fin,
-        hora_competencia: hora,
+        horas_competencia: hora,
         publicado_competencia: publico,
         descripcion_competencia: descripcion,
       });
-      handleUpload(response.data.id);
-      navigate("/ListaCompe");
+      handleUpload(response.data);
+      navigate("/listaCompetencias");
     }
 
   };

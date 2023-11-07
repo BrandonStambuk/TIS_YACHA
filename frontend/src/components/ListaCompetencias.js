@@ -40,7 +40,7 @@ const ListaCompetecias = () => {
 
   const deleteCompetencia = async (id) => {
     await axios.delete(`${endpoint}/competencias/${id}`);
-    getAllEventos();
+    getAllCompetencias();
   };
 
   const cambiarPagina = (nuevaPagina) => {
@@ -50,8 +50,8 @@ const ListaCompetecias = () => {
   const eventosPorPagina = 5;
   const inicio = pagina * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
-  const eventosVisibles = eventos.slice(inicio, fin);
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
+  const eventosVisibles =  competencias.slice(inicio, fin);
+  const totalPaginas = Math.ceil(competencias.length / eventosPorPagina);
 
   return (
     <div>
@@ -109,7 +109,7 @@ const ListaCompetecias = () => {
             </div>
           </div>
           <div className="col-md-2 d-flex align-items-center">
-            <Link to="/createCompetencia" className="btn btn-success text-white crear">
+            <Link to="/createCompe" className="btn btn-success text-white crear">
               Crear Competencia
             </Link>
           </div>
