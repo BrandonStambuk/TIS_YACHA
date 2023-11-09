@@ -30,7 +30,8 @@ function App() {
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
           <Route path='/listaCompetencias' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
           
-          <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />    
+          <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />
+          <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
           <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
           <Route path="/inicio" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
