@@ -24,7 +24,7 @@ const CarouselComponent = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: '35px' }}>
       <Carousel showThumbs={false} selectedItem={currentIndex}>
         {images.map((image, index) => (
           <div key={index}>
