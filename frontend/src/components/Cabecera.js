@@ -11,7 +11,7 @@ const Cabecera = () => {
         </div>
       </div>
 
-      <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '15px' }}></div>
+      
     </div>
   );
 };

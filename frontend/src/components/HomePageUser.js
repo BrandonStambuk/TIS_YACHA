@@ -60,7 +60,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-3">
+      <div className="container mt-5">
         <div className="row">
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
