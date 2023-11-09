@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './css/Navbar.css';
 import './css/fondo.css';
 import { Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+//import { useAuth } from './AuthContext';
 
 const NavbarAdmin = () => {
   const isAuthenticated = localStorage.getItem('token');
@@ -17,9 +17,11 @@ const NavbarAdmin = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto">
-            
             <li className="nav-item p-2">
               <a className="nav-link" href="/listaEventos">Eventos</a>
+            </li>
+            <li className="nav-item p-2">
+              <a className="nav-link" href="/listaCompetencias">Competencias</a>
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">

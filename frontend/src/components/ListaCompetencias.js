@@ -4,26 +4,25 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
-import { URL_API } from '../const';
+import { urlApi } from "./const";
+const endpoint = urlApi;
 
-const endpoint = URL_API;
-
-const ListaEventos = () => {
+const ListaCompetecias = () => {
   const [pagina, setPagina] = useState(0);
-  const [eventos, setEventos] = useState([]);
+  const [competencias, setCompetencias] = useState([]);
 
   useEffect(() => {
-    getAllEventos();
+    getAllCompetencias();
   }, []);
 
-  const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/eventos`);
-    setEventos(response.data);
+  const getAllCompetencias = async () => {
+    const response = await axios.get(`${endpoint}/competencias`);
+    setCompetencias(response.data);
   };
 
   const confirmarEliminacion = (id) => {
     Swal.fire({
-      title: '¿Estás seguro de que deseas eliminar este evento?',
+      title: '¿Estás seguro de que deseas eliminar esta competencia?',
       text: 'No podrás revertir esta acción.',
       icon: 'warning',
       showCancelButton: true,
@@ -33,15 +32,15 @@ const ListaEventos = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Si el usuario confirma, elimina el evento
-        deleteEvento(id);
+        deleteCompetencia(id);
         Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
       }
     });
   };
 
-  const deleteEvento = async (id) => {
-    await axios.delete(`${endpoint}/eventos/${id}`);
-    getAllEventos();
+  const deleteCompetencia = async (id) => {
+    await axios.delete(`${endpoint}/competencias/${id}`);
+    getAllCompetencias();
   };
 
   const cambiarPagina = (nuevaPagina) => {
@@ -51,8 +50,8 @@ const ListaEventos = () => {
   const eventosPorPagina = 5;
   const inicio = pagina * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
-  const eventosVisibles = eventos.slice(inicio, fin);
-  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
+  const eventosVisibles =  competencias.slice(inicio, fin);
+  const totalPaginas = Math.ceil(competencias.length / eventosPorPagina);
 
   return (
     <div>
@@ -79,21 +78,21 @@ const ListaEventos = () => {
                     {eventosVisibles && eventosVisibles.length > 0 && (() => {
                       let rows = [];
                       for (let i = 0; i < eventosVisibles.length; i++) {
-                        let evento = eventosVisibles[i];
+                        let competencia = eventosVisibles[i];
                         rows.push(
-                          <tr key={evento.id}>
-                            <td>{evento.nombre_evento}</td>
-                            <td>{evento.tipo_evento}</td>
-                            <td>{evento.descripcion}</td>
-                            <td>{evento.fecha_inicio}</td>
-                            <td>{evento.fecha_fin}</td>
-                            <td className="centrado">{evento.hora}</td>
+                          <tr key={competencia.id}>
+                            <td>{competencia.nombre_competencia}</td>
+                            <td>{competencia.tipo_competencia}</td>
+                            <td>{competencia.descripcion_competencia}</td>
+                            <td>{competencia.fecha_inicio_competencia}</td>
+                            <td>{competencia.fecha_fin_competencia}</td>
+                            <td className="centrado">{competencia.horas_competencia}</td>
                             <td className="centrar-botones">
-                              <Link to={`/edit/${evento.id}`} className="btn btn-editar">
+                              <Link to={`/editCompetencia/${competencia.id}`} className="btn btn-editar">
                                 Editar
                               </Link>
                               <button
-                                onClick={() => confirmarEliminacion(evento.id)}
+                                onClick={() => confirmarEliminacion(competencia.id)}
                                 className="btn btn-eliminar"
                               >
                                 Eliminar
@@ -110,8 +109,8 @@ const ListaEventos = () => {
             </div>
           </div>
           <div className="col-md-2 d-flex align-items-center">
-            <Link to="/create" className="btn btn-success text-white crear">
-              Crear Evento
+            <Link to="/createCompe" className="btn btn-success text-white crear">
+              Crear Competencia
             </Link>
           </div>
         </div>
@@ -145,4 +144,4 @@ const ListaEventos = () => {
   );
 };
 
-export default ListaEventos;
+export default ListaCompetecias;

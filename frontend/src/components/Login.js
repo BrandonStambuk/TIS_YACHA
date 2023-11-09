@@ -31,18 +31,20 @@ const Login = () => {
         password: password, 
       });
       const token = response.data.token;
-        localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
       //setIsAuthenticated(true);
       const currentPath = window.location.pathname;
 
     // Comprobar si la ruta actual es "ListaEventos"
-    if (currentPath === '/listaEventos') {
+    /*if (currentPath === '/listaEventos') {
       // Recargar la página si estamos en "ListaEventos"
       window.location.reload();
     } else {
       // Navegar a la ruta "ListaEventos" si no estamos en esa página
       navigate('/listaEventos');
-    }
+    }*/
+    navigate('/listaEventos');
+    window.location.reload();
 
     } catch (error) {
       setError("Credenciales incorrectas. Inténtalo de nuevo.");

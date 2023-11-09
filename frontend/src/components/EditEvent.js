@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { urlApi } from "./const";
 import Swal from 'sweetalert2';
 import { URL_API } from '../const';
 //import derImage from './images/der.png';
