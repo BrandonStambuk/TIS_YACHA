@@ -180,7 +180,7 @@ const CreateCompe = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container mt-2">
+      <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
             <div className="card">

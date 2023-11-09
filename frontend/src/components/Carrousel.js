@@ -4,6 +4,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import ICPCImage from './images/ICPC-contest.png';
 import imagen1 from './images/imagen3.jpg';
 import imagen2 from './images/imagen4.jpg';
+
 import './css/carrousel.css';
 const images = [
   ICPCImage,
