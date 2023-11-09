@@ -9,6 +9,7 @@ import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
 import { URL_API } from '../const';
+import Cabecera from './Cabecera';
 
 const endpoint = URL_API;
 
@@ -92,7 +93,7 @@ const HomePage = () => {
                             <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
                             <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
                           </div>
-                          <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
+                          <Link to={`/mostrar/${evento.id}`} className='btn btn-info boton-ver'>Ver</Link>
                         </div>
                       </div>
                     </div>

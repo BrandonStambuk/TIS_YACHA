@@ -27,7 +27,6 @@ function App() {
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} /> 
           <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} />   
-          
           <Route path="/home" element={<HomePageUser />} />  
           <Route path="/mostrar/:id" element={<MostrarEventoUsuario />} />
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
