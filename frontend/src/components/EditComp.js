@@ -8,6 +8,10 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { urlApi } from "./const";
+
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -16,22 +20,23 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = "http://localhost:8000/api/editcompe";
+const endpoint = `${urlApi}/crearcompe`;
 
 const EditComp = () => {
   const [nombre_compe, setNombreCompe] = useState("");
   const [numero_miembro, setMiembro] = useState("");
   const [fecha_inicio, setFechaInicio] = useState("");
   const [fecha_fin, setFechaFin] = useState("");
-  const [fecha_compe, setFechaCompe] = useState("");
+  //const [fecha_compe, setFechaCompe] = useState("");
   const [hora, setHora] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [nombreCompeError, setNombreCompeError] = useState("");
   const navigate = useNavigate();
   const [fechaInicioError, setFechaInicioError] = useState("");
   const [fechaFinError, setFechaFinError] = useState("");
-  const [fechaCompeError, setFechaCompeError] = useState("");
+  //const [fechaCompeError, setFechaCompeError] = useState("");
   const [publico, setPublico] = useState(false);
+  const {id} = useParams();
 
   const handleMiembroChange = (event) => {
     setMiembro(event.target.value);
@@ -92,7 +97,7 @@ const EditComp = () => {
 
     setFechaFin(event.target.value);
   };
-  const handleFechaCompeChange = (event) => {
+  /*const handleFechaCompeChange = (event) => {
     const startDate = new Date(fecha_fin); // Convierte la fecha de inicio a objeto Date
     const selectedDate = new Date(event.target.value);
 
@@ -105,17 +110,17 @@ const EditComp = () => {
     }
 
     setFechaCompe(event.target.value);
-  };
+  };*/
 
   const handleHorasChange = (event) => {
     setHora(event.target.value);
   };
 
-  const store = async (e) => {
+  const update = async (e) => {
     e.preventDefault();
     const selectedStartDate = new Date(fecha_inicio);
     const selectedEndDate = new Date(fecha_fin);
-    const nuevaFecha = new Date (fecha_compe);
+    //const nuevaFecha = new Date (fecha_compe);
     const currentDate = new Date();
     let todosErrores = [];
     // Validación del nombre del evento
@@ -124,7 +129,7 @@ const EditComp = () => {
       !numero_miembro ||
       !fecha_inicio ||
       !fecha_fin ||
-      !fecha_compe ||
+      //!fecha_compe ||
       !hora ||
       !descripcion
     ) {
@@ -163,21 +168,45 @@ const EditComp = () => {
       setFechaFinError('');
     }
     if (todosErrores.length === 0) {
-      let response = await axios.post(endpoint, {
-        nombre_compe: nombre_compe,
-        numero_miembro: numero_miembro,
-        fecha_inicio: fecha_inicio,
-        fecha_fin: fecha_fin,
-        fecha_compe: fecha_compe,
-        hora: hora,
-        publico: publico,
-        descripcion: descripcion,
-      });
-      handleUpload(response.data.id);
-      navigate("/ListaCompe");
+      try{
+        let response = await axios.put(`${endpoint}/${id}`, {
+          nombre_competencia: nombre_compe,
+          integrantes_competencia: numero_miembro,
+          fecha_inicio_competencia: fecha_inicio,
+          fecha_fin_competencia: fecha_fin,
+          horas_competencia: hora,
+          publicado_competencia: publico,
+          descripcion_competencia: descripcion,
+        });
+        handleUpload(response.data.id);
+        navigate("/listacompetencias");
+      } catch(error){
+        console.error('Error al actualizar los datos de la competencia', error);
+      }  
     }
 
   };
+
+  useEffect(() => {
+    const getCompe = async () => {
+      try{
+      const response = await axios.get(`${endpoint}/${id}`);
+      setNombreCompe(response.data.nombre_competencia);
+      setMiembro(response.data.integrantes_competencia);
+      setFechaInicio(response.data.fecha_inicio_competencia);
+      setFechaFin(response.data.fecha_fin_competencia);
+      //setFechaCompe(response.data.fecha_compe);
+      setHora(response.data.horas_competencia);
+      setPublico(response.data.publicado_competencia);
+      setDescripcion(response.data.descripcion_competencia);
+      }catch(error){
+        console.error('Error al obtener los datos de la competencia', error);
+      }
+    };
+    getCompe();
+  }, []);
+
+
   // Estados para el tamaño de fuente y la alineación del texto
   const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
   const [textAlign, setTextAlign] = useState("left"); // Alineación inicial
@@ -210,7 +239,7 @@ const EditComp = () => {
                 </div>
                 <div className="row text-white">
                   <div className="col-md-6">
-                    <form onSubmit={store} className="text-left">
+                    <form onSubmit={update} className="text-left">
                       <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">
                           Nombre de la Competencia
@@ -284,26 +313,6 @@ const EditComp = () => {
                         {fechaFinError && (
                           <div className="invalid-feedback">
                             {fechaFinError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="fechaCompe" className="form-label">
-                          Fecha día Competencia.
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaCompeError ? "is-invalid" : ""
-                            }`}
-                          id="fechaCompe"
-                          name="fechaCompe"
-                          style={inputStyle}
-                          value={fecha_compe}
-                          onChange={handleFechaCompeChange}
-                        />
-                        {fechaCompeError && (
-                          <div className="invalid-feedback">
-                            {fechaCompeError}
                           </div>
                         )}
                       </div>
