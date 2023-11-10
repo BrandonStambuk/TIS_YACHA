@@ -180,17 +180,17 @@ const CreateCompe = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container mt-2">
+      <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
             <div className="card">
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-white">Crear Competencia</h2>
+                    <h2 className="card-title text-center text-black">Crear Competencia</h2>
                   </div>
                 </div>
-                <div className="row text-white">
+                <div className="row text-black">
                   <div className="col-md-6">
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">

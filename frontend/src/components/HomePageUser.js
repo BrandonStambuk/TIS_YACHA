@@ -9,6 +9,7 @@ import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
 import { URL_API } from '../const';
+import Cabecera from './Cabecera';
 
 const endpoint = URL_API;
 
@@ -59,7 +60,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-3">
+      <div className="container mt-5">
         <div className="row">
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">

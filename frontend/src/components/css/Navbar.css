@@ -1,6 +1,9 @@
 .navbar {
     background-color: #0F5FA6;
-    
+    box-shadow: -5px 19px 17px -4px rgba(0,0,0,0.57);
+    -webkit-box-shadow: -5px 19px 17px -4px rgba(0,0,0,0.57);
+    -moz-box-shadow: -5px 19px 17px -4px rgba(0,0,0,0.57);
+  
 }
    .navbar-brand,
    .navbar-nav .nav-link {
@@ -11,3 +14,4 @@
    .ml-auto {
     color: white;
 }
+
