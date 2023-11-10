@@ -16,6 +16,7 @@ import SignOut from './components/SignOut';
 import Register from './components/Register';
 import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 import MostarCompe from './components/ListaCompetencias'
+import CrearEquipo from './components/RegistrarEquipo'
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -29,6 +30,7 @@ function App() {
           <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
           <Route path='/listaCompetencias' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
+
           
           <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />    
           <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
@@ -39,6 +41,7 @@ function App() {
           <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/createEquipo" element={isAuthenticated ? <CrearEquipo/>: <Login/>} />
         </Routes>
       </BrowserRouter>
     </div>

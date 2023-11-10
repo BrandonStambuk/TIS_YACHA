@@ -35,6 +35,10 @@ Route::controller(CompetenciaController::class)->group(function (){
   Route::put('/crearcompe/{id}', 'update');
   Route::delete('/competencias/{id}', 'destroy');
 });
+Route::controller(EquipoController::class)->group(function (){
+  Route::get('/createEquipo', 'index');
+  Route::post('/createEquipo', 'store');
+});
 Route::post('/upload', function (Request $request) {
     if (!$request->hasFile('image')) {
       return response()->json(['upload_file_not_found'], 400);
