@@ -300,14 +300,14 @@ const RegistroEvento = () => {
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="submit" className="btn register-button">
+                  <button type="submit" className="btn register-button" id="boton-registrar">
                     Registrar
                   </button>
                    
                 </div>
                 <button 
                 type="submit" 
-                className="btn register-button"
+                className="btn register-button"id="boton-atras"
                 onClick={handleAtrasClick}
                  >
                     Atras

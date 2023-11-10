@@ -1,22 +1,46 @@
 .tarjeta{
   border-radius: 10px;
-  border: 1px solid #221959;
   opacity: 0.85;
-  background: rgba(34, 25, 89, 0.75);
-  box-shadow: 0px 15px 4px 0px #000;
+  background: #F8F9FD;
+  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
+
   padding: 20px;
   text-align: left;/* Agrega esta línea para alinear el texto a la izquierda */
 
   }
   
-  /* Alinea los nombres de los formularios a la izquierda */
  
+  .form-control{
+    width: 100%;
+  
+    background: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: #cff0ff 0px 10px 10px -5px;
+    border-inline: 2px solid transparent;
+  }
+ 
+  .form-control::-moz-placeholder {
+    color: rgb(170, 170, 170);
+  }
+  
+  .form-control::placeholder {
+    color: rgb(170, 170, 170);
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-inline: 2px solid #12B1D1;
+  }
+
+
   .textarea-estilo{
     border-color: #000;
     border-radius: 5px;
     border-width: 3px;
   }
-
 
 
   /* Opcional: Estilo para el título "Descripción" */
@@ -28,8 +52,39 @@
   .boton-1,
   .boton-2,
   .boton-3 {
+    display: inline-block;
+    padding: 1px 28px;
+    margin: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-image: linear-gradient(to bottom right,  #0f5fa6, #0072ff);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 0px #007bff;
+    transition: all 0.2s ease-in-out;
+    margin-top: 30px;
     margin-top: 20px;
     margin-left: 15px;
+  }
+
+
+
+
+  .boton-1,
+  .boton-2,
+  .boton-3 :hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 0px #0072ff;
+  }
+
+
+  .boton-1,
+  .boton-2,
+  .boton-3 :active{
+    transform: translateY(0px);
+    box-shadow: none;
+    background-image: linear-gradient(to bottom right, #0072ff,#0f5fa6);
   }
   
   /* Estilo para los campos de entrada */

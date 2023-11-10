@@ -6,6 +6,118 @@
 	font-size: 20px;
 }
 
+
+.boton-ver{
+	background-color: #0f5fa6;
+	border-color:#0f5fa6;
+}
+
+.boton-atras{
+	background-color: #d92323;
+	border-color:#d92323;
+}
+
+.boton-atras{
+	display: inline-block;
+	padding: 1px 28px;
+	margin: 10px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #fff;
+	background-image: linear-gradient(to bottom right,  #d92323, #d92323);
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 0px #aa1b1b;
+	transition: all 0.2s ease-in-out;
+}
+
+.boton-atras:hover {
+	transform: translateY(-2px);
+	box-shadow: 0px 6px 0px #d92323;
+  }
+
+  .boton-atras:active {
+	transform: translateY(0px);
+	box-shadow: none;
+	background-image: linear-gradient(to bottom right, #d92323,#d92323);
+  }
+
+  .boton-atras:before,
+  .boton-atras:after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+  }
+
+
+  .boton-atras:before {
+	top: -3px;
+	left: -3px;
+	border-radius: 40px;
+	border-top: 3px solid #fff;
+	border-left: 3px solid #fff;
+  }
+  
+  .boton-atras:after {
+	bottom: -3px;
+	right: -3px;
+	border-radius: 40px;
+	border-bottom: 3px solid #fff;
+	border-right: 3px solid #fff;
+  }
+.boton-ver{
+	display: inline-block;
+	padding: 1px 28px;
+	margin: 10px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #fff;
+	background-image: linear-gradient(to bottom right,  #0f5fa6, #0072ff);
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0px 4px 0px #007bff;
+	transition: all 0.2s ease-in-out;
+  }
+  
+  .boton-ver:hover {
+	transform: translateY(-2px);
+	box-shadow: 0px 6px 0px #0072ff;
+  }
+  
+  .boton-ver:active {
+	transform: translateY(0px);
+	box-shadow: none;
+	background-image: linear-gradient(to bottom right, #0072ff,#0f5fa6);
+  }
+  
+  .boton-ver:before,
+  .boton-ver:after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+  }
+  
+  .boton-ver:before {
+	top: -3px;
+	left: -3px;
+	border-radius: 40px;
+	border-top: 3px solid #fff;
+	border-left: 3px solid #fff;
+  }
+  
+  .boton-ver:after {
+	bottom: -3px;
+	right: -3px;
+	border-radius: 40px;
+	border-bottom: 3px solid #fff;
+	border-right: 3px solid #fff;
+  }
+  
+  
+
+
 .event-info-text.left {
 	text-align: left;
 	font-size: 20px;

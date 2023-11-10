@@ -185,10 +185,10 @@ const CreateEvento = () => {
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-white">Crear Evento</h2>
+                    <h2 className="card-title text-center text-blue">Crear Evento</h2>
                   </div>
                 </div>
-                <div className="row text-white">
+                <div className="row text-black">
                   <div className="col-md-6">
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">
@@ -327,7 +327,7 @@ const CreateEvento = () => {
                           checked={publico}
                           onChange={(e) => setPublico(e.target.checked)} />
                       </div>
-                      <button type="submit" className="btn btn-primary">
+                      <button type="submit" id="botoncito"className="btn btn-primary">
                         Guardar
                       </button>
                     </form>
@@ -417,10 +417,10 @@ const CreateEvento = () => {
                       ></textarea>
                     </div>
                     <div>
-                      <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
+                      <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" id="Afiche" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
                       <br></br>
-                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }} id="subirAfiche" />
-                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2">Subir afiche</label>
+                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }}/>
+                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" >Subir afiche</label>
                     </div>
                   </div>
                 </div>
