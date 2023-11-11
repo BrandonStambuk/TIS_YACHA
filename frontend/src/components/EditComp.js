@@ -8,7 +8,10 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
-import { URL_API } from "../const";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { urlApi } from "./const";
+
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -17,32 +20,29 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = `${URL_API}/crearevento`;
+const endpoint = `${urlApi}/crearcompe`;
 
-
-const CreateEvento = () => {
-  const [nombre_evento, setNombreEvento] = useState("");
-  const [tipo_evento, setTipoEvento] = useState("");
-  const [fecha_inicio_inscripcion, setFechaInicioIns] = useState("");
-  const [fecha_fin_inscripcion, setFechaFinIns] = useState("");
-  const [fecha_inicio_evento, setFechaInicioEvent] = useState("");
-  const [fecha_fin_evento, setFechaFinEvent] = useState("");
+const EditComp = () => {
+  const [nombre_compe, setNombreCompe] = useState("");
+  const [numero_miembro, setMiembro] = useState("");
+  const [fecha_inicio, setFechaInicio] = useState("");
+  const [fecha_fin, setFechaFin] = useState("");
+  //const [fecha_compe, setFechaCompe] = useState("");
   const [hora, setHora] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [nombreEventoError, setNombreEventoError] = useState("");
+  const [nombreCompeError, setNombreCompeError] = useState("");
   const navigate = useNavigate();
   const [fechaInicioError, setFechaInicioError] = useState("");
   const [fechaFinError, setFechaFinError] = useState("");
-  const [fechaInicioEventError, setFechaInicioEventError] = useState("");
-  const [fechaFinEventError, setFechaFinEventError] = useState("");
-  const [horaEventoError, sethoraEventoError] = useState("");
+  //const [fechaCompeError, setFechaCompeError] = useState("");
   const [publico, setPublico] = useState(false);
-  const handleTipoEventoChange = (event) => {
-    setTipoEvento(event.target.value);
-  };
-  const [file, setFile] = useState(null);
+  const {id} = useParams();
 
-// Fechas inscripcion ******************************************************
+  const handleMiembroChange = (event) => {
+    setMiembro(event.target.value);
+  };
+
+  const [file, setFile] = useState(null);
 
   const handleFechaInicioChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -50,71 +50,29 @@ const CreateEvento = () => {
 
     if (selectedDate <= currentDate) {
       setFechaInicioError(
-        "La fecha de inicio inscripcion debe ser posterior al día de hoy."
+        "La fecha de inicio debe ser posterior al día de hoy."
       );
     } else {
       setFechaInicioError("");
     }
 
-    setFechaInicioIns(event.target.value);
-  };
-  const handleFechaFinChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDate = new Date(fecha_inicio_inscripcion); // Convierte la fecha de inicio a objeto Date
-
-    if (selectedDate < startDate) {
-      setFechaFinError(
-        "La fecha de fin no puede ser anterior a la fecha de inicio."
-      );
-    } else {
-      setFechaFinError("");
-    }
-
-    setFechaFinIns(event.target.value);
+    setFechaInicio(event.target.value);
   };
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
 
-  };
-  // Fechas Evento ******************************************************
-
-  const handleFechaInicioEventChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDate = new Date(fecha_fin_inscripcion)
-    if (selectedDate <= startDate) {
-      setFechaInicioEventError(
-        "La fecha de inicio debe ser posterior al día de hoy."
-      );
-    } else {
-      setFechaInicioEventError("");
-    }
-
-    setFechaInicioEvent(event.target.value);
-  };
-  const handleFechaFinEventChange = (event) => {
-    const selectedDate = new Date(event.target.value);// Convierte la fecha de inicio a objeto Date
-    const startDate = new Date(fecha_fin_inscripcion)
-    if (selectedDate < startDate) {
-      setFechaFinEventError(
-        "La fecha de fin no puede ser anterior a la fecha de inicio."
-      );
-    } else {
-      setFechaFinEventError("");
-    }
-
-    setFechaFinEvent(event.target.value);
   };
   const handleUpload = async (id) => {
     if (!file) {
       console.error('No file selected');
       return;
     }
-    let fileName=id+'.jpg';
+    let fileName = id + '.jpg';
     const formData = new FormData();
-    formData.append('image', file,fileName);
+    formData.append('image', file, fileName);
 
     try {
-      const response = await axios.post(`${URL_API}/upload`, formData, {
+      const response = await axios.post('http://localhost:8000/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -125,40 +83,53 @@ const CreateEvento = () => {
       console.error(error);
     }
   };
-  
-  
+  const handleFechaFinChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const startDate = new Date(fecha_inicio); // Convierte la fecha de inicio a objeto Date
+
+    if (selectedDate < startDate) {
+      setFechaFinError(
+        "La fecha de fin no puede ser anterior a la fecha de inicio."
+      );
+    } else {
+      setFechaFinError("");
+    }
+
+    setFechaFin(event.target.value);
+  };
+  /*const handleFechaCompeChange = (event) => {
+    const startDate = new Date(fecha_fin); // Convierte la fecha de inicio a objeto Date
+    const selectedDate = new Date(event.target.value);
+
+    if (selectedDate < startDate) {
+      setFechaCompeError(
+        "La fecha de competencia debe estar fuera del rango de las fechas de inscripcion."
+      );
+    } else {
+      setFechaCompeError("");
+    }
+
+    setFechaCompe(event.target.value);
+  };*/
 
   const handleHorasChange = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue !== "0") {
-      if (!/^(0|[1-9][0-9]*)$/.test(inputValue)) {
-        sethoraEventoError("El valor no puede empezar con 0");
-      } else if (inputValue.length <= 3) {
-        setHora(inputValue);
-        sethoraEventoError(null);
-      } else {
-        sethoraEventoError("No se permiten más de 3 caracteres.");
-      }
-    } else {
-      sethoraEventoError("No se permiten 0 horas.");
-    }
-       
+    setHora(event.target.value);
   };
 
-  const store = async (e) => {
+  const update = async (e) => {
     e.preventDefault();
-    const selectedStartDate = new Date(fecha_inicio_inscripcion);
-    const selectedEndDate = new Date(fecha_fin_inscripcion);
+    const selectedStartDate = new Date(fecha_inicio);
+    const selectedEndDate = new Date(fecha_fin);
+    //const nuevaFecha = new Date (fecha_compe);
     const currentDate = new Date();
     let todosErrores = [];
     // Validación del nombre del evento
     if (
-      !nombre_evento ||
-      !tipo_evento ||
-      !fecha_inicio_inscripcion ||
-      !fecha_fin_inscripcion ||      
-      !fecha_inicio_evento ||
-      !fecha_fin_evento ||
+      !nombre_compe ||
+      !numero_miembro ||
+      !fecha_inicio ||
+      !fecha_fin ||
+      //!fecha_compe ||
       !hora ||
       !descripcion
     ) {
@@ -166,23 +137,23 @@ const CreateEvento = () => {
       return;
     }
     let errores = [];
-    if (!/^[A-Z]/.test(nombre_evento)) {
+    if (!/^[A-Z]/.test(nombre_compe)) {
       errores.push('El primer carácter debe ser una letra mayúscula.');
     }
 
-    if (!/^[A-Za-z\- ]+$/.test(nombre_evento)) {
+    if (!/^[A-Za-z\- ]+$/.test(nombre_compe)) {
       errores.push('Solo están permitidos letras, espacios y guiones.');
     }
 
-    if (nombre_evento.length > 21) {
+    if (nombre_compe.length > 21) {
       errores.push('No se permiten más de 21 caracteres.');
     }
 
     if (errores.length > 0) {
-      setNombreEventoError(errores.join(' '));
+      setNombreCompeError(errores.join(' '));
       todosErrores.push(errores);
     } else {
-      setNombreEventoError("");
+      setNombreCompeError("");
     }
     if (selectedStartDate <= currentDate) {
       setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
@@ -197,22 +168,45 @@ const CreateEvento = () => {
       setFechaFinError('');
     }
     if (todosErrores.length === 0) {
-      let response=await axios.post(endpoint, {
-        nombre_evento: nombre_evento,
-        tipo_evento: tipo_evento,
-        fecha_inicio_inscripcion: fecha_inicio_inscripcion,
-        fecha_fin_inscripcion: fecha_fin_inscripcion,
-        fecha_inicio_evento: fecha_inicio_evento,
-        fecha_fin_evento: fecha_fin_evento,
-        hora: hora,
-        publico: publico,
-        descripcion: descripcion,
-      });
-      handleUpload(response.data.id);
-      navigate("/ListaEventos");
+      try{
+        let response = await axios.put(`${endpoint}/${id}`, {
+          nombre_competencia: nombre_compe,
+          integrantes_competencia: numero_miembro,
+          fecha_inicio_competencia: fecha_inicio,
+          fecha_fin_competencia: fecha_fin,
+          horas_competencia: hora,
+          publicado_competencia: publico,
+          descripcion_competencia: descripcion,
+        });
+        handleUpload(response.data.id);
+        navigate("/listacompetencias");
+      } catch(error){
+        console.error('Error al actualizar los datos de la competencia', error);
+      }  
     }
 
   };
+
+  useEffect(() => {
+    const getCompe = async () => {
+      try{
+      const response = await axios.get(`${endpoint}/${id}`);
+      setNombreCompe(response.data.nombre_competencia);
+      setMiembro(response.data.integrantes_competencia);
+      setFechaInicio(response.data.fecha_inicio_competencia);
+      setFechaFin(response.data.fecha_fin_competencia);
+      //setFechaCompe(response.data.fecha_compe);
+      setHora(response.data.horas_competencia);
+      setPublico(response.data.publicado_competencia);
+      setDescripcion(response.data.descripcion_competencia);
+      }catch(error){
+        console.error('Error al obtener los datos de la competencia', error);
+      }
+    };
+    getCompe();
+  }, []);
+
+
   // Estados para el tamaño de fuente y la alineación del texto
   const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
   const [textAlign, setTextAlign] = useState("left"); // Alineación inicial
@@ -240,86 +234,51 @@ const CreateEvento = () => {
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-blue">Crear Evento</h2>
+                    <h2 className="card-title text-center text-white">Editar Competencia</h2>
                   </div>
                 </div>
-                <div className="row text-black">
+                <div className="row text-white">
                   <div className="col-md-6">
-                    <form onSubmit={store} className="text-left">
+                    <form onSubmit={update} className="text-left">
                       <div className="mb-3">
                         <label htmlFor="nombreEvento" className="form-label">
-                          Nombre de evento
+                          Nombre de la Competencia
                         </label>
                         <input
-                          value={nombre_evento}
-                          onChange={(e) => setNombreEvento(e.target.value)}
+                          value={nombre_compe}
+                          onChange={(e) => setNombreCompe(e.target.value)}
                           type="text"
-                          className={`form-control ${nombreEventoError ? "is-invalid" : ""
+                          className={`form-control ${nombreCompeError ? "is-invalid" : ""
                             }`}
                           id="nombreEvento"
                           name="nombreEvento"
                           style={inputStyle}
                         />
-                        {nombreEventoError && (
+                        {nombreCompeError && (
                           <div className="invalid-feedback">
-                            {nombreEventoError}
+                            {nombreCompeError}
                           </div>
                         )}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Tipo de Evento</label>
-                        <div>
-                          <label>
-                            <input
-                              type="radio"
-                              value="Reclutamiento"
-                              onChange={handleTipoEventoChange}
-                              checked={tipo_evento === "Reclutamiento"}
-                            />
-                            Reclutamiento
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            <input
-                              type="radio"
-                              value="Taller de reclutamiento"
-                              onChange={handleTipoEventoChange}
-                              checked={
-                                tipo_evento === "Taller de reclutamiento"
-                              }
-                            />
-                            Taller de reclutamiento
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            <input
-                              type="radio"
-                              value="Competencia de entrenamiento"
-                              onChange={handleTipoEventoChange}
-                              checked={
-                                tipo_evento === "Competencia de entrenamiento"
-                              }
-                            />
-                            Competencia de entrenamiento
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            <input
-                              type="radio"
-                              value="Competencia interna"
-                              onChange={handleTipoEventoChange}
-                              checked={tipo_evento === "Competencia interna"}
-                            />
-                            Competencia interna
-                          </label>
-                        </div>
+                        <label className="form-label">Número de Integrantes</label>
+                        <select
+                          className="form-select"
+                          id="horas"
+                          name="horas"
+                          style={inputStyle}
+                          value={numero_miembro}
+                          onChange={handleMiembroChange}
+                        >
+                          <option value="">Seleccionar</option>
+                          <option value="1">1 miembro</option>
+                          <option value="2">2 miembros</option>
+                          <option value="3">3 miembros</option>
+                        </select>
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio inscripción
+                          Fecha inicio Inscripcion.
                         </label>
                         <input
                           type="date"
@@ -328,7 +287,7 @@ const CreateEvento = () => {
                           id="fechaInicio"
                           name="fechaInicio"
                           style={inputStyle}
-                          value={fecha_inicio_inscripcion}
+                          value={fecha_inicio}
                           onChange={handleFechaInicioChange}
                         />
                         {fechaInicioError && (
@@ -339,7 +298,7 @@ const CreateEvento = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaFin" className="form-label">
-                          Fecha de Fin inscripcion
+                          Fecha fin Inscripcion.
                         </label>
                         <input
                           type="date"
@@ -348,7 +307,7 @@ const CreateEvento = () => {
                           id="fechaFin"
                           name="fechaFin"
                           style={inputStyle}
-                          value={fecha_fin_inscripcion}
+                          value={fecha_fin}
                           onChange={handleFechaFinChange}
                         />
                         {fechaFinError && (
@@ -358,68 +317,23 @@ const CreateEvento = () => {
                         )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio Evento
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaInicioEventError ? "is-invalid" : ""
-                            }`}
-                          id="fechaInicio"
-                          name="fechaInicio"
-                          style={inputStyle}
-                          value={fecha_inicio_evento}
-                          onChange={handleFechaInicioEventChange}
-                        />
-                        {fechaInicioEventError && (
-                          <div className="invalid-feedback">
-                            {fechaInicioEventError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="fechaFin" className="form-label">
-                          Fecha de Fin Evento
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaFinEventError ? "is-invalid" : ""
-                            }`}
-                          id="fechaFin"
-                          name="fechaFin"
-                          style={inputStyle}
-                          value={fecha_fin_evento}
-                          onChange={handleFechaFinEventChange}
-                        />
-                        {fechaFinEventError && (
-                          <div className="invalid-feedback">
-                            {fechaFinEventError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
                         <label htmlFor="horas" className="form-label">
-                          horas
+                          Horas
                         </label>
-                        <input
-                          onKeyDown={(event) => {                            
-                            if (!(event.key === 'Backspace' ||event.key ==='ArrowLeft'||event.key ==='ArrowRight'|| event.key === 'Tab' || /[0-9]/.test(event.key))) {
-                              event.preventDefault();
-                            }}}
+                        <select
+                          className="form-select"
+                          id="horas"
+                          name="horas"
+                          style={inputStyle}
                           value={hora}
                           onChange={handleHorasChange}
-                          type="number"
-                          className={`form-control ${horaEventoError ? "is-invalid" : ""
-                            }`}
-                          id="horaEvento"
-                          name="horaEvento"
-                          style={inputStyle}
-                        />
-                        {horaEventoError && (
-                          <div className="invalid-feedback">
-                            {horaEventoError}
-                          </div>
-                        )}
+                        >
+                          <option value="">Seleccionar</option>
+                          <option value="1">1 hora</option>
+                          <option value="2">2 horas</option>
+                          <option value="3">3 horas</option>
+                          <option value="4">4 horas</option>
+                        </select>
                       </div>
                       <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
                       <div className="form-check form-switch">
@@ -427,7 +341,7 @@ const CreateEvento = () => {
                           checked={publico}
                           onChange={(e) => setPublico(e.target.checked)} />
                       </div>
-                      <button type="submit" id="botoncito"className="btn btn-primary">
+                      <button type="submit" className="btn btn-primary">
                         Guardar
                       </button>
                     </form>
@@ -517,10 +431,10 @@ const CreateEvento = () => {
                       ></textarea>
                     </div>
                     <div>
-                      <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" id="Afiche" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
+                      <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Cambiar afiche</button>
                       <br></br>
-                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }}/>
-                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" >Subir afiche</label>
+                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }} id="subirAfiche" />
+                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2">Subir afiche</label>
                     </div>
                   </div>
                 </div>
@@ -533,4 +447,4 @@ const CreateEvento = () => {
   );
 };
 
-export default CreateEvento;
+export default EditComp;

@@ -19,6 +19,7 @@ class CreateCompetenciaTable extends Migration
             $table->integer('integrantes_competencia');
             $table->date('fecha_inicio_competencia');
             $table->date('fecha_fin_competencia');
+            $table->date('fecha_competencia');
             $table->string('horas_competencia');
             $table->string('descripcion_competencia');
             $table->boolean('publicado_competencia')->default(false);

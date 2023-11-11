@@ -65,13 +65,11 @@ const ListaCompetecias = () => {
                 <table>
                   <thead className='text-white'>
                     <tr>
-                      <th>Nombre</th>
-                      <th>Tipo</th>
-                      <th>Descripcion</th>
-                      <th>Fecha de inicio</th>
-                      <th>Fecha Fin</th>
-                      <th>Duración (horas)</th>
-                      <th>Acción</th>
+                      <th className="centrado">Nombre</th>
+                      <th className="centrado">Cantidad participantes</th>
+                      <th className="centrado">Fecha de inicio Competencia</th>
+                      <th className="centrado">Duración (horas)</th>
+                      <th className="centrado">Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -81,13 +79,11 @@ const ListaCompetecias = () => {
                         let competencia = eventosVisibles[i];
                         rows.push(
                           <tr key={competencia.id}>
-                            <td>{competencia.nombre_competencia}</td>
-                            <td>{competencia.tipo_competencia}</td>
-                            <td>{competencia.descripcion_competencia}</td>
-                            <td>{competencia.fecha_inicio_competencia}</td>
-                            <td>{competencia.fecha_fin_competencia}</td>
+                            <td className="centrado">{competencia.nombre_competencia}</td>
+                            <td className="centrado">{competencia.integrantes_competencia}</td>
+                            <td className="centrado">{competencia.fecha_competencia}</td>
                             <td className="centrado">{competencia.horas_competencia}</td>
-                            <td className="centrar-botones">
+                            <td className="centrado centrar-botones">
                               <Link to={`/editCompetencia/${competencia.id}`} className="btn btn-editar">
                                 Editar
                               </Link>
