@@ -19,22 +19,30 @@ const inputStyle = {
 
 const endpoint = `${URL_API}/crearevento`;
 
+
 const CreateEvento = () => {
   const [nombre_evento, setNombreEvento] = useState("");
   const [tipo_evento, setTipoEvento] = useState("");
-  const [fecha_inicio, setFechaInicio] = useState("");
-  const [fecha_fin, setFechaFin] = useState("");
+  const [fecha_inicio_inscripcion, setFechaInicioIns] = useState("");
+  const [fecha_fin_inscripcion, setFechaFinIns] = useState("");
+  const [fecha_inicio_evento, setFechaInicioEvent] = useState("");
+  const [fecha_fin_evento, setFechaFinEvent] = useState("");
   const [hora, setHora] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [nombreEventoError, setNombreEventoError] = useState("");
   const navigate = useNavigate();
   const [fechaInicioError, setFechaInicioError] = useState("");
   const [fechaFinError, setFechaFinError] = useState("");
+  const [fechaInicioEventError, setFechaInicioEventError] = useState("");
+  const [fechaFinEventError, setFechaFinEventError] = useState("");
+  const [horaEventoError, sethoraEventoError] = useState("");
   const [publico, setPublico] = useState(false);
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
   };
   const [file, setFile] = useState(null);
+
+// Fechas inscripcion ******************************************************
 
   const handleFechaInicioChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -48,11 +56,53 @@ const CreateEvento = () => {
       setFechaInicioError("");
     }
 
-    setFechaInicio(event.target.value);
+    setFechaInicioIns(event.target.value);
+  };
+  const handleFechaFinChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const startDate = new Date(fecha_inicio_inscripcion); // Convierte la fecha de inicio a objeto Date
+
+    if (selectedDate < startDate) {
+      setFechaFinError(
+        "La fecha de fin no puede ser anterior a la fecha de inicio."
+      );
+    } else {
+      setFechaFinError("");
+    }
+
+    setFechaFinIns(event.target.value);
   };
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
 
+  };
+  // Fechas Evento ******************************************************
+
+  const handleFechaInicioEventChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const startDate = new Date(fecha_fin_inscripcion)
+    if (selectedDate <= startDate) {
+      setFechaInicioEventError(
+        "La fecha de inicio debe ser posterior al día de hoy."
+      );
+    } else {
+      setFechaInicioEventError("");
+    }
+
+    setFechaInicioEvent(event.target.value);
+  };
+  const handleFechaFinEventChange = (event) => {
+    const selectedDate = new Date(event.target.value);// Convierte la fecha de inicio a objeto Date
+    const startDate = new Date(fecha_fin_inscripcion)
+    if (selectedDate < startDate) {
+      setFechaFinEventError(
+        "La fecha de fin no puede ser anterior a la fecha de inicio."
+      );
+    } else {
+      setFechaFinEventError("");
+    }
+
+    setFechaFinEvent(event.target.value);
   };
   const handleUpload = async (id) => {
     if (!file) {
@@ -75,37 +125,36 @@ const CreateEvento = () => {
       console.error(error);
     }
   };
-  const handleFechaFinChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDate = new Date(fecha_inicio); // Convierte la fecha de inicio a objeto Date
-
-    if (selectedDate < startDate) {
-      setFechaFinError(
-        "La fecha de fin no puede ser anterior a la fecha de inicio."
-      );
-    } else {
-      setFechaFinError("");
-    }
-
-    setFechaFin(event.target.value);
-  };
+  
+  
 
   const handleHorasChange = (event) => {
-    setHora(event.target.value);
+    if (event.target.value != 0||event.target.value==null) {
+      if (event.target.value.length<= 3) {
+        setHora(event.target.value);
+      }else{
+        sethoraEventoError('No se permiten más de 3 caracteres.');
+      } 
+    }else{
+      sethoraEventoError('No se permiten 0 horas.');
+    }
+       
   };
 
   const store = async (e) => {
     e.preventDefault();
-    const selectedStartDate = new Date(fecha_inicio);
-    const selectedEndDate = new Date(fecha_fin);
+    const selectedStartDate = new Date(fecha_inicio_inscripcion);
+    const selectedEndDate = new Date(fecha_fin_inscripcion);
     const currentDate = new Date();
     let todosErrores = [];
     // Validación del nombre del evento
     if (
       !nombre_evento ||
       !tipo_evento ||
-      !fecha_inicio ||
-      !fecha_fin ||
+      !fecha_inicio_inscripcion ||
+      !fecha_fin_inscripcion ||      
+      !fecha_inicio_evento ||
+      !fecha_fin_evento ||
       !hora ||
       !descripcion
     ) {
@@ -147,8 +196,10 @@ const CreateEvento = () => {
       let response=await axios.post(endpoint, {
         nombre_evento: nombre_evento,
         tipo_evento: tipo_evento,
-        fecha_inicio: fecha_inicio,
-        fecha_fin: fecha_fin,
+        fecha_inicio_inscripcion: fecha_inicio_inscripcion,
+        fecha_fin_inscripcion: fecha_fin_inscripcion,
+        fecha_inicio_evento: fecha_inicio_evento,
+        fecha_fin_evento: fecha_fin_evento,
         hora: hora,
         publico: publico,
         descripcion: descripcion,
@@ -264,7 +315,7 @@ const CreateEvento = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio
+                          Fecha de Inicio inscripción
                         </label>
                         <input
                           type="date"
@@ -273,7 +324,7 @@ const CreateEvento = () => {
                           id="fechaInicio"
                           name="fechaInicio"
                           style={inputStyle}
-                          value={fecha_inicio}
+                          value={fecha_inicio_inscripcion}
                           onChange={handleFechaInicioChange}
                         />
                         {fechaInicioError && (
@@ -284,7 +335,7 @@ const CreateEvento = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaFin" className="form-label">
-                          Fecha de Fin
+                          Fecha de Fin inscripcion
                         </label>
                         <input
                           type="date"
@@ -293,7 +344,7 @@ const CreateEvento = () => {
                           id="fechaFin"
                           name="fechaFin"
                           style={inputStyle}
-                          value={fecha_fin}
+                          value={fecha_fin_inscripcion}
                           onChange={handleFechaFinChange}
                         />
                         {fechaFinError && (
@@ -303,23 +354,68 @@ const CreateEvento = () => {
                         )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="horas" className="form-label">
-                          Horas
+                        <label htmlFor="fechaInicio" className="form-label">
+                          Fecha de Inicio Evento
                         </label>
-                        <select
-                          className="form-select"
-                          id="horas"
-                          name="horas"
+                        <input
+                          type="date"
+                          className={`form-control ${fechaInicioEventError ? "is-invalid" : ""
+                            }`}
+                          id="fechaInicio"
+                          name="fechaInicio"
                           style={inputStyle}
+                          value={fecha_inicio_evento}
+                          onChange={handleFechaInicioEventChange}
+                        />
+                        {fechaInicioEventError && (
+                          <div className="invalid-feedback">
+                            {fechaInicioEventError}
+                          </div>
+                        )}
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="fechaFin" className="form-label">
+                          Fecha de Fin Evento
+                        </label>
+                        <input
+                          type="date"
+                          className={`form-control ${fechaFinEventError ? "is-invalid" : ""
+                            }`}
+                          id="fechaFin"
+                          name="fechaFin"
+                          style={inputStyle}
+                          value={fecha_fin_evento}
+                          onChange={handleFechaFinEventChange}
+                        />
+                        {fechaFinEventError && (
+                          <div className="invalid-feedback">
+                            {fechaFinEventError}
+                          </div>
+                        )}
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="horas" className="form-label">
+                          horas
+                        </label>
+                        <input
+                          onKeyDown={(event) => {                            
+                            if (!(event.key === 'Backspace' ||event.key ==='ArrowLeft'||event.key ==='ArrowRight'|| event.key === 'Tab' || /[0-9]/.test(event.key))) {
+                              event.preventDefault();
+                            }}}
                           value={hora}
                           onChange={handleHorasChange}
-                        >
-                          <option value="">Seleccionar horas</option>
-                          <option value="1">1 hora</option>
-                          <option value="2">2 horas</option>
-                          <option value="3">3 horas</option>
-                          <option value="4">4 horas</option>
-                        </select>
+                          type="number"
+                          className={`form-control ${horaEventoError ? "is-invalid" : ""
+                            }`}
+                          id="horaEvento"
+                          name="horaEvento"
+                          style={inputStyle}
+                        />
+                        {horaEventoError && (
+                          <div className="invalid-feedback">
+                            {horaEventoError}
+                          </div>
+                        )}
                       </div>
                       <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
                       <div className="form-check form-switch">
