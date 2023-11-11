@@ -39,6 +39,7 @@ class CompetenciaController extends Controller
         $competencia->integrantes_competencia = $request->integrantes_competencia;
         $competencia->fecha_inicio_competencia = $request->fecha_inicio_competencia;
         $competencia->fecha_fin_competencia = $request->fecha_fin_competencia;
+        $competencia->fecha_competencia = $request->fecha_competencia;
         $competencia->horas_competencia = $request->horas_competencia;
         $competencia->descripcion_competencia = $request->descripcion_competencia;
         $competencia->publicado_competencia = $request->publicado_competencia;
@@ -72,6 +73,7 @@ class CompetenciaController extends Controller
         $competencia->integrantes_competencia = $request->integrantes_competencia;
         $competencia->fecha_inicio_competencia = $request->fecha_inicio_competencia;
         $competencia->fecha_fin_competencia = $request->fecha_fin_competencia;
+        $competencia->fecha_competencia = $request->fecha_competencia;
         $competencia->horas_competencia = $request->horas_competencia;
         $competencia->descripcion_competencia = $request->descripcion_competencia;
         $competencia->publicado_competencia = $request->publicado_competencia;

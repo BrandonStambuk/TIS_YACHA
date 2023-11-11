@@ -24,12 +24,15 @@ const CreateCompe = () => {
   const [numero_miembro, setMiembro] = useState("");
   const [fecha_inicio, setFechaInicio] = useState("");
   const [fecha_fin, setFechaFin] = useState("");
+  const [fecha_competencia, setFechaCompetencia] = useState("");
   const [hora, setHora] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [nombreCompeError, setNombreCompeError] = useState("");
   const navigate = useNavigate();
   const [fechaInicioError, setFechaInicioError] = useState("");
   const [fechaFinError, setFechaFinError] = useState("");
+  const [fechaCompError, setfechaCompError] = useState("");
+  const [horaEventoError, sethoraEventoError] = useState("");
   const [publico, setPublico] = useState(false);
 
   const handleMiembroChange = (event) => {
@@ -44,7 +47,7 @@ const CreateCompe = () => {
 
     if (selectedDate <= currentDate) {
       setFechaInicioError(
-        "La fecha de inicio debe ser posterior al día de hoy."
+        "La fecha de inicio inscripcion debe ser posterior al día de hoy."
       );
     } else {
       setFechaInicioError("");
@@ -92,8 +95,35 @@ const CreateCompe = () => {
     setFechaFin(event.target.value);
   };
 
+  const handleFechaFinCompetenciaChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    const startDate = new Date(fecha_fin)
+    if (selectedDate <= startDate) {
+      setfechaCompError(
+        "La fecha de inicio de la competencia debe ser posterior a la fecha de inscripcion"
+      );
+    } else {
+      setfechaCompError("");
+    }
+
+    setFechaCompetencia(event.target.value);
+  };
+
   const handleHorasChange = (event) => {
-    setHora(event.target.value);
+    const inputValue = event.target.value;
+    if (inputValue !== "0") {
+      if (!/^(0|[1-9][0-9]*)$/.test(inputValue)) {
+        sethoraEventoError("El valor no puede empezar con 0");
+      } else if (inputValue.length <= 3) {
+        setHora(inputValue);
+        sethoraEventoError(null);
+      } else {
+        sethoraEventoError("No se permiten más de 3 caracteres.");
+      }
+    } else {
+      sethoraEventoError("No se permiten 0 horas.");
+    }
+       
   };
 
   const store = async (e) => {
@@ -108,6 +138,7 @@ const CreateCompe = () => {
       !numero_miembro ||
       !fecha_inicio ||
       !fecha_fin ||
+      !fecha_competencia||
       !hora ||
       !descripcion
     ) {
@@ -151,6 +182,7 @@ const CreateCompe = () => {
         integrantes_competencia: numero_miembro,
         fecha_inicio_competencia: fecha_inicio,
         fecha_fin_competencia: fecha_fin,
+        fecha_competencia:fecha_competencia,
         horas_competencia: hora,
         publicado_competencia: publico,
         descripcion_competencia: descripcion,
@@ -180,17 +212,17 @@ const CreateCompe = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container mt-2">
+      <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
             <div className="card">
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-white">Crear Competencia</h2>
+                    <h2 className="card-title text-center text-black">Crear Competencia</h2>
                   </div>
                 </div>
-                <div className="row text-white">
+                <div className="row text-black">
                   <div className="col-md-6">
                     <form onSubmit={store} className="text-left">
                       <div className="mb-3">
@@ -231,7 +263,7 @@ const CreateCompe = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio
+                          Fecha de Inicio Inscripción
                         </label>
                         <input
                           type="date"
@@ -251,7 +283,7 @@ const CreateCompe = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="fechaFin" className="form-label">
-                          Fecha de Fin
+                          Fecha de Fin Inscripción
                         </label>
                         <input
                           type="date"
@@ -270,23 +302,48 @@ const CreateCompe = () => {
                         )}
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="horas" className="form-label">
-                          Horas
+                        <label htmlFor="fechaInicio" className="form-label">
+                          Fecha de Inicio Competencia
                         </label>
-                        <select
-                          className="form-select"
-                          id="horas"
-                          name="horas"
+                        <input
+                          type="date"
+                          className={`form-control ${fechaCompError ? "is-invalid" : ""
+                            }`}
+                          id="fechaInicio"
+                          name="fechaInicio"
                           style={inputStyle}
+                          value={fecha_competencia}
+                          onChange={handleFechaFinCompetenciaChange}
+                        />
+                        {fechaCompError && (
+                          <div className="invalid-feedback">
+                            {fechaCompError}
+                          </div>
+                        )}
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="horas" className="form-label">
+                          horas
+                        </label>
+                        <input
+                          onKeyDown={(event) => {                            
+                            if (!(event.key === 'Backspace' ||event.key ==='ArrowLeft'||event.key ==='ArrowRight'|| event.key === 'Tab' || /[0-9]/.test(event.key))) {
+                              event.preventDefault();
+                            }}}
                           value={hora}
                           onChange={handleHorasChange}
-                        >
-                          <option value="">Seleccionar</option>
-                          <option value="1">1 hora</option>
-                          <option value="2">2 horas</option>
-                          <option value="3">3 horas</option>
-                          <option value="4">4 horas</option>
-                        </select>
+                          type="number"
+                          className={`form-control ${horaEventoError ? "is-invalid" : ""
+                            }`}
+                          id="horaEvento"
+                          name="horaEvento"
+                          style={inputStyle}
+                        />
+                        {horaEventoError && (
+                          <div className="invalid-feedback">
+                            {horaEventoError}
+                          </div>
+                        )}
                       </div>
                       <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
                       <div className="form-check form-switch">

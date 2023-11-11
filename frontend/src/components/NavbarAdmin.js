@@ -2,12 +2,43 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/Navbar.css';
 import './css/fondo.css';
-import { Link } from 'react-router-dom';
-//import { useAuth } from './AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import axios from 'axios';
+import { URL_API } from '../const';
+import Swal from 'sweetalert2';
+
+const endpoint = `${URL_API}/logout`;
 
 const NavbarAdmin = () => {
-  const isAuthenticated = localStorage.getItem('token');
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
+  const handleSignOut = async () => {
+    try {
+      const result = await Swal.fire({
+        title: '¿Estás seguro de que deseas cerrar sesión?',
+        text: 'No podrás revertir esta acción.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar',
+      });
+
+      if (result.isConfirmed) {
+        localStorage.removeItem('token');
+        logout();
+        navigate('/');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+
+  const isAuthenticated = localStorage.getItem('token');
 
   return (
     <nav className="navbar navbar-expand-lg">
@@ -26,7 +57,9 @@ const NavbarAdmin = () => {
           </ul>
           <ul className="navbar-nav ms-auto">
             {isAuthenticated ? (
-              <li className="nav-item p-2"><Link to="/signout" className="nav-link">Cerrar Sesión</Link></li>
+              <li className="nav-item p-2">
+                <button className="nav-link" onClick={handleSignOut}>Cerrar Sesión</button>
+              </li>
             ) : (
               <li className="nav-item p-2"><Link to="/login" className="nav-link">Iniciar Sesión</Link></li>
             )}
