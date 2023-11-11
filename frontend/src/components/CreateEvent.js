@@ -50,7 +50,7 @@ const CreateEvento = () => {
 
     if (selectedDate <= currentDate) {
       setFechaInicioError(
-        "La fecha de inicio debe ser posterior al día de hoy."
+        "La fecha de inicio inscripcion debe ser posterior al día de hoy."
       );
     } else {
       setFechaInicioError("");
@@ -129,14 +129,18 @@ const CreateEvento = () => {
   
 
   const handleHorasChange = (event) => {
-    if (event.target.value != 0||event.target.value==null) {
-      if (event.target.value.length<= 3) {
-        setHora(event.target.value);
-      }else{
-        sethoraEventoError('No se permiten más de 3 caracteres.');
-      } 
-    }else{
-      sethoraEventoError('No se permiten 0 horas.');
+    const inputValue = event.target.value;
+    if (inputValue !== "0") {
+      if (!/^(0|[1-9][0-9]*)$/.test(inputValue)) {
+        sethoraEventoError("El valor no puede empezar con 0");
+      } else if (inputValue.length <= 3) {
+        setHora(inputValue);
+        sethoraEventoError(null);
+      } else {
+        sethoraEventoError("No se permiten más de 3 caracteres.");
+      }
+    } else {
+      sethoraEventoError("No se permiten 0 horas.");
     }
        
   };

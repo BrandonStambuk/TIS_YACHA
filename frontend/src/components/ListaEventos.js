@@ -86,7 +86,7 @@ const ListaEventos = () => {
                             <td className="centrado">{evento.fecha_inicio_evento}</td>
                             <td className="centrado">{evento.fecha_fin_evento}</td>
                             <td className="centrado">{evento.hora}</td>
-                            <td className="centrar-botones">
+                            <td className="centrado centrar-botones">
                               <Link to={`/edit/${evento.id}`} className="btn btn-editar">
                                 Editar
                               </Link>

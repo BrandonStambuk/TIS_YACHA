@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\CompetenciaController;
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');
     Route::get('/mostrarPublico', 'publicar');
+    Route::get('/mostrarPublicoPasados', 'publicarPasados');
     Route::post('/crearevento', 'store');
     Route::get('/crearevento/{id}', 'show');
     //Route::get('/crearevento/{id}', 'get');
