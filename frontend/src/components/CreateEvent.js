@@ -19,6 +19,7 @@ const inputStyle = {
 
 const endpoint = `${URL_API}/crearevento`;
 
+
 const CreateEvento = () => {
   const [nombre_evento, setNombreEvento] = useState("");
   const [tipo_evento, setTipoEvento] = useState("");
@@ -34,6 +35,7 @@ const CreateEvento = () => {
   const [fechaFinError, setFechaFinError] = useState("");
   const [fechaInicioEventError, setFechaInicioEventError] = useState("");
   const [fechaFinEventError, setFechaFinEventError] = useState("");
+  const [horaEventoError, sethoraEventoError] = useState("");
   const [publico, setPublico] = useState(false);
   const handleTipoEventoChange = (event) => {
     setTipoEvento(event.target.value);
@@ -127,7 +129,16 @@ const CreateEvento = () => {
   
 
   const handleHorasChange = (event) => {
-    setHora(event.target.value);
+    if (event.target.value != 0||event.target.value==null) {
+      if (event.target.value.length<= 3) {
+        setHora(event.target.value);
+      }else{
+        sethoraEventoError('No se permiten más de 3 caracteres.');
+      } 
+    }else{
+      sethoraEventoError('No se permiten 0 horas.');
+    }
+       
   };
 
   const store = async (e) => {
@@ -384,22 +395,27 @@ const CreateEvento = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="horas" className="form-label">
-                          Horas
+                          horas
                         </label>
-                        <select
-                          className="form-select"
-                          id="horas"
-                          name="horas"
-                          style={inputStyle}
+                        <input
+                          onKeyDown={(event) => {                            
+                            if (!(event.key === 'Backspace' ||event.key ==='ArrowLeft'||event.key ==='ArrowRight'|| event.key === 'Tab' || /[0-9]/.test(event.key))) {
+                              event.preventDefault();
+                            }}}
                           value={hora}
                           onChange={handleHorasChange}
-                        >
-                          <option value="">Seleccionar horas</option>
-                          <option value="1">1 hora</option>
-                          <option value="2">2 horas</option>
-                          <option value="3">3 horas</option>
-                          <option value="4">4 horas</option>
-                        </select>
+                          type="number"
+                          className={`form-control ${horaEventoError ? "is-invalid" : ""
+                            }`}
+                          id="horaEvento"
+                          name="horaEvento"
+                          style={inputStyle}
+                        />
+                        {horaEventoError && (
+                          <div className="invalid-feedback">
+                            {horaEventoError}
+                          </div>
+                        )}
                       </div>
                       <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
                       <div className="form-check form-switch">
