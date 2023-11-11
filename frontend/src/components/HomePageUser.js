@@ -15,11 +15,14 @@ const endpoint = URL_API;
 const HomePage = () => {
   const containerRef = useRef();
   const [eventos, setEventos] = useState([]);
+  const [eventosPasados, setEventosPasados] = useState([]);
   const [scrolling, setScrolling] = useState(0);
   const [filtroTipo, setFiltroTipo] = useState('');
+  const [filtroTipoPasados, setFiltroTipoPasados] = useState('');
 
   useEffect(() => {
     getAllEventos();
+    getAllEventosPasados();
   }, []);
 
   const imagenesEvento = {
@@ -32,6 +35,11 @@ const HomePage = () => {
   const getAllEventos = async () => {
     const response = await axios.get(`${endpoint}/mostrarPublico`);
     setEventos(response.data);
+  };
+
+  const getAllEventosPasados = async () => {
+    const response = await axios.get(`${endpoint}/mostrarPublicoPasados`);
+    setEventosPasados(response.data);
   };
 
   const scrollContainer = (scrollAmount) => {
@@ -114,6 +122,66 @@ const HomePage = () => {
         <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
         <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
       </div>
+
+
+
+
+      <div className="container mt-3">
+        <div className="row">
+          <div className="col-md-12 col-lg-12">
+            <div className="card card-translucent">
+              <h3 className="card-header">Eventos Pasados UMSS</h3>
+              {/* Filtro */}
+              <div className="mb-3">
+                <select id="tipoEvento" className="form-select form-select-lg" value={filtroTipoPasados}
+                  onChange={(e) => setFiltroTipoPasados(e.target.value)}
+                >
+                  <option value="">Todos</option>
+                  <option value="Reclutamiento">Reclutamiento</option>
+                  <option value="Taller de reclutamiento">Taller de reclutamiento</option>
+                  <option value="Competencia de entrenamiento">Competencia de entrenamiento</option>
+                  <option value="Competencia interna">Competencia interna</option>
+                  {/* Refactorizar */}
+                </select>
+              </div>
+              <div ref={containerRef} className="card-body event-container">
+                {eventosPasados && eventosPasados.length > 0 && (() => {
+                  let elements = [];
+                  for (let i = 0; i < eventosPasados.length; i++) {
+                    let evento = eventosPasados[i];
+                    if (filtroTipoPasados === '' || evento.tipo_evento === filtroTipoPasados) {
+                      elements.push(
+                        <div className="mt-1" key={evento.id}>
+                          <div className="image-container">
+                            <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
+                            <p className="test">{evento.nombre_evento}</p>
+                          </div>
+                          <div className="card-footer bg-white shadow image-container">
+                            <div className="event-info">
+                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
+                              <div className="row">
+                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
+                                <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
+                              </div>
+                              <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  }
+                  return elements;
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="scroll-buttons">
+        <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
+        <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
+      </div>          
+
     </div>
   );
 };

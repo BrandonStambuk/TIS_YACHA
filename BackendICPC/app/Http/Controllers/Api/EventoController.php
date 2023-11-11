@@ -20,11 +20,25 @@ class EventoController extends Controller
     }
 
     public function publicar()
-{
-    $evento = Evento::where('publico', 1)->get();
-    
-    return $evento;
-}
+    {
+        /*$evento = Evento::where('publico', 1)->get();
+        return $evento;*/
+        
+        $evento = Evento::where('publico', 1)
+                      ->where('fecha_inicio', '>=', now())
+                      ->orderBy('fecha_inicio', 'asc')
+                      ->get();
+        return $evento;
+    }
+
+    public function publicarPasados()
+    {
+        $evento = Evento::where('publico', 1)
+                      ->where('fecha_inicio', '<', now())
+                      ->orderBy('fecha_inicio', 'desc')
+                      ->get();
+        return $evento;
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -90,8 +104,17 @@ class EventoController extends Controller
         return $evento;
     }
 
-    /*public function get(){
-        $evento = Evento::all();
+    public function filterEventoActualesOrdenadosporFechadeMasProximosAFuturos()
+    {   
+        $evento = Evento::where('fecha_inicio', '>=', now())
+                      ->orderBy('fecha_inicio', 'asc')
+                      ->get();
         return $evento;
-    }*/
+    }
+
+    public function filterEventoPasados()
+    {
+        $evento = Evento::where('fecha_inicio', '<', now())->get();
+        return $evento;
+    }
 }
