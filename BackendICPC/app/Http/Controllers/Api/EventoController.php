@@ -25,8 +25,8 @@ class EventoController extends Controller
         return $evento;*/
         
         $evento = Evento::where('publico', 1)
-                      ->where('fecha_inicio', '>=', now())
-                      ->orderBy('fecha_inicio', 'asc')
+                      ->where('fecha_inicio_evento', '>=', now())
+                      ->orderBy('fecha_inicio_evento', 'asc')
                       ->get();
         return $evento;
     }
@@ -34,8 +34,8 @@ class EventoController extends Controller
     public function publicarPasados()
     {
         $evento = Evento::where('publico', 1)
-                      ->where('fecha_inicio', '<', now())
-                      ->orderBy('fecha_inicio', 'desc')
+                      ->where('fecha_inicio_evento', '<', now())
+                      ->orderBy('fecha_inicio_evento', 'desc')
                       ->get();
         return $evento;
     }
