@@ -7,7 +7,6 @@ import CreateEvento from './components/CreateEvent';
 import CreateCompe from './components/CreateCompe';
 import ListaEventos from './components/ListaEventos';
 import EditEvento from './components/EditEvent';
-import EditComp from './components/EditComp'
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
