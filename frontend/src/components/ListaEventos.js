@@ -66,13 +66,12 @@ const ListaEventos = () => {
                 <table>
                   <thead className='text-white'>
                     <tr>
-                      <th>Nombre</th>
-                      <th>Tipo</th>
-                      <th>Descripcion</th>
-                      <th>Fecha de inicio</th>
-                      <th>Fecha Fin</th>
-                      <th>Duración (horas)</th>
-                      <th>Acción</th>
+                      <th className="centrado">Nombre</th>
+                      <th className="centrado">Tipo</th>
+                      <th className="centrado">Fecha de inicio Evento</th>
+                      <th className="centrado">Fecha Fin Evento</th>
+                      <th className="centrado">Duración (horas)</th>
+                      <th className="centrado">Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,11 +81,10 @@ const ListaEventos = () => {
                         let evento = eventosVisibles[i];
                         rows.push(
                           <tr key={evento.id}>
-                            <td>{evento.nombre_evento}</td>
-                            <td>{evento.tipo_evento}</td>
-                            <td>{evento.descripcion}</td>
-                            <td>{evento.fecha_inicio}</td>
-                            <td>{evento.fecha_fin}</td>
+                            <td className="centrado">{evento.nombre_evento}</td>
+                            <td className="centrado">{evento.tipo_evento}</td>
+                            <td className="centrado">{evento.fecha_inicio_evento}</td>
+                            <td className="centrado">{evento.fecha_fin_evento}</td>
                             <td className="centrado">{evento.hora}</td>
                             <td className="centrar-botones">
                               <Link to={`/edit/${evento.id}`} className="btn btn-editar">
