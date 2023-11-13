@@ -78,20 +78,10 @@ const RegistroEquipo= () => {
               />
             </div>
           </div>
-  
-          <input
-            required
-            className="input"
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input className="register-button" type="submit" value="Registrar" />
+
+          <input className="register-button" type="submit" value="Registrar Equipo" />
           {error && <div className="error-message">{error}</div>}
-          <label>Credenciales no validas.</label>
+          <label>Error al registrar equipo.</label>
         </form>
         <span className="agreement"></span>
       </div>
