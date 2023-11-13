@@ -15,7 +15,7 @@ const endpoint = `${URL_API}/login`; // Asegúrate de que esta sea la URL correc
 
 
 const Login = () => {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(endpoint, {
-        name: name, 
+        email: email, 
         password: password, 
       });
       const token = response.data.token;
@@ -63,9 +63,9 @@ const Login = () => {
             type="text"
             name="name"
             id="name"
-            placeholder="Ingrese nombre de usuario"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Ingrese email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             required=""

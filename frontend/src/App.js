@@ -42,7 +42,7 @@ function App() {
           <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
           <Route path="/register" element={<Register/>} />
-          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <Login />}/>
+          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
         </Routes>
       </BrowserRouter>
     </div>
