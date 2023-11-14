@@ -65,7 +65,7 @@ const HomePage = () => {
           <div className="" style={hide(id)}>
             <img className="imagenevento" src={getEventoImage(id)} alt={nombre_evento} />
           </div>
-          <div className="event-info-text left">
+          <div className="event-info-text center">
             <h2 event-info-text left>{nombre_evento}</h2>
           </div>
           <div className="col-md-6">                    

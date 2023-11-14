@@ -12,6 +12,10 @@
 	border-color:#0f5fa6;
 }
 
+.img{
+	border-radius: 10px;
+}
+
 .boton-atras{
 	background-color: #d92323;
 	border-color:#d92323;

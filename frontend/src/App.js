@@ -13,11 +13,11 @@ import Login from './components/Login';
 import RegistroEvento from './components/RegistroEvento';
 import HomePageUser from './components/HomePageUser';
 import SignOut from './components/SignOut';
-import Register from './components/Register';
 import RegisterUsuario from './components/RegistroUsuario';
 import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 import MostarCompe from './components/ListaCompetencias'
 import EditComp from './components/EditComp';
+import RegistroEquipo from './components/RegistrarEquipo';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -41,8 +41,8 @@ function App() {
           <Route path="/login" element={<Login/>}/> 
           <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <Login />}/>
+          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
+          <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
         </Routes>
       </BrowserRouter>
     </div>

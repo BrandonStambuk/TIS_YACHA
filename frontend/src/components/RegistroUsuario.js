@@ -12,7 +12,6 @@ const RegistroUsuario = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const [idCard, setIdCard] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -39,13 +38,21 @@ const RegistroUsuario = () => {
         lastName: lastName,
         email: email,
         role: role,
-        idCard: idCard,
         password: password,
       });
       navigate('/login');
 
     } catch (error) {
-      setError("Credenciales incorrectas. Inténtalo de nuevo.");
+      if (error.response && error.response.status === 422) {
+        const validationErrors = error.response.data.errors;
+        if (validationErrors && validationErrors.email) {
+          setError(validationErrors.email[0]);
+        } else {
+          setError("Hubo un error en la validación. Inténtalo de nuevo.");
+        }
+      } else {
+        setError("Hubo un error. Inténtalo de nuevo.");
+      }
     }
   };
 
@@ -127,7 +134,6 @@ const RegistroUsuario = () => {
           />
           <input className="register-button" type="submit" value="Registrar" />
           {error && <div className="error-message">{error}</div>}
-          <label>Credenciales no validas.</label>
         </form>
         <span className="agreement"></span>
       </div>

@@ -15,17 +15,30 @@ class AuthController extends Controller
 {
     //
     public function register(Request $request){
+        // Validación de campos
+        $request->validate([
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'email' => 'required|email|unique:users,email', 
+            'role' => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'email.unique' => 'El correo electrónico ya está registrado. Por favor, elige otro.',
+        ]);
+    
+        // Crear el usuario solo si la validación pasa
         return User::create([
-            'name' => $request->input('name'),
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
             'email' => $request->input('email'),
+            'role' => $request->input('role'),
             'password' => bcrypt($request->input('password')),
         ]);
-
     }
 
     public function login(Request $request) {
 
-        if(!Auth::attempt($request->only('name','password'))){
+        if(!Auth::attempt($request->only('email','password'))){
             return response([
                 'message' => 'Invalid credentials'
             ], Response::HTTP_UNAUTHORIZED);
