@@ -8,7 +8,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
-import { urlApi } from "./const";
+import { URL_API } from "./const";
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -17,7 +17,7 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = `${urlApi}/crearcompe`;
+const endpoint = `${URL_API}/crearcompe`;
 
 const CreateCompe = () => {
   const [nombre_compe, setNombreCompe] = useState("");
