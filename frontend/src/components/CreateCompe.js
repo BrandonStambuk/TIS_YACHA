@@ -323,7 +323,7 @@ const CreateCompe = () => {
                       </div>
                       <div className="mb-3">
                         <label htmlFor="horas" className="form-label">
-                          horas
+                          Horas
                         </label>
                         <input
                           onKeyDown={(event) => {                            
@@ -345,7 +345,7 @@ const CreateCompe = () => {
                           </div>
                         )}
                       </div>
-                      <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
+                      <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar Competencia</label> </div>
                       <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                           checked={publico}
