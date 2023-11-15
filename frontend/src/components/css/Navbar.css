@@ -6,7 +6,7 @@
     box-shadow: -4px 19px 30px -2px rgba(0,0,0,0.74) inset;
     -webkit-box-shadow: -4px 19px 30px -2px rgba(0,0,0,0.74) inset;
     -moz-box-shadow: -4px 19px 30px -2px rgba(0,0,0,0.74) inset;
-  
+    margin-top: 10px;
 }
    .navbar-brand,
    .navbar-nav .nav-link {
@@ -18,3 +18,8 @@
     color: white;
 }
 
+.UMSS, .ICPC {
+    max-height: 90px; /* Ajusta el valor según tus necesidades */
+    max-width: 90px; /* Ajusta el valor según tus necesidades */
+    object-fit: contain; /* Ajusta la propiedad de ajuste del objeto según tus necesidades */
+  }
