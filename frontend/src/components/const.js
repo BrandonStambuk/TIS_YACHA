@@ -1,1 +1,1 @@
-export const urlApi="http://localhost:8000/api";
+export const URL_API="http://yachay.tis.cs.umss.edu.bo/api";

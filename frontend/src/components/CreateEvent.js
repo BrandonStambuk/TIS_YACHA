@@ -8,7 +8,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
-import { URL_API } from "../const";
+import { URL_API } from "./const";
 
 import Swal from 'sweetalert2';
 const inputStyle = {

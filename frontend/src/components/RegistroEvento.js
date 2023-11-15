@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import "./css/RegistroEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import { URL_API } from '../const';
+import { URL_API } from './const';
 
 const endpoint = `${URL_API}/crearusuario`;
 

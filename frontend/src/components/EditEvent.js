@@ -5,7 +5,7 @@ import NavbarAdmin from './NavbarAdmin';
 import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
-import { URL_API } from '../const';
+import { URL_API } from './const';
 import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
-import { urlApi } from "./const";
-const endpoint = urlApi;
+import { URL_API } from "./const";
+const endpoint = URL_API;
 
 const ListaCompetecias = () => {
   const [pagina, setPagina] = useState(0);

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c3a3b5c2.css",
-    "main.js": "/static/js/main.d5d8b4fa.js",
+    "main.css": "/static/css/main.3763e33a.css",
+    "main.js": "/static/js/main.afbf8068.js",
     "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
     "static/media/ICPC-contest.png": "/static/media/ICPC-contest.e731b37839f22cb5a215.png",
     "static/media/imagen4.jpg": "/static/media/imagen4.a2a02209d83a48880c77.jpg",
@@ -10,16 +10,17 @@
     "static/media/plantilla2.jpg": "/static/media/plantilla2.9071baa1aa183c4c58bc.jpg",
     "static/media/cabeza3.jpg": "/static/media/cabeza3.2bcde98fb77b05fc3d62.jpg",
     "static/media/cabeza.jpg": "/static/media/cabeza.00cc13a4755199ea425d.jpg",
+    "static/media/icpc.jpg": "/static/media/icpc.3e7d33befb85b86092e3.jpg",
     "static/media/cabeza2.jpg": "/static/media/cabeza2.5d845172dfc6ec7335dd.jpg",
     "static/media/cabeza4.jpg": "/static/media/cabeza4.c4c8242db7ad49fa438d.jpg",
     "static/media/plantilla1.jpg": "/static/media/plantilla1.41d08d676fbe2d6877dc.jpg",
     "index.html": "/index.html",
-    "main.c3a3b5c2.css.map": "/static/css/main.c3a3b5c2.css.map",
-    "main.d5d8b4fa.js.map": "/static/js/main.d5d8b4fa.js.map",
+    "main.3763e33a.css.map": "/static/css/main.3763e33a.css.map",
+    "main.afbf8068.js.map": "/static/js/main.afbf8068.js.map",
     "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c3a3b5c2.css",
-    "static/js/main.d5d8b4fa.js"
+    "static/css/main.3763e33a.css",
+    "static/js/main.afbf8068.js"
   ]
 }

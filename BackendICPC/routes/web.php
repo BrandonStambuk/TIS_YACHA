@@ -14,5 +14,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::get('/listaEventos', function () {
+    return view('index');
+});
+
+
+Route::get('/listaCompetencias', function () {
+    return view('index');
+});
+
+
+
+Route::get('/home', function () {
+    return view('index');
+});
+
+Route::get('/registerUsuario', function () {
+    return view('index');
+});
+

@@ -5,7 +5,7 @@ import './css/fondo.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
-import { URL_API } from '../const';
+import { URL_API } from './const';
 import Swal from 'sweetalert2';
 
 const endpoint = `${URL_API}/logout`;

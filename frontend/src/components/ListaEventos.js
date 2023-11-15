@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
-import { URL_API } from '../const';
+import { URL_API } from './const';
 
 const endpoint = URL_API;
 

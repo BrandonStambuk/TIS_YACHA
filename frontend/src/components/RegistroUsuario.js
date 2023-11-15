@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavbarAdmin  from "./NavbarAdmin";
-import { URL_API } from '../const';
+import { URL_API } from './const';
 import "./css/RegistroUsuario.css";
 
 const endpoint = `${URL_API}/register`;

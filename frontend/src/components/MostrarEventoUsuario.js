@@ -6,7 +6,7 @@ import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
 import { Link } from 'react-router-dom';
-import { URL_API } from '../const';
+import { URL_API } from './const';
 
 const endpoint = `${URL_API}/crearevento`;
 

@@ -10,7 +10,7 @@ import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { urlApi } from "./const";
+import { URL_API } from "./const";
 
 
 import Swal from 'sweetalert2';
@@ -20,7 +20,7 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = `${urlApi}/crearcompe`;
+const endpoint = `${URL_API}/crearcompe`;
 
 const EditComp = () => {
   const [nombre_compe, setNombreCompe] = useState("");
