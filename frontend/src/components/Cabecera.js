@@ -1,20 +1,21 @@
 import React from 'react';
 import imagenUMSS from './images/umss.png';
 import imagenICPC from './images/icpc.jpg';
+
 const Cabecera = () => {
   return (
-    <div>
-      <div style={{ backgroundColor: 'white', height: '130px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <img  src={imagenICPC}alt="Logo UMSS" style={{ width: '307px', height: '130px', marginLeft: '10px' }} />
-          <img src={imagenUMSS} alt="Logo ICPC" style={{ width: '307px', height: '130px', marginRight: '10px' }} />
+    <div className="container-fluid">
+      <div className="row" style={{ backgroundColor: 'white', height: '80px' }}>
+        <div className="col-6 d-flex align-items-center">
+          <img src={imagenUMSS} alt="Logo UMSS" className="img-fluid mx-3 UMSS" style={{ maxWidth: '80%', height: 'auto' }} />
         </div>
+        <div className="col-6 d-flex align-items-center justify-content-end">
+          <img src={imagenICPC} alt="Logo ICPC" className="img-fluid mx-3 ICPC" style={{ maxWidth: '80%', height: 'auto' }} />
+        </div>
+        
       </div>
-
-      
     </div>
   );
 };
 
 export default Cabecera;
-
