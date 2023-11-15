@@ -1,12 +1,23 @@
 .card-translucent {
 	background-color: rgba(221, 221, 221, 0.301);
+
 }
 
+.card-header{
+	background-color: #0f5fa6
+	
+}
 .event-info-text {
 	font-size: 20px;
 }
 
-
+.card-footer{
+	background-color: white;
+	border-radius: 50%;
+	box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+-webkit-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+}
 .boton-ver{
 	background-color: #0f5fa6;
 	border-color:#0f5fa6;
@@ -77,22 +88,22 @@
 	font-size: 24px;
 	font-weight: bold;
 	color: #fff;
-	background-image: linear-gradient(to bottom right,  #0f5fa6, #0072ff);
+	background-image: linear-gradient(to bottom right,  #0f5fa6, #0f5fa6);
 	border: none;
 	border-radius: 10px;
-	box-shadow: 0px 4px 0px #007bff;
+	box-shadow: 0px 4px 0px #0f5fa6;
 	transition: all 0.2s ease-in-out;
   }
   
   .boton-ver:hover {
 	transform: translateY(-2px);
-	box-shadow: 0px 6px 0px #0072ff;
+	box-shadow: 0px 6px 0px#0f5fa6;
   }
   
   .boton-ver:active {
 	transform: translateY(0px);
 	box-shadow: none;
-	background-image: linear-gradient(to bottom right, #0072ff,#0f5fa6);
+	background-image: linear-gradient(to bottom right, #0f5fa6,#083c69);
   }
   
   .boton-ver:before,
@@ -119,7 +130,9 @@
 	border-right: 3px solid #fff;
   }
   
-  
+  .card-translucent .card-header {
+	color: white;
+  }
 
 
 .event-info-text.left {
@@ -152,6 +165,11 @@
 .image-container {
 	position: relative;
 	width: 300px;
+	box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+-webkit-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+
+	
 }
 
 .test {
