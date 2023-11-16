@@ -16,8 +16,21 @@ const RegistroUsuario = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const validateName = (name) => /^[a-zA-Z]{1,30}$/.test(name);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const handleRegistro = async (e) => {
     e.preventDefault();
+
+    if (!validateName(firstName) || !validateName(lastName)) {
+      setError("Los nombres deben contener solo letras y tener un máximo de 30 caracteres.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("El formato del correo electrónico es inválido.");
+      return;
+    }
 
     try {
       const response = await axios.post(endpoint, {
@@ -43,9 +56,23 @@ const RegistroUsuario = () => {
     }
   };
 
+  const handleFirstNameChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z]*$/.test(value) && value.length <= 30) {
+      setFirstName(value);
+    }
+  };
+
+  const handleLastNameChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z]*$/.test(value) && value.length <= 30) {
+      setLastName(value);
+    }
+  };
+
   return (
     <div>
-      <NavbarAdmin/>
+      <NavbarAdmin />
       <div className="container register">
         <div className="heading_register">Registro de Usuarios</div>
         <form action="" className="form" onSubmit={handleRegistro}>
@@ -59,7 +86,7 @@ const RegistroUsuario = () => {
                 id="firstName"
                 placeholder="Primer Nombre"
                 value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={handleFirstNameChange}
               />
             </div>
             <div className="col-md-6">
@@ -71,7 +98,7 @@ const RegistroUsuario = () => {
                 id="lastName"
                 placeholder="Segundo Nombre"
                 value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={handleLastNameChange}
               />
             </div>
           </div>

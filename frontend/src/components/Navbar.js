@@ -11,7 +11,8 @@ const Navbar = () => {
 
   return (
     <div>
-   <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '15px' }}></div>
+      <Cabecera></Cabecera>
+      
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +37,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      
+      <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '15px' }}></div>
     </div>
   );
 };

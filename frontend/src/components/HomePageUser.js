@@ -96,7 +96,7 @@ const HomePage = () => {
                             <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
                             <p className="test">{evento.nombre_evento}</p>
                           </div>
-                          <div className="card-footer bg-white shadow-lg image-container">
+                          <div className="card-footer image-container">
                             <div className="event-info">
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
                               <div className="row">
