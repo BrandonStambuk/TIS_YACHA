@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '15px' }}></div>
+      <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '7px' }}></div>
     </div>
   );
 };
