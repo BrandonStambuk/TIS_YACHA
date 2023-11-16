@@ -13,11 +13,12 @@ import Login from './components/Login';
 import RegistroEvento from './components/RegistroEvento';
 import HomePageUser from './components/HomePageUser';
 import SignOut from './components/SignOut';
-import Register from './components/Register';
+import RegisterUsuario from './components/RegistroUsuario';
 import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 import MostarCompe from './components/ListaCompetencias'
 import CrearEquipo from './components/RegistrarEquipo'
 import EditComp from './components/EditComp';
+import RegistroEquipo from './components/RegistrarEquipo';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -32,8 +33,6 @@ function App() {
           <Route path='/editCompetencia/:id' element={isAuthenticated ? <EditComp/>:<Login/>}/>
           <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
           <Route path='/listaCompetencias' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
-
-          
           <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />
           <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
           <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
@@ -43,8 +42,8 @@ function App() {
           <Route path="/login" element={<Login/>}/> 
           <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/createEquipo" element={isAuthenticated ? <CrearEquipo/>: <Login/>} />
+          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
+          <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
         </Routes>
       </BrowserRouter>
     </div>

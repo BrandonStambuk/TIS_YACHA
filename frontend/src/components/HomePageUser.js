@@ -73,7 +73,6 @@ const HomePage = () => {
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
               <h3 className="card-header">Eventos Próximos UMSS</h3>
-              {/* Filtro */}
               <div className="mb-3">
                 <select id="tipoEvento" className="form-select form-select-lg" value={filtroTipo}
                   onChange={(e) => setFiltroTipo(e.target.value)}
@@ -83,7 +82,6 @@ const HomePage = () => {
                   <option value="Taller de reclutamiento">Taller de reclutamiento</option>
                   <option value="Competencia de entrenamiento">Competencia de entrenamiento</option>
                   <option value="Competencia interna">Competencia interna</option>
-                  {/* Refactorizar */}
                 </select>
               </div>
               <div ref={containerRef} className="card-body event-container">
@@ -98,14 +96,14 @@ const HomePage = () => {
                             <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
                             <p className="test">{evento.nombre_evento}</p>
                           </div>
-                          <div className="card-footer bg-white shadow image-container">
+                          <div className="card-footer image-container">
                             <div className="event-info">
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
                               <div className="row">
                                 <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
                                 <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
                               </div>
-                              <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
+                              <Link to={`/mostrar/${evento.id}`} className='boton-ver'>Ver</Link>
                             </div>
                           </div>
                         </div>

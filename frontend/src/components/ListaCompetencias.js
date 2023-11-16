@@ -29,6 +29,7 @@ const ListaCompetecias = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         // Si el usuario confirma, elimina el evento
@@ -60,7 +61,7 @@ const ListaCompetecias = () => {
         <div className="row">
           <div className="col-md-10">
             <div className="card card-translucent">
-              <h3 className="card-header">Eventos Disponibles</h3>
+              <h3 className="card-header">Competencias Disponibles</h3>
               <div className="card-body table-responsive tabla-contenedor">
                 <table>
                   <thead className='text-white'>
