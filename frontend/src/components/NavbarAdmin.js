@@ -7,7 +7,7 @@ import { useAuth } from './AuthContext';
 import axios from 'axios';
 import { URL_API } from '../const';
 import Swal from 'sweetalert2';
-
+import Cabecera from './Cabecera';
 const endpoint = `${URL_API}/logout`;
 
 const NavbarAdmin = () => {
@@ -41,7 +41,9 @@ const NavbarAdmin = () => {
   const isAuthenticated = localStorage.getItem('token');
 
   return (
-    <nav className="navbar navbar-expand-lg">
+      <div>
+        <Cabecera></Cabecera>
+            <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -70,6 +72,8 @@ const NavbarAdmin = () => {
         </div>
       </div>
     </nav>
+    <div style={{ backgroundColor: 'RGB(242, 183, 5)', height: '7px' }}></div>
+      </div>
   );
 };
 

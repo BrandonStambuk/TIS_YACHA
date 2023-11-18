@@ -55,7 +55,7 @@ const Login = () => {
     <div>
       <Navbar />
       <div className="container login">
-        <div className="heading">Iniciar Sesion ICPC UMSS</div>
+        <div className="heading">Iniciar Sesion: ICPC-UMSS</div>
         <form action="" className="form" onSubmit={handleLogin}>
           <input
             required=""
