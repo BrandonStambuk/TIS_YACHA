@@ -50,16 +50,18 @@ Route::post('/upload', function (Request $request) {
     return response()->json(['path' => $path], 200);
   });
 Route::controller(UsuarioController::class)->group(function (){
-    Route::get('/usuarios', 'index');
+    Route::get('/usuarioss', 'index');
     Route::post('/crearusuario', 'store');
     //Route::get('/crearusuario/{id}', 'show');
     //Route::put('/crearusuario/{id}', 'update');
-    //Route::delete('/usuarios/{id}', 'destroy');
+    //Route::delete('/usuarioss/{id}', 'destroy');
+    Route::delete('/usuarioss/{id}', [App\Http\Controllers\AuthController::class, 'destroy']);
 });
 
 Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
 Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
 Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+
 
 
 Route::middleware('auth:sanctum')->group(function(){

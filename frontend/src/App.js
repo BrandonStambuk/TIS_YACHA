@@ -18,6 +18,7 @@ import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 import MostarCompe from './components/ListaCompetencias'
 import EditComp from './components/EditComp';
 import RegistroEquipo from './components/RegistrarEquipo';
+import ListaUsuarios from './components/ListaUsuarios';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -43,6 +44,7 @@ function App() {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
           <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
+          <Route path="/listaUsuarios" element={isAuthenticated ? <ListaUsuarios/>: <Login/>} />  
         </Routes>
       </BrowserRouter>
     </div>
