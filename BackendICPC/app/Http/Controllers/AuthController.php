@@ -70,4 +70,21 @@ class AuthController extends Controller
         $users = User::all();
         return $users;
     }
+
+
+    public function destroy($id)
+    {       
+         $usuario = User::find($id);
+
+        if ($usuario) {
+            // Si se encontró el usuario, se elimina utilizando el método 'delete' proporcionado por Eloquent.
+            $usuario->delete();
+
+            // Retorna una respuesta JSON indicando que el usuario ha sido eliminado con éxito y un código de estado 200 (OK).
+            return response()->json(['message' => 'Usuario eliminado con éxito'], 200);
+        } else {
+            // Si no se encontró un usuario con el ID proporcionado, retorna una respuesta JSON indicando que el usuario no fue encontrado y un código de estado 404 (No encontrado).
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+    }
 }
