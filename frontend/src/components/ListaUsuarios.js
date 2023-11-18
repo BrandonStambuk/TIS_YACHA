@@ -35,7 +35,7 @@ const ListaUsuarios = () => {
       if (result.isConfirmed) {
         // Si el usuario confirma, elimina el evento
         deleteUsuarios(id);
-        console.log("usuario"+id);
+
         Swal.fire('¡Eliminado!', 'El usuario ha sido eliminado.', 'success');
       }
     });
@@ -43,7 +43,7 @@ const ListaUsuarios = () => {
 
   const deleteUsuarios= async (id) => {
     await axios.delete(`${endpoint}/usuarioss/${id}`);
-    console.log("llegue aqui");
+
     getAllUsuarios();
   };
 
