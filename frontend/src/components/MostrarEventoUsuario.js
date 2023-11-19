@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
-import './css/Homepage.css';
+import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
 import { Link } from 'react-router-dom';

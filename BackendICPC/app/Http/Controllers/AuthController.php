@@ -70,4 +70,17 @@ class AuthController extends Controller
         $users = User::all();
         return $users;
     }
+
+
+    public function destroy($id)
+    {       
+         $usuario = User::find($id);
+
+        if ($usuario) {
+            $usuario->delete();
+            return response()->json(['message' => 'Usuario eliminado con éxito'], 200);
+        } else {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+    }
 }

@@ -236,11 +236,11 @@ const CreateEvento = () => {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
-            <div className="card">
+            <div className="card border-0">
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-blue">Crear Evento</h2>
+                    <h2 className="text-center mb-4 heading">Crear Evento</h2>
                   </div>
                 </div>
                 <div className="row text-black">
