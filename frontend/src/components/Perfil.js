@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import editarIcon from './images/editar.png';
+import perfilImage from './images/perfil.jpg';
 import NavbarAdmin from './NavbarAdmin';
 import './css/Perfil.css'
 import { URL_API } from '../const';
@@ -75,11 +76,14 @@ const Perfil = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className='row'>
-        <div className='container mt-5 container'>
-          <div className='card card-translucent col-md-6 mx-auto'>
+      <div className='row mt-5'>
+        <div className='col-md-5 img-perfil'>
+          <img src={perfilImage} alt="Perfil" className='img-fluid' />
+        </div>
+        <div className='col-md-7 '>
+          <div className='card card-translucent mx-auto card-container'>
             <h2 className='card-header'>Perfil de Usuario</h2>
-            <div className='card-body'>
+            <div className='card-body text-perfil'>
               <div className='d-flex justify-content-center'>
                 <p className='border-right p-3'>
                   <strong>Nombre:</strong> {userData.nombre}
@@ -88,53 +92,54 @@ const Perfil = () => {
                   <strong>Apellido:</strong> {userData.apellido}
                 </p>
               </div>
-              <div>
-                <label>
-                  <strong>Correo:</strong>{' '}
-                  {editModeCorreo ? (
-                    <span>
-                      <input
-                        type="email"
-                        name="correo"
-                        value={editedData.correo}
-                        onChange={handleChange}
-                      />
-                      <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
-                    </span>
-                  ) : (
-                    <span>
-                      {userData.correo}
-                      <button className="btn btn-transparent" onClick={handleEditClickCorreo}>
-                        <img src={editarIcon} alt="Editar" style={editarIconStyle} />
-                      </button>
-                    </span>
-                  )}
-                </label>
+              <div className=''>
+                <div>
+                  <label>
+                    <strong>Correo:</strong>{' '}
+                    {editModeCorreo ? (
+                      <span>
+                        <input
+                          type="email"
+                          name="correo"
+                          value={editedData.correo}
+                          onChange={handleChange}
+                        />
+                        <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
+                      </span>
+                    ) : (
+                      <span>
+                        {userData.correo}
+                        <button className="btn btn-transparent" onClick={handleEditClickCorreo}>
+                          <img src={editarIcon} alt="Editar" style={editarIconStyle} />
+                        </button>
+                      </span>
+                    )}
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <strong>Contraseña:</strong>{' '}
+                    {editModePassword ? (
+                      <span>
+                        <input
+                          type="text"
+                          name="password"
+                          value={editedData.password}
+                          onChange={handleChange}
+                        />
+                        <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
+                      </span>
+                    ) : (
+                      <span>
+                        ********
+                        <button className="btn btn-transparent" onClick={handleEditClickPassword}>
+                          <img src={editarIcon} alt="Editar" style={editarIconStyle} />
+                        </button>
+                      </span>
+                    )}
+                  </label>
+                </div>
               </div>
-              <div>
-                <label>
-                  <strong>Contraseña:</strong>{' '}
-                  {editModePassword ? (
-                    <span>
-                      <input
-                        type="text"
-                        name="password"
-                        value={editedData.password}
-                        onChange={handleChange}
-                      />
-                      <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
-                    </span>
-                  ) : (
-                    <span>
-                      ********
-                      <button className="btn btn-transparent" onClick={handleEditClickPassword}>
-                        <img src={editarIcon} alt="Editar" style={editarIconStyle} />
-                      </button>
-                    </span>
-                  )}
-                </label>
-              </div>
-
             </div>
           </div>
         </div>
