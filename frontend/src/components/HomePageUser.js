@@ -100,7 +100,7 @@ const HomePage = () => {
                             <div className="event-info">
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
                               <div className="row">
-                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
+                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio_evento}</p>
                                 <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
                               </div>
                               <Link to={`/mostrar/${evento.id}`} className='boton-ver'>Ver</Link>
@@ -159,7 +159,7 @@ const HomePage = () => {
                             <div className="event-info">
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
                               <div className="row">
-                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio}</p>
+                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio_evento}</p>
                                 <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
                               </div>
                               <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
