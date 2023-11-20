@@ -1,0 +1,41 @@
+.card-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    float: left;
+
+}
+
+.img-perfil {
+    float: rigth;
+}
+
+.btn-save {
+    background-color: #f2b705;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cancel {
+    background-color: #d92323;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-perfil {
+    font-size: 20px;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .card-translucent {
+        width: 100%;
+        float: none;
+    }
+}

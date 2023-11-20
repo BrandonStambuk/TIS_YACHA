@@ -8,7 +8,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
-import { urlApi } from "./const";
+import { URL_API } from "./const";
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -17,7 +17,7 @@ const inputStyle = {
   fontSize: "14px",
 };
 
-const endpoint = `${urlApi}/crearcompe`;
+const endpoint = `${URL_API}/crearcompe`;
 
 const CreateCompe = () => {
   const [nombre_compe, setNombreCompe] = useState("");
@@ -215,11 +215,11 @@ const CreateCompe = () => {
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
-            <div className="card">
+            <div className="card border-0">
               <div className="card-body tarjeta">
                 <div className="row">
                   <div className="col-md-12">
-                    <h2 className="card-title text-center text-black">Crear Competencia</h2>
+                    <h2 className="text-center mb-4 heading">Crear Competencia</h2>
                   </div>
                 </div>
                 <div className="row text-black">
