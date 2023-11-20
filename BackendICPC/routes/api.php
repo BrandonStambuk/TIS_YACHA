@@ -65,8 +65,10 @@ Route::controller(UsuarioController::class)->group(function (){
 Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
 Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
 Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
-
-
+Route::controller(AuthController::class)->group(function (){
+  Route::get('/perfil/{id}', 'show');
+  Route::post('/perfil/{id}', 'update');
+});
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);

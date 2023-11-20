@@ -47,10 +47,10 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = $user->createToken('authToken')->plainTextToken;
 
-
         return response([
             'message' => 'Success',
             'token' => $token, // Incluye el token en la respuesta
+            'user_id' => $user->id,
         ]);
     }
 
@@ -70,7 +70,17 @@ class AuthController extends Controller
         $users = User::all();
         return $users;
     }
-
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return $user;
+    }
+    public function update(Request $request, $id)
+    {
+        $user=User::findOrFail($id);
+        $user->email = $request->email;
+        $user->save();
+    }
 
     public function destroy($id)
     {       

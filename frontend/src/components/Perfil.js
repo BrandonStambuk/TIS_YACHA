@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import editarIcon from './images/editar.png';
 import perfilImage from './images/perfil.jpg';
@@ -12,7 +13,8 @@ const Perfil = () => {
     correo: '',
     password: '',
   });
-
+  const id = localStorage.getItem("id");
+  const endpoint = `${URL_API}/perfil`;
   const [editModeCorreo, setEditModeCorreo] = useState(false);
   const [editModePassword, setEditModePassword] = useState(false);
   const [editedData, setEditedData] = useState({
@@ -21,14 +23,22 @@ const Perfil = () => {
   });
 
   useEffect(() => {
-    const usuarioLogueado = {
-      nombre: 'John',
-      apellido: 'Doe',
-      correo: 'john.doe@example.com',
-      password: 'password',
-    };
+    const getEventById = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/${id}`);
+        const usuarioLogueado = {
+          nombre: response.data.firstName,
+          apellido: response.data.lastName,
+          correo: response.data.email,
+          password: response.data.firstName,
+        };
 
-    setUserData(usuarioLogueado);
+        setUserData(usuarioLogueado);
+      } catch (error) {
+        console.error('Error al obtener los datos del evento:', error);
+      }
+    };
+    getEventById();
   }, []);
 
   const handleEditClickCorreo = () => {

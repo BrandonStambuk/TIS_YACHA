@@ -31,7 +31,9 @@ const Login = () => {
         password: password, 
       });
       const token = response.data.token;
+      const id=response.data.user_id;
       localStorage.setItem('token', token);
+      localStorage.setItem('id',id);
       //setIsAuthenticated(true);
       const currentPath = window.location.pathname;
 
