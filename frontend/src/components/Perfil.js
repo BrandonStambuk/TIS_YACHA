@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import editarIcon from './images/editar.png';
-import perfilImage from './images/perfil.jpg';
 import NavbarAdmin from './NavbarAdmin';
 import './css/Perfil.css'
 import { URL_API } from '../const';
@@ -21,6 +20,10 @@ const Perfil = () => {
     correo: '',
     password: '',
   });
+
+  const getInitials = (firstName, lastName) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  };
 
   useEffect(() => {
     const getEventById = async () => {
@@ -88,7 +91,11 @@ const Perfil = () => {
       <NavbarAdmin />
       <div className='row mt-5'>
         <div className='col-md-5 img-perfil'>
-          <img src={perfilImage} alt="Perfil" className='img-fluid' />
+          {/* <img src={perfilImage} alt="Perfil" className='img-fluid' /> */}
+          <div className='profile-initials'>
+          {getInitials(userData.nombre, userData.apellido)}
+          </div>
+          
         </div>
         <div className='col-md-7 '>
           <div className='card card-translucent mx-auto card-container'>
