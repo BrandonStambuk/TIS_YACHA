@@ -1,0 +1,63 @@
+.profile-initials {
+    width: 60vw;
+    max-width: 300px;
+    height: 60vw;
+    max-height: 300px;
+    background-color: #cecece;
+    color: #0F5FA6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10vw;
+    font-weight: bold;
+}
+
+.card-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    float: left;
+}
+
+.img-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-save {
+    background-color: #f2b705;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cancel {
+    background-color: #d92323;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-perfil {
+    font-size: 20px;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .card-translucent {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-initials {
+        font-size: 16vw;
+    }
+}

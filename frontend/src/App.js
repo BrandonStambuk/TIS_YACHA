@@ -16,9 +16,11 @@ import SignOut from './components/SignOut';
 import RegisterUsuario from './components/RegistroUsuario';
 import MostrarEventoUsuario from './components/MostrarEventoUsuario';
 import MostarCompe from './components/ListaCompetencias'
+import CrearEquipo from './components/RegistrarEquipo'
 import EditComp from './components/EditComp';
 import RegistroEquipo from './components/RegistrarEquipo';
 import ListaUsuarios from './components/ListaUsuarios';
+import Perfil from './components/Perfil';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -42,9 +44,10 @@ function App() {
           <Route path="/login" element={<Login/>}/> 
           <Route path="/event-register/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/user-register" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
-          <Route path="/team-register" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
-          <Route path="/users-list" element={isAuthenticated ? <ListaUsuarios/>: <Login/>} />  
+          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
+          <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
+          <Route path="/listaUsuarios" element={isAuthenticated ? <ListaUsuarios/>: <Login/>} />  
+          <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
         </Routes>
       </BrowserRouter>
     </div>

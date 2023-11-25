@@ -36,6 +36,10 @@ Route::controller(CompetenciaController::class)->group(function (){
   Route::put('/crearcompe/{id}', 'update');
   Route::delete('/competencias/{id}', 'destroy');
 });
+Route::controller(EquipoController::class)->group(function (){
+  Route::get('/createEquipo', 'index');
+  Route::post('/createEquipo', 'store');
+});
 Route::post('/upload', function (Request $request) {
     if (!$request->hasFile('image')) {
       return response()->json(['upload_file_not_found'], 400);
@@ -61,8 +65,10 @@ Route::controller(UsuarioController::class)->group(function (){
 Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
 Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
 Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
-
-
+Route::controller(AuthController::class)->group(function (){
+  Route::get('/perfil/{id}', 'show');
+  Route::post('/perfil/{id}', 'update');
+});
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
