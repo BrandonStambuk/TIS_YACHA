@@ -134,10 +134,10 @@ const Perfil = () => {
             <div className='card-body text-perfil'>
               {selectedOption == 'perfil' && (
                 <div className='justify-content-center'>
-                  <p className='border-right p-3'>
+                  <p className='border-right p-2'>
                     <strong>Nombre:</strong> {userData.nombre}
                   </p>
-                  <p className='border-left p-3'>
+                  <p className='border-left p-2'>
                     <strong>Apellido:</strong> {userData.apellido}
                   </p>
                 </div>
