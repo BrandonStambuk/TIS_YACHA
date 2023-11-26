@@ -38,7 +38,7 @@ const Perfil = () => {
 
         setUserData(usuarioLogueado);
       } catch (error) {
-        console.error('Error al obtener los datos del evento:', error);
+        console.error('Error al obtener los datos del usuario:', error);
       }
     };
     getEventById();
@@ -60,20 +60,34 @@ const Perfil = () => {
     setEditModePassword(true);
   };
 
-  const handleSaveClickCorreo = () => {
-    setUserData({
-      ...userData,
-      correo: editedData.correo,
-    });
-    setEditModeCorreo(false);
+  const handleSaveClickCorreo = async () => {
+    try {
+      await axios.post(`${endpoint}/${id}`, {
+        email: editedData.correo,
+      });
+      setUserData({
+        ...userData,
+        correo: editedData.correo,
+      });
+      setEditModeCorreo(false);
+    } catch (error) {
+      console.error('Error al actualizar el correo:', error);
+    }
   };
 
-  const handleSaveClickPassword = () => {
-    setUserData({
-      ...userData,
-      password: editedData.password,
-    });
-    setEditModePassword(false);
+  const handleSaveClickPassword = async () => {
+    try {
+      await axios.post(`${endpoint}/password/${id}`, {
+        password: editedData.password,
+      });
+      setUserData({
+        ...userData,
+        password: editedData.password,
+      });
+      setEditModePassword(false);
+    } catch (error) {
+      console.error('Error al actualizar la contraseña:', error);
+    }
   };
 
   const handleChange = (e) => {
@@ -91,7 +105,6 @@ const Perfil = () => {
       <NavbarAdmin />
       <div className='row mt-5'>
         <div className='col-md-5 img-perfil'>
-          {/* <img src={perfilImage} alt="Perfil" className='img-fluid' /> */}
           <div className='profile-initials'>
           {getInitials(userData.nombre, userData.apellido)}
           </div>
