@@ -33,7 +33,7 @@ const Perfil = () => {
           nombre: response.data.firstName,
           apellido: response.data.lastName,
           correo: response.data.email,
-          password: "******",//response.data.firstName,
+          password: "******",
         };
 
         setUserData(usuarioLogueado);
