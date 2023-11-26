@@ -68,6 +68,7 @@ Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::controller(AuthController::class)->group(function (){
   Route::get('/perfil/{id}', 'show');
   Route::post('/perfil/{id}', 'update');
+  Route::post('/perfil/password/{id}', 'updatePassword');
 });
 
 Route::middleware('auth:sanctum')->group(function(){

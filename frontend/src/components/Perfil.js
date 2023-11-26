@@ -20,7 +20,7 @@ const Perfil = () => {
     correo: '',
     password: '',
   });
-
+  const [selectedOption, setSelectedOption] = useState('perfil');
   const getInitials = (firstName, lastName) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   };
@@ -33,12 +33,12 @@ const Perfil = () => {
           nombre: response.data.firstName,
           apellido: response.data.lastName,
           correo: response.data.email,
-          password: response.data.firstName,
+          password: "******",//response.data.firstName,
         };
 
         setUserData(usuarioLogueado);
       } catch (error) {
-        console.error('Error al obtener los datos del evento:', error);
+        console.error('Error al obtener los datos del usuario:', error);
       }
     };
     getEventById();
@@ -60,20 +60,34 @@ const Perfil = () => {
     setEditModePassword(true);
   };
 
-  const handleSaveClickCorreo = () => {
-    setUserData({
-      ...userData,
-      correo: editedData.correo,
-    });
-    setEditModeCorreo(false);
+  const handleSaveClickCorreo = async () => {
+    try {
+      await axios.post(`${endpoint}/${id}`, {
+        email: editedData.correo,
+      });
+      setUserData({
+        ...userData,
+        correo: editedData.correo,
+      });
+      setEditModeCorreo(false);
+    } catch (error) {
+      console.error('Error al actualizar el correo:', error);
+    }
   };
 
-  const handleSaveClickPassword = () => {
-    setUserData({
-      ...userData,
-      password: editedData.password,
-    });
-    setEditModePassword(false);
+  const handleSaveClickPassword = async () => {
+    try {
+      await axios.post(`${endpoint}/password/${id}`, {
+        password: editedData.password,
+      });
+      setUserData({
+        ...userData,
+        password: editedData.password,
+      });
+      setEditModePassword(false);
+    } catch (error) {
+      console.error('Error al actualizar la contraseña:', error);
+    }
   };
 
   const handleChange = (e) => {
@@ -86,78 +100,102 @@ const Perfil = () => {
 
   const editarIconStyle = { width: '20px', height: '20px' };
 
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+  };
+
   return (
     <div>
       <NavbarAdmin />
-      <div className='row mt-5'>
-        <div className='col-md-5 img-perfil'>
-          {/* <img src={perfilImage} alt="Perfil" className='img-fluid' /> */}
-          <div className='profile-initials'>
-          {getInitials(userData.nombre, userData.apellido)}
+      <div className='row mt-5 col-md-12'>
+
+        <div className="col-md-2 row">
+          {/* Menú vertical */}
+          <div className='vertical-menu nav flex-md-column'>
+            <a
+              className={selectedOption === 'perfil' ? 'active' : ''}
+              onClick={() => handleOptionClick('perfil')}
+            >
+              Perfil
+            </a>
+            <a
+              className={selectedOption === 'editar' ? 'active' : ''}
+              onClick={() => handleOptionClick('editar')}
+            >
+              Editar
+            </a>
           </div>
-          
         </div>
-        <div className='col-md-7 '>
+        <div className='col-md-7 d-flex align-items-center'>
           <div className='card card-translucent mx-auto card-container'>
             <h2 className='card-header'>Perfil de Usuario</h2>
             <div className='card-body text-perfil'>
-              <div className='d-flex justify-content-center'>
-                <p className='border-right p-3'>
-                  <strong>Nombre:</strong> {userData.nombre}
-                </p>
-                <p className='border-left p-3'>
-                  <strong>Apellido:</strong> {userData.apellido}
-                </p>
-              </div>
-              <div className=''>
-                <div>
-                  <label>
-                    <strong>Correo:</strong>{' '}
-                    {editModeCorreo ? (
-                      <span>
-                        <input
-                          type="email"
-                          name="correo"
-                          value={editedData.correo}
-                          onChange={handleChange}
-                        />
-                        <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
-                      </span>
-                    ) : (
-                      <span>
-                        {userData.correo}
-                        <button className="btn btn-transparent" onClick={handleEditClickCorreo}>
-                          <img src={editarIcon} alt="Editar" style={editarIconStyle} />
-                        </button>
-                      </span>
-                    )}
-                  </label>
+              {selectedOption == 'perfil' && (
+                <div className='justify-content-center'>
+                  <p className='border-right p-2'>
+                    <strong>Nombre:</strong> {userData.nombre}
+                  </p>
+                  <p className='border-left p-2'>
+                    <strong>Apellido:</strong> {userData.apellido}
+                  </p>
                 </div>
-                <div>
-                  <label>
-                    <strong>Contraseña:</strong>{' '}
-                    {editModePassword ? (
-                      <span>
-                        <input
-                          type="text"
-                          name="password"
-                          value={editedData.password}
-                          onChange={handleChange}
-                        />
-                        <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
-                      </span>
-                    ) : (
-                      <span>
-                        ********
-                        <button className="btn btn-transparent" onClick={handleEditClickPassword}>
-                          <img src={editarIcon} alt="Editar" style={editarIconStyle} />
-                        </button>
-                      </span>
-                    )}
-                  </label>
+              )}
+              {selectedOption == 'editar' && (
+                <div className=''>
+                  <div>
+                    <label>
+                      <strong>Correo:</strong>{' '}
+                      {editModeCorreo ? (
+                        <span>
+                          <input
+                            type="email"
+                            name="correo"
+                            value={editedData.correo}
+                            onChange={handleChange}
+                          />
+                          <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
+                        </span>
+                      ) : (
+                        <span>
+                          {userData.correo}
+                          <button className="btn btn-transparent" onClick={handleEditClickCorreo}>
+                            <img src={editarIcon} alt="Editar" style={editarIconStyle} />
+                          </button>
+                        </span>
+                      )}
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <strong>Contraseña:</strong>{' '}
+                      {editModePassword ? (
+                        <span>
+                          <input
+                            type="text"
+                            name="password"
+                            value={editedData.password}
+                            onChange={handleChange}
+                          />
+                          <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
+                        </span>
+                      ) : (
+                        <span>
+                          ********
+                          <button className="btn btn-transparent" onClick={handleEditClickPassword}>
+                            <img src={editarIcon} alt="Editar" style={editarIconStyle} />
+                          </button>
+                        </span>
+                      )}
+                    </label>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
+          </div>
+        </div>
+        <div className='col-md-2 img-perfil d-flex align-items-center'>
+          <div className='profile-initials'>
+            {getInitials(userData.nombre, userData.apellido)}
           </div>
         </div>
       </div>

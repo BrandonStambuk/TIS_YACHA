@@ -1,15 +1,15 @@
 .profile-initials {
     width: 60vw;
-    max-width: 300px;
+    max-width: 200px;
     height: 60vw;
-    max-height: 300px;
+    max-height: 200px;
     background-color: #cecece;
     color: #0F5FA6;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10vw;
+    font-size: 7vw;
     font-weight: bold;
 }
 
@@ -20,11 +20,11 @@
     float: left;
 }
 
-.img-perfil {
+/* .img-perfil {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 .btn-save {
     background-color: #f2b705;
@@ -58,6 +58,32 @@
 
 @media (max-width: 768px) {
     .profile-initials {
-        font-size: 16vw;
+        font-size: 20vw;
     }
+}
+
+.vertical-menu {
+    width: 100%;
+    padding: 10px;
+}
+
+.vertical-menu a {
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    transition: background-color 0.3s;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+}
+
+.vertical-menu a:hover {
+    background-color: #ddd;
+}
+
+.vertical-menu a.active {
+    background-color: #0F5FA6;
+    color: white;
 }

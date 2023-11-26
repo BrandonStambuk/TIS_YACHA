@@ -82,6 +82,13 @@ class AuthController extends Controller
         $user->save();
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->password = bcrypt($request->password);
+        $user->save();
+    }
+
     public function destroy($id)
     {       
          $usuario = User::find($id);
