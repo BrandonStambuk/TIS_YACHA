@@ -31,18 +31,18 @@ function App() {
         <Routes>
           <Route path='/' element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />   
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} /> 
-          <Route path='/create-competence' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
-          <Route path='/edit-competence/:id' element={isAuthenticated ? <EditComp/>:<Login/>}/>
-          <Route path='/edit-event/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
-          <Route path='/competence-list' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
+          <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
+          <Route path='/editCompetencia/:id' element={isAuthenticated ? <EditComp/>:<Login/>}/>
+          <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
+          <Route path='/listaCompetencias' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
           <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />
           <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
-          <Route path="/show/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
-          <Route path="/event-list" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
-          <Route path="/what-is-ICPC" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
+          <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
+          <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
+          <Route path="/inicio" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated ? <CrearAfiche/>: <Login/>}/>
           <Route path="/login" element={<Login/>}/> 
-          <Route path="/event-register/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
+          <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
           <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
           <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
