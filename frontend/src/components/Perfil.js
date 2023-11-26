@@ -113,14 +113,12 @@ const Perfil = () => {
           {/* Menú vertical */}
           <div className='vertical-menu nav flex-md-column'>
             <a
-              href="#"
               className={selectedOption === 'perfil' ? 'active' : ''}
               onClick={() => handleOptionClick('perfil')}
             >
               Perfil
             </a>
             <a
-              href="#"
               className={selectedOption === 'editar' ? 'active' : ''}
               onClick={() => handleOptionClick('editar')}
             >
