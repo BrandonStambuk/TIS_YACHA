@@ -108,3 +108,27 @@
   .form-select {
     margin-bottom: 15px;
   }
+
+  .button{
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    transition: background-color 0.3s;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+  }
+
+
+.button{
+  
+    width: 100%;
+    padding: 10px;
+
+}
+  .button{
+    background-color: #0F5FA6;
+    color: white;
+  }
