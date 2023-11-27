@@ -11,6 +11,7 @@ import TipoEventoForm from "./TipoEventoForm";
 import FechasHorasForm from "./FechasHorasForm";
 import DescripcionForm from "./DescripcionForm";
 import Swal from "sweetalert2";
+import { Editor } from "@tinymce/tinymce-react";
 const inputStyle = {
   width: "170px",
   height: "30px",
@@ -317,13 +318,13 @@ const CreateEvento = () => {
             )}
             {activeSection === "descripcion" && (
               <DescripcionForm
-                descripcion={descripcion}
-                fontSize={fontSize}
-                textAlign={textAlign}
-                handleFontSizeChange={handleFontSizeChange}
+                //descripcion={descripcion}
+                //fontSize={fontSize}
+                //textAlign={textAlign}
+                //handleFontSizeChange={handleFontSizeChange}
                 handleTextAlignChange={handleTextAlignChange}
                 setDescripcion={setDescripcion}
-                handleFileChange={handleFileChange}
+                //handleFileChange={handleFileChange}
                 navigate={navigate}
               />
             )}

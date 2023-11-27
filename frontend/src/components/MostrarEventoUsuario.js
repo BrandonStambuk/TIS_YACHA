@@ -77,7 +77,7 @@ const HomePage = () => {
                   </div>
           <div>
           <p className="event-info-text left"> <strong>Descripción:</strong></p>
-          <p className="event-info-text left"> {descripcion}</p>  
+          <div dangerouslySetInnerHTML={{ __html: descripcion }} /> 
           </div>
           <div>
           <Link to={`/home`} className='boton-atras'>Atras</Link> 
