@@ -97,6 +97,13 @@ const Perfil = () => {
       [name]: value,
     }));
   };
+  const handleCancelClickCorreo = () => {
+    setEditModePassword(false);
+  };
+
+  const handleCancelClickPassword = () => {
+    setEditModePassword(false);
+  };
 
   const editarIconStyle = { width: '20px', height: '20px' };
 

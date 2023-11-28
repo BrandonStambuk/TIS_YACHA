@@ -79,6 +79,12 @@ Route::middleware('auth:sanctum')->group(function(){
     //Route::get('/listaEventos', 'EventoController@index');
     //Route::get('/crearafiche', 'EventoController@crearafiche');
 });
+Route::controller(EstudianteController::class)->group(function (){
+    Route::post('/crearestudiante', 'store');
+    Route::get('/crearestudiante/{id}', 'show');
+    Route::put('/crearestudiante/{id}', 'update');
+    Route::delete('/estudiantes/{id}', 'destroy');
+});
 
 
 
