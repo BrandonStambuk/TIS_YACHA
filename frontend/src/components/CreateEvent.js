@@ -11,7 +11,6 @@ import TipoEventoForm from "./TipoEventoForm";
 import FechasHorasForm from "./FechasHorasForm";
 import DescripcionForm from "./DescripcionForm";
 import Swal from "sweetalert2";
-import { Editor } from "@tinymce/tinymce-react";
 const inputStyle = {
   width: "170px",
   height: "30px",
@@ -47,7 +46,7 @@ const CreateEvento = () => {
     setActiveSection(section);
   };
 
-  // Fechas inscripcion ******************************************************
+  // Fechas inscripcion ******************
 
   const handleFechaInicioChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -80,7 +79,7 @@ const CreateEvento = () => {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  // Fechas Evento ******************************************************
+  // Fechas Evento ******************
 
   const handleFechaInicioEventChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -239,9 +238,9 @@ const CreateEvento = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container mt-5">
+      <div className="mt-5">
         <div className="row">
-          <div className="col-md-2">
+          <div className="col-md-2 p-0">
             <div className="d-flex flex-column">
               <button
                 onClick={() => handleSectionClick("nombreEvento")}
@@ -318,13 +317,13 @@ const CreateEvento = () => {
             )}
             {activeSection === "descripcion" && (
               <DescripcionForm
-                //descripcion={descripcion}
-                //fontSize={fontSize}
-                //textAlign={textAlign}
-                //handleFontSizeChange={handleFontSizeChange}
+                descripcion={descripcion}
+                fontSize={fontSize}
+                textAlign={textAlign}
+                handleFontSizeChange={handleFontSizeChange}
                 handleTextAlignChange={handleTextAlignChange}
                 setDescripcion={setDescripcion}
-                //handleFileChange={handleFileChange}
+                handleFileChange={handleFileChange}
                 navigate={navigate}
               />
             )}
