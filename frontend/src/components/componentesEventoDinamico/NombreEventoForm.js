@@ -1,8 +1,15 @@
 import React from "react";
 
-const NombreEventoForm = ({nombre_evento}) => {
+import { useState } from "react";
 
-    const [nombre_evento, setNombreEvento] = useState("");
+const NombreEventoForm = ({onNombreEventoChange}) => {
+    const [nombreEvento, setNombreEvento] = useState("");
+    const [nombreEventoError, setNombreEventoError] = useState("");
+
+    const handleNombreEventoChange = (event) => {
+        setNombreEvento(event.target.value);
+        onNombreEventoChange(event.target.value);
+    };
 
   return (
     <div className="card-body tarjeta">
@@ -12,8 +19,8 @@ const NombreEventoForm = ({nombre_evento}) => {
           </h2>
           <label>Nombre</label>
           <input
-            value={nombre_evento}
-            onChange={(e) => setNombreEvento(e.target.value)}
+            value={nombreEvento}
+            onChange={handleNombreEventoChange}
             type="text"
             className={`form-control ${
               nombreEventoError ? "is-invalid" : ""
@@ -21,6 +28,9 @@ const NombreEventoForm = ({nombre_evento}) => {
             id="nombreEvento"
             name="nombreEvento"
           />
+          {nombreEventoError && (
+            <div className="invalid-feedback">{nombreEventoError}</div>
+          )}
         </div>
     </div>
   );

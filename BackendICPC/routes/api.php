@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CompetenciaController;
+use App\Http\Controllers\Api\EventoDinamicoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +18,11 @@ use App\Http\Controllers\Api\CompetenciaController;
 |
 */
 
+Route::controller(EventoDinamicoController::class)->group(function (){
 
+  Route::post('/crearEventoDinamico', 'store');
+
+});
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');

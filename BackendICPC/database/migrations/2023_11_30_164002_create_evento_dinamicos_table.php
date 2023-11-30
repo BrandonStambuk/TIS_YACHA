@@ -15,6 +15,7 @@ class CreateEventoDinamicosTable extends Migration
     {
         Schema::create('evento_dinamicos', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_evento_dinamico');
             $table->timestamps();
         });
     }

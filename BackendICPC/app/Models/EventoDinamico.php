@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EventoDinamico extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nombre_evento_dinamico',
+    ];
 }

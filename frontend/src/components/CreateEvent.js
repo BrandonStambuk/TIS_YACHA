@@ -4,21 +4,29 @@ import { useNavigate } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 
 import { URL_API } from "../const";
 
 
-const endpoint = `${URL_API}/crearevento`;
+const endpoint = `${URL_API}/crearEventoDinamico`;
 
 const CreateEvento = () => {
+  const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
   const [activeSection, setActiveSection] = useState("nombreEvento");
 
-  const handleSectionClick = (section) => {
-    setActiveSection(section);
-  };
+const handleSectionClick = (section) => {
+  setActiveSection(section);
+};
 const store = async (e) => {
   e.preventDefault();
+  await axios.post(endpoint, {nombre_evento_dinamico: nombre_evento_dinamico});
 }
+
+const handleNombreEventoChange = (nombre_evento) => {
+  setNombreEventoDinamico(nombre_evento);
+  console.log(nombre_evento);
+};
 
   return (
     <div>
@@ -61,9 +69,7 @@ const store = async (e) => {
           <div className="col-md-6">
             <form onSubmit={store}>
               {activeSection === "nombreEvento" && (
-                <h1>Nombre Evento</h1>
-
-                /*<NombreEventoForm/>*/
+                <NombreEventoForm onNombreEventoChange={handleNombreEventoChange}/>
               )}
               {activeSection === "tipoEvento" && (
                 <h1>Tipo Evento</h1>
