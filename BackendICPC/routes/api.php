@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CompetenciaController;
+use App\Http\Controllers\Api\EventoDinamicoController;
+use App\Http\Controllers\Api\TipoEventoDinamicoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +19,17 @@ use App\Http\Controllers\Api\CompetenciaController;
 |
 */
 
+Route::controller(EventoDinamicoController::class)->group(function (){
 
+  Route::post('/crearEventoDinamico', 'store');
+
+});
+
+Route::controller(TipoEventoDinamicoController::class)->group(function (){
+  Route::get('/tipoEventosDinamicos', 'index');
+  Route::post('/crearTipoEventoDinamico', 'store');
+
+});
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');
@@ -78,6 +90,12 @@ Route::middleware('auth:sanctum')->group(function(){
     //Route::get('/eventos', [App\Http\Controllers\EventoController::class, 'index']);
     //Route::get('/listaEventos', 'EventoController@index');
     //Route::get('/crearafiche', 'EventoController@crearafiche');
+});
+Route::controller(EstudianteController::class)->group(function (){
+    Route::post('/crearestudiante', 'store');
+    Route::get('/crearestudiante/{id}', 'show');
+    Route::put('/crearestudiante/{id}', 'update');
+    Route::delete('/estudiantes/{id}', 'destroy');
 });
 
 
