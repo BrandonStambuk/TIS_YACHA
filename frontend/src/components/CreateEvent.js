@@ -16,15 +16,14 @@ const endpoint = URL_API;
 const CreateEvento = () => {
   const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
   const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
-  const [fecha_inscripcion_eventos_id, setFechaInscripcionEventosId] = useState("");
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
   const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
   const [fecha_inicio_etapa, setfechaInicioEtapa] = useState("");
   const [fecha_fin_etapa, setFechaFinEtapa] = useState("");
   const [hora_inicio_etapa, setHoraInicioEtapa] = useState("");
   const [hora_fin_etapa, setHoraFinEtapa] = useState("");
-  const [etapa_fecha_inscripcion_eventos_id, setEtapaFechaInscripcionEventosId] = useState("");
   const [activeSection, setActiveSection] = useState("nombreEvento");
+  const [fechasHoras, setFechasHoras] = useState([{}]);
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -37,12 +36,21 @@ const handleStoreEventoDinamico = async (e) => {
     fecha_fin_inscripcion:fecha_fin_inscripcion
   });
   const idFechaIns =response.data.id;  
+  for (const fechaHora of fechasHoras) {
+    // Ajusta el formato de la fecha y la hora según sea necesario
+    const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+    const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+    const horaInicioEtapa = `${fechaHora.hora_inicio}:${fechaHora.minutos_inicio}`;
+    const horaFinEtapa = `${fechaHora.hora_fin}:${fechaHora.minutos_fin}`;
 
-  await axios.post(`${endpoint}/crearEtapaEvento`, {
-    fecha_inicio_etapa: fecha_inicio_etapa,
-    fecha_fin_etapa:fecha_fin_etapa,
-    etapa_fecha_inscripcion_eventos_id:idFechaIns
-  });
+    // Paso 3: Crear la etapa del evento con el elemento actual de fechasHoras
+    await axios.post(`${endpoint}/crearEtapaEvento`, {
+      fecha_inicio_etapa: fechaInicioEtapa,
+      fecha_fin_etapa: fechaFinEtapa,
+      etapa_fecha_inscripcion_eventos_id: idFechaIns
+      // Ajusta la estructura según los requisitos del servidor
+    });
+  }
 
   await axios.post(`${endpoint}/crearEventoDinamico`, {
     nombre_evento_dinamico: nombre_evento_dinamico,
@@ -68,6 +76,7 @@ const handleFechaInicioInscripcion = (fecha) => {
 const handleFechaFinInscripcion = (fecha) => {
   setFechaFinInscripcion(fecha);  
 }
+/*
 const handleInicioEtapa = (fecha) => {
   setfechaInicioEtapa(fecha);  
 }
@@ -79,6 +88,10 @@ const handleHoraInicio = (fecha) => {
 }
 const handleHoraFin = (fecha) => {
   setHoraFinEtapa(fecha);  
+}*/
+const handleFechasHorasChange = (fechas) => {
+  console.log(fechas);
+  setFechasHoras(fechas);  
 }
 
   return (
@@ -130,10 +143,7 @@ const handleHoraFin = (fecha) => {
                 <FechasHorasForm 
                 onFechaInicioInscripcion={handleFechaInicioInscripcion}
                 onFechaFinInscripcion={handleFechaFinInscripcion}
-                onFechaInicioEtapa={handleInicioEtapa}
-                onFechaFinEtapa={handleFinEtapa}
-                onHoraInicio={handleHoraInicio}
-                onHoraFin={handleHoraFin}
+                onFechasHorasChange={handleFechasHorasChange} 
                 />
               )}
               {activeSection === "descripcion" && (

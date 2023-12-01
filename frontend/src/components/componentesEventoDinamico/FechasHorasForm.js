@@ -3,25 +3,33 @@ import React, { useState } from "react";
 const FechasHorasForm = ({
   onFechaInicioInscripcion,
   onFechaFinInscripcion,
-  onFechaInicioEtapa,
-  onFechaFinEtapa,
-  onHoraInicio,
-  onHoraFin
+  onFechasHorasChange
 }) => {
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
   const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
-  const [fecha_inicio_etapa, setFechaInicioEtapa] = useState("");
+  /*const [fecha_inicio_etapa, setFechaInicioEtapa] = useState("");
   const [fecha_fin_etapa, setFechaFinEtapa] = useState("");
   const [hora_inicio,setHoraInicio] = useState("");
-  const [hora_fin,setHoraFin] =useState("");
+  const [hora_fin,setHoraFin] =useState("");*/
   const [fechaInicioError,set1]=useState("");
   const [fechaFinError,set2]=useState("");
   const [fechaInicioEventError,set3]=useState("");
   const [fechaFinEventError,set4]=useState("");
   const [horaEventoError,set5]=useState("");
+  const [fechasHoras, setFechasHoras] = useState([{}]);
 
+  const agregarFechasHoras = () => {
+    setFechasHoras([...fechasHoras, {}]);
+  };
 
-const handleFechaInicioInscripcionChange = (event) => {
+  const handleFechasHorasChange = (index, field, value) => {
+    const nuevasFechasHoras = [...fechasHoras];
+    nuevasFechasHoras[index][field] = value;
+    setFechasHoras(nuevasFechasHoras);
+    onFechasHorasChange(nuevasFechasHoras);
+  };
+
+const handleFechaInicioInscripcionChange = (event, index) => {
   onFechaInicioInscripcion(event.target.value);
   setFechaInicioInscripcion(event.target.value);
 };
@@ -30,27 +38,6 @@ const handleFechaFinInscripcionChange = (event) =>{
   onFechaFinInscripcion(event.target.value);
   setFechaFinInscripcion(event.target.value);
 };
-
-const handleFechaInicioEtapaChange = (event) =>{
-  onFechaInicioEtapa(event.target.value);
-  setFechaInicioEtapa(event.target.value);
-};
-
-const handleFechaFinEtapaChange = (event) =>{
-  onFechaFinEtapa(event.target.value);
-  setFechaFinEtapa(event.target.value);
-};
-
-const handleHoraInicioChange = (event) =>{
-  onHoraInicio(event.target.value);
-  setHoraInicio(event.target.value);
-};
-
-const handleHoraFinChange = (event) =>{
-  onHoraFin(event.target.value);
-  setHoraFin(event.target.value);
-};
-
 
   const inputStyle = {
     width: "170px",
@@ -99,21 +86,24 @@ const handleHoraFinChange = (event) =>{
               <div className="invalid-feedback">{fechaFinError}</div>
             )}
           </div>
-
-          <div className="mb-3">
-            <label htmlFor="fechaInicio" className="form-label">
-              Fecha de Inicio Evento
+          <button onClick={agregarFechasHoras}>Agregar Fechas y Horas</button>
+          {fechasHoras.map((fechaHora, index) => (
+          <div key={index}>
+            <h2>Etapa {index + 1}</h2>
+              <div className="mb-3">
+            <label htmlFor={`fechaInicioEtapa${index}`} className="form-label">
+              Fecha de Inicio Etapa
             </label>
             <input
               type="date"
-              className={`form-control ${
-                fechaInicioEventError ? "is-invalid" : ""
-              }`}
-              id="fechaInicio"
-              name="fechaInicio"
+              className="form-control"
+              id={`fechaInicioEtapa${index}`}
+              name={`fechaInicioEtapa${index}`}
               style={inputStyle}
-              value={fecha_inicio_etapa}
-              onChange={handleFechaInicioEtapaChange}
+              value={fechaHora.fecha_inicio_etapa}
+              onChange={(e) =>
+                handleFechasHorasChange(index, "fecha_inicio_etapa", e.target.value)
+              }
             />
             {fechaInicioEventError && (
               <div className="invalid-feedback">
@@ -123,19 +113,19 @@ const handleHoraFinChange = (event) =>{
           </div>
 
           <div className="mb-3">
-            <label htmlFor="fechaFin" className="form-label">
-              Fecha de Fin Evento
+          <label htmlFor={`fechaFinEtapa${index}`} className="form-label">
+              Fecha de Fin Etapa
             </label>
             <input
               type="date"
-              className={`form-control ${
-                fechaFinEventError ? "is-invalid" : ""
-              }`}
-              id="fechaFin"
-              name="fechaFin"
+              className="form-control"
+              id={`fechaFinEtapa${index}`}
+              name={`fechaFinEtapa${index}`}
               style={inputStyle}
-              value={fecha_fin_etapa}
-              onChange={handleFechaFinEtapaChange}
+              value={fechaHora.fecha_fin_etapa}
+              onChange={(e) =>
+                handleFechasHorasChange(index, "fecha_fin_etapa", e.target.value)
+              }
             />
             {fechaFinEventError && (
               <div className="invalid-feedback">{fechaFinEventError}</div>
@@ -143,65 +133,46 @@ const handleHoraFinChange = (event) =>{
           </div>
 
           <div className="mb-3">
-            <label htmlFor="horas" className="form-label">
-              Hora inicio
+          <label htmlFor={`horaInicio${index}`} className="form-label">
+              hora inicio Etapa
             </label>
             <input
-              onKeyDown={(event) => {
-                if (
-                  !(
-                    event.key === "Backspace" ||
-                    event.key === "ArrowLeft" ||
-                    event.key === "ArrowRight" ||
-                    event.key === "Tab" ||
-                    /[0-9]/.test(event.key)
-                  )
-                ) {
-                  event.preventDefault();
-                }
-              }}
-              value={hora_inicio}
-              onChange={handleHoraInicioChange}
-              type="number"
-              className={`form-control ${horaEventoError ? "is-invalid" : ""}`}
-              id="horaEvento"
-              name="horaEvento"
+              type="time"
+              className="form-control"
+              id={`horaInicio${index}`}
+              name={`horaInicio${index}`}
               style={inputStyle}
+              value={fechaHora.hora_inicio}
+              onChange={(e) =>
+                handleFechasHorasChange(index, "hora_inicio", e.target.value)
+              }
             />
             {horaEventoError && (
               <div className="invalid-feedback">{horaEventoError}</div>
             )}
           </div>
           <div className="mb-3">
-            <label htmlFor="horas" className="form-label">
-              Horas fin
+          <label htmlFor={`horaFin${index}`} className="form-label">
+              hora Fin Etapa
             </label>
             <input
-              onKeyDown={(event) => {
-                if (
-                  !(
-                    event.key === "Backspace" ||
-                    event.key === "ArrowLeft" ||
-                    event.key === "ArrowRight" ||
-                    event.key === "Tab" ||
-                    /[0-9]/.test(event.key)
-                  )
-                ) {
-                  event.preventDefault();
-                }
-              }}
-              value={hora_fin}
-              onChange={handleHoraFinChange}
-              type="number"
-              className={`form-control ${horaEventoError ? "is-invalid" : ""}`}
-              id="horaEvento"
-              name="horaEvento"
+              type="time"
+              className="form-control"
+              id={`horaFin${index}`}
+              name={`horaFin${index}`}
               style={inputStyle}
+              value={fechaHora.hora_fin}
+              onChange={(e) =>
+                handleFechasHorasChange(index, "hora_fin", e.target.value)
+              }
             />
             {horaEventoError && (
               <div className="invalid-feedback">{horaEventoError}</div>
             )}
           </div>
+          </div>
+          ))}
+          
         </div>
     </div>
   );
