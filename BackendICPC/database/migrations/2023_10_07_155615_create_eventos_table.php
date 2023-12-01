@@ -22,7 +22,7 @@ class CreateEventosTable extends Migration
             $table->date('fecha_inicio_evento');
             $table->date('fecha_fin_evento');
             $table->string('hora');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->boolean('publico')->default(false);
             $table->timestamps();
         });
