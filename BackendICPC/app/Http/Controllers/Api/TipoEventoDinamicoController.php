@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\EventoDinamico;
+use App\Models\TipoEventoDinamico;
 
-class EventoDinamicoController extends Controller
+class TipoEventoDinamicoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        //
+        $tipoEvento = TipoEventoDinamico::all();
+        return $tipoEvento;
     }
 
     /**
@@ -26,11 +27,10 @@ class EventoDinamicoController extends Controller
      */
     public function store(Request $request)
     {
-        $evento = new EventoDinamico();
-        $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
-        $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
-        $evento->save();
-        return $evento;
+        $tipoEvento = new TipoEventoDinamico();
+        $tipoEvento->nombre_tipo_evento_dinamico = $request->nombre_tipo_evento_dinamico;
+        $tipoEvento->save();
+        return $tipoEvento;
     }
 
     /**

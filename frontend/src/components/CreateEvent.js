@@ -5,6 +5,7 @@ import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
+import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 
 import { URL_API } from "../const";
 
@@ -13,20 +14,29 @@ const endpoint = `${URL_API}/crearEventoDinamico`;
 
 const CreateEvento = () => {
   const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
+  const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
   const [activeSection, setActiveSection] = useState("nombreEvento");
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
 };
-const store = async (e) => {
+const handleStoreEventoDinamico = async (e) => {
   e.preventDefault();
-  await axios.post(endpoint, {nombre_evento_dinamico: nombre_evento_dinamico});
+  console.log(nombre_evento_dinamico);
+  console.log(tipo_evento_dinamico_id);
+  await axios.post(endpoint, {
+    nombre_evento_dinamico: nombre_evento_dinamico,
+    tipo_evento_dinamico_id:tipo_evento_dinamico_id
+  });
 }
 
 const handleNombreEventoChange = (nombre_evento) => {
-  setNombreEventoDinamico(nombre_evento);
-  console.log(nombre_evento);
+  setNombreEventoDinamico(nombre_evento);  
 };
+
+const handleTipoEventoChange = (tipo_evento) => {
+  setTipoEventoDinamicoId(tipo_evento);  
+}
 
   return (
     <div>
@@ -63,17 +73,15 @@ const handleNombreEventoChange = (nombre_evento) => {
               >
                 Descripción
               </button>
-
+              <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>  
             </div>
           </div>
           <div className="col-md-6">
-            <form onSubmit={store}>
               {activeSection === "nombreEvento" && (
                 <NombreEventoForm onNombreEventoChange={handleNombreEventoChange}/>
               )}
               {activeSection === "tipoEvento" && (
-                <h1>Tipo Evento</h1>
-                /*<TipoEventoForm/>*/
+                <TipoEventoForm onTipoEvento={handleTipoEventoChange}/>
               )}
               {activeSection === "fechasHoras" && (
                 <h1>Fechas y Horas</h1>
@@ -82,9 +90,7 @@ const handleNombreEventoChange = (nombre_evento) => {
               {activeSection === "descripcion" && (
                 <h1>Descripción</h1>
                 /*<DescripcionForm/>*/
-              )}
-              <button type='submit' className='btn btn-success'>Save</button>
-            </form>
+              )}                        
           </div>
         </div>
       </div>
