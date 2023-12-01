@@ -75,10 +75,14 @@ const HomePage = () => {
                       <p className="event-info-text left"><strong>Duracion: </strong>{hora} Horas </p>
                     </div>                    
                   </div>
-          <div>
-          <p className="event-info-text left"> <strong>Descripción:</strong></p>
-          <p className="event-info-text left"> {descripcion}</p>  
+          
+          <div className="event-info-container">
+            <p className="event-info-text left">
+              <strong>Descripción:</strong>
+            </p>
+            <div className="event-description" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: descripcion }} />
           </div>
+
           <div>
           <Link to={`/home`} className='boton-atras'>Atras</Link> 
           <Link to={`/registroEvento/${id}`} className='boton-ver'>Ir a registro</Link> 

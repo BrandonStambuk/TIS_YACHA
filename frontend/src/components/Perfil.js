@@ -33,7 +33,7 @@ const Perfil = () => {
           nombre: response.data.firstName,
           apellido: response.data.lastName,
           correo: response.data.email,
-          password: "******",//response.data.firstName,
+          password: "******",
         };
 
         setUserData(usuarioLogueado);
@@ -45,13 +45,23 @@ const Perfil = () => {
   }, []);
 
   const handleEditClickCorreo = () => {
+    console.log(editModeCorreo);
     setEditedData({
       ...editedData,
       correo: userData.correo,
     });
     setEditModeCorreo(true);
   };
-
+  const handleCancelCorreo = () => {
+    setTimeout(() => {
+      setEditModeCorreo(false);
+    }, 0);
+  };
+  const handleCancelPassword = () => {
+    setTimeout(() => {
+      setEditModePassword(false);
+    }, 0);
+  };
   const handleEditClickPassword = () => {
     setEditedData({
       ...editedData,
@@ -153,14 +163,19 @@ const Perfil = () => {
                     <label>
                       <strong>Correo:</strong>{' '}
                       {editModeCorreo ? (
-                        <span>
+                        <span className="d-flex">
                           <input
                             type="email"
                             name="correo"
                             value={editedData.correo}
                             onChange={handleChange}
                           />
-                          <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
+                          <button className='btn-save' onClick={handleSaveClickCorreo}>
+                            Guardar
+                          </button>
+                          <button className='btn-cancel' onClick={handleCancelCorreo}>
+                            Cancelar
+                          </button>
                         </span>
                       ) : (
                         <span>
@@ -176,14 +191,19 @@ const Perfil = () => {
                     <label>
                       <strong>Contraseña:</strong>{' '}
                       {editModePassword ? (
-                        <span>
+                        <span className="d-flex">
                           <input
                             type="text"
                             name="password"
                             value={editedData.password}
                             onChange={handleChange}
                           />
-                          <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
+                          <button className='btn-save' onClick={handleSaveClickPassword}>
+                            Guardar
+                          </button>
+                          <button className='btn-cancel' onClick={handleCancelPassword}>
+                            Cancelar
+                          </button>
                         </span>
                       ) : (
                         <span>
