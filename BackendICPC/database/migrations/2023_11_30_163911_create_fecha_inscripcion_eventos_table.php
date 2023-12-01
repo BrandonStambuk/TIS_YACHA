@@ -15,6 +15,8 @@ class CreateFechaInscripcionEventosTable extends Migration
     {
         Schema::create('fecha_inscripcion_eventos', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_inicio_inscripcion');
+            $table->date('fecha_fin_inscripcion');
             $table->timestamps();
         });
     }

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\EventoDinamico;
+use App\Models\EtapaEvento;
 
-class EventoDinamicoController extends Controller
+class EtapaEventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,12 +26,14 @@ class EventoDinamicoController extends Controller
      */
     public function store(Request $request)
     {
-        $evento = new EventoDinamico();
-        $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
-        $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
-        $evento->fecha_inscripcion_eventos_id = $request->fecha_inscripcion_eventos_id;
-        $evento->save();
-        return $evento;
+        $etapa = new EtapaEvento();
+        $etapa->fecha_inicio_etapa = $request->fecha_inicio_etapa;
+        $etapa->fecha_fin_etapa = $request->fecha_fin_etapa;
+        $etapa->hora_inicio_etapa = $request->hora_inicio_etapa;
+        $etapa->hora_fin_etapa = $request->hora_fin_etapa;
+        $etapa->etapa_fecha_inscripcion_eventos_id = $request->etapa_fecha_inscripcion_eventos_id;
+        $etapa->save();
+        return $etapa;
     }
 
     /**
