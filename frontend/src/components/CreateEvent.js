@@ -37,18 +37,18 @@ const handleStoreEventoDinamico = async (e) => {
   });
   const idFechaIns =response.data.id;  
   for (const fechaHora of fechasHoras) {
-    // Ajusta el formato de la fecha y la hora según sea necesario
+    
     const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
     const fechaFinEtapa = fechaHora.fecha_fin_etapa;
-    const horaInicioEtapa = `${fechaHora.hora_inicio}:${fechaHora.minutos_inicio}`;
-    const horaFinEtapa = `${fechaHora.hora_fin}:${fechaHora.minutos_fin}`;
-
-    // Paso 3: Crear la etapa del evento con el elemento actual de fechasHoras
+    const horaInicioEtapa = fechaHora.hora_inicio;
+    const horaFinEtapa = fechaHora.hora_fin;
+    
     await axios.post(`${endpoint}/crearEtapaEvento`, {
       fecha_inicio_etapa: fechaInicioEtapa,
       fecha_fin_etapa: fechaFinEtapa,
-      etapa_fecha_inscripcion_eventos_id: idFechaIns
-      // Ajusta la estructura según los requisitos del servidor
+      hora_inicio_etapa:horaInicioEtapa,
+      hora_fin_etapa:horaFinEtapa,
+      etapa_fecha_inscripcion_eventos_id: idFechaIns      
     });
   }
 
