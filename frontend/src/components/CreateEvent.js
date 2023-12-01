@@ -41,9 +41,9 @@ const handleTipoEventoChange = (tipo_evento) => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container mt-5">
+      <div className="mt-5">
         <div className="row">
-          <div className="col-md-2">
+          <div className="col-md-2 p-0">
             <div className="d-flex flex-column">
               <button
                 onClick={() => handleSectionClick("nombreEvento")}
