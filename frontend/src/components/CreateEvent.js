@@ -76,19 +76,7 @@ const handleFechaInicioInscripcion = (fecha) => {
 const handleFechaFinInscripcion = (fecha) => {
   setFechaFinInscripcion(fecha);  
 }
-/*
-const handleInicioEtapa = (fecha) => {
-  setfechaInicioEtapa(fecha);  
-}
-const handleFinEtapa = (fecha) => {
-  setFechaFinEtapa(fecha);  
-}
-const handleHoraInicio = (fecha) => {
-  setHoraInicioEtapa(fecha);  
-}
-const handleHoraFin = (fecha) => {
-  setHoraFinEtapa(fecha);  
-}*/
+
 const handleFechasHorasChange = (fechas) => {
   console.log(fechas);
   setFechasHoras(fechas);  
