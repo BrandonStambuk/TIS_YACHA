@@ -8,6 +8,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CompetenciaController;
 use App\Http\Controllers\Api\EventoDinamicoController;
 use App\Http\Controllers\Api\TipoEventoDinamicoController;
+use App\Http\Controllers\Api\FechaInscripcionEventoController;
+use App\Http\Controllers\Api\EtapaEventoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,8 +31,16 @@ Route::controller(EventoDinamicoController::class)->group(function (){
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::get('/tipoEventosDinamicos', 'index');
   Route::post('/crearTipoEventoDinamico', 'store');
-
 });
+Route::controller(FechaInscripcionEventoController::class)->group(function (){
+  
+  Route::post('/crearFechaInscripcion', 'store');
+});
+Route::controller(EtapaEventoController::class)->group(function (){
+  
+  Route::post('/crearEtapaEvento', 'store');
+});
+
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');
