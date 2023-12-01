@@ -46,7 +46,7 @@ const CreateEvento = () => {
     setActiveSection(section);
   };
 
-  // Fechas inscripcion ******************************************************
+  // Fechas inscripcion ******************
 
   const handleFechaInicioChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -79,7 +79,7 @@ const CreateEvento = () => {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  // Fechas Evento ******************************************************
+  // Fechas Evento ******************
 
   const handleFechaInicioEventChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -238,7 +238,7 @@ const CreateEvento = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className=" mt-5">
+      <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">
             <div className="d-flex flex-column">
