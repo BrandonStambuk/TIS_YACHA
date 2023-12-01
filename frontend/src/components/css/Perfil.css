@@ -87,3 +87,9 @@
     background-color: #0F5FA6;
     color: white;
 }
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
