@@ -23,6 +23,7 @@ const CreateEvento = () => {
   const [activeSection, setActiveSection] = useState("nombreEvento");
   const [fechasHoras, setFechasHoras] = useState([{}]);
   const [descripcion, setDescripcion] = useState("");
+  const [contenido, setContenido] = useState([{}]);
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -40,12 +41,14 @@ const handleStoreEventoDinamico = async (e) => {
     const fechaFinEtapa = fechaHora.fecha_fin_etapa;
     const horaInicioEtapa = fechaHora.hora_inicio;
     const horaFinEtapa = fechaHora.hora_fin;
+    const contenidoEtapa = fechaHora.contenido_etapa;
 
     await axios.post(`${endpoint}/crearEtapaEvento`, {
       fecha_inicio_etapa: fechaInicioEtapa,
       fecha_fin_etapa: fechaFinEtapa,
       hora_inicio_etapa:horaInicioEtapa,
       hora_fin_etapa:horaFinEtapa,
+      contenido_etapa:contenidoEtapa,
       etapa_fecha_inscripcion_eventos_id: idFechaIns      
     });
   }
@@ -81,7 +84,6 @@ const handleFechasHorasChange = (fechas) => {
 }
 
 const handleDescripcion = (descripcion) => {
-  console.log(descripcion);
   setDescripcion(descripcion);
 }
 
@@ -114,13 +116,6 @@ const handleDescripcion = (descripcion) => {
                 Fechas y Horas
               </button>
               <button
-                onClick={() => handleSectionClick("contenidoEtapas")}
-                className={`button mb-2 ${activeSection === "contenidoEtapas" ? "active" : ""
-                  }`}
-              >
-                Contenido Etapas
-              </button>
-              <button
                 onClick={() => handleSectionClick("descripcion")}
                 className={`button mb-2${activeSection === "descripcion" ? "active" : ""
                   }`}
@@ -148,12 +143,6 @@ const handleDescripcion = (descripcion) => {
                 FechaInicioIn={fecha_inicio_inscripcion}
                 FechaFinIn={fecha_fin_inscripcion} 
                 FechasHorasNuevo={fechasHoras}
-                />
-              )}
-              {activeSection === "contenidoEtapas" && (                
-                
-                <ContenidoForm 
-                onContenidoFechasChange={fechasHoras}
                 />
               )}
               {activeSection === "descripcion" && (
