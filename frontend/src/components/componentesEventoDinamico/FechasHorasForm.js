@@ -1,32 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const FechasHorasForm = ({
   onFechaInicioInscripcion,
   onFechaFinInscripcion,
-  onFechasHorasChange
+  onFechasHorasChange,
+  FechaInicioIn,
+  FechaFinIn,
+  FechasHorasNuevo
 }) => {
-  const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
-  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
-  /*const [fecha_inicio_etapa, setFechaInicioEtapa] = useState("");
-  const [fecha_fin_etapa, setFechaFinEtapa] = useState("");
-  const [hora_inicio,setHoraInicio] = useState("");
-  const [hora_fin,setHoraFin] =useState("");*/
+  const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState(FechaInicioIn || "");
+  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(FechaFinIn || "");
   const [fechaInicioError,set1]=useState("");
   const [fechaFinError,set2]=useState("");
   const [fechaInicioEventError,set3]=useState("");
   const [fechaFinEventError,set4]=useState("");
   const [horaEventoError,set5]=useState("");
-  const [fechasHoras, setFechasHoras] = useState([{}]);
+  const [fechasHorasLocal, setFechasHorasLocal] = useState(FechasHorasNuevo || [{}]);
+
+  useEffect(() => {
+    onFechasHorasChange(fechasHorasLocal || [{}]);
+  }, [fechasHorasLocal, onFechasHorasChange]);
 
   const agregarFechasHoras = () => {
-    setFechasHoras([...fechasHoras, {}]);
+    setFechasHorasLocal([...fechasHorasLocal, {}]);
   };
 
   const handleFechasHorasChange = (index, field, value) => {
-    const nuevasFechasHoras = [...fechasHoras];
+    const nuevasFechasHoras = [...fechasHorasLocal];
     nuevasFechasHoras[index][field] = value;
-    setFechasHoras(nuevasFechasHoras);
-    onFechasHorasChange(nuevasFechasHoras);
+    setFechasHorasLocal(nuevasFechasHoras);
   };
 
 const handleFechaInicioInscripcionChange = (event, index) => {
@@ -87,7 +89,7 @@ const handleFechaFinInscripcionChange = (event) =>{
             )}
           </div>
           <button onClick={agregarFechasHoras}>Agregar Fechas y Horas</button>
-          {fechasHoras.map((fechaHora, index) => (
+          {fechasHorasLocal.map((fechaHora, index) => (
           <div key={index}>
             <h2>Etapa {index + 1}</h2>
               <div className="mb-3">

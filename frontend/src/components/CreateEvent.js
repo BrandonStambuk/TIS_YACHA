@@ -7,7 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
-import DescripcionForm from "./componentesEventoDinamico/DescripcionForm"; 
+import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
+import ContenidoForm from "./componentesEventoDinamico/ContenidoForm"; 
 
 import { URL_API } from "../const";
 
@@ -34,13 +35,12 @@ const handleStoreEventoDinamico = async (e) => {
     fecha_fin_inscripcion:fecha_fin_inscripcion
   });
   const idFechaIns =response.data.id;  
-  for (const fechaHora of fechasHoras) {
-    
+  for (const fechaHora of fechasHoras) {    
     const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
     const fechaFinEtapa = fechaHora.fecha_fin_etapa;
     const horaInicioEtapa = fechaHora.hora_inicio;
     const horaFinEtapa = fechaHora.hora_fin;
-    
+
     await axios.post(`${endpoint}/crearEtapaEvento`, {
       fecha_inicio_etapa: fechaInicioEtapa,
       fecha_fin_etapa: fechaFinEtapa,
@@ -114,6 +114,13 @@ const handleDescripcion = (descripcion) => {
                 Fechas y Horas
               </button>
               <button
+                onClick={() => handleSectionClick("contenidoEtapas")}
+                className={`button mb-2 ${activeSection === "contenidoEtapas" ? "active" : ""
+                  }`}
+              >
+                Contenido Etapas
+              </button>
+              <button
                 onClick={() => handleSectionClick("descripcion")}
                 className={`button mb-2${activeSection === "descripcion" ? "active" : ""
                   }`}
@@ -137,7 +144,16 @@ const handleDescripcion = (descripcion) => {
                 <FechasHorasForm 
                 onFechaInicioInscripcion={handleFechaInicioInscripcion}
                 onFechaFinInscripcion={handleFechaFinInscripcion}
-                onFechasHorasChange={handleFechasHorasChange} 
+                onFechasHorasChange={handleFechasHorasChange}
+                FechaInicioIn={fecha_inicio_inscripcion}
+                FechaFinIn={fecha_fin_inscripcion} 
+                FechasHorasNuevo={fechasHoras}
+                />
+              )}
+              {activeSection === "contenidoEtapas" && (                
+                
+                <ContenidoForm 
+                onContenidoFechasChange={fechasHoras}
                 />
               )}
               {activeSection === "descripcion" && (
