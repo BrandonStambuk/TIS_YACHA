@@ -133,7 +133,10 @@ const handleDescripcion = (descripcion) => {
                 />
               )}
               {activeSection === "tipoEvento" && (
-                <TipoEventoForm onTipoEvento={handleTipoEventoChange}/>
+                <TipoEventoForm 
+                onTipoEvento={handleTipoEventoChange}
+                onValorSeleccionado={tipo_evento_dinamico_id}
+                />
               )}
               {activeSection === "fechasHoras" && (                
                 <FechasHorasForm 

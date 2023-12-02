@@ -7,7 +7,7 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const TipoEventoForm = ({ onTipoEvento }) => {
+const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
 
     const [nombre_tipo_evento_dinamico, setTipoEventoDinamico] = useState("");
     const [nombreTipoEventoError, setNombreTipoEventoError] = useState("");
@@ -19,7 +19,7 @@ const TipoEventoForm = ({ onTipoEvento }) => {
         axios.get(`${endpoint}/tipoEventosDinamicos`)
             .then(response => {
                 setOpciones(response.data);
-                setValorSeleccionado(response.data[0]);
+                setValorSeleccionado(onValorSeleccionado);
             })
             .catch(error => {
                 console.error('Error al obtener las opciones:', error);
