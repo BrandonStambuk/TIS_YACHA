@@ -6,7 +6,8 @@ import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
-import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm"; 
+import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
+import DescripcionForm from "./componentesEventoDinamico/DescripcionForm"; 
 
 import { URL_API } from "../const";
 
@@ -17,13 +18,10 @@ const CreateEvento = () => {
   const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
   const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
-  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
-  const [fecha_inicio_etapa, setfechaInicioEtapa] = useState("");
-  const [fecha_fin_etapa, setFechaFinEtapa] = useState("");
-  const [hora_inicio_etapa, setHoraInicioEtapa] = useState("");
-  const [hora_fin_etapa, setHoraFinEtapa] = useState("");
+  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(""); 
   const [activeSection, setActiveSection] = useState("nombreEvento");
   const [fechasHoras, setFechasHoras] = useState([{}]);
+  const [descripcion, setDescripcion] = useState("");
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -55,7 +53,8 @@ const handleStoreEventoDinamico = async (e) => {
   await axios.post(`${endpoint}/crearEventoDinamico`, {
     nombre_evento_dinamico: nombre_evento_dinamico,
     tipo_evento_dinamico_id:tipo_evento_dinamico_id,
-    fecha_inscripcion_eventos_id:idFechaIns
+    fecha_inscripcion_eventos_id:idFechaIns,
+    descripcion_evento_dinamico:descripcion
   });
 
 
@@ -78,8 +77,12 @@ const handleFechaFinInscripcion = (fecha) => {
 }
 
 const handleFechasHorasChange = (fechas) => {
-  console.log(fechas);
   setFechasHoras(fechas);  
+}
+
+const handleDescripcion = (descripcion) => {
+  console.log(descripcion);
+  setDescripcion(descripcion);
 }
 
   return (
@@ -122,7 +125,10 @@ const handleFechasHorasChange = (fechas) => {
           </div>
           <div className="col-md-6">
               {activeSection === "nombreEvento" && (
-                <NombreEventoForm onNombreEventoChange={handleNombreEventoChange}/>
+                <NombreEventoForm
+                  nombreEvento={nombre_evento_dinamico} 
+                onNombreEventoChange={handleNombreEventoChange}
+                />
               )}
               {activeSection === "tipoEvento" && (
                 <TipoEventoForm onTipoEvento={handleTipoEventoChange}/>
@@ -135,8 +141,7 @@ const handleFechasHorasChange = (fechas) => {
                 />
               )}
               {activeSection === "descripcion" && (
-                <h1>Descripción</h1>
-                /*<DescripcionForm/>*/
+                <DescripcionForm onDescripcionChange={handleDescripcion}/>
               )}                        
           </div>
         </div>

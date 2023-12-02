@@ -2,12 +2,10 @@ import React from "react";
 
 import { useState } from "react";
 
-const NombreEventoForm = ({onNombreEventoChange}) => {
-    const [nombreEvento, setNombreEvento] = useState("");
+const NombreEventoForm = ({nombreEvento, onNombreEventoChange}) => {
     const [nombreEventoError, setNombreEventoError] = useState("");
 
     const handleNombreEventoChange = (event) => {
-        setNombreEvento(event.target.value);
         onNombreEventoChange(event.target.value);
     };
 

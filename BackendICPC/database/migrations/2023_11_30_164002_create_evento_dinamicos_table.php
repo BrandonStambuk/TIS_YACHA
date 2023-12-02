@@ -18,6 +18,7 @@ class CreateEventoDinamicosTable extends Migration
             $table->string('nombre_evento_dinamico');
             $table->unsignedBigInteger('tipo_evento_dinamico_id');
             $table->unsignedBigInteger('fecha_inscripcion_eventos_id');
+            $table->text('descripcion_evento_dinamico');
             $table->timestamps();
             $table->foreign('tipo_evento_dinamico_id')->references('id')->on('tipo_evento_dinamicos');
             $table->foreign('fecha_inscripcion_eventos_id')->references('id')->on('fecha_inscripcion_eventos');

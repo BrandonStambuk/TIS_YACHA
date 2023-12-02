@@ -30,6 +30,7 @@ class EventoDinamicoController extends Controller
         $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
         $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
         $evento->fecha_inscripcion_eventos_id = $request->fecha_inscripcion_eventos_id;
+        $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
         $evento->save();
         return $evento;
     }
