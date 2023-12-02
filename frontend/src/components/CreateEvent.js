@@ -23,7 +23,8 @@ const CreateEvento = () => {
   const [activeSection, setActiveSection] = useState("nombreEvento");
   const [fechasHoras, setFechasHoras] = useState([{}]);
   const [descripcion, setDescripcion] = useState("");
-  const [contenido, setContenido] = useState([{}]);
+  const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
+  const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -57,7 +58,9 @@ const handleStoreEventoDinamico = async (e) => {
     nombre_evento_dinamico: nombre_evento_dinamico,
     tipo_evento_dinamico_id:tipo_evento_dinamico_id,
     fecha_inscripcion_eventos_id:idFechaIns,
-    descripcion_evento_dinamico:descripcion
+    descripcion_evento_dinamico:descripcion,
+    lugar_evento_dinamico:lugar_evento_dinamico,
+    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
   });
 
 
@@ -85,6 +88,13 @@ const handleFechasHorasChange = (fechas) => {
 
 const handleDescripcion = (descripcion) => {
   setDescripcion(descripcion);
+}
+
+const handleLugarEventoChange = (lugar) => {
+  setLugarEventoDinamico(lugar);
+}
+const handleCantidadParticipanetesEventoChange = (cantidad) => {
+  setCantidadParticipantesEventoDinamico(cantidad);
 }
 
   return (
@@ -128,8 +138,13 @@ const handleDescripcion = (descripcion) => {
           <div className="col-md-6">
               {activeSection === "nombreEvento" && (
                 <NombreEventoForm
-                  nombreEvento={nombre_evento_dinamico} 
+                  nombreEvento={nombre_evento_dinamico}
+                  lugarEvento={lugar_evento_dinamico}
+                  cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico} 
                 onNombreEventoChange={handleNombreEventoChange}
+                onLugarEventoChange={handleLugarEventoChange}
+                onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
+
                 />
               )}
               {activeSection === "tipoEvento" && (
