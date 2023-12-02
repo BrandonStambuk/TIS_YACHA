@@ -8,7 +8,7 @@ import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
-import ContenidoForm from "./componentesEventoDinamico/ContenidoForm"; 
+
 
 import { URL_API } from "../const";
 
