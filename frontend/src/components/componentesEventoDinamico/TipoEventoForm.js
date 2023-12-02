@@ -78,7 +78,7 @@ const TipoEventoForm = ({ onTipoEvento }) => {
                         <div className="card-body tarjeta">
                             <div className="row">
                                 <div className="col-md-12">
-                                    <h2 className="text-center mb-4 heading">Crear Evento</h2>
+                                    <h2 className="text-center mb-4 heading">Tipo de Evento</h2>
                                 </div>
                             </div>
                             <div className="row text-black">
