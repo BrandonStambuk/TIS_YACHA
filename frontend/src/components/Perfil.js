@@ -12,6 +12,9 @@ const Perfil = () => {
     correo: '',
     password: '',
   });
+  const [errorCorreo, setErrorCorreo] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [verificar, setVerificar] = useState(false);
   const id = localStorage.getItem("id");
   const endpoint = `${URL_API}/perfil`;
   const [editModeCorreo, setEditModeCorreo] = useState(false);
@@ -25,6 +28,24 @@ const Perfil = () => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   };
 
+  const validateEmail = (email) => {
+    let errores = [];
+    if (email === "") {
+      errores.push("El campo de correo electrónico no puede estar vacío.");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errores.push("El formato del correo electrónico es inválido.");
+    }
+    return errores;
+  };
+  const validatePassword = (password) => {
+    let errores = [];
+    if (password === "") {
+      errores.push("El campo de contraseña no puede estar vacío.");
+    } else if (password.length < 4) {
+      errores.push("La contraseña debe tener al menos 4 caracteres.");
+    }
+    return errores;
+    };
   useEffect(() => {
     const getEventById = async () => {
       try {
@@ -33,7 +54,7 @@ const Perfil = () => {
           nombre: response.data.firstName,
           apellido: response.data.lastName,
           correo: response.data.email,
-          password: "******",//response.data.firstName,
+          password: "",
         };
 
         setUserData(usuarioLogueado);
@@ -45,13 +66,23 @@ const Perfil = () => {
   }, []);
 
   const handleEditClickCorreo = () => {
+    console.log(editModeCorreo);
     setEditedData({
       ...editedData,
       correo: userData.correo,
     });
     setEditModeCorreo(true);
   };
-
+  const handleCancelCorreo = () => {
+    setTimeout(() => {
+      setEditModeCorreo(false);
+    }, 0);
+  };
+  const handleCancelPassword = () => {
+    setTimeout(() => {
+      setEditModePassword(false);
+    }, 0);
+  };
   const handleEditClickPassword = () => {
     setEditedData({
       ...editedData,
@@ -61,6 +92,12 @@ const Perfil = () => {
   };
 
   const handleSaveClickCorreo = async () => {
+    let errores = validateEmail(editedData.correo);
+    if (errores.length > 0) {
+      setErrorCorreo(errores);
+      return;
+    }
+    setErrorCorreo("");
     try {
       await axios.post(`${endpoint}/${id}`, {
         email: editedData.correo,
@@ -76,6 +113,12 @@ const Perfil = () => {
   };
 
   const handleSaveClickPassword = async () => {
+    let errores = validatePassword(editedData.password);
+    if (errores.length > 0) {
+      setErrorPassword(errores);
+      return;
+    }
+    setErrorPassword("");
     try {
       await axios.post(`${endpoint}/password/${id}`, {
         password: editedData.password,
@@ -97,17 +140,14 @@ const Perfil = () => {
       [name]: value,
     }));
   };
-  const handleCancelClickCorreo = () => {
-    setEditModePassword(false);
-  };
-
-  const handleCancelClickPassword = () => {
-    setEditModePassword(false);
-  };
 
   const editarIconStyle = { width: '20px', height: '20px' };
 
   const handleOptionClick = (option) => {
+    if (option === 'editar') {
+      setEditModeCorreo(false);
+      setEditModePassword(false);
+    }
     setSelectedOption(option);
   };
 
@@ -153,14 +193,19 @@ const Perfil = () => {
                     <label>
                       <strong>Correo:</strong>{' '}
                       {editModeCorreo ? (
-                        <span>
+                        <span className="d-flex">
                           <input
                             type="email"
                             name="correo"
                             value={editedData.correo}
                             onChange={handleChange}
                           />
-                          <button className='btn-save' onClick={handleSaveClickCorreo}>Guardar</button>
+                          <button className='btn-save' onClick={handleSaveClickCorreo}>
+                            Guardar
+                          </button>
+                          <button className='btn-cancel' onClick={handleCancelCorreo}>
+                            Cancelar
+                          </button>
                         </span>
                       ) : (
                         <span>
@@ -170,20 +215,26 @@ const Perfil = () => {
                           </button>
                         </span>
                       )}
+                      {errorCorreo && <p className="error-message">{errorCorreo}</p>}
                     </label>
                   </div>
                   <div>
                     <label>
                       <strong>Contraseña:</strong>{' '}
                       {editModePassword ? (
-                        <span>
+                        <span className="d-flex">
                           <input
                             type="text"
                             name="password"
                             value={editedData.password}
                             onChange={handleChange}
                           />
-                          <button className='btn-save' onClick={handleSaveClickPassword}>Guardar</button>
+                          <button className='btn-save' onClick={handleSaveClickPassword}>
+                            Guardar
+                          </button>
+                          <button className='btn-cancel' onClick={handleCancelPassword}>
+                            Cancelar
+                          </button>
                         </span>
                       ) : (
                         <span>
@@ -193,6 +244,7 @@ const Perfil = () => {
                           </button>
                         </span>
                       )}
+                      {errorPassword && <p className="error-message">{errorPassword}</p>}
                     </label>
                   </div>
                 </div>

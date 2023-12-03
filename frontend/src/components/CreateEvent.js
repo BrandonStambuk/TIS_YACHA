@@ -6,28 +6,64 @@ import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
+import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
+import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
+
 
 import { URL_API } from "../const";
 
 
-const endpoint = `${URL_API}/crearEventoDinamico`;
+const endpoint = URL_API;
 
 const CreateEvento = () => {
   const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
   const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
+  const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
+  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(""); 
   const [activeSection, setActiveSection] = useState("nombreEvento");
+  const [fechasHoras, setFechasHoras] = useState([{}]);
+  const [descripcion, setDescripcion] = useState("");
+  const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
+  const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
 };
+
 const handleStoreEventoDinamico = async (e) => {
   e.preventDefault();
-  console.log(nombre_evento_dinamico);
-  console.log(tipo_evento_dinamico_id);
-  await axios.post(endpoint, {
-    nombre_evento_dinamico: nombre_evento_dinamico,
-    tipo_evento_dinamico_id:tipo_evento_dinamico_id
+  const response =await axios.post(`${endpoint}/crearFechaInscripcion`, {
+    fecha_inicio_inscripcion: fecha_inicio_inscripcion,
+    fecha_fin_inscripcion:fecha_fin_inscripcion
   });
+  const idFechaIns =response.data.id;  
+  for (const fechaHora of fechasHoras) {    
+    const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+    const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+    const horaInicioEtapa = fechaHora.hora_inicio;
+    const horaFinEtapa = fechaHora.hora_fin;
+    const contenidoEtapa = fechaHora.contenido_etapa;
+
+    await axios.post(`${endpoint}/crearEtapaEvento`, {
+      fecha_inicio_etapa: fechaInicioEtapa,
+      fecha_fin_etapa: fechaFinEtapa,
+      hora_inicio_etapa:horaInicioEtapa,
+      hora_fin_etapa:horaFinEtapa,
+      contenido_etapa:contenidoEtapa,
+      etapa_fecha_inscripcion_eventos_id: idFechaIns      
+    });
+  }
+
+  await axios.post(`${endpoint}/crearEventoDinamico`, {
+    nombre_evento_dinamico: nombre_evento_dinamico,
+    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
+    fecha_inscripcion_eventos_id:idFechaIns,
+    descripcion_evento_dinamico:descripcion,
+    lugar_evento_dinamico:lugar_evento_dinamico,
+    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
+  });
+
+
 }
 
 const handleNombreEventoChange = (nombre_evento) => {
@@ -36,6 +72,29 @@ const handleNombreEventoChange = (nombre_evento) => {
 
 const handleTipoEventoChange = (tipo_evento) => {
   setTipoEventoDinamicoId(tipo_evento);  
+}
+
+
+const handleFechaInicioInscripcion = (fecha) => {
+  setFechaInicioInscripcion(fecha);  
+}
+const handleFechaFinInscripcion = (fecha) => {
+  setFechaFinInscripcion(fecha);  
+}
+
+const handleFechasHorasChange = (fechas) => {
+  setFechasHoras(fechas);  
+}
+
+const handleDescripcion = (descripcion) => {
+  setDescripcion(descripcion);
+}
+
+const handleLugarEventoChange = (lugar) => {
+  setLugarEventoDinamico(lugar);
+}
+const handleCantidadParticipanetesEventoChange = (cantidad) => {
+  setCantidadParticipantesEventoDinamico(cantidad);
 }
 
   return (
@@ -78,18 +137,34 @@ const handleTipoEventoChange = (tipo_evento) => {
           </div>
           <div className="col-md-6">
               {activeSection === "nombreEvento" && (
-                <NombreEventoForm onNombreEventoChange={handleNombreEventoChange}/>
+                <NombreEventoForm
+                  nombreEvento={nombre_evento_dinamico}
+                  lugarEvento={lugar_evento_dinamico}
+                  cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico} 
+                onNombreEventoChange={handleNombreEventoChange}
+                onLugarEventoChange={handleLugarEventoChange}
+                onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
+
+                />
               )}
               {activeSection === "tipoEvento" && (
-                <TipoEventoForm onTipoEvento={handleTipoEventoChange}/>
+                <TipoEventoForm 
+                onTipoEvento={handleTipoEventoChange}
+                onValorSeleccionado={tipo_evento_dinamico_id}
+                />
               )}
-              {activeSection === "fechasHoras" && (
-                <h1>Fechas y Horas</h1>
-                /*<FechasHorasForm/>*/
+              {activeSection === "fechasHoras" && (                
+                <FechasHorasForm 
+                onFechaInicioInscripcion={handleFechaInicioInscripcion}
+                onFechaFinInscripcion={handleFechaFinInscripcion}
+                onFechasHorasChange={handleFechasHorasChange}
+                FechaInicioIn={fecha_inicio_inscripcion}
+                FechaFinIn={fecha_fin_inscripcion} 
+                FechasHorasNuevo={fechasHoras}
+                />
               )}
               {activeSection === "descripcion" && (
-                <h1>Descripción</h1>
-                /*<DescripcionForm/>*/
+                <DescripcionForm onDescripcionChange={handleDescripcion}/>
               )}                        
           </div>
         </div>

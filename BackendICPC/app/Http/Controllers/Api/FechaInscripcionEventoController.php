@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\EventoDinamico;
-use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 
-class EventoDinamicoController extends Controller
+class FechaInscripcionEventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,7 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEventos'])->get();
-
-    return $eventos;
+        //
     }
 
     /**
@@ -30,15 +26,11 @@ class EventoDinamicoController extends Controller
      */
     public function store(Request $request)
     {
-        $evento = new EventoDinamico();
-        $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
-        $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
-        $evento->fecha_inscripcion_eventos_id = $request->fecha_inscripcion_eventos_id;
-        $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
-        $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
-        $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
-        $evento->save();
-        return $evento;
+        $fecha = new FechaInscripcionEvento();
+        $fecha->fecha_inicio_inscripcion = $request->fecha_inicio_inscripcion;
+        $fecha->fecha_fin_inscripcion = $request->fecha_fin_inscripcion;
+        $fecha->save();
+        return $fecha;
     }
 
     /**
