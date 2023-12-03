@@ -45,7 +45,7 @@ const Perfil = () => {
       errores.push("La contraseña debe tener al menos 4 caracteres.");
     }
     return errores;
-    };
+  };
   useEffect(() => {
     const getEventById = async () => {
       try {
@@ -151,6 +151,26 @@ const Perfil = () => {
     setSelectedOption(option);
   };
 
+  const handlePasswordCheck = async (option) => {
+    const password = prompt('Please enter your password:');
+  
+    try {
+      const response = await axios.post(endpoint + '/verificar', {
+        email: userData.email,
+        password: password,
+      });
+  
+      if (response.data.correcto) {
+        setVerificar(true);
+        handleOptionClick(option);
+      } else {
+        alert('Incorrect password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying password:', error);
+    }
+  };
+
   return (
     <div>
       <NavbarAdmin />
@@ -167,7 +187,7 @@ const Perfil = () => {
             </a>
             <a
               className={selectedOption === 'editar' ? 'active' : ''}
-              onClick={() => handleOptionClick('editar')}
+              onClick={() => handlePasswordCheck('editar')}
             >
               Editar
             </a>
@@ -187,7 +207,7 @@ const Perfil = () => {
                   </p>
                 </div>
               )}
-              {selectedOption == 'editar' && (
+              {selectedOption == 'editar' && verificar && (
                 <div className=''>
                   <div>
                     <label>

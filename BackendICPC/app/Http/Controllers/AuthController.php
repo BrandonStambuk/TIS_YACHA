@@ -100,4 +100,11 @@ class AuthController extends Controller
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
     }
+    public function verificar(Request $request){
+        if(!auth::attempt($request->only('email','password'))){
+            return response()->json(['message' => 'Correcto','correcto'=>true], 200);
+        }else{
+            return response()->json(['message' => 'Contraseña incorrecta','correcto'=>false], 200);
+        }
+    }
 }

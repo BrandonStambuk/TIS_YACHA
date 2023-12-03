@@ -92,6 +92,7 @@ Route::controller(AuthController::class)->group(function (){
   Route::get('/perfil/{id}', 'show');
   Route::post('/perfil/{id}', 'update');
   Route::post('/perfil/password/{id}', 'updatePassword');
+  Route::post('/perfil/verificar', 'verificar');
 });
 
 Route::middleware('auth:sanctum')->group(function(){
