@@ -20,12 +20,6 @@
     float: left;
 }
 
-/* .img-perfil {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
-
 .btn-save {
     background-color: #f2b705;
     color: #fff;
@@ -87,6 +81,7 @@
     background-color: #0F5FA6;
     color: white;
 }
+
 .error-message {
     color: red;
     font-size: 12px;
