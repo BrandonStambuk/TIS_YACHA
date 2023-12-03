@@ -23,7 +23,7 @@ use App\Http\Controllers\Api\EtapaEventoController;
 */
 
 Route::controller(EventoDinamicoController::class)->group(function (){
-
+  Route::get('/eventosDinamicos', 'index');
   Route::post('/crearEventoDinamico', 'store');
 
 });

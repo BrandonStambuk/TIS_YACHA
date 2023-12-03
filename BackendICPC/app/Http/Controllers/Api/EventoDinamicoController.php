@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EventoDinamico;
+use App\Models\TipoEventoDinamico;
+use App\Models\FechaInscripcionEvento;
 
 class EventoDinamicoController extends Controller
 {
@@ -15,7 +17,9 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEventos'])->get();
+
+    return $eventos;
     }
 
     /**
