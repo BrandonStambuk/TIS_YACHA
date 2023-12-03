@@ -23,7 +23,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllEventos();
-    getAllEventosPasados();
+    //   getAllEventosPasados();
   }, []);
 
   const imagenesEvento = {
@@ -34,14 +34,14 @@ const HomePage = () => {
   };
 
   const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/mostrarPublico`);
+    const response = await axios.get(`${endpoint}/eventosDinamicos`);
     setEventos(response.data);
   };
 
-  const getAllEventosPasados = async () => {
+  /*const getAllEventosPasados = async () => {
     const response = await axios.get(`${endpoint}/mostrarPublicoPasados`);
     setEventosPasados(response.data);
-  };
+  };*/
 
   const scrollContainer = (scrollAmount) => {
     const container = containerRef.current;
@@ -98,11 +98,10 @@ const HomePage = () => {
                           </div>
                           <div className="card-footer image-container">
                             <div className="event-info">
-                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
-                              <div className="row">
-                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio_evento}</p>
-                                <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
-                              </div>
+                              <p className="event-info-text left"><strong>Nombre de evento: </strong>{evento.nombre_evento_dinamico}</p>
+                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</p>
+                              <p className="event-info-text left col-md-8"><strong>Inicio inscripcion: </strong>{evento.fecha_inscripcion_eventos.fecha_inicio_inscripcion}</p>
+                              <p className="event-info-text left col-md-4"><strong>Lugar</strong>{evento.lugar_evento_dinamico}</p>
                               <Link to={`/mostrar/${evento.id}`} className='boton-ver'>Ver</Link>
                             </div>
                           </div>
@@ -179,7 +178,7 @@ const HomePage = () => {
       <div className="scroll-buttons">
         <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
         <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
-      </div>          
+      </div>
 
     </div>
   );
