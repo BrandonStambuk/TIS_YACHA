@@ -17,8 +17,9 @@ const ListaEventos = () => {
   }, []);
 
   const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/eventos`);
+    const response = await axios.get(`${endpoint}/eventosDinamicos`);
     setEventos(response.data);
+    console.log(response.data);
   };
 
   const confirmarEliminacion = (id) => {
@@ -69,9 +70,9 @@ const ListaEventos = () => {
                     <tr>
                       <th className="centrado">Nombre</th>
                       <th className="centrado">Tipo</th>
-                      <th className="centrado">Fecha de inicio Evento</th>
-                      <th className="centrado">Fecha Fin Evento</th>
-                      <th className="centrado">Duración (horas)</th>
+                      <th className="centrado">Fecha de inicio Inscripcion</th>
+                      <th className="centrado">Lugar del evento</th>
+                      <th className="centrado">Cantidad Participantes</th>
                       <th className="centrado">Acción</th>
                     </tr>
                   </thead>
@@ -82,11 +83,11 @@ const ListaEventos = () => {
                         let evento = eventosVisibles[i];
                         rows.push(
                           <tr key={evento.id}>
-                            <td className="centrado">{evento.nombre_evento}</td>
-                            <td className="centrado">{evento.tipo_evento}</td>
-                            <td className="centrado">{evento.fecha_inicio_evento}</td>
-                            <td className="centrado">{evento.fecha_fin_evento}</td>
-                            <td className="centrado">{evento.hora}</td>
+                            <td className="centrado">{evento.nombre_evento_dinamico}</td>
+                            <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
+                            <td className="centrado">{evento.fecha_inscripcion_eventos.fecha_inicio_inscripcion}</td>
+                            <td className="centrado">{evento.lugar_evento_dinamico}</td>
+                            <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
                             <td className="centrado centrar-botones">
                               <Link to={`/edit/${evento.id}`} className="btn btn-editar">
                                 Editar

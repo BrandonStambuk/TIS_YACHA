@@ -23,7 +23,6 @@ class CreateUsuariosTable extends Migration
             $table->unsignedBigInteger('evento_id');
             $table->timestamps();
 
-            $table->foreign('evento_id')->references('id')->on('eventos');
         });
     }
 
