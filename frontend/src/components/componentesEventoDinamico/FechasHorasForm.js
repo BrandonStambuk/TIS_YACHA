@@ -10,11 +10,11 @@ const FechasHorasForm = ({
 }) => {
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState(FechaInicioIn || "");
   const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(FechaFinIn || "");
-  const [fechaInicioError,set1]=useState("");
-  const [fechaFinError,set2]=useState("");
-  const [fechaInicioEventError,set3]=useState("");
-  const [fechaFinEventError,set4]=useState("");
-  const [horaEventoError,set5]=useState("");
+  const [fechaInicioError, setFechaInicioError] = useState("");
+  const [fechaFinError, setFechaFinError] = useState("");
+  const [fechaInicioEventError, setFechaInicioEventError] = useState("");
+  const [fechaFinEventError, setFechaFinEventError] = useState("");
+  const [horaEventoError, setHoraEventoError] = useState("");
   const [fechasHorasLocal, setFechasHorasLocal] = useState(FechasHorasNuevo || [{}]);
 
   useEffect(() => {
@@ -41,15 +41,49 @@ const FechasHorasForm = ({
   };
 
   const handleFechaInicioInscripcionChange = (event, index) => {
+    const selectedDate = event.target.value;
+    setFechaInicioInscripcion(selectedDate);
+    setFechaInicioError(validateFechaInicio(selectedDate, fecha_fin_inscripcion));
     onFechaInicioInscripcion(event.target.value);
-    setFechaInicioInscripcion(event.target.value);
   };
 
   const handleFechaFinInscripcionChange = (event) => {
+    const selectedDate = event.target.value;
+    setFechaFinInscripcion(selectedDate);
+    setFechaFinError(validateFechaFin(selectedDate, fecha_inicio_inscripcion));
     onFechaFinInscripcion(event.target.value);
-    setFechaFinInscripcion(event.target.value);
   };
 
+  const validateFechaInicio = (fechaInicio, fechaFin) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    if (fechaInicio === today) {
+      setFechaInicioEventError("La fecha de inicio de inscripción no puede ser el día de hoy.");
+      return "La fecha de inicio de inscripción no puede ser el día de hoy.";
+    } else {
+      setFechaInicioEventError("");
+    }
+
+    if (fechaFin && fechaInicio > fechaFin) {
+      setFechaInicioEventError("La fecha de inicio de inscripción no puede ser después de la fecha de fin de inscripción.");
+      return "La fecha de inicio de inscripción no puede ser después de la fecha de fin de inscripción.";
+    } else {
+      setFechaInicioEventError("");
+    }
+
+    return "";
+  };
+
+  const validateFechaFin = (fechaFin, fechaInicio) => {
+    if (fechaInicio && fechaFin < fechaInicio) {
+      setFechaFinEventError("La fecha de fin de inscripción no puede ser antes de la fecha de inicio de inscripción.");
+      return "La fecha de fin de inscripción no puede ser antes de la fecha de inicio de inscripción.";
+    } else {
+      setFechaFinEventError("");
+    }
+
+    return "";
+  };
   const inputStyle = {
     width: "170px",
     height: "30px",
@@ -234,7 +268,7 @@ const FechasHorasForm = ({
         <button onClick={eliminarUltimaFechaHora} className="btn btn-danger" style={{ marginLeft: "10px" }}>
           Eliminar Última Etapa
         </button>
-        ))
+        
       </div>
     </div>
   );
