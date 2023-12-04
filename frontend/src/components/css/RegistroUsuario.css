@@ -65,7 +65,7 @@ select:focus {
 
 .register-button {
   display: block;
-  width: 100%;
+  width: 40%;
   font-weight: bold;
   background: linear-gradient(45deg, #0f5fa6 0%, #0F5FA6 100%);
   color: white;

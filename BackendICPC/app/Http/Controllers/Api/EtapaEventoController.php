@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\EtapaEvento;
 
-class UsuarioController extends Controller
+class EtapaEventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,14 +26,15 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $usuario=new Usuario();
-        $usuario->nombre_usuario=$request->nombre_usuario;
-        $usuario->correo_electronico=$request->correo_electronico;
-        $usuario->institucion=$request->institucion;
-        $usuario->telefono=$request->telefono;
-        $usuario->fecha_nacimiento=$request->fecha_nacimiento;
-        $usuario->evento_id=$request->evento_id;
-        $usuario->save();
+        $etapa = new EtapaEvento();
+        $etapa->fecha_inicio_etapa = $request->fecha_inicio_etapa;
+        $etapa->fecha_fin_etapa = $request->fecha_fin_etapa;
+        $etapa->hora_inicio_etapa = $request->hora_inicio_etapa;
+        $etapa->hora_fin_etapa = $request->hora_fin_etapa;
+        $etapa->contenido_etapa = $request->contenido_etapa;
+        $etapa->etapa_fecha_inscripcion_eventos_id = $request->etapa_fecha_inscripcion_eventos_id;
+        $etapa->save();
+        return $etapa;
     }
 
     /**
@@ -67,7 +68,6 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $usuario = Usuario::destroy($id);
-        return $usuario;
+        //
     }
 }

@@ -220,7 +220,7 @@ const RegistroEvento = () => {
                         setInstitucion(e.target.value);
                       }
                     }}
-                    className="form-select input"
+                    className="select"
                     id="institucion"
                     style={{ fontSize: "14px" }}
                   >

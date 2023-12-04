@@ -27,7 +27,7 @@
 
 
 
-.form .input {
+.form .input .select {
   width: 100%;
   
   background: white;
@@ -39,15 +39,15 @@
   border-inline: 2px solid transparent;
 }
 
-.form .input::-moz-placeholder {
+.form .input .select::-moz-placeholder {
   color: rgb(170, 170, 170);
 }
 
-.form .input::placeholder {
+.form .input .select::placeholder {
   color: rgb(170, 170, 170);
 }
 
-.form .input:focus {
+.form .input .select:focus {
   outline: none;
   border-inline: 2px solid #12B1D1;
 }

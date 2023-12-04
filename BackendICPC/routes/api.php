@@ -6,6 +6,11 @@ use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CompetenciaController;
+use App\Http\Controllers\Api\EventoDinamicoController;
+use App\Http\Controllers\Api\TipoEventoDinamicoController;
+use App\Http\Controllers\Api\FechaInscripcionEventoController;
+use App\Http\Controllers\Api\EtapaEventoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +22,24 @@ use App\Http\Controllers\Api\CompetenciaController;
 |
 */
 
+Route::controller(EventoDinamicoController::class)->group(function (){
+  Route::get('/eventosDinamicos', 'index');
+  Route::post('/crearEventoDinamico', 'store');
+
+});
+
+Route::controller(TipoEventoDinamicoController::class)->group(function (){
+  Route::get('/tipoEventosDinamicos', 'index');
+  Route::post('/crearTipoEventoDinamico', 'store');
+});
+Route::controller(FechaInscripcionEventoController::class)->group(function (){
+  
+  Route::post('/crearFechaInscripcion', 'store');
+});
+Route::controller(EtapaEventoController::class)->group(function (){
+  
+  Route::post('/crearEtapaEvento', 'store');
+});
 
 
 Route::controller(EventoController::class)->group(function (){
@@ -36,6 +59,10 @@ Route::controller(CompetenciaController::class)->group(function (){
   Route::put('/crearcompe/{id}', 'update');
   Route::delete('/competencias/{id}', 'destroy');
 });
+Route::controller(EquipoController::class)->group(function (){
+  Route::get('/createEquipo', 'index');
+  Route::post('/createEquipo', 'store');
+});
 Route::post('/upload', function (Request $request) {
     if (!$request->hasFile('image')) {
       return response()->json(['upload_file_not_found'], 400);
@@ -50,17 +77,22 @@ Route::post('/upload', function (Request $request) {
     return response()->json(['path' => $path], 200);
   });
 Route::controller(UsuarioController::class)->group(function (){
-    Route::get('/usuarios', 'index');
+    Route::get('/usuarioss', 'index');
     Route::post('/crearusuario', 'store');
     //Route::get('/crearusuario/{id}', 'show');
     //Route::put('/crearusuario/{id}', 'update');
-    //Route::delete('/usuarios/{id}', 'destroy');
+    //Route::delete('/usuarioss/{id}', 'destroy');
+    Route::delete('/usuarioss/{id}', [App\Http\Controllers\AuthController::class, 'destroy']);
 });
 
 Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
 Route::get('usuarioss', [App\Http\Controllers\AuthController::class, 'index']);
 Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
-
+Route::controller(AuthController::class)->group(function (){
+  Route::get('/perfil/{id}', 'show');
+  Route::post('/perfil/{id}', 'update');
+  Route::post('/perfil/password/{id}', 'updatePassword');
+});
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
@@ -69,6 +101,12 @@ Route::middleware('auth:sanctum')->group(function(){
     //Route::get('/eventos', [App\Http\Controllers\EventoController::class, 'index']);
     //Route::get('/listaEventos', 'EventoController@index');
     //Route::get('/crearafiche', 'EventoController@crearafiche');
+});
+Route::controller(EstudianteController::class)->group(function (){
+    Route::post('/crearestudiante', 'store');
+    Route::get('/crearestudiante/{id}', 'show');
+    Route::put('/crearestudiante/{id}', 'update');
+    Route::delete('/estudiantes/{id}', 'destroy');
 });
 
 

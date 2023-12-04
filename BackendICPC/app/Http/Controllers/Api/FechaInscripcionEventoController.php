@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\FechaInscripcionEvento;
 
-class UsuarioController extends Controller
+class FechaInscripcionEventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,14 +26,11 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $usuario=new Usuario();
-        $usuario->nombre_usuario=$request->nombre_usuario;
-        $usuario->correo_electronico=$request->correo_electronico;
-        $usuario->institucion=$request->institucion;
-        $usuario->telefono=$request->telefono;
-        $usuario->fecha_nacimiento=$request->fecha_nacimiento;
-        $usuario->evento_id=$request->evento_id;
-        $usuario->save();
+        $fecha = new FechaInscripcionEvento();
+        $fecha->fecha_inicio_inscripcion = $request->fecha_inicio_inscripcion;
+        $fecha->fecha_fin_inscripcion = $request->fecha_fin_inscripcion;
+        $fecha->save();
+        return $fecha;
     }
 
     /**
@@ -67,7 +64,6 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $usuario = Usuario::destroy($id);
-        return $usuario;
+        //
     }
 }

@@ -31,7 +31,9 @@ const Login = () => {
         password: password, 
       });
       const token = response.data.token;
+      const id=response.data.user_id;
       localStorage.setItem('token', token);
+      localStorage.setItem('id',id);
       //setIsAuthenticated(true);
       const currentPath = window.location.pathname;
 
@@ -55,7 +57,7 @@ const Login = () => {
     <div>
       <Navbar />
       <div className="container login">
-        <div className="heading">Iniciar Sesion ICPC UMSS</div>
+        <div className="heading">Iniciar Sesion: ICPC-UMSS</div>
         <form action="" className="form" onSubmit={handleLogin}>
           <input
             required=""

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\EventoDinamico;
+use App\Models\TipoEventoDinamico;
+use App\Models\FechaInscripcionEvento;
 
-class UsuarioController extends Controller
+class EventoDinamicoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEventos'])->get();
+
+    return $eventos;
     }
 
     /**
@@ -26,14 +30,15 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $usuario=new Usuario();
-        $usuario->nombre_usuario=$request->nombre_usuario;
-        $usuario->correo_electronico=$request->correo_electronico;
-        $usuario->institucion=$request->institucion;
-        $usuario->telefono=$request->telefono;
-        $usuario->fecha_nacimiento=$request->fecha_nacimiento;
-        $usuario->evento_id=$request->evento_id;
-        $usuario->save();
+        $evento = new EventoDinamico();
+        $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
+        $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
+        $evento->fecha_inscripcion_eventos_id = $request->fecha_inscripcion_eventos_id;
+        $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
+        $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
+        $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
+        $evento->save();
+        return $evento;
     }
 
     /**
@@ -67,7 +72,6 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $usuario = Usuario::destroy($id);
-        return $usuario;
+        //
     }
 }

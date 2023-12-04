@@ -1,0 +1,90 @@
+.profile-initials {
+    width: 60vw;
+    max-width: 200px;
+    height: 60vw;
+    max-height: 200px;
+    background-color: #cecece;
+    color: #0F5FA6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7vw;
+    font-weight: bold;
+}
+
+.card-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    float: left;
+}
+
+.btn-save {
+    background-color: #f2b705;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cancel {
+    background-color: #d92323;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-perfil {
+    font-size: 20px;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .card-translucent {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-initials {
+        font-size: 20vw;
+    }
+}
+
+.vertical-menu {
+    width: 100%;
+    padding: 10px;
+}
+
+.vertical-menu a {
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    transition: background-color 0.3s;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 20px;
+}
+
+.vertical-menu a:hover {
+    background-color: #ddd;
+}
+
+.vertical-menu a.active {
+    background-color: #0F5FA6;
+    color: white;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+}

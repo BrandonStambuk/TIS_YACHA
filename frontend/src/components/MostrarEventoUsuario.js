@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
-import './css/Homepage.css';
+import './css/CrearEvento.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
 import { Link } from 'react-router-dom';
@@ -75,10 +75,14 @@ const HomePage = () => {
                       <p className="event-info-text left"><strong>Duracion: </strong>{hora} Horas </p>
                     </div>                    
                   </div>
-          <div>
-          <p className="event-info-text left"> <strong>Descripción:</strong></p>
-          <p className="event-info-text left"> {descripcion}</p>  
+          
+          <div className="event-info-container">
+            <p className="event-info-text left">
+              <strong>Descripción:</strong>
+            </p>
+            <div className="event-description" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: descripcion }} />
           </div>
+
           <div>
           <Link to={`/home`} className='boton-atras'>Atras</Link> 
           <Link to={`/registroEvento/${id}`} className='boton-ver'>Ir a registro</Link> 
