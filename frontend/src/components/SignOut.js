@@ -20,6 +20,9 @@ const SignOut = () => {
       // Luego, llama a la función de cierre de sesión del contexto
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      localStorage.removeItem('role');
+      localStorage.removeItem('tokenExpiration');
+      localStorage.removeItem('lastActivity');
       logout();
       navigate('/');
       window.location.reload();

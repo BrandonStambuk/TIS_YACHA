@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import "./css/Login.css";
 import axios from "axios";
 import { URL_API } from '../const';
+import { useEffect } from 'react';
 
 
 const endpoint = `${URL_API}/login`; // Asegúrate de que esta sea la URL correcta de tu backend
@@ -32,8 +33,14 @@ const Login = () => {
       });
       const token = response.data.token;
       const id=response.data.user_id;
+      const role=response.data.role;
+      const expires_at = response.data.expires_at;
       localStorage.setItem('token', token);
       localStorage.setItem('id',id);
+      localStorage.setItem('role',role);
+      const expirationDate = new Date(expires_at);
+      localStorage.setItem('tokenExpiration', expirationDate.toISOString());
+
       //setIsAuthenticated(true);
       const currentPath = window.location.pathname;
 
@@ -52,6 +59,11 @@ const Login = () => {
       setError("Credenciales incorrectas. Inténtalo de nuevo.");
     }
   };
+
+
+
+  
+  
 
   return (
     <div>
