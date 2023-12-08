@@ -10,11 +10,11 @@ const FechasHorasForm = ({
 }) => {
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState(FechaInicioIn || "");
   const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(FechaFinIn || "");
-  const [fechaInicioError,set1]=useState("");
-  const [fechaFinError,set2]=useState("");
-  const [fechaInicioEventError,set3]=useState("");
-  const [fechaFinEventError,set4]=useState("");
-  const [horaEventoError,set5]=useState("");
+  const [fechaInicioError, setFechaInicioError] = useState("");
+  const [fechaFinError, setFechaFinError] = useState("");
+  const [fechaInicioEventError, setFechaInicioEventError] = useState("");
+  const [fechaFinEventError, setFechaFinEventError] = useState("");
+  const [horaEventoError, setHoraEventoError] = useState("");
   const [fechasHorasLocal, setFechasHorasLocal] = useState(FechasHorasNuevo || [{}]);
 
   useEffect(() => {
@@ -25,34 +25,89 @@ const FechasHorasForm = ({
     setFechasHorasLocal([...fechasHorasLocal, {}]);
   };
 
+  const eliminarUltimaFechaHora = () => {
+    if (fechasHorasLocal.length > 0) {
+      const nuevasFechasHoras = [...fechasHorasLocal];
+      nuevasFechasHoras.pop();  // Elimina el último elemento del array
+      setFechasHorasLocal(nuevasFechasHoras);
+      onFechasHorasChange(nuevasFechasHoras);
+    }
+  };
+
   const handleFechasHorasChange = (index, field, value) => {
     const nuevasFechasHoras = [...fechasHorasLocal];
     nuevasFechasHoras[index][field] = value;
     setFechasHorasLocal(nuevasFechasHoras);
   };
 
-const handleFechaInicioInscripcionChange = (event, index) => {
-  onFechaInicioInscripcion(event.target.value);
-  setFechaInicioInscripcion(event.target.value);
-};
+  const handleFechaInicioInscripcionChange = (event, index) => {
+    const selectedDate = event.target.value;
+    setFechaInicioInscripcion(selectedDate);
+    setFechaInicioError(validateFechaInicio(selectedDate, fecha_fin_inscripcion));
+    onFechaInicioInscripcion(event.target.value);
+  };
 
-const handleFechaFinInscripcionChange = (event) =>{
-  onFechaFinInscripcion(event.target.value);
-  setFechaFinInscripcion(event.target.value);
-};
+  const handleFechaFinInscripcionChange = (event) => {
+    const selectedDate = event.target.value;
+    setFechaFinInscripcion(selectedDate);
+    setFechaFinError(validateFechaFin(selectedDate, fecha_inicio_inscripcion));
+    onFechaFinInscripcion(event.target.value);
+  };
 
+  const validateFechaInicio = (fechaInicio, fechaFin) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    if (fechaInicio === today) {
+      setFechaInicioEventError("La fecha de inicio de inscripción no puede ser el día de hoy.");
+      return "La fecha de inicio de inscripción no puede ser el día de hoy.";
+    } else {
+      setFechaInicioEventError("");
+    }
+
+    if (fechaFin && fechaInicio > fechaFin) {
+      setFechaInicioEventError("La fecha de inicio de inscripción no puede ser después de la fecha de fin de inscripción.");
+      return "La fecha de inicio de inscripción no puede ser después de la fecha de fin de inscripción.";
+    } else {
+      setFechaInicioEventError("");
+    }
+
+    return "";
+  };
+
+  const validateFechaFin = (fechaFin, fechaInicio) => {
+    if (fechaInicio && fechaFin < fechaInicio) {
+      setFechaFinEventError("La fecha de fin de inscripción no puede ser antes de la fecha de inicio de inscripción.");
+      return "La fecha de fin de inscripción no puede ser antes de la fecha de inicio de inscripción.";
+    } else {
+      setFechaFinEventError("");
+    }
+
+    return "";
+  };
   const inputStyle = {
     width: "170px",
     height: "30px",
     fontSize: "14px",
+    marginLeft: "150px",
+    marginTop: "10px", 
+  };
+
+  const buttonStyle = {
+    marginLeft: "270px",  // Ajusta el valor del margen según tus necesidades
+  };
+
+  const marginRightStyle = {
+    marginLeft: "150px",
+    marginTop: "10px", // Ajusta el valor del margen izquierdo según tus necesidades
   };
 
   return (
-    <div className="card-body tarjeta">
-        <div className="mb-3">
-          <h2 className="card-title text-center text-blue">Fechas y Horas</h2>
-          <div className="mb-3">
-            <label htmlFor="fechaInicio" className="form-label">
+    <div className="card-body tarjeta ml-3">
+      <div className="mb-3">
+        <h2 className="card-title text-center text-blue">Fechas y Horas</h2>
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <label htmlFor="fechaInicio" className="form-label" style={marginRightStyle}>
               Fecha de Inicio inscripción
             </label>
             <input
@@ -62,7 +117,7 @@ const handleFechaFinInscripcionChange = (event) =>{
               }`}
               id="fechaInicio"
               name="fechaInicio"
-              style={inputStyle}
+              style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_inicio_inscripcion}
               onChange={handleFechaInicioInscripcionChange}
             />
@@ -71,8 +126,8 @@ const handleFechaFinInscripcionChange = (event) =>{
             )}
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="fechaFin" className="form-label">
+          <div className="col-md-6 mb-3">
+            <label htmlFor="fechaFin" className="form-label" style={marginRightStyle}>
               Fecha de Fin inscripcion
             </label>
             <input
@@ -80,7 +135,7 @@ const handleFechaFinInscripcionChange = (event) =>{
               className={`form-control ${fechaFinError ? "is-invalid" : ""}`}
               id="fechaFin"
               name="fechaFin"
-              style={inputStyle}
+              style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_fin_inscripcion}
               onChange={handleFechaFinInscripcionChange}
             />
@@ -88,118 +143,133 @@ const handleFechaFinInscripcionChange = (event) =>{
               <div className="invalid-feedback">{fechaFinError}</div>
             )}
           </div>
-          <button onClick={agregarFechasHoras}>Agregar Fechas y Horas</button>
+          <hr style={{ width: "100%" }} />
           {fechasHorasLocal.map((fechaHora, index) => (
-          <div key={index}>
-            <h2>Etapa {index + 1}</h2>
-              <div className="mb-3">
-            <label htmlFor={`fechaInicioEtapa${index}`} className="form-label">
-              Fecha de Inicio Etapa
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id={`fechaInicioEtapa${index}`}
-              name={`fechaInicioEtapa${index}`}
-              style={inputStyle}
-              value={fechaHora.fecha_inicio_etapa}
-              onChange={(e) =>
-                handleFechasHorasChange(index, "fecha_inicio_etapa", e.target.value)
-              }
-            />
-            {fechaInicioEventError && (
-              <div className="invalid-feedback">
-                {fechaInicioEventError}
-              </div>
-            )}
-          </div>
+  <div key={index}>
+    <h2>Etapa {index + 1}</h2>
+    <div className="mb-3">
+      <div className="row">
+        <div className="col-md-6">
+          <label htmlFor={`fechaInicioEtapa${index}`} className="form-label" style={marginRightStyle}>
+            Fecha de Inicio Etapa
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            id={`fechaInicioEtapa${index}`}
+            name={`fechaInicioEtapa${index}`}
+            style={inputStyle}
+            value={fechaHora.fecha_inicio_etapa}
+            onChange={(e) =>
+              handleFechasHorasChange(index, "fecha_inicio_etapa", e.target.value)
+            }
+          />
+          {fechaInicioEventError && (
+            <div className="invalid-feedback">{fechaInicioEventError}</div>
+          )}
+        </div>
+        <div className="col-md-6">
+          <label htmlFor={`fechaFinEtapa${index}`} className="form-label" style={marginRightStyle}>
+            Fecha de Fin Etapa
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            id={`fechaFinEtapa${index}`}
+            name={`fechaFinEtapa${index}`}
+            style={inputStyle}
+            value={fechaHora.fecha_fin_etapa}
+            onChange={(e) =>
+              handleFechasHorasChange(index, "fecha_fin_etapa", e.target.value)
+            }
+          />
+          {fechaFinEventError && (
+            <div className="invalid-feedback">{fechaFinEventError}</div>
+          )}
+        </div>
+      </div>
+    </div>
 
-          <div className="mb-3">
-          <label htmlFor={`fechaFinEtapa${index}`} className="form-label">
-              Fecha de Fin Etapa
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id={`fechaFinEtapa${index}`}
-              name={`fechaFinEtapa${index}`}
-              style={inputStyle}
-              value={fechaHora.fecha_fin_etapa}
-              onChange={(e) =>
-                handleFechasHorasChange(index, "fecha_fin_etapa", e.target.value)
-              }
-            />
-            {fechaFinEventError && (
-              <div className="invalid-feedback">{fechaFinEventError}</div>
-            )}
-          </div>
+    <div className="mb-3">
+      <div className="row">
+        <div className="col-md-6">
+          <label htmlFor={`horaInicio${index}`} className="form-label" style={marginRightStyle}>
+            Hora inicio Etapa
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            id={`horaInicio${index}`}
+            name={`horaInicio${index}`}
+            style={inputStyle}
+            value={fechaHora.hora_inicio}
+            onChange={(e) =>
+              handleFechasHorasChange(index, "hora_inicio", e.target.value)
+            }
+          />
+          {horaEventoError && (
+            <div className="invalid-feedback">{horaEventoError}</div>
+          )}
+        </div>
+        <div className="col-md-6">
+          <label htmlFor={`horaFin${index}`} className="form-label" style={marginRightStyle}>
+            Hora Fin Etapa
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            id={`horaFin${index}`}
+            name={`horaFin${index}`}
+            style={inputStyle}
+            value={fechaHora.hora_fin}
+            onChange={(e) =>
+              handleFechasHorasChange(index, "hora_fin", e.target.value)
+            }
+          />
+          {horaEventoError && (
+            <div className="invalid-feedback">{horaEventoError}</div>
+          )}
+        </div>
+      </div>
+    </div>
 
-          <div className="mb-3">
-          <label htmlFor={`horaInicio${index}`} className="form-label">
-              hora inicio Etapa
-            </label>
-            <input
-              type="time"
-              className="form-control"
-              id={`horaInicio${index}`}
-              name={`horaInicio${index}`}
-              style={inputStyle}
-              value={fechaHora.hora_inicio}
-              onChange={(e) =>
-                handleFechasHorasChange(index, "hora_inicio", e.target.value)
-              }
-            />
-            {horaEventoError && (
-              <div className="invalid-feedback">{horaEventoError}</div>
-            )}
-          </div>
-          <div className="mb-3">
-          <label htmlFor={`horaFin${index}`} className="form-label">
-              hora Fin Etapa
-            </label>
-            <input
-              type="time"
-              className="form-control"
-              id={`horaFin${index}`}
-              name={`horaFin${index}`}
-              style={inputStyle}
-              value={fechaHora.hora_fin}
-              onChange={(e) =>
-                handleFechasHorasChange(index, "hora_fin", e.target.value)
-              }
-            />
-            {horaEventoError && (
-              <div className="invalid-feedback">{horaEventoError}</div>
-            )}
-          </div>
-          <div className="mb-3">
-          <label htmlFor={`contenido${index}`} className="form-label">
-              contenido Etapa
-            </label>
-            <textarea
-              className="form-control-descArea textarea-estilo"
-
-              id="descripcion"
-              name="descripcion"
-              value={fechaHora.contenido_etapa}
-              onChange={(e) =>
-                handleFechasHorasChange(index, "contenido_etapa", e.target.value)
-              }
-              rows="4"
-              style={{
-                width: "100%",
-                height: "200px",
-                resize: "none",
-              }}
-            ></textarea>
-            {horaEventoError && (
-              <div className="invalid-feedback">{horaEventoError}</div>
-            )}
-          </div>
-          </div>
-          ))}
+    <div className="mb-3">
+      <label htmlFor={`contenido${index}`} className="form-label">
+        Contenido Etapa
+      </label>
+      <textarea
+        className="form-control-descArea textarea-estilo"
+        id={`descripcion`}
+        name={`descripcion`}
+        value={fechaHora.contenido_etapa}
+        onChange={(e) =>
+          handleFechasHorasChange(index, "contenido_etapa", e.target.value)
+        }
+        rows="4"
+        style={{
+          width: "100%",
+          height: "200px",
+          resize: "none",
+        }}
+      ></textarea>
+      {horaEventoError && (
+        <div className="invalid-feedback">{horaEventoError}</div>
+      )}
+    </div>
+  </div>
+))}
           
         </div>
+
+        <button onClick={agregarFechasHoras} className="btn btn-primary" style={buttonStyle}>
+          Agregar Fechas y Horas
+        </button>
+
+        <button onClick={eliminarUltimaFechaHora} className="btn btn-danger" style={{ marginLeft: "10px" }}>
+          Eliminar Última Etapa
+        </button>
+        
+      </div>
     </div>
   );
 };

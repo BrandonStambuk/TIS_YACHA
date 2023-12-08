@@ -1,63 +1,94 @@
 import React from "react";
-
 import { useState } from "react";
+import '../css/Form.css';
 
-const NombreEventoForm = ({nombreEvento,lugarEvento,cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange}) => {
-    const [nombreEventoError, setNombreEventoError] = useState("");
+const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
+  const [nombreEventoError, setNombreEventoError] = useState("");
+  const [lugarEventoError, setLugarEventoError] = useState("");
+  const [cantidadError, setCantidadError] = useState("");
 
-    const handleNombreEventoChange = (event) => {
-        onNombreEventoChange(event.target.value);
-    };
-    const handleLugarEventoChange = (event) => {
-        onLugarEventoChange(event.target.value);
+  const validateEvento = (value) => {
+    if (!/^[A-Z]/.test(value) && value.length > 0) {
+      return "El primer carácter debe ser una letra mayúscula.";
+    } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
+      return "Solo están permitidas letras, espacios y guiones.";
+    } else if (value.length > 21) {
+      return "No se permiten más de 21 caracteres.";
     }
-    const handleCantidadParticipanetesEventoChange = (event) => {
-        onCantidadParticipantesChange(event.target.value);
+    return "";
+  };
+
+  const handleNombreEventoChange = (event) => {
+    let error = validateEvento(event.target.value);
+    setNombreEventoError(error);
+    if (!error) {
+      onNombreEventoChange(event.target.value);
     }
+  };
+  const handleLugarEventoChange = (event) => {
+    let error = validateEvento(event.target.value);
+    setLugarEventoError(error);
+    if (!error) {
+      onLugarEventoChange(event.target.value);
+    }
+  }
+  const handleCantidadParticipanetesEventoChange = (event) => {
+    if (event.target.value < 0) {
+      setCantidadError("No se permiten números negativos.");
+    } else if (event.target.value > 3) {
+      setCantidadError("No se admiten caracteres distintos a números y números mayores a tres");
+    } else {
+      setCantidadError("");
+      onCantidadParticipantesChange(event.target.value);
+    }
+  }
 
   return (
     <div className="card-body tarjeta">
-        <div className="mb-3">
-          <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
-            Creacion de evento
-          </h2>
-          <label>Nombre Evento</label>
-          <input
-            value={nombreEvento}
-            onChange={handleNombreEventoChange}
-            type="text"
-            className={`form-control ${
-              nombreEventoError ? "is-invalid" : ""
+      <div className="mb-3">
+        <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
+          Creacion de evento
+        </h2>
+        <label>Nombre Evento</label>
+        <input
+          value={nombreEvento}
+          onChange={handleNombreEventoChange}
+          type="text"
+          className={`form-control ${nombreEventoError ? "is-invalid" : ""
             }`}
-            id="nombreEvento"
-            name="nombreEvento"
-          />
-          {nombreEventoError && (
-            <div className="invalid-feedback">{nombreEventoError}</div>
-          )}
-          <label>Lugar Evento</label>
-          <input
-            value={lugarEvento}
-            onChange={handleLugarEventoChange}
-            type="text"
-            className={`form-control ${
-              nombreEventoError ? "is-invalid" : ""
+          id="nombreEvento"
+          name="nombreEvento"
+        />
+        {nombreEventoError && (
+          <div className="invalid-feedback">{nombreEventoError}</div>
+        )}
+        <label>Lugar Evento</label>
+        <input
+          value={lugarEvento}
+          onChange={handleLugarEventoChange}
+          type="text"
+          className={`form-control ${lugarEventoError ? "is-invalid" : ""
             }`}
-            id="nombreEvento"
-            name="nombreEvento"
-          />
-          <label>Cantidad Participantes</label>
-          <input
-            value={cantidadParticiapantesEvento}
-            onChange={handleCantidadParticipanetesEventoChange}
-            type="number"
-            className={`form-control ${
-              nombreEventoError ? "is-invalid" : ""
+          id="lugarEvento"
+          name="lugarEvento"
+        />
+        {lugarEventoError && (
+          <div className="invalid-feedback">{lugarEventoError}</div>
+        )}
+        <label>Cantidad Participantes</label>
+        <input
+          value={cantidadParticiapantesEvento}
+          onChange={handleCantidadParticipanetesEventoChange}
+          type="number"
+          className={`form-control ${cantidadError ? "is-invalid" : ""
             }`}
-            id="nombreEvento"
-            name="nombreEvento"
-          />
-        </div>
+          id="cantidadError"
+          name="cantidadError"
+        />
+        {cantidadError && (
+          <div className="invalid-feedback">{cantidadError}</div>
+        )}
+      </div>
     </div>
   );
 };

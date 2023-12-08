@@ -84,7 +84,7 @@ const RegistroUsuario = () => {
                 type="text"
                 name="firstName"
                 id="firstName"
-                placeholder="Primer Nombre"
+                placeholder="Nombre"
                 value={firstName}
                 onChange={handleFirstNameChange}
               />
@@ -96,7 +96,7 @@ const RegistroUsuario = () => {
                 type="text"
                 name="lastName"
                 id="lastName"
-                placeholder="Segundo Nombre"
+                placeholder="Apellido"
                 value={lastName}
                 onChange={handleLastNameChange}
               />

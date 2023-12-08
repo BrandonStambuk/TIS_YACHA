@@ -39,36 +39,31 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
         }
     };
 
+    const validateTipoEvento = (value) => {
+        if (!/^[A-Z]/.test(value) && value.length > 0) {
+            return "El primer carácter debe ser una letra mayúscula.";
+        } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
+            return "No se admiten caracteres distintos a números y espacios";
+        } else if (value.length > 21) {
+            return "No se permiten más de 21 caracteres.";
+        }
+        return "";
+    };
+
     const handleSubmitStoreTipo = async (e) => {
-        e.preventDefault();
-        await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
-            nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
-        });
-        axios.get(`${endpoint}/tipoEventosDinamicos`).then(response => {
-            setOpciones(response.data);
-            setValorSeleccionado(response.data[0]);
-        })
+        let error = validateTipoEvento(nombre_tipo_evento_dinamico);
+        setNombreTipoEventoError(error);
+        if (!error) {
+            e.preventDefault();
+            await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
+                nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
+            });
+            axios.get(`${endpoint}/tipoEventosDinamicos`).then(response => {
+                setOpciones(response.data);
+                setValorSeleccionado(response.data[0]);
+            })
+        }
     }
-
-
-    /* const store = async (e) => {
-       e.preventDefault();
-         await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
-             nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
-         });
-         toggleEtapa(1);
-         axios.get(`${endpoint}/tipoEventoDinamico`)
-         .then(response => {
-           setOpciones(response.data);
-           setValorSeleccionado(response.data[0]);
-         })
-         .catch(error => {
-           console.error('Error al obtener las opciones:', error);
-         });
-         
-     };*/
-    // Estados para el tamaño de fuente y la alineación del texto
-
 
     return (
         <div className="container mt-5">
@@ -78,7 +73,7 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                         <div className="card-body tarjeta">
                             <div className="row">
                                 <div className="col-md-12">
-                                    <h2 className="text-center mb-4 heading">Crear Evento</h2>
+                                    <h2 className="text-center mb-4 heading">Tipo de Evento</h2>
                                 </div>
                             </div>
                             <div className="row text-black">
