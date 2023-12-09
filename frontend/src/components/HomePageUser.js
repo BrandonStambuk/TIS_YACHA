@@ -8,6 +8,7 @@ import imagen2 from '../components/images/cabeza2.jpg';
 import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 import { URL_API } from '../const';
 import Cabecera from './Cabecera';
 
@@ -179,6 +180,7 @@ const HomePage = () => {
         <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
         <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
       </div>
+      <Footer />
 
     </div>
   );
