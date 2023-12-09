@@ -8,6 +8,7 @@ import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
+import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 
 
 import { URL_API } from "../const";
@@ -132,6 +133,13 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
               >
                 Descripción
               </button>
+              <button
+                onClick={() => handleSectionClick("requisitos")}
+                className={`button mb-2${activeSection === "requisitos" ? "active" : ""
+                  }`}
+              >
+                Requisitos
+              </button>
               <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>  
             </div>
           </div>
@@ -165,7 +173,10 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
               )}
               {activeSection === "descripcion" && (
                 <DescripcionForm onDescripcionChange={handleDescripcion}/>
-              )}                        
+              )}
+              {activeSection === "requisitos" && (
+                <RequisitosForm/>
+              )}                         
           </div>
         </div>
       </div>
