@@ -72,6 +72,15 @@ class EventoDinamicoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $eventoDinamico = EventoDinamico::findOrFail($id);
+
+            $eventoDinamico->delete();
+
+            return response()->json(['message' => 'Evento dinámico eliminado correctamente'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getTrace());
+            return response()->json(['message' => 'Error al eliminar el evento dinámico', 'error' => $e->getMessage()], 500);
+        }
     }
 }

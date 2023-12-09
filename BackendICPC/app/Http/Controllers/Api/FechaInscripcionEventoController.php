@@ -64,6 +64,15 @@ class FechaInscripcionEventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $fechaDinamica = FechaInscripcionEvento::findOrFail($id);
+
+            $fechaDinamica->delete();
+
+            return response()->json(['message' => 'Fecha dinámico eliminado correctamente'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getTrace());
+            return response()->json(['message' => 'Error al eliminar el Fecha dinámico', 'error' => $e->getMessage()], 500);
+        }
     }
 }

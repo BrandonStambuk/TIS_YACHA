@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\EtapaEventoController;
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
   Route::post('/crearEventoDinamico', 'store');
-
+  Route::delete('/eliminarEvento/{id}', 'destroy');
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
@@ -37,10 +37,12 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
 Route::controller(FechaInscripcionEventoController::class)->group(function (){
   
   Route::post('/crearFechaInscripcion', 'store');
+  Route::delete('/eliminarFecha/{id}', 'destroy');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
   
   Route::post('/crearEtapaEvento', 'store');
+  Route::delete('/eliminarEtapa/{id}', 'destroy');
 });
 
 
