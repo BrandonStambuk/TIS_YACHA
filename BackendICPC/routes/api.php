@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\EventoDinamicoController;
 use App\Http\Controllers\Api\TipoEventoDinamicoController;
 use App\Http\Controllers\Api\FechaInscripcionEventoController;
 use App\Http\Controllers\Api\EtapaEventoController;
+use App\Http\Controllers\Api\RequisitoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,13 @@ Route::controller(FechaInscripcionEventoController::class)->group(function (){
 Route::controller(EtapaEventoController::class)->group(function (){
   
   Route::post('/crearEtapaEvento', 'store');
+});
+
+Route::controller(RequisitoController::class)->group(function (){
+  Route::get('/requisitos', 'index');
+  Route::post('/crearRequisito', 'store');
+  Route::delete('/eliminarRequisito/{id}', 'destroy');
+  Route::put('/actualizarRequisito/{id}', 'update');
 });
 
 
