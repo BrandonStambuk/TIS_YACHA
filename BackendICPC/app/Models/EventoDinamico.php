@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
+use App\Models\DetalleRequisitos;
 
 class EventoDinamico extends Model
 {
@@ -13,7 +14,6 @@ class EventoDinamico extends Model
     protected $fillable = [
         'nombre_evento_dinamico',
         'tipo_evento_dinamico_id',
-        'fecha_inscripcion_eventos_id',
         'descripcion_evento_dinamico',
         'lugar_evento_dinamico',
         'cantidad_participantes_evento_dinamico',
@@ -23,9 +23,14 @@ class EventoDinamico extends Model
     {
         return $this->belongsTo(TipoEventoDinamico::class, 'tipo_evento_dinamico_id');
     }
-
-    public function fechaInscripcionEventos()
+    public function fechaInscripcionEvento()
     {
-        return $this->belongsTo(FechaInscripcionEvento::class, 'fecha_inscripcion_eventos_id');
+        return $this->hasMany(FechaInscripcionEvento::class, 'evento_dinamicos_id');
     }
+    
+    public function detalleRequisitos()
+    {
+        return $this->hasMany(DetalleRequisitos::class, 'id_evento_dinamico');
+    }
+    
 }

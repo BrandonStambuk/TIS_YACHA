@@ -43,7 +43,7 @@ const ListaEventos = () => {
   };
 
   const deleteEvento = async (id) => {
-    await axios.delete(`${endpoint}/eventos/${id}`);
+    await axios.delete(`${endpoint}/eliminarEventoDinamico/${id}`);
     getAllEventos();
   };
 
@@ -91,7 +91,7 @@ const ListaEventos = () => {
                           <tr key={evento.id}>
                             <td className="centrado">{evento.nombre_evento_dinamico}</td>
                             <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
-                            <td className="centrado">{evento.fecha_inscripcion_eventos.fecha_inicio_inscripcion}</td>
+                            <td className="centrado">{evento.fecha_inscripcion_evento[0].fecha_inicio_inscripcion}</td>
                             <td className="centrado">{evento.lugar_evento_dinamico}</td>
                             <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
                             <td className="centrado centrar-botones">
