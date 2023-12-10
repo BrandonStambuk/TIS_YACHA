@@ -4,6 +4,7 @@ import editarIcon from './images/editar.png';
 import NavbarAdmin from './NavbarAdmin';
 import './css/Perfil.css'
 import { URL_API } from '../const';
+import NavbarOrganizador from './NavbarOrganizador';
 
 const Perfil = () => {
   const [userData, setUserData] = useState({
@@ -151,9 +152,14 @@ const Perfil = () => {
     setSelectedOption(option);
   };
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className='row mt-5 col-md-12'>
 
         <div className="col-md-2 row">

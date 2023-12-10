@@ -5,6 +5,7 @@ import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
 import { URL_API } from "./const";
+import NavbarOrganizador from './NavbarOrganizador';
 const endpoint = URL_API;
 
 const ListaCompetecias = () => {
@@ -54,9 +55,14 @@ const ListaCompetecias = () => {
   const eventosVisibles =  competencias.slice(inicio, fin);
   const totalPaginas = Math.ceil(competencias.length / eventosPorPagina);
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">

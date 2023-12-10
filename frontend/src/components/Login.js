@@ -52,8 +52,13 @@ const Login = () => {
       // Navegar a la ruta "ListaEventos" si no estamos en esa página
       navigate('/listaEventos');
     }*/
-    navigate('/listaEventos');
-    window.location.reload();
+    if(role==="Admin" || role === "Creador"){
+      navigate('/listaEventos');
+      window.location.reload();
+    }else{
+      navigate('/registerEquipo');
+      window.location.reload();
+    }
 
     } catch (error) {
       setError("Credenciales incorrectas. Inténtalo de nuevo.");

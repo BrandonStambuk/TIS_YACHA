@@ -92,27 +92,55 @@ function App() {
     <div className="App" onMouseMove = {handleUserActivity}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />   
-          <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} /> 
-          <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
-          <Route path='/editCompetencia/:id' element={isAuthenticated ? <EditComp/>:<Login/>}/>
-          <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
-          <Route path='/listaCompetencias' element={isAuthenticated && rol === 'Admin' ? <MostarCompe/>:<Login/>}/>
-          <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />
-          <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
-          <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
-          <Route path="/listaEventos" element={isAuthenticated && rol === 'Admin'? <ListaEventos/>: <Login/>} />  
-          <Route path="/inicio" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
-          <Route path="/crearafiche" element={isAuthenticated ? <CrearAfiche/>: <Login/>}/>
+          <Route path='/' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />   
+          <Route path='/create' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateEvento /> : <Login />} /> 
+          <Route path='/createCompe' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateCompe/>:<Login/>}/>   
+          <Route path='/editCompetencia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/>:<Login/>}/>
+          <Route path='/edit/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditEvento /> : <Login />} /> 
+          <Route path='/listaCompetencias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador') ? <MostarCompe/>:<Login/>}/>
+          <Route path="/home" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />
+          <Route path='/editComp' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/> : <Login />} />    
+          <Route path="/mostrar/:id" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <MostrarEventoUsuario/>} />    
+          <Route path="/listaEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <Login/>} />  
+          <Route path="/inicio" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <QueEsICPC/>} />    
+          <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: <Login/>}/>
           <Route path="/login" element={<Login/>}/> 
           <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/registerUsuario" element={isAuthenticated ? <RegisterUsuario/>: <RegisterUsuario />}/>
-          <Route path="/registerEquipo" element={isAuthenticated ? <RegistroEquipo/>: <RegistroEquipo/>}/>
-          <Route path="/listaUsuarios" element={isAuthenticated ? <ListaUsuarios/>: <Login/>} />  
+          <Route
+            path="/registerUsuario"
+            element={
+              isAuthenticated ? (
+                rol === 'Admin' ? (
+                  <RegisterUsuario />
+                ) : rol === 'Creador' ? (
+                  <ListaEventos/>
+                ) : (
+                  <RegistroEquipo />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route path="/registerEquipo" element={isAuthenticated && (rol === 'Coach')? <RegistroEquipo/>: <Login/>}/>
+          <Route
+            path="/listaUsuarios"
+            element={
+              isAuthenticated ? (
+                rol === 'Admin' ? (
+                  <RegisterUsuario />
+                ) : rol === 'Creador' ? (
+                  <ListaEventos/>
+                ) : (
+                  <RegistroEquipo />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
-          <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
-          <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -9,6 +9,7 @@ import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
 import { URL_API } from "./const";
+import NavbarOrganizador from "./NavbarOrganizador";
 
 import Swal from 'sweetalert2';
 const inputStyle = {
@@ -209,9 +210,14 @@ const CreateCompe = () => {
     maxHeight: "24px",
   };
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
