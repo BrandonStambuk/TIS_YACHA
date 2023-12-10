@@ -34,11 +34,23 @@ const handleSectionClick = (section) => {
 
 const handleStoreEventoDinamico = async (e) => {
   e.preventDefault();
+
+  const responseEvento =await axios.post(`${endpoint}/crearEventoDinamico`, {
+    nombre_evento_dinamico: nombre_evento_dinamico,
+    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
+    descripcion_evento_dinamico:descripcion,
+    lugar_evento_dinamico:lugar_evento_dinamico,
+    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
+  });  
+  const idEvento = responseEvento.data.id;
+
   const response =await axios.post(`${endpoint}/crearFechaInscripcion`, {
     fecha_inicio_inscripcion: fecha_inicio_inscripcion,
-    fecha_fin_inscripcion:fecha_fin_inscripcion
+    fecha_fin_inscripcion:fecha_fin_inscripcion,
+    evento_dinamicos_id:idEvento
   });
-  const idFechaIns =response.data.id;  
+  const idFechaIns =response.data.id;
+
   for (const fechaHora of fechasHoras) {    
     const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
     const fechaFinEtapa = fechaHora.fecha_fin_etapa;
@@ -56,17 +68,6 @@ const handleStoreEventoDinamico = async (e) => {
     });
   }
 
-  const responseEvento =await axios.post(`${endpoint}/crearEventoDinamico`, {
-    nombre_evento_dinamico: nombre_evento_dinamico,
-    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
-    fecha_inscripcion_eventos_id:idFechaIns,
-    descripcion_evento_dinamico:descripcion,
-    lugar_evento_dinamico:lugar_evento_dinamico,
-    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
-  });
-  const idEvento = responseEvento.data.id;
-  console.log(idEvento);
-  console.log(requisitosSeleccionados);  
   for (const requisito of requisitosSeleccionados) {
     if (requisito && idEvento) {
       await new Promise(resolve => setTimeout(resolve, 1000));
