@@ -37,11 +37,11 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
 });
 Route::controller(FechaInscripcionEventoController::class)->group(function (){
-  
+  Route::get('/fechasInscripcion', 'index');
   Route::post('/crearFechaInscripcion', 'store');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
-  
+  Route::get('/etapasEvento', 'index');
   Route::post('/crearEtapaEvento', 'store');
 });
 

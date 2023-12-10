@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EtapaEvento;
+use App\Models\FechaInscripcionEvento;
 
 class EtapaEventoController extends Controller
 {
@@ -15,7 +16,8 @@ class EtapaEventoController extends Controller
      */
     public function index()
     {
-        //
+        $etapas = EtapaEvento::with(['fechaInscripcionEvento'])->get();
+        return $etapas;
     }
 
     /**

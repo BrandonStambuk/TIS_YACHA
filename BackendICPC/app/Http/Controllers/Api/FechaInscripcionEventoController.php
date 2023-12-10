@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FechaInscripcionEvento;
+use App\Models\EtapaEvento;
+use App\Models\EventoDinamico;
 
 class FechaInscripcionEventoController extends Controller
 {

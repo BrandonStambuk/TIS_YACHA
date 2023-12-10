@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FechaInscripcionEvento;
 
 class EtapaEvento extends Model
 {
@@ -17,6 +18,6 @@ class EtapaEvento extends Model
         'etapa_fecha_inscripcion_eventos_id'
     ];
     public function fechaInscripcionEvento(){
-        return $this->belongsTo(FechaInscripcionEvento::class);
+        return $this->belongsTo(FechaInscripcionEvento::class, 'etapa_fecha_inscripcion_eventos_id');
     }
 }

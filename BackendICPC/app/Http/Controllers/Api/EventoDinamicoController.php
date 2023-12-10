@@ -17,7 +17,7 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento'])->get();
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])->get();
 
     return $eventos;
     }
