@@ -15,6 +15,11 @@ class CreateRequisitosEventosTable extends Migration
     {
         Schema::create('requisitos_eventos', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_requisito');
+            $table->string('descripcion_requisito');
+            $table->string('tipo_requisito');
+            $table->string('maximo_valor')->nullable();
+            $table->string('minimo_valor')->nullable();
             $table->timestamps();
         });
     }
