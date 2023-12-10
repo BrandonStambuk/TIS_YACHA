@@ -6,9 +6,9 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const RequisitosForm = ({ onRequisitos }) => {
+const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
     const [requisitos, setRequisitos] = useState([]);
-    const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
+    const [requisitosSeleccionados, setRequisitosSeleccionados] = useState(RequisitosIn || []);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
     const [nombre_requisito, setNombreRequisito] = useState("");
     const [tipoRequisito, setTipoRequisito] = useState("");
@@ -20,20 +20,22 @@ const RequisitosForm = ({ onRequisitos }) => {
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
 
+
+
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
     };
 
     const handleCheckboxChange = (requisitoId, isChecked) => {
-        console.log(`Requisito ${requisitoId} seleccionado: ${isChecked}`);
-        if(isChecked){
-            const newRequisitosSeleccionados=[...requisitosSeleccionados, requisitoId];
+        if (isChecked) {
+            const newRequisitosSeleccionados = [...requisitosSeleccionados, requisitoId];
             setRequisitosSeleccionados(newRequisitosSeleccionados);
-        }else{
-            const newRequisitosSeleccionados=requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
+            onRequisitos(newRequisitosSeleccionados);
+        } else {
+            const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            onRequisitos(newRequisitosSeleccionados);
         }
-        
     };
 
     const handleEditRequisito = (id) => {
@@ -134,7 +136,8 @@ const RequisitosForm = ({ onRequisitos }) => {
                                         <td><input
                                             type="checkbox"
                                             id={`checkbox-${requisito.id}`}
-                                            onChange={(e) => handleCheckboxChange(requisito.id, e.target.checked)} />
+                                            onChange={(e) => handleCheckboxChange(requisito.id, e.target.checked)}
+                                            checked={requisitosSeleccionados.includes(requisito.id)} />
                                         </td>
                                     </tr>
                                 ))}

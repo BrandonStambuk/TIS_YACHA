@@ -56,7 +56,7 @@ const handleStoreEventoDinamico = async (e) => {
     });
   }
 
-  await axios.post(`${endpoint}/crearEventoDinamico`, {
+  const responseEvento =await axios.post(`${endpoint}/crearEventoDinamico`, {
     nombre_evento_dinamico: nombre_evento_dinamico,
     tipo_evento_dinamico_id:tipo_evento_dinamico_id,
     fecha_inscripcion_eventos_id:idFechaIns,
@@ -64,7 +64,24 @@ const handleStoreEventoDinamico = async (e) => {
     lugar_evento_dinamico:lugar_evento_dinamico,
     cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
   });
-
+  const idEvento = responseEvento.data.id;
+  console.log(idEvento);
+  console.log(requisitosSeleccionados);  
+  for (const requisito of requisitosSeleccionados) {
+    if (requisito && idEvento) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      try {
+        const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
+          id_evento_dinamico: idEvento,
+          id_requisito: requisito         
+        });
+      } catch (error) {
+        console.error("Error al crear detalle de requisito:", error);
+      }
+    } else {
+      console.error("Datos de requisito o evento no válidos");
+    }
+  }
 
 }
 
@@ -100,6 +117,7 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
 }
 
 const handleRequisitosSeleccionados = (requisitos) => {
+  console.log(requisitos);
   setRequisitosSeleccionados(requisitos);
 }
 
@@ -177,10 +195,16 @@ const handleRequisitosSeleccionados = (requisitos) => {
                 />
               )}
               {activeSection === "descripcion" && (
-                <DescripcionForm onDescripcionChange={handleDescripcion}/>
+                <DescripcionForm 
+                onDescripcionChange={handleDescripcion}
+                DescripcionIn={descripcion}
+                />
               )}
               {activeSection === "requisitos" && (
-                <RequisitosForm onRequisitos={handleRequisitosSeleccionados} />
+                <RequisitosForm 
+                onRequisitos={handleRequisitosSeleccionados}
+                RequisitosIn={requisitosSeleccionados} 
+                />
               )}                         
           </div>
         </div>

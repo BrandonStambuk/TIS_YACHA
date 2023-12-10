@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\EventoDinamico;
+use App\Models\RequisitosEvento;
 
 class DetalleRequisitos extends Model
 {
     use HasFactory;
     protected $fillable = [
         'id_evento_dinamico',
-        'id_requisito',
+        'id_requisito'
     ];
     public function eventoDinamico()
     {
