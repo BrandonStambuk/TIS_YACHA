@@ -45,7 +45,8 @@ class RequisitoController extends Controller
      */
     public function show($id)
     {
-        //
+        $requisito = RequisitosEvento::find($id);
+        return $requisito;
     }
 
     /**
@@ -57,7 +58,14 @@ class RequisitoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requisito = RequisitosEvento::find($id);
+        $requisito->nombre_requisito = $request->nombre_requisito;
+        $requisito->descripcion_requisito = $request->descripcion_requisito;
+        $requisito->tipo_requisito = $request->tipo_requisito;
+        $requisito->maximo_valor = $request->maximo_valor;
+        $requisito->minimo_valor = $request->minimo_valor;
+        $requisito->save();
+        return $requisito;
     }
 
     /**
@@ -68,6 +76,6 @@ class RequisitoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        RequisitosEvento::destroy($id);
     }
 }

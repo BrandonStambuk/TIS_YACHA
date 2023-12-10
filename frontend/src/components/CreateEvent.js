@@ -26,6 +26,7 @@ const CreateEvento = () => {
   const [descripcion, setDescripcion] = useState("");
   const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
+  const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -96,6 +97,10 @@ const handleLugarEventoChange = (lugar) => {
 }
 const handleCantidadParticipanetesEventoChange = (cantidad) => {
   setCantidadParticipantesEventoDinamico(cantidad);
+}
+
+const handleRequisitosSeleccionados = (requisitos) => {
+  setRequisitosSeleccionados(requisitos);
 }
 
   return (
@@ -175,7 +180,7 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
                 <DescripcionForm onDescripcionChange={handleDescripcion}/>
               )}
               {activeSection === "requisitos" && (
-                <RequisitosForm/>
+                <RequisitosForm onRequisitos={handleRequisitosSeleccionados} />
               )}                         
           </div>
         </div>

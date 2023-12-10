@@ -49,6 +49,7 @@ Route::controller(RequisitoController::class)->group(function (){
   Route::post('/crearRequisito', 'store');
   Route::delete('/eliminarRequisito/{id}', 'destroy');
   Route::put('/actualizarRequisito/{id}', 'update');
+  Route::get('/requisitos/{id}', 'show');
 });
 
 
