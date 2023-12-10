@@ -15,7 +15,8 @@ class FechaInscripcionEventoController extends Controller
      */
     public function index()
     {
-        //
+        $fechas = FechaInscripcionEvento::with(['eventoDinamico', 'etapaEvento'])->get();
+        return $fechas;
     }
 
     /**
