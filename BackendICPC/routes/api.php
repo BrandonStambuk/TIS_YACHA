@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\DetalleRequisitoController;
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
   Route::post('/crearEventoDinamico', 'store');
+  Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
 
 });
 
