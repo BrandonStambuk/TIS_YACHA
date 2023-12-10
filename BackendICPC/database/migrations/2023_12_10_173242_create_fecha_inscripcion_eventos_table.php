@@ -17,7 +17,10 @@ class CreateFechaInscripcionEventosTable extends Migration
             $table->id();
             $table->date('fecha_inicio_inscripcion');
             $table->date('fecha_fin_inscripcion');
+            $table->unsignedBigInteger('evento_dinamicos_id');
             $table->timestamps();
+
+            $table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos');
         });
     }
 

@@ -15,7 +15,8 @@ class FechaInscripcionEventoController extends Controller
      */
     public function index()
     {
-        //
+        $fechas = FechaInscripcionEvento::with(['eventoDinamico', 'etapaEvento'])->get();
+        return $fechas;
     }
 
     /**
@@ -29,6 +30,7 @@ class FechaInscripcionEventoController extends Controller
         $fecha = new FechaInscripcionEvento();
         $fecha->fecha_inicio_inscripcion = $request->fecha_inicio_inscripcion;
         $fecha->fecha_fin_inscripcion = $request->fecha_fin_inscripcion;
+        $fecha->evento_dinamicos_id = $request->evento_dinamicos_id;
         $fecha->save();
         return $fecha;
     }

@@ -8,6 +8,7 @@ import NombreEventoForm from "./componentesEventoDinamico/NombreEventoForm";
 import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
+import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 
 
 import { URL_API } from "../const";
@@ -25,6 +26,7 @@ const CreateEvento = () => {
   const [descripcion, setDescripcion] = useState("");
   const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
+  const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
 
 const handleSectionClick = (section) => {
   setActiveSection(section);
@@ -32,11 +34,23 @@ const handleSectionClick = (section) => {
 
 const handleStoreEventoDinamico = async (e) => {
   e.preventDefault();
+
+  const responseEvento =await axios.post(`${endpoint}/crearEventoDinamico`, {
+    nombre_evento_dinamico: nombre_evento_dinamico,
+    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
+    descripcion_evento_dinamico:descripcion,
+    lugar_evento_dinamico:lugar_evento_dinamico,
+    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
+  });  
+  const idEvento = responseEvento.data.id;
+
   const response =await axios.post(`${endpoint}/crearFechaInscripcion`, {
     fecha_inicio_inscripcion: fecha_inicio_inscripcion,
-    fecha_fin_inscripcion:fecha_fin_inscripcion
+    fecha_fin_inscripcion:fecha_fin_inscripcion,
+    evento_dinamicos_id:idEvento
   });
-  const idFechaIns =response.data.id;  
+  const idFechaIns =response.data.id;
+
   for (const fechaHora of fechasHoras) {    
     const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
     const fechaFinEtapa = fechaHora.fecha_fin_etapa;
@@ -54,15 +68,21 @@ const handleStoreEventoDinamico = async (e) => {
     });
   }
 
-  await axios.post(`${endpoint}/crearEventoDinamico`, {
-    nombre_evento_dinamico: nombre_evento_dinamico,
-    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
-    fecha_inscripcion_eventos_id:idFechaIns,
-    descripcion_evento_dinamico:descripcion,
-    lugar_evento_dinamico:lugar_evento_dinamico,
-    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
-  });
-
+  for (const requisito of requisitosSeleccionados) {
+    if (requisito && idEvento) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      try {
+        const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
+          id_evento_dinamico: idEvento,
+          id_requisito: requisito         
+        });
+      } catch (error) {
+        console.error("Error al crear detalle de requisito:", error);
+      }
+    } else {
+      console.error("Datos de requisito o evento no válidos");
+    }
+  }
 
 }
 
@@ -95,6 +115,11 @@ const handleLugarEventoChange = (lugar) => {
 }
 const handleCantidadParticipanetesEventoChange = (cantidad) => {
   setCantidadParticipantesEventoDinamico(cantidad);
+}
+
+const handleRequisitosSeleccionados = (requisitos) => {
+  console.log(requisitos);
+  setRequisitosSeleccionados(requisitos);
 }
 
   return (
@@ -132,6 +157,13 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
               >
                 Descripción
               </button>
+              <button
+                onClick={() => handleSectionClick("requisitos")}
+                className={`button mb-2${activeSection === "requisitos" ? "active" : ""
+                  }`}
+              >
+                Requisitos
+              </button>
               <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>  
             </div>
           </div>
@@ -164,8 +196,17 @@ const handleCantidadParticipanetesEventoChange = (cantidad) => {
                 />
               )}
               {activeSection === "descripcion" && (
-                <DescripcionForm onDescripcionChange={handleDescripcion}/>
-              )}                        
+                <DescripcionForm 
+                onDescripcionChange={handleDescripcion}
+                DescripcionIn={descripcion}
+                />
+              )}
+              {activeSection === "requisitos" && (
+                <RequisitosForm 
+                onRequisitos={handleRequisitosSeleccionados}
+                RequisitosIn={requisitosSeleccionados} 
+                />
+              )}                         
           </div>
         </div>
       </div>

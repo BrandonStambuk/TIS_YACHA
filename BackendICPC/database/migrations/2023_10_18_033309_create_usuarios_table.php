@@ -22,7 +22,6 @@ class CreateUsuariosTable extends Migration
             $table->date('fecha_nacimiento');
             $table->unsignedBigInteger('evento_id');
             $table->timestamps();
-
         });
     }
 
