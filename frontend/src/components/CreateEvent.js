@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,6 +10,7 @@ import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
+import AficheForm from "./componentesEventoDinamico/AficheForm";
 
 
 import { URL_API } from "../const";
@@ -20,108 +22,133 @@ const CreateEvento = () => {
   const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
   const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
-  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState(""); 
+  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
   const [activeSection, setActiveSection] = useState("nombreEvento");
   const [fechasHoras, setFechasHoras] = useState([{}]);
   const [descripcion, setDescripcion] = useState("");
   const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
+  const [afiche, setAfiche] = useState("");
+  const [ruta, setRuta] = useState(null);
 
-const handleSectionClick = (section) => {
-  setActiveSection(section);
-};
+  const handleSectionClick = (section) => {
+    setActiveSection(section);
+  };
 
-const handleStoreEventoDinamico = async (e) => {
-  e.preventDefault();
-
-  const responseEvento =await axios.post(`${endpoint}/crearEventoDinamico`, {
-    nombre_evento_dinamico: nombre_evento_dinamico,
-    tipo_evento_dinamico_id:tipo_evento_dinamico_id,
-    descripcion_evento_dinamico:descripcion,
-    lugar_evento_dinamico:lugar_evento_dinamico,
-    cantidad_participantes_evento_dinamico:cantidad_participantes_evento_dinamico
-  });  
-  const idEvento = responseEvento.data.id;
-
-  const response =await axios.post(`${endpoint}/crearFechaInscripcion`, {
-    fecha_inicio_inscripcion: fecha_inicio_inscripcion,
-    fecha_fin_inscripcion:fecha_fin_inscripcion,
-    evento_dinamicos_id:idEvento
-  });
-  const idFechaIns =response.data.id;
-
-  for (const fechaHora of fechasHoras) {    
-    const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
-    const fechaFinEtapa = fechaHora.fecha_fin_etapa;
-    const horaInicioEtapa = fechaHora.hora_inicio;
-    const horaFinEtapa = fechaHora.hora_fin;
-    const contenidoEtapa = fechaHora.contenido_etapa;
-
-    await axios.post(`${endpoint}/crearEtapaEvento`, {
-      fecha_inicio_etapa: fechaInicioEtapa,
-      fecha_fin_etapa: fechaFinEtapa,
-      hora_inicio_etapa:horaInicioEtapa,
-      hora_fin_etapa:horaFinEtapa,
-      contenido_etapa:contenidoEtapa,
-      etapa_fecha_inscripcion_eventos_id: idFechaIns      
+  const handleStoreEventoDinamico = async (e) => {
+    e.preventDefault();
+    handleUpload();
+    const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
+      nombre_evento_dinamico: nombre_evento_dinamico,
+      tipo_evento_dinamico_id: tipo_evento_dinamico_id,
+      descripcion_evento_dinamico: descripcion,
+      lugar_evento_dinamico: lugar_evento_dinamico,
+      cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      afiche: ruta
     });
-  }
+    const idEvento = responseEvento.data.id;
 
-  for (const requisito of requisitosSeleccionados) {
-    if (requisito && idEvento) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      try {
-        const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
-          id_evento_dinamico: idEvento,
-          id_requisito: requisito         
-        });
-      } catch (error) {
-        console.error("Error al crear detalle de requisito:", error);
-      }
-    } else {
-      console.error("Datos de requisito o evento no válidos");
+    const response = await axios.post(`${endpoint}/crearFechaInscripcion`, {
+      fecha_inicio_inscripcion: fecha_inicio_inscripcion,
+      fecha_fin_inscripcion: fecha_fin_inscripcion,
+      evento_dinamicos_id: idEvento
+    });
+    const idFechaIns = response.data.id;
+
+    for (const fechaHora of fechasHoras) {
+      const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+      const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+      const horaInicioEtapa = fechaHora.hora_inicio;
+      const horaFinEtapa = fechaHora.hora_fin;
+      const contenidoEtapa = fechaHora.contenido_etapa;
+
+      await axios.post(`${endpoint}/crearEtapaEvento`, {
+        fecha_inicio_etapa: fechaInicioEtapa,
+        fecha_fin_etapa: fechaFinEtapa,
+        hora_inicio_etapa: horaInicioEtapa,
+        hora_fin_etapa: horaFinEtapa,
+        contenido_etapa: contenidoEtapa,
+        etapa_fecha_inscripcion_eventos_id: idFechaIns
+      });
     }
+
+    for (const requisito of requisitosSeleccionados) {
+      if (requisito && idEvento) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+          const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
+            id_evento_dinamico: idEvento,
+            id_requisito: requisito
+          });
+        } catch (error) {
+          console.error("Error al crear detalle de requisito:", error);
+        }
+      } else {
+        console.error("Datos de requisito o evento no válidos");
+      }
+    }
+
   }
 
-}
+  const handleNombreEventoChange = (nombre_evento) => {
+    setNombreEventoDinamico(nombre_evento);
+  };
 
-const handleNombreEventoChange = (nombre_evento) => {
-  setNombreEventoDinamico(nombre_evento);  
-};
-
-const handleTipoEventoChange = (tipo_evento) => {
-  setTipoEventoDinamicoId(tipo_evento);  
-}
+  const handleTipoEventoChange = (tipo_evento) => {
+    setTipoEventoDinamicoId(tipo_evento);
+  }
 
 
-const handleFechaInicioInscripcion = (fecha) => {
-  setFechaInicioInscripcion(fecha);  
-}
-const handleFechaFinInscripcion = (fecha) => {
-  setFechaFinInscripcion(fecha);  
-}
+  const handleFechaInicioInscripcion = (fecha) => {
+    setFechaInicioInscripcion(fecha);
+  }
+  const handleFechaFinInscripcion = (fecha) => {
+    setFechaFinInscripcion(fecha);
+  }
 
-const handleFechasHorasChange = (fechas) => {
-  setFechasHoras(fechas);  
-}
+  const handleFechasHorasChange = (fechas) => {
+    setFechasHoras(fechas);
+  }
 
-const handleDescripcion = (descripcion) => {
-  setDescripcion(descripcion);
-}
+  const handleDescripcion = (descripcion) => {
+    setDescripcion(descripcion);
+  }
 
-const handleLugarEventoChange = (lugar) => {
-  setLugarEventoDinamico(lugar);
-}
-const handleCantidadParticipanetesEventoChange = (cantidad) => {
-  setCantidadParticipantesEventoDinamico(cantidad);
-}
+  const handleLugarEventoChange = (lugar) => {
+    setLugarEventoDinamico(lugar);
+  }
+  const handleCantidadParticipanetesEventoChange = (cantidad) => {
+    setCantidadParticipantesEventoDinamico(cantidad);
+  }
 
-const handleRequisitosSeleccionados = (requisitos) => {
-  console.log(requisitos);
-  setRequisitosSeleccionados(requisitos);
-}
+  const handleRequisitosSeleccionados = (requisitos) => {
+    console.log(requisitos);
+    setRequisitosSeleccionados(requisitos);
+  }
+  const handleAfiche = (afiche) => {
+    console.log(afiche);
+    setAfiche(afiche);
+  }
+  const handleUpload = async () => {
+    if (!afiche) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', afiche);
+    try {
+      const response = await axios.post(`${URL_API}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setRuta(response.data.path);
+      console.log(response.data.path);
+    } catch (error) {
+      console.error(error);
+    }
 
+  }
   return (
     <div>
       <NavbarAdmin />
@@ -164,49 +191,63 @@ const handleRequisitosSeleccionados = (requisitos) => {
               >
                 Requisitos
               </button>
-              <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>  
+              <button
+                onClick={() => handleSectionClick("Afiche")}
+                className={`button mb-2${activeSection === "Afiche" ? "active" : ""
+                  }`}
+              >
+                Afiche
+              </button>
+              <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>
+              <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
           <div className="col-md-6">
-              {activeSection === "nombreEvento" && (
-                <NombreEventoForm
-                  nombreEvento={nombre_evento_dinamico}
-                  lugarEvento={lugar_evento_dinamico}
-                  cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico} 
+            {activeSection === "nombreEvento" && (
+              <NombreEventoForm
+                nombreEvento={nombre_evento_dinamico}
+                lugarEvento={lugar_evento_dinamico}
+                cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico}
                 onNombreEventoChange={handleNombreEventoChange}
                 onLugarEventoChange={handleLugarEventoChange}
                 onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
 
-                />
-              )}
-              {activeSection === "tipoEvento" && (
-                <TipoEventoForm 
+              />
+            )}
+            {activeSection === "tipoEvento" && (
+              <TipoEventoForm
                 onTipoEvento={handleTipoEventoChange}
                 onValorSeleccionado={tipo_evento_dinamico_id}
-                />
-              )}
-              {activeSection === "fechasHoras" && (                
-                <FechasHorasForm 
+              />
+            )}
+            {activeSection === "fechasHoras" && (
+              <FechasHorasForm
                 onFechaInicioInscripcion={handleFechaInicioInscripcion}
                 onFechaFinInscripcion={handleFechaFinInscripcion}
                 onFechasHorasChange={handleFechasHorasChange}
                 FechaInicioIn={fecha_inicio_inscripcion}
-                FechaFinIn={fecha_fin_inscripcion} 
+                FechaFinIn={fecha_fin_inscripcion}
                 FechasHorasNuevo={fechasHoras}
-                />
-              )}
-              {activeSection === "descripcion" && (
-                <DescripcionForm 
+              />
+            )}
+            {activeSection === "descripcion" && (
+              <DescripcionForm
                 onDescripcionChange={handleDescripcion}
                 DescripcionIn={descripcion}
-                />
-              )}
-              {activeSection === "requisitos" && (
-                <RequisitosForm 
+              />
+            )}
+            {activeSection === "requisitos" && (
+              <RequisitosForm
                 onRequisitos={handleRequisitosSeleccionados}
-                RequisitosIn={requisitosSeleccionados} 
-                />
-              )}                         
+                RequisitosIn={requisitosSeleccionados}
+              />
+            )}
+            {activeSection === "Afiche" && (
+              <AficheForm
+                setInput={handleAfiche}
+                input={afiche}
+              />
+            )}
           </div>
         </div>
       </div>
