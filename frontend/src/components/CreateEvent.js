@@ -31,6 +31,7 @@ const CreateEvento = () => {
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
   const [ruta, setRuta] = useState(null);
+  const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -88,7 +89,7 @@ const CreateEvento = () => {
         console.error("Datos de requisito o evento no válidos");
       }
     }
-
+    navigate("/listaEventos");
   }
 
   const handleNombreEventoChange = (nombre_evento) => {

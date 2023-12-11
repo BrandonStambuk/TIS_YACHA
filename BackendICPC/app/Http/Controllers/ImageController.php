@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\EventoDinamico;
 
 class ImageController extends Controller
 {
@@ -23,5 +24,14 @@ class ImageController extends Controller
         Storage::disk('public')->put($path, file_get_contents($file));
 
         return response()->json(['path' => $path], 200);
+    }
+    public function get($id){
+        $evento = EventoDinamico::find($id);
+        if (!$evento) {
+            return response()->json(['evento_not_found'], 400);
+        }
+        $link = $evento->afiche;
+        $file = Storage::disk('public')->get($link);
+        return response($file, 200)->header('Content-Type', 'image/jpeg');
     }
 }
