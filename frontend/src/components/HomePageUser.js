@@ -73,9 +73,9 @@ const HomePage = () => {
   }, [filtroTipo]);
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <div className="container mt-5">
+      <div className="container mt-5 flex-grow-1">
         <div className="row">
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
