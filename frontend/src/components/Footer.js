@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer>
+        <footer className="bg-light bg-transparent">
             <div class="container mt-4">
                 <div className='d-flex justify-content-between'>
                     <p>© {new Date().getFullYear()} YachayPachaSoft S.A.</p>
