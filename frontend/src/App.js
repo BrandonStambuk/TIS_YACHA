@@ -6,7 +6,7 @@ import { useState } from 'react';
 import CreateEvento from './components/CreateEvent';
 import CreateCompe from './components/CreateCompe';
 import ListaEventos from './components/ListaEventos';
-import EditEvento from './components/EditEvent';
+import EditEventoDinamico from './components/EditEventoDinamico';
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
@@ -35,7 +35,7 @@ function App() {
           <Route path='/create' element={isAuthenticated ? <CreateEvento /> : <Login />} /> 
           <Route path='/createCompe' element={isAuthenticated ? <CreateCompe/>:<Login/>}/>   
           <Route path='/editCompetencia/:id' element={isAuthenticated ? <EditComp/>:<Login/>}/>
-          <Route path='/edit/:id' element={isAuthenticated ? <EditEvento /> : <Login />} /> 
+          <Route path='/edit/:id' element={isAuthenticated ? <EditEventoDinamico /> : <Login />} /> 
           <Route path='/listaCompetencias' element={isAuthenticated ? <MostarCompe/>:<Login/>}/>
           <Route path="/home" element={isAuthenticated ? <ListaEventos/>: <HomePageUser/>} />
           <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
