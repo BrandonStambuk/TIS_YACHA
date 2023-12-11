@@ -42,7 +42,6 @@ Route::controller(FechaInscripcionEventoController::class)->group(function (){
 Route::controller(EtapaEventoController::class)->group(function (){
   
   Route::post('/crearEtapaEvento', 'store');
-  Route::delete('/eliminarEtapa/{id}', 'destroy');
 });
 
 
