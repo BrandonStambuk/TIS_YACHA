@@ -80,19 +80,8 @@ Route::controller(EquipoController::class)->group(function (){
   Route::get('/createEquipo', 'index');
   Route::post('/createEquipo', 'store');
 });
-Route::post('/upload', function (Request $request) {
-    if (!$request->hasFile('image')) {
-      return response()->json(['upload_file_not_found'], 400);
-    }
-    $file = $request->file('image');
-    if (!$file->isValid()) {
-      return response()->json(['invalid_file_upload'], 400);
-    }
-    $path = '/uploads/' . $file->getClientOriginalName();
-    Storage::disk('public')->put($path, file_get_contents($file));
-  
-    return response()->json(['path' => $path], 200);
-  });
+Route::post('upload', [App\Http\Controllers\ImageController::class, 'upload']);
+Route::get('getImage/{id}', [App\Http\Controllers\ImageController::class, 'get']);
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarioss', 'index');
     Route::post('/crearusuario', 'store');
