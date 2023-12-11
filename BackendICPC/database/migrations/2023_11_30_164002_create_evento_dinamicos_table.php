@@ -20,6 +20,7 @@ class CreateEventoDinamicosTable extends Migration
             $table->text('descripcion_evento_dinamico');
             $table->string('lugar_evento_dinamico');
             $table->integer('cantidad_participantes_evento_dinamico');
+            $table->string('afiche', 500)->nullable();
             $table->timestamps();
             $table->foreign('tipo_evento_dinamico_id')->references('id')->on('tipo_evento_dinamicos');
             

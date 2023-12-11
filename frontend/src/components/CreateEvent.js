@@ -30,7 +30,6 @@ const CreateEvento = () => {
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
-  const [ruta, setRuta] = useState(null);
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -39,7 +38,14 @@ const CreateEvento = () => {
 
   const handleStoreEventoDinamico = async (e) => {
     e.preventDefault();
-    handleUpload();
+    const formData = new FormData();
+    formData.append('image', afiche);
+    const responseImage = await axios.post(`${URL_API}/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    const ruta = responseImage.data.path;
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: tipo_evento_dinamico_id,
@@ -131,25 +137,7 @@ const CreateEvento = () => {
     console.log(afiche);
     setAfiche(afiche);
   }
-  const handleUpload = async () => {
-    if (!afiche) {
-      return;
-    }
-    const formData = new FormData();
-    formData.append('image', afiche);
-    try {
-      const response = await axios.post(`${URL_API}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setRuta(response.data.path);
-      console.log(response.data.path);
-    } catch (error) {
-      console.error(error);
-    }
 
-  }
   return (
     <div>
       <NavbarAdmin />
