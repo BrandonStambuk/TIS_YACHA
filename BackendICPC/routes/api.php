@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\EventoDinamicoController;
 use App\Http\Controllers\Api\TipoEventoDinamicoController;
 use App\Http\Controllers\Api\FechaInscripcionEventoController;
 use App\Http\Controllers\Api\EtapaEventoController;
+use App\Http\Controllers\Api\RequisitoController;
+use App\Http\Controllers\Api\DetalleRequisitoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,8 @@ use App\Http\Controllers\Api\EtapaEventoController;
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
   Route::post('/crearEventoDinamico', 'store');
-  Route::delete('/eliminarEvento/{id}', 'destroy');
+  Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
+
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
@@ -35,15 +38,27 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
 });
 Route::controller(FechaInscripcionEventoController::class)->group(function (){
-  
+  Route::get('/fechasInscripcion', 'index');
   Route::post('/crearFechaInscripcion', 'store');
   Route::delete('/eliminarFecha/{id}', 'destroy');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
-  
+  Route::get('/etapasEvento', 'index');
   Route::post('/crearEtapaEvento', 'store');
 });
 
+Route::controller(RequisitoController::class)->group(function (){
+  Route::get('/requisitos', 'index');
+  Route::post('/crearRequisito', 'store');
+  Route::delete('/eliminarRequisito/{id}', 'destroy');
+  Route::put('/actualizarRequisito/{id}', 'update');
+  Route::get('/requisitos/{id}', 'show');
+});
+
+Route::controller(DetalleRequisitoController::class)->group(function (){
+  Route::get('/detalleRequisitos', 'index');
+  Route::post('/crearDetalleRequisito', 'store');
+});
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');
@@ -66,19 +81,8 @@ Route::controller(EquipoController::class)->group(function (){
   Route::get('/createEquipo', 'index');
   Route::post('/createEquipo', 'store');
 });
-Route::post('/upload', function (Request $request) {
-    if (!$request->hasFile('image')) {
-      return response()->json(['upload_file_not_found'], 400);
-    }
-    $file = $request->file('image');
-    if (!$file->isValid()) {
-      return response()->json(['invalid_file_upload'], 400);
-    }
-    $path = '/uploads/' . $file->getClientOriginalName();
-    Storage::disk('public')->put($path, file_get_contents($file));
-  
-    return response()->json(['path' => $path], 200);
-  });
+Route::post('upload', [App\Http\Controllers\ImageController::class, 'upload']);
+Route::get('getImage/{id}', [App\Http\Controllers\ImageController::class, 'get']);
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarioss', 'index');
     Route::post('/crearusuario', 'store');

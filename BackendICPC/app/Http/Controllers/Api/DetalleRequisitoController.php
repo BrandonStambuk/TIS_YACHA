@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\FechaInscripcionEvento;
-use App\Models\EtapaEvento;
-use App\Models\EventoDinamico;
+use App\Models\DetalleRequisitos;
 
-class FechaInscripcionEventoController extends Controller
+class DetalleRequisitoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,7 @@ class FechaInscripcionEventoController extends Controller
      */
     public function index()
     {
-        $fechas = FechaInscripcionEvento::with(['eventoDinamico', 'etapaEvento'])->get();
-        return $fechas;
+        //
     }
 
     /**
@@ -29,12 +26,11 @@ class FechaInscripcionEventoController extends Controller
      */
     public function store(Request $request)
     {
-        $fecha = new FechaInscripcionEvento();
-        $fecha->fecha_inicio_inscripcion = $request->fecha_inicio_inscripcion;
-        $fecha->fecha_fin_inscripcion = $request->fecha_fin_inscripcion;
-        $fecha->evento_dinamicos_id = $request->evento_dinamicos_id;
-        $fecha->save();
-        return $fecha;
+        $detalleRequisito = new DetalleRequisitos();
+        $detalleRequisito->id_evento_dinamico = $request->id_evento_dinamico;
+        $detalleRequisito->id_requisito = $request->id_requisito;
+        $detalleRequisito->save();
+        return $detalleRequisito;
     }
 
     /**
@@ -68,15 +64,6 @@ class FechaInscripcionEventoController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $fechaDinamica = FechaInscripcionEvento::findOrFail($id);
-
-            $fechaDinamica->delete();
-
-            return response()->json(['message' => 'Fecha dinámico eliminado correctamente'], 200);
-        } catch (\Exception $e) {
-            dd($e->getMessage(), $e->getTrace());
-            return response()->json(['message' => 'Error al eliminar el Fecha dinámico', 'error' => $e->getMessage()], 500);
-        }
+        //
     }
 }

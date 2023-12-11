@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const DescripcionForm = ({onDescripcionChange}) => {
+const DescripcionForm = ({onDescripcionChange, DescripcionIn}) => {
 
-    const [descripcion, setDescripcion] = React.useState("");
+    const [descripcion, setDescripcion] = React.useState(DescripcionIn ||"");
 
   const handleDescripcionChange = (content) => {
     setDescripcion(content);
