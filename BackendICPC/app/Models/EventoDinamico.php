@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
-use App\Models\DetalleRequisito;
+use App\Models\DetalleRequisitos;
 
 class EventoDinamico extends Model
 {
@@ -30,7 +30,7 @@ class EventoDinamico extends Model
     
     public function detalleRequisitos()
     {
-        return $this->hasMany(DetalleRequisito::class, 'id_evento_dinamico');
+        return $this->hasMany(DetalleRequisitos::class, 'id_evento_dinamico');
     }
     
 }

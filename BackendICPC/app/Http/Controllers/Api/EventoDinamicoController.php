@@ -17,7 +17,7 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento'])->get();
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])->get();
 
     return $eventos;
     }
@@ -71,6 +71,26 @@ class EventoDinamicoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $evento = EventoDinamico::find($id);
+
+        if (!$evento) {
+            return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
+    
+        // Elimina todos los detalles de requisitos asociados al evento
+        $evento->detalleRequisitos()->delete();
+    
+        // Elimina todas las etapas asociadas a cada fecha de inscripción
+        $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
+            $fechaInscripcion->etapaEvento()->delete();
+        });
+    
+        // Elimina todas las fechas de inscripción asociadas al evento
+        $evento->fechaInscripcionEvento()->delete();
+    
+        // Finalmente, elimina el evento principal
+        $evento->delete();
+    
+        return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
 }
