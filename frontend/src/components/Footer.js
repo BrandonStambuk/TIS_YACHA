@@ -9,7 +9,13 @@ const Footer = () => {
                     <div className='d-flex'>
                         <p>Contacto: +591 71234567</p>
                         <span className='mx-2'>|</span>
-                        <a className="text-decoration-none text-dark" href='https://www.umss.edu.bo/'>UMSS</a>
+                        <a
+                            className="text-decoration-none text-dark"
+                            href='https://www.umss.edu.bo/'
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            UMSS
+                        </a>
                     </div>
                 </div>
             </div>
