@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
@@ -31,6 +31,44 @@ const CreateEvento = () => {
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
+
+
+  useEffect(() => {
+    const getEventById = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
+        console.log(response.data);
+        setNombreEventoDinamico(response.data.nombre_evento_dinamico);
+        setTipoEventoDinamicoId(response.data.tipo_evento_dinamico_id);
+        setLugarEventoDinamico(response.data.lugar_evento_dinamico);
+        setDescripcion(response.data.descripcion_evento_dinamico);      
+        setCantidadParticipantesEventoDinamico(response.data.cantidad_participantes_evento_dinamico);
+        setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
+        setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
+        const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
+          contenido_etapa: etapa.contenido_etapa,
+          fecha_fin_etapa: etapa.fecha_fin_etapa,
+          fecha_inicio_etapa: etapa.fecha_inicio_etapa,
+          hora_fin: etapa.hora_fin_etapa,
+          hora_inicio: etapa.hora_inicio_etapa,
+        }));       
+        setFechasHoras(fechasHorasArray);
+        const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
+        setRequisitosSeleccionados(requisitosArray);
+        const responseImage = await axios.get(`${URL_API}/getImage/${id}`);
+        console.log(responseImage.data);
+        setAfiche(responseImage.data);
+        
+
+  
+      } catch (error) {
+        console.error('Error al obtener los datos del evento:', error);
+      }
+    };
+    getEventById();
+  },[]);
+
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -38,17 +76,14 @@ const CreateEvento = () => {
 
   const handleStoreEventoDinamico = async (e) => {
     e.preventDefault();
-    const ruta = null;
-    if (afiche){
-      const formData = new FormData();
+    const formData = new FormData();
     formData.append('image', afiche);
     const responseImage = await axios.post(`${URL_API}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    ruta = responseImage.data.path;
-    }
+    const ruta = responseImage.data.path;
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: tipo_evento_dinamico_id,

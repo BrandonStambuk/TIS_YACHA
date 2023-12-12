@@ -20,7 +20,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
 
-
+    console.log(requisitosSeleccionados);
 
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
@@ -30,10 +30,12 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         if (isChecked) {
             const newRequisitosSeleccionados = [...requisitosSeleccionados, requisitoId];
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         } else {
             const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         }
     };

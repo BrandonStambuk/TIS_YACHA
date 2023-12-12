@@ -28,7 +28,8 @@ Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
   Route::post('/crearEventoDinamico', 'store');
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
-
+  Route::put('/actualizarEventoDinamico/{id}', 'update');
+  Route::get('/eventosDinamicos/{id}', 'show');
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
@@ -40,11 +41,14 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
 Route::controller(FechaInscripcionEventoController::class)->group(function (){
   Route::get('/fechasInscripcion', 'index');
   Route::post('/crearFechaInscripcion', 'store');
-  Route::delete('/eliminarFecha/{id}', 'destroy');
+  Route::delete('/eliminarFechaInscripcion/{id}', 'destroy');
+  Route::put('/actualizarFechaInscripcion/{id}', 'update');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
   Route::get('/etapasEvento', 'index');
   Route::post('/crearEtapaEvento', 'store');
+  Route::delete('/eliminarEtapaEvento/{id}', 'destroy');
+  Route::put('/actualizarEtapaEvento/{id}', 'update');
 });
 
 Route::controller(RequisitoController::class)->group(function (){

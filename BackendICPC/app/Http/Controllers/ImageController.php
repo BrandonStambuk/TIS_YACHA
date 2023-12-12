@@ -27,11 +27,16 @@ class ImageController extends Controller
     }
     public function get($id){
         $evento = EventoDinamico::find($id);
+    
         if (!$evento) {
             return response()->json(['evento_not_found'], 400);
         }
+    
         $link = $evento->afiche;
-        $file = Storage::disk('public')->get($link);
-        return response($file, 200)->header('Content-Type', 'image/jpeg');
+    
+        // Obtener información sobre el archivo
+        $fileInfo = Storage::disk('public')->getMetadata($link);
+    
+        return response()->json($fileInfo, 200);
     }
 }
