@@ -43,5 +43,7 @@ tbody tr {
 	border-bottom: solid 7px #ffffff;
 	background-color: #ddd;
 }
-
- 
+#inicio{
+  width: 200px;
+	margin-left: 0%;
+}

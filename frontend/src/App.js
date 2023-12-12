@@ -23,6 +23,7 @@ import ListaUsuarios from './components/ListaUsuarios';
 import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
 import Decription from './components/Decription'
+import Reportes from './components/Reportes'; //reportes
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -41,6 +42,7 @@ function App() {
           <Route path='/editComp' element={isAuthenticated ? <EditComp/> : <Login />} />    
           <Route path="/mostrar/:id" element={isAuthenticated ? <ListaEventos/>: <MostrarEventoUsuario/>} />    
           <Route path="/listaEventos" element={isAuthenticated ? <ListaEventos/>: <Login/>} />  
+          <Route path="/reportes" element={isAuthenticated ? <Reportes/>: <Login/>} />
           <Route path="/inicio" element={isAuthenticated ? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated ? <CrearAfiche/>: <Login/>}/>
           <Route path="/login" element={<Login/>}/> 

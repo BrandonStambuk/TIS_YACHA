@@ -63,6 +63,9 @@ const NavbarAdmin = () => {
               <li className="nav-item p-2">
                 <a className="nav-link" href="/registerUsuario">Registrar</a>
               </li>
+              <li className="nav-item p-2">
+                <a className="nav-link" href="/reportes">Reportes</a>
+              </li>
             </ul>
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (

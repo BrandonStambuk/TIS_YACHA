@@ -212,6 +212,10 @@
 	width: 200px;
 	margin: 0;
 }
+#gestion{
+	width: 200px;
+	margin-bottom: 0%;
+}
 
 #tipoEvento option {
 	color: #333;
