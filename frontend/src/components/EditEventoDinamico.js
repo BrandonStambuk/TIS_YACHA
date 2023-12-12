@@ -46,8 +46,21 @@ const CreateEvento = () => {
         setCantidadParticipantesEventoDinamico(response.data.cantidad_participantes_evento_dinamico);
         setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
         setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
+        const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
+          contenido_etapa: etapa.contenido_etapa,
+          fecha_fin_etapa: etapa.fecha_fin_etapa,
+          fecha_inicio_etapa: etapa.fecha_inicio_etapa,
+          hora_fin: etapa.hora_fin_etapa,
+          hora_inicio: etapa.hora_inicio_etapa,
+        }));       
+        setFechasHoras(fechasHorasArray);
         const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
         setRequisitosSeleccionados(requisitosArray);
+        const responseImage = await axios.get(`${URL_API}/getImage/${id}`);
+        console.log(responseImage.data);
+        setAfiche(responseImage.data);
+        
+
   
       } catch (error) {
         console.error('Error al obtener los datos del evento:', error);

@@ -37,6 +37,7 @@ const FechasHorasForm = ({
   const handleFechasHorasChange = (index, field, value) => {
     const nuevasFechasHoras = [...fechasHorasLocal];
     nuevasFechasHoras[index][field] = value;
+    console.log(nuevasFechasHoras);
     setFechasHorasLocal(nuevasFechasHoras);
   };
 
