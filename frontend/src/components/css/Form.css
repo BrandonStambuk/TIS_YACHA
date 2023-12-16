@@ -5,3 +5,12 @@
     color: #0f5fa6;
     margin-left: 80px;
 }
+
+.form-control {
+    width: 50%;
+    margin-left: 20px;
+  }
+
+  .form-label {
+    margin-left: 10px;
+  }
