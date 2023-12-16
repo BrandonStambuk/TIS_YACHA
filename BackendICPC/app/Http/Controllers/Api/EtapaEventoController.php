@@ -59,7 +59,15 @@ class EtapaEventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $etapa = EtapaEvento::find($id);
+        $etapa->fecha_inicio_etapa = $request->fecha_inicio_etapa;
+        $etapa->fecha_fin_etapa = $request->fecha_fin_etapa;
+        $etapa->hora_inicio_etapa = $request->hora_inicio_etapa;
+        $etapa->hora_fin_etapa = $request->hora_fin_etapa;
+        $etapa->contenido_etapa = $request->contenido_etapa;
+        $etapa->etapa_fecha_inscripcion_eventos_id = $request->etapa_fecha_inscripcion_eventos_id;
+        $etapa->save();
+        return $etapa;
     }
 
     /**
