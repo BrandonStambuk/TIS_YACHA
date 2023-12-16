@@ -78,6 +78,15 @@ class EtapaEventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $etapaEvento = EtapaEvento::findOrFail($id);
+
+            $etapaEvento->delete();
+
+            return response()->json(['message' => 'Etapa dinámico eliminado correctamente'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getTrace());
+            return response()->json(['message' => 'Etapa al eliminar el Fecha dinámico', 'error' => $e->getMessage()], 500);
+        }
     }
 }
