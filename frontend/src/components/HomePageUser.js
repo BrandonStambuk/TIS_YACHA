@@ -8,6 +8,7 @@ import imagen2 from '../components/images/cabeza2.jpg';
 import imagen3 from '../components/images/cabeza3.jpg';
 import imagen4 from '../components/images/cabeza4.jpg';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 import { URL_API } from '../const';
 import Cabecera from './Cabecera';
 
@@ -16,6 +17,7 @@ const endpoint = URL_API;
 const HomePage = () => {
   const containerRef = useRef();
   const [eventos, setEventos] = useState([]);
+  const [fecha_inicio_evento, setFecha_inicio_evento] = useState([]);
   const [eventosPasados, setEventosPasados] = useState([]);
   const [scrolling, setScrolling] = useState(0);
   const [filtroTipo, setFiltroTipo] = useState('');
@@ -23,7 +25,6 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllEventos();
-    //   getAllEventosPasados();
   }, []);
 
   const imagenesEvento = {
@@ -34,10 +35,16 @@ const HomePage = () => {
   };
 
   const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/eventosDinamicos`);
-    setEventos(response.data);
+    const event = await axios.get(`${endpoint}/eventosDinamicos`);
+    setEventos(event.data);
+    const fechas = await axios.get(`${endpoint}/fechasInscripcion`);
+    setFecha_inicio_evento(fechas.data);
   };
-
+  // const getAllFechasInicio = async () => {
+  //   const response = await axios.get(`${endpoint}/fechasInscripcion`);
+  //   setFecha_inicio_evento(response.data);
+  //   console.log(response.data);
+  // };
   /*const getAllEventosPasados = async () => {
     const response = await axios.get(`${endpoint}/mostrarPublicoPasados`);
     setEventosPasados(response.data);
@@ -66,9 +73,9 @@ const HomePage = () => {
   }, [filtroTipo]);
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <div className="container mt-5">
+      <div className="container mt-5 flex-grow-1">
         <div className="row">
           <div className="col-md-12 col-lg-12">
             <div className="card card-translucent">
@@ -89,20 +96,21 @@ const HomePage = () => {
                   let elements = [];
                   for (let i = 0; i < eventos.length; i++) {
                     let evento = eventos[i];
+                    let fechaInicio = fecha_inicio_evento.find(fecha => fecha.evento_dinamicos_id === evento.id);
                     if (filtroTipo === '' || evento.tipo_evento === filtroTipo) {
                       elements.push(
                         <div className="mt-1" key={evento.id}>
                           <div className="image-container">
-                            <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
-                            <p className="test">{evento.nombre_evento}</p>
+                            <img src={imagen1} alt="Cabeza" />
+                            <p className="test">{evento.nombre_evento_dinamico}</p>
                           </div>
                           <div className="card-footer image-container">
                             <div className="event-info">
-                              <p className="event-info-text left"><strong>Nombre de evento: </strong>{evento.nombre_evento_dinamico}</p>
+                              <p className="event-info-text left"><strong>Nombre: </strong>{evento.nombre_evento_dinamico}</p>
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</p>
-                              <p className="event-info-text left col-md-8"><strong>Inicio inscripcion: </strong>{evento.fecha_inscripcion_eventos.fecha_inicio_inscripcion}</p>
-                              <p className="event-info-text left col-md-4"><strong>Lugar</strong>{evento.lugar_evento_dinamico}</p>
-                              <Link to={`/mostrar/${evento.id}`} className='boton-ver'>Ver</Link>
+                              <p className="event-info-text left col-md-12"><strong>Inscripciones: </strong>{fechaInicio ? fechaInicio.fecha_inicio_inscripcion : 'Fecha no disponible'}</p>
+                              <p className="event-info-text left"><strong>Lugar: </strong>{evento.lugar_evento_dinamico}</p>
+                              <Link to={`/mostrar/${evento.id}`} className='text-decoration-none boton-ver'>Ver</Link>
                             </div>
                           </div>
                         </div>
@@ -124,62 +132,8 @@ const HomePage = () => {
 
 
 
-      <div className="container mt-3">
-        <div className="row">
-          <div className="col-md-12 col-lg-12">
-            <div className="card card-translucent">
-              <h3 className="card-header">Eventos Pasados UMSS</h3>
-              {/* Filtro */}
-              <div className="mb-3">
-                <select id="tipoEvento" className="form-select form-select-lg" value={filtroTipoPasados}
-                  onChange={(e) => setFiltroTipoPasados(e.target.value)}
-                >
-                  <option value="">Todos</option>
-                  <option value="Reclutamiento">Reclutamiento</option>
-                  <option value="Taller de reclutamiento">Taller de reclutamiento</option>
-                  <option value="Competencia de entrenamiento">Competencia de entrenamiento</option>
-                  <option value="Competencia interna">Competencia interna</option>
-                  {/* Refactorizar */}
-                </select>
-              </div>
-              <div ref={containerRef} className="card-body event-container">
-                {eventosPasados && eventosPasados.length > 0 && (() => {
-                  let elements = [];
-                  for (let i = 0; i < eventosPasados.length; i++) {
-                    let evento = eventosPasados[i];
-                    if (filtroTipoPasados === '' || evento.tipo_evento === filtroTipoPasados) {
-                      elements.push(
-                        <div className="mt-1" key={evento.id}>
-                          <div className="image-container">
-                            <img src={imagenesEvento[evento.tipo_evento]} alt="Cabeza" />
-                            <p className="test">{evento.nombre_evento}</p>
-                          </div>
-                          <div className="card-footer bg-white shadow image-container">
-                            <div className="event-info">
-                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento}</p>
-                              <div className="row">
-                                <p className="event-info-text left col-md-8"><strong>Inicio: </strong>{evento.fecha_inicio_evento}</p>
-                                <p className="event-info-text left col-md-4"><strong></strong>{evento.hora} Horas</p>
-                              </div>
-                              <Link to={`/mostrar/${evento.id}`} className='btn btn-info'>Ver</Link>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  }
-                  return elements;
-                })()}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="scroll-buttons">
-        <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
-        <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
-      </div>
 
+      <Footer />
     </div>
   );
 };

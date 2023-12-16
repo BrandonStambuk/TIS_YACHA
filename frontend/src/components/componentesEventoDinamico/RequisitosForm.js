@@ -55,7 +55,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         if (!error) {
             setDescripcionRequisito(event.target.value);
         }
-    };
+    };    console.log(requisitosSeleccionados);
 
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
@@ -65,10 +65,12 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         if (isChecked) {
             const newRequisitosSeleccionados = [...requisitosSeleccionados, requisitoId];
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         } else {
             const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         }
     };

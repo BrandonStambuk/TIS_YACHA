@@ -9,10 +9,21 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   const validateEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
       return "El primer carácter debe ser una letra mayúscula.";
-    } else if (!/^[A-Za-z0-9\s]*$/.test(value)) {
-      return "Solo están permitidas letras y números.";
-    } else if (value.length > 21) {
-      return "No se permiten más de 21 caracteres.";
+    } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
+      return "Solo están permitidas letras, espacios y guiones.";
+    } else if (value.length > 50) {
+      return "No se permiten más de 50 caracteres.";
+    }
+    return "";
+  };
+
+  const validateLugar = (value) => {
+    if (!/^[A-Z]/.test(value) && value.length > 0) {
+      return "El primer carácter debe ser una letra mayúscula.";
+    } else if (!/^[A-Za-z0-9\s\-]*$/.test(value)) {
+      return "Solo están permitidas letras, numeros, espacios y guiones.";
+    } else if (value.length > 50) {
+      return "No se permiten más de 50 caracteres.";
     }
     return "";
   };
@@ -26,7 +37,7 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   };
 
   const handleLugarEventoChange = (event) => {
-    let error = validateEvento(event.target.value);
+    let error = validateLugar(event.target.value);
     setLugarEventoError(error);
     if (!error) {
       onLugarEventoChange(event.target.value);

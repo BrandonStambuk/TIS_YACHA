@@ -82,8 +82,8 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
       return "El primer carácter debe ser una letra mayúscula.";
     } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
       return "No se admiten caracteres distintos a números y espacios";
-    } else if (value.length > 21) {
-      return "No se permiten más de 21 caracteres.";
+    } else if (value.length > 50) {
+      return "No se permiten más de 50 caracteres.";
     }
     return "";
   };

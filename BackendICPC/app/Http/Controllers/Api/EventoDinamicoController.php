@@ -36,6 +36,7 @@ class EventoDinamicoController extends Controller
         $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
         $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
         $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
+        $evento->afiche= $request->afiche;
         $evento->save();
         return $evento;
     }
@@ -48,7 +49,11 @@ class EventoDinamicoController extends Controller
      */
     public function show($id)
     {
-        //
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos' ])->find($id);
+        if (!$evento) {
+            return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
+        return $evento;
     }
 
     /**
@@ -60,7 +65,14 @@ class EventoDinamicoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $evento = EventoDinamico::findOrFail($request->id);
+        $evento->nombre_evento_dinamico = $request->nombre_evento_dinamico;
+        $evento->tipo_evento_dinamico_id = $request->tipo_evento_dinamico_id;
+        $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
+        $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
+        $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
+        $evento->save();
+        return $evento;
     }
 
     /**
@@ -76,19 +88,13 @@ class EventoDinamicoController extends Controller
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
         }
-    
-        // Elimina todos los detalles de requisitos asociados al evento
-        $evento->detalleRequisitos()->delete();
-    
-        // Elimina todas las etapas asociadas a cada fecha de inscripción
-        $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
+            $evento->detalleRequisitos()->delete();
+            $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
             $fechaInscripcion->etapaEvento()->delete();
         });
     
-        // Elimina todas las fechas de inscripción asociadas al evento
         $evento->fechaInscripcionEvento()->delete();
     
-        // Finalmente, elimina el evento principal
         $evento->delete();
     
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
