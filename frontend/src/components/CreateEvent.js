@@ -30,6 +30,7 @@ const CreateEvento = () => {
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
+  const [aficheUrl, setAficheUrl] = useState("");
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -38,17 +39,14 @@ const CreateEvento = () => {
 
   const handleStoreEventoDinamico = async (e) => {
     e.preventDefault();
-    const ruta = null;
-    if (afiche){
-      const formData = new FormData();
+    const formData = new FormData();
     formData.append('image', afiche);
     const responseImage = await axios.post(`${URL_API}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    ruta = responseImage.data.path;
-    }
+    const ruta = responseImage.data.path;
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: tipo_evento_dinamico_id,
@@ -137,7 +135,6 @@ const CreateEvento = () => {
     setRequisitosSeleccionados(requisitos);
   }
   const handleAfiche = (afiche) => {
-    console.log(afiche);
     setAfiche(afiche);
   }
 
@@ -238,6 +235,7 @@ const CreateEvento = () => {
               <AficheForm
                 setInput={handleAfiche}
                 input={afiche}
+                inputUrl={aficheUrl}
               />
             )}
           </div>

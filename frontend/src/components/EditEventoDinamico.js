@@ -11,6 +11,7 @@ import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 import AficheForm from "./componentesEventoDinamico/AficheForm";
+import image from './download.png';
 
 
 import { URL_API } from "../const";
@@ -30,8 +31,10 @@ const CreateEvento = () => {
   const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
+  const [aficheUrl, setAficheUrl] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+  const a = image;
 
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const CreateEvento = () => {
         setNombreEventoDinamico(response.data.nombre_evento_dinamico);
         setTipoEventoDinamicoId(response.data.tipo_evento_dinamico_id);
         setLugarEventoDinamico(response.data.lugar_evento_dinamico);
-        setDescripcion(response.data.descripcion_evento_dinamico);      
+        setDescripcion(response.data.descripcion_evento_dinamico);
         setCantidadParticipantesEventoDinamico(response.data.cantidad_participantes_evento_dinamico);
         setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
         setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
@@ -52,23 +55,31 @@ const CreateEvento = () => {
           fecha_inicio_etapa: etapa.fecha_inicio_etapa,
           hora_fin: etapa.hora_fin_etapa,
           hora_inicio: etapa.hora_inicio_etapa,
-        }));       
+        }));
         setFechasHoras(fechasHorasArray);
+
         const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
         setRequisitosSeleccionados(requisitosArray);
-        const responseImage = await axios.get(`${URL_API}/getImage/${id}`);
-        console.log(responseImage.data);
-        setAfiche(responseImage.data);
-        
-
-  
+        try {
+          const responsePath = await axios.get(`${endpoint}/getImage/${id}`);
+          setAficheUrl(getEventoImage(responsePath.data.path));
+        } catch (error) {
+          setAficheUrl("");
+        }
       } catch (error) {
         console.error('Error al obtener los datos del evento:', error);
       }
     };
     getEventById();
-  },[]);
+  }, []);
 
+  const getEventoImage = (name) => {
+    try {
+      return require(`../../../BackendICPC/storage/app/public/${name}`);
+    } catch (err) {
+      return null;
+    }
+  };
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -273,6 +284,7 @@ const CreateEvento = () => {
               <AficheForm
                 setInput={handleAfiche}
                 input={afiche}
+                inputFile={aficheUrl}
               />
             )}
           </div>

@@ -39,4 +39,5 @@ class ImageController extends Controller
     
         return response()->json($fileInfo, 200);
     }
+    
 }
