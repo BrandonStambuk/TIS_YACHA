@@ -3,43 +3,44 @@
 
 }
 
-.card-header{
+.card-header {
 	background-color: #0f5fa6
-	
 }
+
 .event-info-text {
 	font-size: 20px;
 }
 
-.card-footer{
+.card-footer {
 	background-color: white;
 	border-radius: 50%;
-	box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
--webkit-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
--moz-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
-}
-.boton-ver{
-	background-color: #0f5fa6;
-	border-color:#0f5fa6;
+	box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
 }
 
-.img{
+.boton-ver {
+	background-color: #0f5fa6;
+	border-color: #0f5fa6;
+}
+
+.img {
 	border-radius: 10px;
 }
 
-.boton-atras{
+.boton-atras {
 	background-color: #d92323;
-	border-color:#d92323;
+	border-color: #d92323;
 }
 
-.boton-atras{
+.boton-atras {
 	display: inline-block;
 	padding: 1px 28px;
 	margin: 10px;
 	font-size: 24px;
 	font-weight: bold;
 	color: #fff;
-	background-image: linear-gradient(to bottom right,  #d92323, #d92323);
+	background-image: linear-gradient(to bottom right, #d92323, #d92323);
 	border: none;
 	border-radius: 10px;
 	box-shadow: 0px 4px 0px #aa1b1b;
@@ -49,90 +50,91 @@
 .boton-atras:hover {
 	transform: translateY(-2px);
 	box-shadow: 0px 6px 0px #d92323;
-  }
+}
 
-  .boton-atras:active {
+.boton-atras:active {
 	transform: translateY(0px);
 	box-shadow: none;
-	background-image: linear-gradient(to bottom right, #d92323,#d92323);
-  }
+	background-image: linear-gradient(to bottom right, #d92323, #d92323);
+}
 
-  .boton-atras:before,
-  .boton-atras:after {
+.boton-atras:before,
+.boton-atras:after {
 	content: "";
 	position: absolute;
 	width: 0;
 	height: 0;
-  }
+}
 
 
-  .boton-atras:before {
+.boton-atras:before {
 	top: -3px;
 	left: -3px;
 	border-radius: 40px;
 	border-top: 3px solid #fff;
 	border-left: 3px solid #fff;
-  }
-  
-  .boton-atras:after {
+}
+
+.boton-atras:after {
 	bottom: -3px;
 	right: -3px;
 	border-radius: 40px;
 	border-bottom: 3px solid #fff;
 	border-right: 3px solid #fff;
-  }
-.boton-ver{
+}
+
+.boton-ver {
 	display: inline-block;
 	padding: 1px 28px;
 	margin: 10px;
 	font-size: 24px;
 	font-weight: bold;
 	color: #fff;
-	background-image: linear-gradient(to bottom right,  #0f5fa6, #0f5fa6);
+	background-image: linear-gradient(to bottom right, #0f5fa6, #0f5fa6);
 	border: none;
 	border-radius: 10px;
 	box-shadow: 0px 4px 0px #0f5fa6;
 	transition: all 0.2s ease-in-out;
-  }
-  
-  .boton-ver:hover {
+}
+
+.boton-ver:hover {
 	transform: translateY(-2px);
 	box-shadow: 0px 6px 0px#0f5fa6;
-  }
-  
-  .boton-ver:active {
+}
+
+.boton-ver:active {
 	transform: translateY(0px);
 	box-shadow: none;
-	background-image: linear-gradient(to bottom right, #0f5fa6,#083c69);
-  }
-  
-  .boton-ver:before,
-  .boton-ver:after {
+	background-image: linear-gradient(to bottom right, #0f5fa6, #083c69);
+}
+
+.boton-ver:before,
+.boton-ver:after {
 	content: "";
 	position: absolute;
 	width: 0;
 	height: 0;
-  }
-  
-  .boton-ver:before {
+}
+
+.boton-ver:before {
 	top: -3px;
 	left: -3px;
 	border-radius: 40px;
 	border-top: 3px solid #fff;
 	border-left: 3px solid #fff;
-  }
-  
-  .boton-ver:after {
+}
+
+.boton-ver:after {
 	bottom: -3px;
 	right: -3px;
 	border-radius: 40px;
 	border-bottom: 3px solid #fff;
 	border-right: 3px solid #fff;
-  }
-  
-  .card-translucent .card-header {
+}
+
+.card-translucent .card-header {
 	color: white;
-  }
+}
 
 
 .event-info-text.left {
@@ -165,11 +167,11 @@
 .image-container {
 	position: relative;
 	width: 300px;
-	box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
--webkit-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
--moz-box-shadow: 11px 10px 31px -1px rgba(0,0,0,0.75);
+	box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 11px 10px 31px -1px rgba(0, 0, 0, 0.75);
+	overflow: hidden;
 
-	
 }
 
 .test {
@@ -215,8 +217,12 @@
 
 #tipoEvento option {
 	color: #333;
-}   
-img.imagenevento{
-	width: 300px;
-	height: 450px;
+}
+
+.image-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	margin: 0;
+	padding: 0;
 }

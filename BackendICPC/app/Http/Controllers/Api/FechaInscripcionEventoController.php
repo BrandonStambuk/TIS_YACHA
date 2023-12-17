@@ -57,7 +57,12 @@ class FechaInscripcionEventoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $fecha = FechaInscripcionEvento::find($id);
+        $fecha->fecha_inicio_inscripcion = $request->fecha_inicio_inscripcion;
+        $fecha->fecha_fin_inscripcion = $request->fecha_fin_inscripcion;
+        $fecha->evento_dinamicos_id = $request->evento_dinamicos_id;
+        $fecha->save();
+        return $fecha;
     }
 
     /**
@@ -68,6 +73,15 @@ class FechaInscripcionEventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $fechaDinamica = FechaInscripcionEvento::findOrFail($id);
+
+            $fechaDinamica->delete();
+
+            return response()->json(['message' => 'Fecha dinámico eliminado correctamente'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getTrace());
+            return response()->json(['message' => 'Error al eliminar el Fecha dinámico', 'error' => $e->getMessage()], 500);
+        }
     }
 }

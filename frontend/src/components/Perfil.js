@@ -77,11 +77,13 @@ const Perfil = () => {
   const handleCancelCorreo = () => {
     setTimeout(() => {
       setEditModeCorreo(false);
+      setErrorCorreo("");
     }, 0);
   };
   const handleCancelPassword = () => {
     setTimeout(() => {
       setEditModePassword(false);
+      setErrorPassword("");
     }, 0);
   };
   const handleEditClickPassword = () => {

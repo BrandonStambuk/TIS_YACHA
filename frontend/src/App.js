@@ -6,7 +6,7 @@ import HomePageUser from './components/HomePageUser';
 import CreateEvento from './components/CreateEvent';
 import CreateCompe from './components/CreateCompe';
 import EditComp from './components/EditComp';
-import EditEvento from './components/EditEvent';
+import EditEventoDinamico from './components/EditEventoDinamico';
 import MostarCompe from './components/ListaCompetencias';
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';

@@ -20,7 +20,42 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
 
+    const validateNombreRequisito = (value) => {
+        if (!/^[A-Z]/.test(value) && value.length > 0) {
+            return "El primer carácter debe ser una letra mayúscula.";
+        } else if (!/^[A-Za-z0-9\s]*$/.test(value)) {
+            return "Solo están permitidas letras y números.";
+        } else if (value.length > 21) {
+            return "No se permiten más de 21 caracteres.";
+        }
+        return null; // Devolver null cuando no hay errores
+    };
 
+    const handleNombreRequisitoChange = (event) => {
+        const error = validateNombreRequisito(event.target.value);
+        setNombreRequisitoError(error);
+        if (!error) {
+            setNombreRequisito(event.target.value);
+        }
+    };
+
+
+
+
+    const validateDescripcionRequisito = (value) => {
+        if (value.length > 30) {
+            return "No se permiten más de 30 caracteres.";
+        }
+        return null; // Devolver null cuando no hay errores
+    };
+
+    const handleDescripcionRequisitoChange = (event) => {
+        const error = validateDescripcionRequisito(event.target.value);
+        setDescripcionRequisitoError(error);
+        if (!error) {
+            setDescripcionRequisito(event.target.value);
+        }
+    };    console.log(requisitosSeleccionados);
 
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
@@ -30,10 +65,12 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         if (isChecked) {
             const newRequisitosSeleccionados = [...requisitosSeleccionados, requisitoId];
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         } else {
             const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
+            console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
         }
     };
@@ -124,7 +161,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Descripción</th>
-                                    <th scope="col">aplicar al evento</th>
+                                    <th scope="col">Aplicar al evento</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -155,12 +192,15 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
                                 <label htmlFor="nombreRequisito" className="form-label">Nombre requisito</label>
                                 <input
                                     value={nombre_requisito}
-                                    onChange={(e) => setNombreRequisito(e.target.value)}
+                                    onChange={handleNombreRequisitoChange}
                                     type="text"
                                     className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
                                     id="nombreRequisito"
                                     name="nombreRequisito"
                                 />
+                                {nombreRequisitoError && (
+                                    <div className="invalid-feedback">{nombreRequisitoError}</div>
+                                )}
                                 <label htmlFor="tipoRequisito" className="form-label">Tipo de requisito</label>
                                 <select
                                     value={tipoRequisito}
@@ -176,15 +216,15 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
                                 <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>
                                 <input
                                     value={descripcion_requisito}
-                                    onChange={(e) =>
-                                        setDescripcionRequisito(e.target.value)
-                                    }
+                                    onChange={handleDescripcionRequisitoChange}
                                     type="text"
-                                    className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""
-                                        }`}
+                                    className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
                                     id="descripcionRequisito"
                                     name="descripcionRequisito"
                                 />
+                                {descripcionRequisitoError && (
+                                    <div className="invalid-feedback">{descripcionRequisitoError}</div>
+                                )}
                                 <button onClick={handleAgregarRequisito} className="btn btn-success">Agregar requisito</button>
                             </div>
                             <div>
@@ -267,6 +307,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
             </div>
         </div>
     );
+
 };
 
 export default RequisitosForm;
