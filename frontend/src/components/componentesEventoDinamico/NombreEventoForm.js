@@ -9,8 +9,8 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   const validateEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
       return "El primer carácter debe ser una letra mayúscula.";
-    } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
-      return "Solo están permitidas letras, espacios y guiones.";
+    } else if (!/^[A-Za-z\s]*$/.test(value)) {
+      return "Solo están permitidas letras y espacios.";
     } else if (value.length > 50) {
       return "No se permiten más de 50 caracteres.";
     }

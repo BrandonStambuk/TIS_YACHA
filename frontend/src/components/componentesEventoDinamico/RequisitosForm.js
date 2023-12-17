@@ -161,7 +161,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Descripción</th>
-                                    <th scope="col">aplicar al evento</th>
+                                    <th scope="col">Aplicar al evento</th>
                                 </tr>
                             </thead>
                             <tbody>
