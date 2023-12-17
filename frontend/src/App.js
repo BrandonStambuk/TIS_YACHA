@@ -23,6 +23,7 @@ import ListaUsuarios from './components/ListaUsuarios';
 import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
 import Decription from './components/Decription'
+import Reporte from './components/Reportes';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -52,6 +53,7 @@ function App() {
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
           <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
+          <Route path='/reportes' element={isAuthenticated? <Reporte/>:<Login/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EventoDinamico;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
-
+use App\Notifications\ChangeNotification;
 class EventoDinamicoController extends Controller
 {
     /**
@@ -98,5 +98,19 @@ class EventoDinamicoController extends Controller
         $evento->delete();
     
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
+    }
+
+    public function notificationEditEvent(Request $request){
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos' ])->find($request->id);
+        $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
+            $fechaInscripcion->etapaEvento()->delete();
+        });
+        $evento->fechaInscripcionEvento()->delete();
+        $evento->detalleRequisitos()->delete();
+        $evento->save();
+        $evento->load(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos' ]);
+        $eventoEditLink = 'http://localhost:8080/#/eventos-dinamicos/'.$evento->id.'/edit';
+        $evento->notify(new ChangeNotification($eventoEditLink));
+        return $evento;
     }
 }
