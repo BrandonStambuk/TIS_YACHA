@@ -62,6 +62,8 @@ Route::controller(RequisitoController::class)->group(function (){
 Route::controller(DetalleRequisitoController::class)->group(function (){
   Route::get('/detalleRequisitos', 'index');
   Route::post('/crearDetalleRequisito', 'store');
+  Route::put('/actualizarDetalleRequisito/{id}', 'update');
+  Route::delete('/eliminarDetalleRequisito/{id}', 'destroy');
 });
 
 Route::controller(EventoController::class)->group(function (){
