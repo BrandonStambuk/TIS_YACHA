@@ -122,7 +122,7 @@ function App() {
                 <Login />
               )
             }
-          />
+          />          
           <Route path="/registerEquipo" element={isAuthenticated && (rol === 'Coach')? <RegistroEquipo/>: <Login/>}/>
           <Route
             path="/listaUsuarios"

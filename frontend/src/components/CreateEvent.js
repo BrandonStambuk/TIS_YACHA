@@ -9,6 +9,7 @@ import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
+import NavbarOrganizador from "./NavbarOrganizador";
 
 
 import { URL_API } from "../const";
@@ -121,6 +122,9 @@ const handleRequisitosSeleccionados = (requisitos) => {
   console.log(requisitos);
   setRequisitosSeleccionados(requisitos);
 }
+
+const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
 
 return (
   <div>
