@@ -96,7 +96,7 @@ function App() {
           <Route path='/create' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateEvento /> : <Login />} /> 
           <Route path='/createCompe' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateCompe/>:<Login/>}/>   
           <Route path='/editCompetencia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/>:<Login/>}/>
-          <Route path='/edit/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditEvento /> : <Login />} /> 
+          <Route path='/edit/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditEventoDinamico /> : <Login />} /> 
           <Route path='/listaCompetencias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador') ? <MostarCompe/>:<Login/>}/>
           <Route path="/home" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />
           <Route path='/editComp' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/> : <Login />} />    
