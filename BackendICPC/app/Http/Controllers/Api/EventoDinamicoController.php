@@ -8,6 +8,7 @@ use App\Models\EventoDinamico;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Notifications\ChangeNotification;
+use Illuminate\Support\Facades\DB;
 class EventoDinamicoController extends Controller
 {
     /**
