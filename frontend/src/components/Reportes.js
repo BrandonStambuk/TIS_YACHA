@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
 import { URL_API } from '../const';
+import { useReactToPrint } from 'react-to-print';
 
 const endpoint = URL_API;
 
@@ -17,6 +18,7 @@ const Reportes = () => {
     const [filtroGestion, setFiltroGestion] = useState("todos");
     const [filtroEstado, setFiltroEstado] = useState("todos");
     const [filtroTipo, setFiltroTipo] = useState("todos");
+    const tableRef = useRef(null);
 
     const cambiarPagina = (nuevaPagina) => {
         setPagina(nuevaPagina);
@@ -102,6 +104,10 @@ const Reportes = () => {
         }
     };
 
+    const handlePrint = useReactToPrint({
+        content: () => tableRef.current,
+    });
+
     const eventosPorPagina = 5;
     const inicio = pagina * eventosPorPagina;
     const fin = inicio + eventosPorPagina;
@@ -162,7 +168,7 @@ const Reportes = () => {
                         <div className="card card-translucent">
                             <h3 className="card-header">Reporte </h3>
                             <div className="card-body table-responsive tabla-contenedor">
-                                <table>
+                                <table ref={tableRef}>
                                     <thead className='text-white'>
                                         <tr>
                                             <th className="centrado">N°</th>
@@ -218,6 +224,13 @@ const Reportes = () => {
                                 </li>
                             </ul>
                         </nav>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-md-8 text-center">
+                        <button onClick={handlePrint} className="btn btn-primary">
+                            Exportar
+                        </button>
                     </div>
                 </div>
             </div>
