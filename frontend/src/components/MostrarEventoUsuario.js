@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import imagen1 from '../components/images/mi_afiche.png';
 import { Link } from 'react-router-dom';
 import { URL_API } from '../const';
+import NavbarCoach from './NavbarCoach';
 
 const endpoint = URL_API;
 
@@ -64,10 +65,14 @@ const HomePage = () => {
     }
     return {};
   }
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
 
  return (
     <div>
-      <Navbar />
+      {isAuthenticated && (
+      rol === "Coach") ? <NavbarCoach /> : <Navbar />
+      }
       <div className="container mt-5">
         <div className="row">
           {/* Image Card */}

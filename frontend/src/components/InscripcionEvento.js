@@ -7,6 +7,8 @@ import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DatosGenerales from "./componenteInscripcionEvento/DatosGenerales";
 import Requisitos from "./componenteInscripcionEvento/Requisitos";
+import Navbar from "./Navbar";
+import NavbarCoach from "./NavbarCoach";
 
 
 import { URL_API } from "../const";
@@ -72,11 +74,17 @@ const handleNombreEquipoChange = (nombreEquipo) => {
   setNombreEquipo(nombreEquipo);
 }
 
+const isAuthenticated = localStorage.getItem('token');
+const rol = localStorage.getItem('role');
+
   
 
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Coach") ? <NavbarCoach /> : <Navbar />
+      }
+      
       <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">

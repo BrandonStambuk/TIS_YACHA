@@ -11,10 +11,13 @@ import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import { URL_API } from '../const';
 import Cabecera from './Cabecera';
+import NavbarCoach from './NavbarCoach';
 
 const endpoint = URL_API;
 
 const HomePage = () => {
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
   const containerRef = useRef();
   const [eventos, setEventos] = useState([]);
   const [fecha_inicio_evento, setFecha_inicio_evento] = useState([]);
@@ -79,9 +82,13 @@ const HomePage = () => {
     resetScroll();
   }, [filtroTipo]);
 
+  
+
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar />
+      {isAuthenticated && (
+      rol === "Coach") ? <NavbarCoach /> : <Navbar />
+      }
       <div className="container mt-5 flex-grow-1">
         <div className="row">
           <div className="col-md-12 col-lg-12">
@@ -102,6 +109,7 @@ const HomePage = () => {
                   let elements = [];
                   for (let i = 0; i < eventos.length; i++) {
                     let evento = eventos[i];
+                    if((isAuthenticated && rol === 'Coach') && !evento.requiere_coach) continue;
                     let fechaInicio = fecha_inicio_evento.find(fecha => fecha.evento_dinamicos_id === evento.id);
                     if (filtroTipo === '' || evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico === filtroTipo) {
                       elements.push(

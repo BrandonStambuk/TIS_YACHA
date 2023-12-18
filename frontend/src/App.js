@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { AuthProvider, useAuth } from './components/AuthContext';
 import ListaEventos from './components/ListaEventos';
 import HomePageUser from './components/HomePageUser';
@@ -20,12 +21,14 @@ import RegistroEquipo from './components/RegistrarEquipo';
 import ListaUsuarios from './components/ListaUsuarios';
 import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
-import Decription from './components/Decription'
+import Decription from './components/Decription';
 import InscripcionEvento from './components/InscripcionEvento';
+import { URL_API } from './const';
+
 function App() {
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
-
+  const endpoint = URL_API;
   useEffect(() => {
     const checkUserActivity = () => {
       const lastActivity = localStorage.getItem('lastActivity');
@@ -76,6 +79,8 @@ function App() {
       checkUserActivity();
     }, 60000);
 
+    
+
     // Limpia el intervalo cuando el componente se desmonta
     return () => {
       clearInterval(intervalId);
@@ -88,24 +93,36 @@ function App() {
     localStorage.setItem('lastActivity', new Date().toString());
   };
 
+
   return (
     <div className="App" onMouseMove = {handleUserActivity}>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />   
-          <Route path='/create' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateEvento /> : <Login />} /> 
-          <Route path='/createCompe' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateCompe/>:<Login/>}/>   
-          <Route path='/editCompetencia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/>:<Login/>}/>
-          <Route path='/edit/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditEventoDinamico /> : <Login />} /> 
-          <Route path='/listaCompetencias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador') ? <MostarCompe/>:<Login/>}/>
+          <Route path='/create' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateEvento /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/createCompe' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateCompe/>:(rol === 'Coach') ? <HomePageUser/>:<Login />}/>   
+          <Route path='/editCompetencia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/>:(rol === 'Coach') ? <HomePageUser/>:<Login />}/>
+          <Route path='/edit/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditEventoDinamico /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/listaCompetencias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador') ? <MostarCompe/>:(rol === 'Coach') ? <HomePageUser/>:<Login />}/>
           <Route path="/home" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />
-          <Route path='/editComp' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/> : <Login />} />    
+          <Route path='/editComp' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/> :(rol === 'Coach') ? <HomePageUser/>:<Login />} />    
           <Route path="/mostrar/:id" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <MostrarEventoUsuario/>} />    
-          <Route path="/listaEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <Login/>} />  
+          <Route path="/listaEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />  
           <Route path="/inicio" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <QueEsICPC/>} />    
-          <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: <Login/>}/>
+          <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: (rol === 'Coach') ? <HomePageUser/>:<Login />}/>
           <Route path="/login" element={<Login/>}/> 
-          <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <InscripcionEvento/>} />    
+          <Route
+            path="/registroEvento/:id"
+            element={
+              isAuthenticated && (rol === 'Admin' || rol === 'Creador') ? (
+                <ListaEventos />
+              ) : isAuthenticated && rol === 'Coach' ? (
+                <InscripcionEvento />
+              ) : (
+                <VerificarRolInscripcionEvento />
+              )
+            }
+          />
           <Route path="/signout" element={<SignOut />} />
           <Route
             path="/registerUsuario"
@@ -116,7 +133,7 @@ function App() {
                 ) : rol === 'Creador' ? (
                   <ListaEventos/>
                 ) : (
-                  <RegistroEquipo />
+                  <HomePageUser />
                 )
               ) : (
                 <Login />
@@ -145,6 +162,34 @@ function App() {
       </BrowserRouter>
     </div>
   );
+}
+
+function VerificarRolInscripcionEvento() {
+  const { id } = useParams();
+  const [evento, setEvento] = useState(null);
+  const endpoint = URL_API;
+
+  useEffect(() => {
+    const obtenerEvento = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
+        setEvento(response.data);
+      } catch (error) {
+        console.error('Error al obtener el evento:', error);
+      }
+    };
+
+    obtenerEvento();
+  }, [id]);
+
+  if (!evento) {
+    return <div>Cargando...</div>;
+  }
+
+  // Verifica si el campo requiere_coach es true y si el usuario es coach
+  const puedeInscribirse = !evento.requiere_coach;
+
+  return puedeInscribirse ? <InscripcionEvento /> : <Login />;
 }
 
 export default App;

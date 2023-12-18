@@ -56,7 +56,7 @@ const Login = () => {
       navigate('/listaEventos');
       window.location.reload();
     }else{
-      navigate('/registerEquipo');
+      navigate('/');
       window.location.reload();
     }
 
