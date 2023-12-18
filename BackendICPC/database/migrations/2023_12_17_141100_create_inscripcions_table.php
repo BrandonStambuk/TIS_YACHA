@@ -18,7 +18,7 @@ class CreateInscripcionsTable extends Migration
             $table->String('nombre_equipo')->nullable();
             $table->unsignedBigInteger('evento_dinamicos_id');
             $table->timestamps();
-            $table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos');
+            //$table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos');
         });
         
     }
