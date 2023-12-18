@@ -30,6 +30,10 @@ Route::controller(EventoDinamicoController::class)->group(function (){
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarEventoDinamico/{id}', 'update');
   Route::get('/eventosDinamicos/{id}', 'show');
+  Route::get('/eventosPasados', 'getEventosPasados');
+  Route::get('/eventosActivos', 'getEventosActivos');
+  Route::get('/eventosGestion/{year}', 'getEventosPorGestion');
+  Route::get('/eventosPorTipo/{idt}', 'getEventosPorTipo');
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){

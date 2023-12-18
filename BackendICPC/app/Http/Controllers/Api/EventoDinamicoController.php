@@ -113,4 +113,27 @@ class EventoDinamicoController extends Controller
         $evento->notify(new ChangeNotification($eventoEditLink));
         return $evento;
     }
+    public function getEventosActivos()
+    {
+        $eventosActivos = DB::select('CALL getEventosActivos()');
+        return response()->json($eventosActivos);
+    }
+
+    public function getEventosPasados()
+    {
+        $eventosPasados = DB::select('CALL getEventosPasados()');
+        return response()->json($eventosPasados);
+    }
+
+    public function getEventosPorGestion($year)
+    {
+        $eventosPorGestion = DB::select('CALL getEventosPorGestion(?)', array($year));
+        return response()->json($eventosPorGestion);
+    }
+
+    public function getEventosPorTipo($idt)
+    {
+        $eventosPorTipo = DB::select('CALL getEventosPorTipo(?)', array($idt));
+        return response()->json($eventosPorTipo);
+    }
 }
