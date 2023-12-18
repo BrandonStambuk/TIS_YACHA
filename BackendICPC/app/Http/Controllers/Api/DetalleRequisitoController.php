@@ -53,7 +53,11 @@ class DetalleRequisitoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $detalleRequisito = DetalleRequisitos::find($id);
+        $detalleRequisito->id_evento_dinamico = $request->id_evento_dinamico;
+        $detalleRequisito->id_requisito = $request->id_requisito;
+        $detalleRequisito->save();
+        return $detalleRequisito;
     }
 
     /**
@@ -64,6 +68,8 @@ class DetalleRequisitoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detalleRequisito = DetalleRequisitos::find($id);
+        $detalleRequisito->delete();
+        
     }
 }
