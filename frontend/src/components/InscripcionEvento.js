@@ -23,6 +23,7 @@ const InscripcionEvento = () => {
   const [apellidos, setApellidos] = useState([]);
   const [valores, setValores] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
 
   const handleSectionClick = (section) => {
@@ -67,6 +68,7 @@ const InscripcionEvento = () => {
       }
 
     }
+    navigate("/home");
   }
 
 
