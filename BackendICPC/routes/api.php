@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\FechaInscripcionEventoController;
 use App\Http\Controllers\Api\EtapaEventoController;
 use App\Http\Controllers\Api\RequisitoController;
 use App\Http\Controllers\Api\DetalleRequisitoController;
+use App\Http\Controllers\Api\InscripcionController;
+use App\Http\Controllers\Api\ParticipanteController;
+use App\Http\Controllers\Api\OtroRequisitoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,7 @@ use App\Http\Controllers\Api\DetalleRequisitoController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
@@ -66,6 +70,22 @@ Route::controller(RequisitoController::class)->group(function (){
 Route::controller(DetalleRequisitoController::class)->group(function (){
   Route::get('/detalleRequisitos', 'index');
   Route::post('/crearDetalleRequisito', 'store');
+});
+
+Route::controller(InscripcionController::class)->group(function (){
+  Route::get('/inscripciones', 'index');
+  Route::post('/crearInscripcion', 'store');
+  Route::delete('/eliminarInscripcion/{id}', 'destroy');
+  Route::put('/actualizarInscripcion/{id}', 'update');
+  Route::get('/inscripciones/{id}', 'show');
+});
+
+Route::controller(ParticipanteController::class)->group(function (){
+  Route::get('/participantes', 'index');
+  Route::post('/crearParticipante', 'store');
+  Route::delete('/eliminarParticipante/{id}', 'destroy');
+  Route::put('/actualizarParticipante/{id}', 'update');
+  Route::get('/participantes/{id}', 'show');
 });
 
 Route::controller(EventoController::class)->group(function (){

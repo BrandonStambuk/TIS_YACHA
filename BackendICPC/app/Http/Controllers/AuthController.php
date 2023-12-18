@@ -46,11 +46,14 @@ class AuthController extends Controller
         
         $user = Auth::user();
         $token = $user->createToken('authToken')->plainTextToken;
+        $expirationTime = now()->addHours(3)->toIso8601String();
 
         return response([
             'message' => 'Success',
             'token' => $token, // Incluye el token en la respuesta
             'user_id' => $user->id,
+            'role' => $user->role,
+            'expires_at' => $expirationTime,
         ]);
     }
 

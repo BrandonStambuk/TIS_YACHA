@@ -56,16 +56,10 @@ const NavbarAdmin = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
               <li className="nav-item p-2">
-                <a className="nav-link" href="/listaEventos">Eventos</a>
+                <a className="nav-link" href="/home">Inicio</a>
               </li>
               <li className="nav-item p-2">
-                <a className="nav-link" href="/listaUsuarios">Usuarios</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/registerUsuario">Registrar</a>
+                <a className="nav-link" href="/inicio">¿Qué es la ICPC?</a>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto">

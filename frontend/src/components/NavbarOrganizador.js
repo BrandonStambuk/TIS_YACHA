@@ -59,13 +59,7 @@ const NavbarAdmin = () => {
                 <a className="nav-link" href="/listaEventos">Eventos</a>
               </li>
               <li className="nav-item p-2">
-                <a className="nav-link" href="/listaUsuarios">Usuarios</a>
-              </li>
-              <li className="nav-item p-2">
                 <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/registerUsuario">Registrar</a>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto">

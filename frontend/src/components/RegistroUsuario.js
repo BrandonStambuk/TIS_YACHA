@@ -40,7 +40,7 @@ const RegistroUsuario = () => {
         role: role,
         password: password,
       });
-      navigate('/login');
+      navigate('/listaUsuarios');
 
     } catch (error) {
       if (error.response && error.response.status === 422) {
