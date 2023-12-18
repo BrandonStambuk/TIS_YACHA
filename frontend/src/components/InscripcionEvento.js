@@ -6,6 +6,7 @@ import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DatosGenerales from "./componenteInscripcionEvento/DatosGenerales";
+import Requisitos from "./componenteInscripcionEvento/Requisitos";
 
 
 import { URL_API } from "../const";
@@ -17,6 +18,7 @@ const InscripcionEvento = () => {
   const [activeSection, setActiveSection] = useState("datosGenerales");
   const [cantidadParticipantes, setCantidadParticipantes] = useState("");
   const [nombre_equipo, setNombreEquipo] = useState("");
+  const [requisitos, setRequisitos] = useState([]);
   const [nombres, setNombres] = useState([]);
   const [apellidos, setApellidos] = useState([]);
   const { id } = useParams();
@@ -31,6 +33,8 @@ useEffect(() => {
       const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
       setCantidadParticipantes(response.data.cantidad_participantes_evento_dinamico);
       console.log(response.data.cantidad_participantes_evento_dinamico);
+      const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
+      setRequisitos(requisitosArray);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +108,10 @@ const handleNombreEquipoChange = (nombreEquipo) => {
               />
             )}
             {activeSection === "requisitos" && (
-              <h1>requisitos</h1>
+              <Requisitos 
+              participantesIn={nombres}
+              requisitosIn={requisitos}
+              />
             )}            
           </div>
         </div>
