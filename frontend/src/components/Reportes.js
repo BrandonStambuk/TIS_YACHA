@@ -22,8 +22,6 @@ const Reportes = () => {
     const getAllEventos = async () => {
         const response = await axios.get(`${endpoint}/eventosDinamicos`);
         setEventos(response.data);
-        const fechas = await axios.get(`${endpoint}/fechasInscripcion`);
-        setFecha_evento(fechas.data);
     };
 
     const eventosPorPagina = 5;
