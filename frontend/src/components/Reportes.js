@@ -226,8 +226,8 @@ const Reportes = () => {
                         </nav>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    <div className="col-md-8 text-center">
+                <div className="row mt-1">
+                    <div className="col-md-12 d-flex justify-content-end">
                         <button onClick={handlePrint} className="btn btn-primary">
                             Exportar
                         </button>
