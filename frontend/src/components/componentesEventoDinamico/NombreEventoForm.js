@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import '../css/Form.css';
 
 const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
@@ -9,8 +10,8 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   const validateEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
       return "El primer carácter debe ser una letra mayúscula.";
-    } else if (!/^[A-Za-z\s]*$/.test(value)) {
-      return "Solo están permitidas letras y espacios.";
+    } else if (!/^[A-Za-z\s\-]*$/.test(value)) {
+      return "Solo están permitidas letras, espacios y guiones.";
     } else if (value.length > 50) {
       return "No se permiten más de 50 caracteres.";
     }
@@ -35,7 +36,6 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
       onNombreEventoChange(event.target.value);
     }
   };
-
   const handleLugarEventoChange = (event) => {
     let error = validateLugar(event.target.value);
     setLugarEventoError(error);
@@ -43,7 +43,6 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
       onLugarEventoChange(event.target.value);
     }
   }
-
   const handleCantidadParticipanetesEventoChange = (event) => {
     if (event.target.value < 0) {
       setCantidadError("No se permiten números negativos.");
@@ -59,40 +58,41 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     <div className="card-body tarjeta">
       <div className="mb-3">
         <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
-          Creación de evento
+          Creacion de evento
         </h2>
-        <label className="form-label">Nombre Evento</label>
+        <label>Nombre Evento</label>
         <input
           value={nombreEvento}
           onChange={handleNombreEventoChange}
           type="text"
-          className={`form-control ${nombreEventoError ? "is-invalid" : ""}`}
+          className={`form-control ${nombreEventoError ? "is-invalid" : ""
+            }`}
           id="nombreEvento"
           name="nombreEvento"
         />
         {nombreEventoError && (
           <div className="invalid-feedback">{nombreEventoError}</div>
         )}
-
-        <label className="form-label">Lugar Evento</label>
+        <label>Lugar Evento</label>
         <input
           value={lugarEvento}
           onChange={handleLugarEventoChange}
           type="text"
-          className={`form-control ${lugarEventoError ? "is-invalid" : ""}`}
+          className={`form-control ${lugarEventoError ? "is-invalid" : ""
+            }`}
           id="lugarEvento"
           name="lugarEvento"
         />
         {lugarEventoError && (
           <div className="invalid-feedback">{lugarEventoError}</div>
         )}
-
-        <label className="form-label">Cantidad Participantes</label>
+        <label>Cantidad Participantes</label>
         <input
           value={cantidadParticiapantesEvento}
           onChange={handleCantidadParticipanetesEventoChange}
           type="number"
-          className={`form-control ${cantidadError ? "is-invalid" : ""}`}
+          className={`form-control ${cantidadError ? "is-invalid" : ""
+            }`}
           id="cantidadError"
           name="cantidadError"
         />

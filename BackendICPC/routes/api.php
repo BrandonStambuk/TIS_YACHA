@@ -62,8 +62,6 @@ Route::controller(RequisitoController::class)->group(function (){
 Route::controller(DetalleRequisitoController::class)->group(function (){
   Route::get('/detalleRequisitos', 'index');
   Route::post('/crearDetalleRequisito', 'store');
-  Route::put('/actualizarDetalleRequisito/{id}', 'update');
-  Route::delete('/eliminarDetalleRequisito/{id}', 'destroy');
 });
 
 Route::controller(EventoController::class)->group(function (){
@@ -89,7 +87,6 @@ Route::controller(EquipoController::class)->group(function (){
 });
 Route::post('upload', [App\Http\Controllers\ImageController::class, 'upload']);
 Route::get('getImage/{id}', [App\Http\Controllers\ImageController::class, 'get']);
-
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarioss', 'index');
     Route::post('/crearusuario', 'store');

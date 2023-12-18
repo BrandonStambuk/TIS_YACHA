@@ -71,7 +71,6 @@ class EventoDinamicoController extends Controller
         $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
         $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
         $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
-        $evento->afiche= $request->afiche;
         $evento->save();
         return $evento;
     }

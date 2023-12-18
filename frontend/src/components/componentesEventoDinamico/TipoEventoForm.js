@@ -14,7 +14,6 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
   const [valorSeleccionado, setValorSeleccionado] = useState("");
   const [etapasAbiertas, setEtapasAbiertas] = useState([]);
   const [editingId, setEditingId] = useState(null);
-  const [mostrarTabla, setMostrarTabla] = useState(false);
 
   useEffect(() => {
     axios
@@ -31,15 +30,18 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
   const handleDeleteTipoEvento = async (id) => {
     try {
       await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
-      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
-      const data = response.data;
-      setOpciones(data);
+      // Actualiza la lista de opciones después de eliminar
+      axios.get(`${endpoint}/tipoEventosDinamicos`).then((response) => {
+        const data = response.data;
+        setOpciones(data);
 
-      if (data.length > 0) {
-        setValorSeleccionado(data[0].id);
-      } else {
-        setValorSeleccionado("");
-      }
+        // Verifica si hay datos antes de acceder a la propiedad 'id'
+        if (data.length > 0) {
+          setValorSeleccionado(data[0].id);
+        } else {
+          setValorSeleccionado(""); // o cualquier valor predeterminado que desees
+        }
+      });
     } catch (error) {
       console.error("Error al eliminar el tipo de evento:", error);
     }
@@ -47,21 +49,30 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
 
   const handleEditTipoEvento = (id) => {
     setEditingId(id);
+
+    // Encuentra el tipo de evento correspondiente al ID seleccionado
     const tipoEventoSeleccionado = opciones.find((opcion) => opcion.id === id);
+
+    // Actualiza el estado con el nombre del tipo de evento seleccionado
     setTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
   };
 
   const handleUpdateTipoEvento = async () => {
     try {
+      // Realiza la solicitud PUT al backend para actualizar el registro
       await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
         nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
       });
 
+      // Actualiza la lista de opciones después de la actualización
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       const data = response.data;
       setOpciones(data);
 
+      // Desactiva la edición
       setEditingId(null);
+
+      // Limpia el campo de tipo de evento
       setTipoEventoDinamico("");
     } catch (error) {
       console.error("Error al actualizar el tipo de evento:", error);
@@ -73,8 +84,11 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
     setValorSeleccionado(event.target.value);
   };
 
-  const toggleTabla = () => {
-    setMostrarTabla((prevMostrarTabla) => !prevMostrarTabla);
+  const toggleEtapa = (etapa) => {
+    setEtapasAbiertas((prevEtapas) => ({
+      ...prevEtapas,
+      [etapa]: !prevEtapas[etapa],
+    }));
   };
 
   const validateTipoEvento = (value) => {
@@ -96,9 +110,10 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
       await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
         nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
       });
-      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
-      setOpciones(response.data);
-      setValorSeleccionado(response.data[0]);
+      axios.get(`${endpoint}/tipoEventosDinamicos`).then((response) => {
+        setOpciones(response.data);
+        setValorSeleccionado(response.data[0]);
+      });
     }
   };
 
@@ -116,12 +131,12 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
               <div className="row text-black">
                 <div className="col-md-6">
                   <div>
-                    <button onClick={toggleTabla}>
-                      {mostrarTabla ? "Agregar tipo de Evento" : "Agregar tipo de Evento"}
+                    <button onClick={() => toggleEtapa(1)}>
+                      Agregar tipo de Evento {etapasAbiertas[1] ? "-" : "+"}
                     </button>
                   </div>
 
-                  {mostrarTabla && (
+                  {etapasAbiertas[1] && (
                     <div>
                       <div className="mb-3">
                         <label htmlFor="tipoEvento" className="form-label">
@@ -145,7 +160,13 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                           </div>
                         )}
                       </div>
-                
+                      <button
+                        onClick={handleSubmitStoreTipo}
+                        id="botoncito"
+                        className="btn btn-primary"
+                      >
+                        Guardar
+                      </button>
                     </div>
                   )}
 
@@ -164,82 +185,73 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                     </select>
                   </div>
 
-                  {mostrarTabla && (
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Nombre Tipo Evento</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {opciones.length > 0 ? (
-                          opciones.map((opcion) => (
-                            <tr key={opcion?.id}>
-                              <td>{opcion?.id}</td>
-                              <td>
-                                {editingId === opcion?.id ? (
-                                  <input
-                                    value={nombre_tipo_evento_dinamico}
-                                    onChange={(e) =>
-                                      setTipoEventoDinamico(e.target.value)
-                                    }
-                                    type="text"
-                                    className={`form-control ${
-                                      nombreTipoEventoError ? "is-invalid" : ""
-                                    }`}
-                                  />
-                                ) : (
-                                  opcion?.nombre_tipo_evento_dinamico
-                                )}
-                              </td>
-                              <td>
-                                {editingId === opcion?.id ? (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre Tipo Evento</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {opciones.length > 0 ? (
+                        opciones.map((opcion) => (
+                          <tr key={opcion?.id}>
+                            <td>{opcion?.id}</td>
+                            <td>
+                              {editingId === opcion?.id ? (
+                                <input
+                                  value={nombre_tipo_evento_dinamico}
+                                  onChange={(e) =>
+                                    setTipoEventoDinamico(e.target.value)
+                                  }
+                                  type="text"
+                                  className={`form-control ${
+                                    nombreTipoEventoError ? "is-invalid" : ""
+                                  }`}
+                                />
+                              ) : (
+                                opcion?.nombre_tipo_evento_dinamico
+                              )}
+                            </td>
+                            <td>
+                              {editingId === opcion?.id ? (
+                                <button
+                                  onClick={handleUpdateTipoEvento}
+                                  className="btn btn-success"
+                                >
+                                  Actualizar
+                                </button>
+                              ) : (
+                                <>
                                   <button
-                                    onClick={handleUpdateTipoEvento}
-                                    className="btn btn-success"
+                                    onClick={() =>
+                                      handleDeleteTipoEvento(opcion?.id)
+                                    }
+                                    className="btn btn-danger"
                                   >
-                                    Actualizar
+                                    Eliminar
                                   </button>
-                                ) : (
-                                  <>
-                                    <button
-                                      onClick={() =>
-                                        handleDeleteTipoEvento(opcion?.id)
-                                      }
-                                      className="btn btn-danger"
-                                    >
-                                      Eliminar
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        handleEditTipoEvento(opcion?.id)
-                                      }
-                                      className="btn btn-warning"
-                                    >
-                                      Editar
-                                    </button>
-                                  </>
-                                )}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">No hay tipos de eventos creados</td>
+                                  <button
+                                    onClick={() =>
+                                      handleEditTipoEvento(opcion?.id)
+                                    }
+                                    className="btn btn-warning"
+                                  >
+                                    Editar
+                                  </button>
+                                </>
+                              )}
+                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                      <button
-                        onClick={handleSubmitStoreTipo}
-                        id="botoncito"
-                        className="btn btn-primary"
-                      >
-                        Guardar
-                      </button>
-                    </table>
-                  )}
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3">No hay tipos de eventos creados</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
