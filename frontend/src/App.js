@@ -20,8 +20,8 @@ import RegistroEquipo from './components/RegistrarEquipo';
 import ListaUsuarios from './components/ListaUsuarios';
 import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
-import Decription from './components/Decription';
-
+import Decription from './components/Decription'
+import InscripcionEvento from './components/InscripcionEvento';
 function App() {
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
@@ -105,7 +105,7 @@ function App() {
           <Route path="/inicio" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: <Login/>}/>
           <Route path="/login" element={<Login/>}/> 
-          <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <RegistroEvento/>} />    
+          <Route path="/registroEvento/:id" element={isAuthenticated ? <ListaEventos/>: <InscripcionEvento/>} />    
           <Route path="/signout" element={<SignOut />} />
           <Route
             path="/registerUsuario"
