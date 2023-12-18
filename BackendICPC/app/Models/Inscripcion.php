@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Participante;
+use App\Models\Paticipante;
 use App\Models\EventoDinamico;
 
 class Inscripcion extends Model
@@ -15,7 +15,7 @@ class Inscripcion extends Model
         'evento_dinamicos_id',
     ];
     public function participantes(){
-        return $this->hasMany(Participante::class);
+        return $this->hasMany(Paticipante::class);
     }
     public function eventoDinamico(){
         return $this->belongsTo(EventoDinamico::class);

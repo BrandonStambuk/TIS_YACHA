@@ -18,12 +18,11 @@ class CreatePaticipantesTable extends Migration
             $table->String('nombre');
             $table->String('apellido');
             $table->String('correo')->nullable();
-            $table->String('correo_institucional')->nullable();
+            //$table->String('correo_institucional')->nullable();
             $table->String('telefono_celular')->nullable();
-            $table->String('institucion')->nullable(); 
+           /* $table->String('institucion')->nullable(); 
             $table->String('codigo_sis')->nullable();
-            $table->String('carrera')->nullable();
-            $table->String('semestre')->nullable();
+            $table->String('carrera')->nullable();*/
             $table->date('fecha_nacimiento')->nullable();           
             $table->unsignedBigInteger('inscripcions_id');
             $table->timestamps();

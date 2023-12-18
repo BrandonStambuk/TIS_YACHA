@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Participante;
+use App\Models\Paticipante;
 
 class ParticipanteController extends Controller
 {
@@ -26,19 +26,20 @@ class ParticipanteController extends Controller
      */
     public function store(Request $request)
     {
-        $participante = new Participante();
+        $participante = new Paticipante();
         $participante->nombre = $request->nombre;
         $participante->apellido = $request->apellido;
         $participante->correo = $request->correo;
-        $participante->correo_institucional = $request->correo_institucional;
+        //$participante->correo_institucional = $request->correo_institucional;
         $participante->telefono_celular = $request->telefono_celular;
-        $participante->institucion = $request->institucion;
+        /*$participante->institucion = $request->institucion;
         $participante->codigo_sis = $request->codigo_sis;
         $participante->carrera = $request->carrera;
-        $participante->semestre = $request->semestre;
+        $participante->semestre = $request->semestre;*/
         $participante->fecha_nacimiento = $request->fecha_nacimiento;
         $participante->inscripcions_id = $request->inscripcions_id;
         $participante->save();
+        return $participante;
     }
 
     /**

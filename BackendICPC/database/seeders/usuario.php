@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class usuario extends Seeder
 {
@@ -24,7 +26,7 @@ class usuario extends Seeder
         DB::table('users')->insert([
             'firstName' => 'Coach',
             'lastName' => 'Coach',
-            'email' => 'Coach@gmail.com',
+            'email' => 'coach@gmail.com',
             'role' => 'Coach',
             'password' => bcrypt('12345678'),
         ]);

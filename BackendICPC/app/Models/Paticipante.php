@@ -13,12 +13,11 @@ class Paticipante extends Model
         'nombre',
         'apellido',
         'correo',
-        'correo_institucional',
+        //'correo_institucional',
         'telefono_celular',
-        'institucion',
+        /*'institucion',
         'codigo_sis',
-        'carrera',
-        'semestre',
+        'carrera',*/
         'fecha_nacimiento',
         'inscripcions_id',
     ];

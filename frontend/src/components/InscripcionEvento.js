@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import DatosGenerales from "./componenteInscripcionEvento/DatosGenerales";
 
 
 import { URL_API } from "../const";
@@ -12,20 +13,60 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const CreateEvento = () => {
-  const [activeSection, setActiveSection] = useState("nombreEvento");
+const InscripcionEvento = () => {
+  const [activeSection, setActiveSection] = useState("datosGenerales");
+  const [cantidadParticipantes, setCantidadParticipantes] = useState("");
+  const [nombre_equipo, setNombreEquipo] = useState("");
+  const [nombres, setNombres] = useState([]);
+  const [apellidos, setApellidos] = useState([]);
+  const { id } = useParams();
 
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
   };
-
+useEffect(() => {
+  const getEventById = async () => {
+    try {
+      const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
+      setCantidadParticipantes(response.data.cantidad_participantes_evento_dinamico);
+      console.log(response.data.cantidad_participantes_evento_dinamico);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  getEventById();
+}, []);
  
 const handleStoreInscripcion = async () => {
-  
-}
+  const response = await axios.post(`${endpoint}/crearInscripcion`, {
+    nombre_equipo: nombre_equipo,
+    evento_dinamicos_id:id
+  });
 
- 
+  const idInscripcion=response.data.id;
+  console.log(idInscripcion);
+  console.log(nombres);
+  for (let i = 0; i < nombres.length; i++) {
+    const nombreParticipante = nombres[i];
+    const apellidoParticipante = apellidos[i];
+  const responseParticipante = await axios.post(`${endpoint}/crearParticipante`, {
+    nombre: nombreParticipante,
+    apellido: apellidoParticipante,
+    inscripcions_id: idInscripcion
+  });
+}
+  console.log(response);
+}
+const handleNombreChange = (nombres) => {
+  setNombres(nombres);
+}
+const handleApellidosChange = (apellidos) => {
+  setApellidos(apellidos);
+}
+const handleNombreEquipoChange = (nombreEquipo) => {
+  setNombreEquipo(nombreEquipo);
+}
 
   
 
@@ -52,7 +93,15 @@ const handleStoreInscripcion = async () => {
           </div>
           <div className="col-md-6">
             {activeSection === "datosGenerales" && (
-              <h1>datos</h1>
+              <DatosGenerales
+              onNombreEquipo={handleNombreEquipoChange}
+              onNombres={handleNombreChange}
+              onApellidos={handleApellidosChange}
+              nombreEquipoIn={nombre_equipo}
+              nombresIn={nombres}
+              apellidosIn={apellidos} 
+              cantidadParticipantesIn={cantidadParticipantes}
+              />
             )}
             {activeSection === "requisitos" && (
               <h1>requisitos</h1>
@@ -64,4 +113,4 @@ const handleStoreInscripcion = async () => {
   );
 };
 
-export default CreateEvento;
+export default InscripcionEvento;

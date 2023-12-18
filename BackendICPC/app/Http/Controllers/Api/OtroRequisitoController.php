@@ -31,6 +31,7 @@ class OtroRequisitoController extends Controller
         $otroRequisito->requisitos_eventos_id = $request->requisitos_eventos_id;
         $otroRequisito->paticipantes_id = $request->paticipantes_id;
         $otroRequisito->save();
+        return $otroRequisito;
 
     }
 

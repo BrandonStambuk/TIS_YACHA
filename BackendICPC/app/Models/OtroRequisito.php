@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\RequisitoEvento;
-use App\Models\Participante;
+use App\Models\Paticipante;
 
 class OtroRequisito extends Model
 {
@@ -19,6 +19,6 @@ class OtroRequisito extends Model
         return $this->belongsTo(RequisitoEvento::class);
     }
     public function participante(){
-        return $this->belongsTo(Participante::class);
+        return $this->belongsTo(Paticipante::class);
     }
 }

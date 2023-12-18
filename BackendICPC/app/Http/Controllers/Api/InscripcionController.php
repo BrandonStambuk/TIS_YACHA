@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inscripcion;
-use App\Models\Participante;
+use App\Models\Paticipante;
 use App\Models\EventoDinamico;
 
 class InscripcionController extends Controller
@@ -33,6 +33,7 @@ class InscripcionController extends Controller
         $inscripcion->nombre_equipo = $request->nombre_equipo;
         $inscripcion->evento_dinamicos_id = $request->evento_dinamicos_id;
         $inscripcion->save();
+        return $inscripcion;
     }
 
     /**
