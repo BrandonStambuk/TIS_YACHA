@@ -8,6 +8,7 @@ use App\Models\EventoDinamico;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Notifications\ChangeNotification;
+use Illuminate\Support\Facades\DB;
 class EventoDinamicoController extends Controller
 {
     /**
@@ -116,24 +117,53 @@ class EventoDinamicoController extends Controller
     public function getEventosActivos()
     {
         $eventosActivos = DB::select('CALL getEventosActivos()');
+        $eventosActivos = collect($eventosActivos);
+
+        $eventosActivos->transform(function ($evento) {
+            return $this->cargarRelacionesParaEvento($evento->id);
+        });
         return response()->json($eventosActivos);
     }
 
     public function getEventosPasados()
     {
         $eventosPasados = DB::select('CALL getEventosPasados()');
+        $eventosPasados = collect($eventosPasados);
+        
+        $eventosPasados->transform(function ($evento) {
+            return $this->cargarRelacionesParaEvento($evento->id);
+        });
+
         return response()->json($eventosPasados);
     }
 
     public function getEventosPorGestion($year)
     {
         $eventosPorGestion = DB::select('CALL getEventosPorGestion(?)', array($year));
+        $eventosPorGestion = collect($eventosPorGestion);
+
+        $eventosPorGestion->transform(function ($evento) {
+            return $this->cargarRelacionesParaEvento($evento->id);
+        });
         return response()->json($eventosPorGestion);
     }
 
     public function getEventosPorTipo($idt)
     {
         $eventosPorTipo = DB::select('CALL getEventosPorTipo(?)', array($idt));
+        $eventosPorTipo = collect($eventosPorTipo);
+
+        $eventosPorTipo->transform(function ($evento) {
+            return $this->cargarRelacionesParaEvento($evento->id);
+        });
         return response()->json($eventosPorTipo);
+    }
+
+    protected function cargarRelacionesParaEvento($eventoId)
+    {
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])
+            ->find($eventoId);
+    
+        return $evento;
     }
 }
