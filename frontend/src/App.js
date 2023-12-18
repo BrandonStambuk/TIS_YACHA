@@ -129,7 +129,7 @@ function App() {
             element={
               isAuthenticated ? (
                 rol === 'Admin' ? (
-                  <RegisterUsuario />
+                  <ListaUsuarios />
                 ) : rol === 'Creador' ? (
                   <ListaEventos/>
                 ) : (

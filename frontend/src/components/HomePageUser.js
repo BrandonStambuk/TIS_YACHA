@@ -22,9 +22,11 @@ const HomePage = () => {
   const [scrolling, setScrolling] = useState(0);
   const [filtroTipo, setFiltroTipo] = useState('');
   const [filtroTipoPasados, setFiltroTipoPasados] = useState('');
+  const [tiposEventos, setTiposEventos] = useState([]);
 
   useEffect(() => {
     getAllEventos();
+    obtenerTiposEventos();
   }, []);
 
   const imagenesEvento = {
@@ -40,6 +42,11 @@ const HomePage = () => {
     const fechas = await axios.get(`${endpoint}/fechasInscripcion`);
     setFecha_inicio_evento(fechas.data);
   };
+
+  const obtenerTiposEventos = async () => {
+    const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
+    setTiposEventos(response.data);
+  }
   // const getAllFechasInicio = async () => {
   //   const response = await axios.get(`${endpoint}/fechasInscripcion`);
   //   setFecha_inicio_evento(response.data);
@@ -85,10 +92,9 @@ const HomePage = () => {
                   onChange={(e) => setFiltroTipo(e.target.value)}
                 >
                   <option value="">Todos</option>
-                  <option value="Reclutamiento">Reclutamiento</option>
-                  <option value="Taller de reclutamiento">Taller de reclutamiento</option>
-                  <option value="Competencia de entrenamiento">Competencia de entrenamiento</option>
-                  <option value="Competencia interna">Competencia interna</option>
+                  {tiposEventos.map((tipoEvento) => (
+                    <option key={tipoEvento.id} value={tipoEvento.nombre_tipo_evento_dinamico}>{tipoEvento.nombre_tipo_evento_dinamico}</option>
+                  ))}
                 </select>
               </div>
               <div ref={containerRef} className="card-body event-container">
@@ -97,7 +103,7 @@ const HomePage = () => {
                   for (let i = 0; i < eventos.length; i++) {
                     let evento = eventos[i];
                     let fechaInicio = fecha_inicio_evento.find(fecha => fecha.evento_dinamicos_id === evento.id);
-                    if (filtroTipo === '' || evento.tipo_evento === filtroTipo) {
+                    if (filtroTipo === '' || evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico === filtroTipo) {
                       elements.push(
                         <div className="mt-1" key={evento.id}>
                           <div className="image-container">
