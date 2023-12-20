@@ -59,10 +59,10 @@ const InscripcionEvento = () => {
         inscripcions_id: idInscripcion
       });
       const idParticipante = responseParticipante.data.id;
-      for (let j = 0; j < valores[0].length; j++) {
+      for (let j = 0; j < valores.length; j++) {
         const responseRequisito = await axios.post(`${endpoint}/crearOtroRequisito`, {
-          valor: valores[i][j].valor,
-          requisitos_eventos_id: valores[i][j].id_requisito,
+          valor: valores[j][i].valor,
+          requisitos_eventos_id: valores[j][i].id_requisito,
           paticipantes_id: idParticipante
         });
       }
