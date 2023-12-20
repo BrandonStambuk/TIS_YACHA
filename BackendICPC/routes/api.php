@@ -85,6 +85,13 @@ Route::controller(ParticipanteController::class)->group(function (){
   Route::put('/actualizarParticipante/{id}', 'update');
   Route::get('/participantes/{id}', 'show');
 });
+Route::controller(OtroRequisitoController::class)->group(function (){
+  Route::get('/otroRequisitos', 'index');
+  Route::post('/crearOtroRequisito', 'store');
+  Route::delete('/eliminarOtroRequisito/{id}', 'destroy');
+  Route::put('/actualizarOtroRequisito/{id}', 'update');
+  Route::get('/otroRequisitos/{id}', 'show');
+});
 
 Route::controller(EventoController::class)->group(function (){
     Route::get('/eventos', 'index');

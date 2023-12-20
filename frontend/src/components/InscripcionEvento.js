@@ -23,61 +23,70 @@ const InscripcionEvento = () => {
   const [requisitos, setRequisitos] = useState([]);
   const [nombres, setNombres] = useState([]);
   const [apellidos, setApellidos] = useState([]);
+  const [valores, setValores] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
   };
-useEffect(() => {
-  const getEventById = async () => {
-    try {
-      const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
-      setCantidadParticipantes(response.data.cantidad_participantes_evento_dinamico);
-      console.log(response.data.cantidad_participantes_evento_dinamico);
-      const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
-      setRequisitos(requisitosArray);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    const getEventById = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
+        setCantidadParticipantes(response.data.cantidad_participantes_evento_dinamico);
+        setRequisitos(response.data.detalle_requisitos);
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+    getEventById();
+  }, [id]);
+
+  const handleStoreInscripcion = async () => {
+    const response = await axios.post(`${endpoint}/crearInscripcion`, {
+      nombre_equipo: nombre_equipo,
+      evento_dinamicos_id: id
+    });
+
+    const idInscripcion = response.data.id;
+    for (let i = 0; i < nombres.length; i++) {
+      const nombreParticipante = nombres[i];
+      const apellidoParticipante = apellidos[i];
+      const responseParticipante = await axios.post(`${endpoint}/crearParticipante`, {
+        nombre: nombreParticipante,
+        apellido: apellidoParticipante,
+        inscripcions_id: idInscripcion
+      });
+      const idParticipante = responseParticipante.data.id;
+      for (let j = 0; j < valores[0].length; j++) {
+        const responseRequisito = await axios.post(`${endpoint}/crearOtroRequisito`, {
+          valor: valores[i][j].valor,
+          requisitos_eventos_id: valores[i][j].id_requisito,
+          paticipantes_id: idParticipante
+        });
+      }
+
+    }
+    navigate("/home");
   }
-  getEventById();
-}, []);
- 
-const handleStoreInscripcion = async () => {
-  const response = await axios.post(`${endpoint}/crearInscripcion`, {
-    nombre_equipo: nombre_equipo,
-    evento_dinamicos_id:id
-  });
 
-  const idInscripcion=response.data.id;
-  console.log(idInscripcion);
-  console.log(nombres);
-  for (let i = 0; i < nombres.length; i++) {
-    const nombreParticipante = nombres[i];
-    const apellidoParticipante = apellidos[i];
-  const responseParticipante = await axios.post(`${endpoint}/crearParticipante`, {
-    nombre: nombreParticipante,
-    apellido: apellidoParticipante,
-    inscripcions_id: idInscripcion
-  });
-}
-  console.log(response);
-}
-const handleNombreChange = (nombres) => {
-  setNombres(nombres);
-}
-const handleApellidosChange = (apellidos) => {
-  setApellidos(apellidos);
-}
-const handleNombreEquipoChange = (nombreEquipo) => {
-  setNombreEquipo(nombreEquipo);
-}
 
-const isAuthenticated = localStorage.getItem('token');
-const rol = localStorage.getItem('role');
+  const handleNombreChange = (nombres) => {
+    setNombres(nombres);
+  }
+  const handleApellidosChange = (apellidos) => {
+    setApellidos(apellidos);
+  }
+  const handleNombreEquipoChange = (nombreEquipo) => {
+    setNombreEquipo(nombreEquipo);
+  }
+  const handleValorRequisitoChange = (valores) => {
+    setValores(valores);
+  }
 
-  
 
   return (
     <div>
@@ -98,7 +107,7 @@ const rol = localStorage.getItem('role');
                 onClick={() => handleSectionClick("requisitos")}
                 className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""}`}>
                 Requisitos
-              </button>              
+              </button>
               <button onClick={handleStoreInscripcion} className='btn btn-success'>Guardar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
@@ -106,21 +115,23 @@ const rol = localStorage.getItem('role');
           <div className="col-md-6">
             {activeSection === "datosGenerales" && (
               <DatosGenerales
-              onNombreEquipo={handleNombreEquipoChange}
-              onNombres={handleNombreChange}
-              onApellidos={handleApellidosChange}
-              nombreEquipoIn={nombre_equipo}
-              nombresIn={nombres}
-              apellidosIn={apellidos} 
-              cantidadParticipantesIn={cantidadParticipantes}
+                onNombreEquipo={handleNombreEquipoChange}
+                onNombres={handleNombreChange}
+                onApellidos={handleApellidosChange}
+                nombreEquipoIn={nombre_equipo}
+                nombresIn={nombres}
+                apellidosIn={apellidos}
+                cantidadParticipantesIn={cantidadParticipantes}
               />
             )}
             {activeSection === "requisitos" && (
-              <Requisitos 
-              participantesIn={nombres}
-              requisitosIn={requisitos}
+              <Requisitos
+                participantesIn={nombres}
+                requisitosIn={requisitos}
+                onValores={handleValorRequisitoChange}
+                valoresIn={valores}
               />
-            )}            
+            )}
           </div>
         </div>
       </div>

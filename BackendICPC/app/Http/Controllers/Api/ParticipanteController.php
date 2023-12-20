@@ -73,6 +73,7 @@ class ParticipanteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $participante = Paticipante::findOrFail($id);
+        $participante->delete();
     }
 }
