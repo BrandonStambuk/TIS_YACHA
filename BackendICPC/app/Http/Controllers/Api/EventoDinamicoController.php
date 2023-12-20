@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\EventoDinamico;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
+use App\Models\Inscripcion;
 
 class EventoDinamicoController extends Controller
 {
@@ -49,7 +50,7 @@ class EventoDinamicoController extends Controller
      */
     public function show($id)
     {
-        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos' ])->find($id);
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos.requisitosEvento' ])->find($id);
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
         }
@@ -95,9 +96,9 @@ class EventoDinamicoController extends Controller
         });
     
         $evento->fechaInscripcionEvento()->delete();
-    
         $evento->delete();
     
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
+
 }

@@ -66,6 +66,7 @@ class OtroRequisitoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $otroRequisito = OtroRequisito::findOrFail($id);
+        $otroRequisito->delete();
     }
 }
