@@ -1,3 +1,4 @@
+import './App.css';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import axios from 'axios';
