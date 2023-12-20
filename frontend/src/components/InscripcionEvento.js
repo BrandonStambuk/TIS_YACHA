@@ -87,6 +87,9 @@ const InscripcionEvento = () => {
     setValores(valores);
   }
 
+  const isAuthenticated = localStorage.getItem("token");
+  const rol = localStorage.getItem("rol");
+
 
   return (
     <div>
