@@ -45,10 +45,11 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   }
 
   const handleCantidadParticipanetesEventoChange = (event) => {
-    if (event.target.value < 0) {
-      setCantidadError("No se permiten números negativos.");
-    } else if (event.target.value > 3) {
-      setCantidadError("No se permiten números mayores a tres");
+    const value = parseInt(event.target.value, 10);
+    if (value < 1) {
+      setCantidadError("El minimo de competidores es de 1.");
+    } else if (value > 3) {
+      setCantidadError("El maximo de competidores es de 3.");
     } else {
       setCantidadError("");
       onCantidadParticipantesChange(event.target.value);
