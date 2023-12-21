@@ -134,7 +134,6 @@ const FechasHorasForm = ({
   return (
     <div className="card-body tarjeta ml-3">
       <div className="mb-3">
-        <h2 className="card-title text-center text-blue">Fechas y Horas</h2>
         <div className="row">
           <div className="col-md-6 mb-3">
             <label

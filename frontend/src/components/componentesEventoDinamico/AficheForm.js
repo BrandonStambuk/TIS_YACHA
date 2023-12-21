@@ -31,9 +31,6 @@ const AficheForm = ({ setInput, input, inputFile}) => {
     return (
         <div className="card-body tarjeta">
             <div className="mb-3">
-                <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
-                    Afiche
-                </h2>
                 <label htmlFor="upload-button" className="btn btn-primary btn-lg btn-block mx-auto" style={{ margin: '50px' }}>
                     Seleccionar afiche
                 </label>
