@@ -15,11 +15,9 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
         setRequisitos(requisitosIn);
     }, [participantesIn, requisitosIn]);
     useEffect(() => {
-        // Si hay valores iniciales (valoresIn), establecerlos en el estado
         if (valoresIn && valoresIn.length > 0) {
             setValores(valoresIn);
         } else {
-            // Si no hay valores iniciales, inicializar el estado con valores predeterminados
             setValores(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
         }
     }, []);
