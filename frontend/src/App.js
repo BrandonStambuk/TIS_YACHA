@@ -24,6 +24,8 @@ import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
 import Decription from './components/Decription'
 import InscripcionEvento from './components/InscripcionEvento';
+import TablaNoticias from './components/TablaNoticias';
+import Noticia from './components/Noticia';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -164,6 +166,10 @@ function App() {
             }
           />
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
+          <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
+          <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
+          <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
+          <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
         </Routes>
       </BrowserRouter>
     </div>

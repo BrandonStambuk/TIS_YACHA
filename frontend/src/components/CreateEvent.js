@@ -174,21 +174,21 @@ return (
               </button>
               <button
                 onClick={() => handleSectionClick("descripcion")}
-                className={`button mb-2${activeSection === "descripcion" ? "active" : ""
+                className={`button mb-2 ${activeSection === "descripcion" ? "active" : ""
                   }`}
               >
                 Descripción
               </button>
               <button
                 onClick={() => handleSectionClick("requisitos")}
-                className={`button mb-2${activeSection === "requisitos" ? "active" : ""
+                className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""
                   }`}
               >
                 Requisitos
               </button>
               <button
                 onClick={() => handleSectionClick("Afiche")}
-                className={`button mb-2${activeSection === "Afiche" ? "active" : ""
+                className={`button mb-2 ${activeSection === "Afiche" ? "active" : ""
                   }`}
               >
                 Afiche
