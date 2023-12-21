@@ -148,6 +148,13 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         setTipoRequisito("");
         setDescripcionRequisito("");
     };
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setNombreRequisitoError("");
+            setDescripcionRequisitoError("");
+        }, 5000);
+        return () => clearTimeout(timeoutId);
+      }, [nombreRequisitoError, descripcionRequisitoError]);
 
     return (
         <div className="card-body tarjeta">

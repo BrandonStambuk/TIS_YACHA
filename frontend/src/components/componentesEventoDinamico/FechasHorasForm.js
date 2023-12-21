@@ -131,6 +131,15 @@ const FechasHorasForm = ({
     marginTop: "10px", // Ajusta el valor del margen izquierdo según tus necesidades
   };
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFechaInicioError("");
+      setFechaFinError("");
+      setFechaInicioEventError("");
+      setFechaFinEventError("");
+    }, 5000);
+    return () => clearTimeout(timeoutId);
+  }, [fechaInicioError, fechaFinError, fechaInicioEventError, fechaFinEventError]);
   return (
     <div className="card-body tarjeta ml-3">
       <div className="mb-3">
