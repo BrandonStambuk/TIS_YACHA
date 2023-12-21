@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { AuthProvider, useAuth } from './components/AuthContext';
-import ListaEventos from './components/ListaEventos';
-import HomePageUser from './components/HomePageUser';
+import './App.css';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './components/AuthContext'; // Importa el contexto de autenticación
+import { useState } from 'react';
 import CreateEvento from './components/CreateEvent';
 import CreateCompe from './components/CreateCompe';
-import EditComp from './components/EditComp';
+import ListaEventos from './components/ListaEventos';
 import EditEventoDinamico from './components/EditEventoDinamico';
-import MostarCompe from './components/ListaCompetencias';
 import QueEsICPC from './components/QueEsICPC';
 import CrearAfiche from './components/CrearAfiche';
 import Login from './components/Login';
 import RegistroEvento from './components/RegistroEvento';
+import HomePageUser from './components/HomePageUser';
 import SignOut from './components/SignOut';
 import RegisterUsuario from './components/RegistroUsuario';
 import MostrarEventoUsuario from './components/MostrarEventoUsuario';
-import CrearEquipo from './components/RegistrarEquipo';
+import MostarCompe from './components/ListaCompetencias'
+import CrearEquipo from './components/RegistrarEquipo'
+import EditComp from './components/EditComp';
 import RegistroEquipo from './components/RegistrarEquipo';
 import ListaUsuarios from './components/ListaUsuarios';
 import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
-import Decription from './components/Decription';
+import Decription from './components/Decription'
 import InscripcionEvento from './components/InscripcionEvento';
 import { URL_API } from './const';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 function App() {
   const isAuthenticated = localStorage.getItem('token');

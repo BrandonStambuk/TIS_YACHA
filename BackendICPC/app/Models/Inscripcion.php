@@ -17,7 +17,7 @@ class Inscripcion extends Model
     public function participantes(){
         return $this->hasMany(Paticipante::class);
     }
-    public function eventoDinamico(){
+    /*public function eventoDinamico(){
         return $this->belongsTo(EventoDinamico::class);
-    }
+    }*/
 }

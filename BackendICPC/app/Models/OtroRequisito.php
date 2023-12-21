@@ -15,9 +15,9 @@ class OtroRequisito extends Model
         'requisitos_eventos_id',
         'paticipantes_id',
     ];
-    public function requisitoEvento(){
+    /*public function requisitoEvento(){
         return $this->belongsTo(RequisitoEvento::class);
-    }
+    }*/
     public function participante(){
         return $this->belongsTo(Paticipante::class);
     }

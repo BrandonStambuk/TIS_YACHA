@@ -25,6 +25,7 @@ const InscripcionEvento = () => {
   const [apellidos, setApellidos] = useState([]);
   const [valores, setValores] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
 
   const handleSectionClick = (section) => {
@@ -85,6 +86,9 @@ const InscripcionEvento = () => {
   const handleValorRequisitoChange = (valores) => {
     setValores(valores);
   }
+
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
 
 
   return (
