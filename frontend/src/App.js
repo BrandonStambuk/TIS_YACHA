@@ -26,6 +26,7 @@ import Decription from './components/Decription'
 import InscripcionEvento from './components/InscripcionEvento';
 import TablaNoticias from './components/TablaNoticias';
 import Noticia from './components/Noticia';
+import Detalles from './components/Detalles';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -170,6 +171,7 @@ function App() {
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
           <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
           <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
+          <Route path='/detalles/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Detalles/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

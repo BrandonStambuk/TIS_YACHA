@@ -89,7 +89,7 @@ const ListaEventos = () => {
                         let evento = eventosVisibles[i];
                         rows.push(
                           <tr key={evento.id}>
-                            <td className="centrado">{evento.nombre_evento_dinamico}</td>
+                            <td className="centrado"><Link className="text-black" to={`/detalles/${evento.id}`}>{evento.nombre_evento_dinamico}</Link></td>
                             <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
                             <td className="centrado">{evento.fecha_inscripcion_evento[0].fecha_inicio_inscripcion}</td>
                             <td className="centrado">{evento.lugar_evento_dinamico}</td>
