@@ -118,7 +118,6 @@ const RegistroUsuario = () => {
             onChange={(e) => setRole(e.target.value)}
           >
             <option className="gray" value="">Seleccionar Rol</option>
-            <option value="Admin">Admin</option>
             <option value="Coach">Coach</option>
             <option value="Creador">Organizador</option>
           </select>

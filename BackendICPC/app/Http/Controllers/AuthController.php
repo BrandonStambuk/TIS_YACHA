@@ -70,7 +70,8 @@ class AuthController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        // Obtén todos los usuarios que no tengan el rol de Admin
+        $users = User::where('role', '!=', 'Admin')->get();
         return $users;
     }
     public function show($id)
