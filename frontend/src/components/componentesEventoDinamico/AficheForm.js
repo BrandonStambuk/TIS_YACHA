@@ -32,7 +32,7 @@ const AficheForm = ({ setInput, input, inputFile}) => {
         <div className="card-body tarjeta">
             <div className="mb-3">
                 <label htmlFor="upload-button" className="btn btn-primary btn-lg btn-block mx-auto" style={{ margin: '50px' }}>
-                    Seleccionar afiche
+                    Seleccionar imagen
                 </label>
                 <input id="upload-button" type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                 

@@ -30,6 +30,7 @@ class NoticiaController extends Controller
         $noticia = new Noticia();
         $noticia->titulo = $request->input('titulo');
         $noticia->contenido = $request->input('contenido');
+        $noticia->imagen = $request->input('imagen');
         $noticia->save();
         return response()->json(['mensaje' => 'Noticia creada correctamente', 'noticia' => $noticia], 201);
     }

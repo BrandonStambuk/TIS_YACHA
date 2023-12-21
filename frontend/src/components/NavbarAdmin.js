@@ -68,10 +68,7 @@ const NavbarAdmin = () => {
                 <a className="nav-link" href="/registerUsuario">Registrar</a>
               </li>
               <li className="nav-item p-2">
-                <a className="nav-link" href="/crear-noticia">Crear Noticia</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/tabla-noticias">Administrar Noticias</a>
+                <a className="nav-link" href="/tabla-noticias">Noticias</a>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto">
