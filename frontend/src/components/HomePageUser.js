@@ -150,7 +150,7 @@ const HomePage = () => {
                       <div key={noticia.id} className="card card-translucent mt-5">
                         <div className="card-body">
                           <h5 className="card-title">{noticia.titulo}</h5>
-                          <p className="card-text">{noticia.contenido}</p>
+                          <p className="event-description card-text" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></p>
                           {/* Otros detalles de la noticia */}
                         </div>
                       </div>

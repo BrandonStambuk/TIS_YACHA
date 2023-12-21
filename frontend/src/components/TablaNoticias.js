@@ -63,7 +63,8 @@ const TablaNoticia = () => {
                         {noticias.map(noticia => (
                           <tr key={noticia.id}>
                             <td className='centrado'>{noticia.titulo}</td>
-                            <td className='centrado'>{noticia.contenido}</td>
+                            <td className="event-description centrado" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></td>
+                            
                             <td>
                               <button
                                 className="btn btn-danger"
