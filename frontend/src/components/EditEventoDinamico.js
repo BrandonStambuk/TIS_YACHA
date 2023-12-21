@@ -105,6 +105,7 @@ const CreateEvento = () => {
   const handleUpdateEventoDinamico = async (e) => {
     e.preventDefault();
     let ruta = null;
+
     if (afiche) {
       const formData = new FormData();
       formData.append('image', afiche);
@@ -114,6 +115,8 @@ const CreateEvento = () => {
         },
       });
       ruta = responseImage.data.path;
+    }else if(rutaInit){
+      ruta = rutaInit;
     }
 
     const responseEvento = await axios.put(`${endpoint}/actualizarEventoDinamico/${id}`, {
