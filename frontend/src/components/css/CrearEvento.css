@@ -4,7 +4,7 @@
   background: #F8F9FD;
   width: 900px;
   padding: 20px;
-  text-align: left;/* Agrega esta línea para alinear el texto a la izquierda */
+  text-align: center;/* Agrega esta línea para alinear el texto a la izquierda */
   background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
   border-radius: 40px;
   padding: 25px 35px;
@@ -16,6 +16,7 @@
 
 .form-label{
   font-size: 18px;
+  
 }
   .form-control{
     width: 100%;

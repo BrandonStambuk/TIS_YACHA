@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\DetalleRequisitoController;
 use App\Http\Controllers\Api\InscripcionController;
 use App\Http\Controllers\Api\ParticipanteController;
 use App\Http\Controllers\Api\OtroRequisitoController;
-
+use App\Http\Controllers\Api\NoticiaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,6 +42,14 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::delete('/eliminarTipoEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
 });
+
+Route::controller(NoticiaController::class)->group(function (){
+  Route::get('/noticiasDisponibles', 'index');
+  Route::post('/crearNoticia', 'store');
+  Route::delete('/eliminarNoticia/{id}', 'destroy');
+  //Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
+});
+
 Route::controller(FechaInscripcionEventoController::class)->group(function (){
   Route::get('/fechasInscripcion', 'index');
   Route::post('/crearFechaInscripcion', 'store');
@@ -54,6 +62,7 @@ Route::controller(EtapaEventoController::class)->group(function (){
   Route::delete('/eliminarEtapaEvento/{id}', 'destroy');
   Route::put('/actualizarEtapaEvento/{id}', 'update');
 });
+
 
 Route::controller(RequisitoController::class)->group(function (){
   Route::get('/requisitos', 'index');

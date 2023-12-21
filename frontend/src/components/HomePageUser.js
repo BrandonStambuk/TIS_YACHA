@@ -22,9 +22,18 @@ const HomePage = () => {
   const [scrolling, setScrolling] = useState(0);
   const [filtroTipo, setFiltroTipo] = useState('');
   const [filtroTipoPasados, setFiltroTipoPasados] = useState('');
-
+  const [noticias, setNoticias] = useState([]);
   useEffect(() => {
+    const fetchNoticias = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/noticiasDisponibles`);
+        setNoticias(response.data);
+      } catch (error) {
+        console.error('Error al obtener noticias:', error);
+      }
+    };
     getAllEventos();
+    fetchNoticias();
   }, []);
 
   const imagenesEvento = {
@@ -120,7 +129,17 @@ const HomePage = () => {
                   return elements;
                 })()}
               </div>
+              
             </div>
+            {noticias.map((noticia) => (
+                      <div key={noticia.id} className="card card-translucent mt-5">
+                        <div className="card-body">
+                          <h5 className="card-title">{noticia.titulo}</h5>
+                          <p className="card-text">{noticia.contenido}</p>
+                          {/* Otros detalles de la noticia */}
+                        </div>
+                      </div>
+                    ))}
           </div>
         </div>
       </div>

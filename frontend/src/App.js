@@ -24,6 +24,8 @@ import Perfil from './components/Perfil';
 import Descripcion from './components/Descripcion';
 import Decription from './components/Decription'
 import InscripcionEvento from './components/InscripcionEvento';
+import TablaNoticias from './components/TablaNoticias';
+import Noticia from './components/Noticia';
 function App() {
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
@@ -53,6 +55,8 @@ function App() {
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
           <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
+          <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
+          <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
         </Routes>
       </BrowserRouter>
     </div>
