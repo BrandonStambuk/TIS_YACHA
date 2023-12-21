@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 
 const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
@@ -48,19 +48,25 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     if (event.target.value < 0) {
       setCantidadError("No se permiten números negativos.");
     } else if (event.target.value > 3) {
-      setCantidadError("No se admiten caracteres distintos a números y números mayores a tres");
+      setCantidadError("No se permiten números mayores a tres");
     } else {
       setCantidadError("");
       onCantidadParticipantesChange(event.target.value);
     }
   }
+  
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setNombreEventoError("");
+      setLugarEventoError("");
+      setCantidadError("");
+    }, 5000);
+    return () => clearTimeout(timeoutId);
+  }, [nombreEventoError, lugarEventoError, cantidadError]);
 
   return (
     <div className="card-body tarjeta">
       <div className="mb-3">
-        <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
-          Creación de evento
-        </h2>
         <label className="form-label">Nombre Evento</label>
         <input
           value={nombreEvento}

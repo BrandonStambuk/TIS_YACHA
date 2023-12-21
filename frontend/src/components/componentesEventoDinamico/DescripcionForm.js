@@ -12,9 +12,6 @@ const DescripcionForm = ({onDescripcionChange, DescripcionIn}) => {
   return (
     <div className="card-body tarjeta">
       <div className="mb-3">        
-          <h2 htmlFor="nombreEvento" className="card-title text-center text-blue">
-            Descripción
-          </h2>
           <Editor
             apiKey="et3kv22txmedmy751hwdgrmywr1k93evr5t5in9vmjh0mze8"
             id="descripcion"
