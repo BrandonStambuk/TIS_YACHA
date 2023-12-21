@@ -67,6 +67,7 @@ class InscripcionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $inscripcion = Inscripcion::findOrFail($id);
+        $inscripcion->delete();
     }
 }

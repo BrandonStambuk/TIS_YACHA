@@ -1,22 +1,30 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const DatosGenerales = ({ participantesIn, requisitosIn }) => {
-    const [nombre_Equipo, setNombreEquipo] = useState("");
-    const [tipoRequisito, setTipoRequisito] = useState("");
+const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => {
     const [nombres, setNombres] = useState([]);
-    const [apellidos, setApellidos] = useState([]);
-    const [nombreEquipoError, setNombreEquipoError] = useState(false);
+    const [requisitos, setRequisitos] = useState([]);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
-
+    const [valores, setValores] = useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")||valoresIn));
 
     useEffect(() => {
         setNombres(participantesIn);
-    }, [participantesIn]);
+        setRequisitos(requisitosIn);
+    }, [participantesIn, requisitosIn]);
+    useEffect(() => {
+        if (valoresIn && valoresIn.length > 0) {
+            setValores(valoresIn);
+        } else {
+            setValores(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
+        }
+    }, []);
+
+    useEffect(() => {
+        onValores(valores);
+    }, [valores, onValores]);
 
     const toggleEtapa = (etapa) => {
         setEtapasAbiertas((prevEtapas) => ({
@@ -25,78 +33,44 @@ const DatosGenerales = ({ participantesIn, requisitosIn }) => {
         }));
     };
 
-    const handleTipoRequisitoChange = (e) => {
-        setTipoRequisito(e.target.value);
-    };
-    const handleNombreEquipoChange = (value) => {
-        //      onNombreEquipo(value);
-    }
-
-    const handleNombreChange = (index, value) => {
-        /*  const nuevosNombres = [...nombres];
-          nuevosNombres[index] = value;
-          setNombres(nuevosNombres);
-          onNombres(nuevosNombres);*/
-    };
-    const handleApellidosChange = (index, value) => {
-        /*    const nuevosApellidos = [...apellidos];
-            nuevosApellidos[index] = value;
-            setApellidos(nuevosApellidos);
-            onApellidos(nuevosApellidos);*/
+    const handleValorChange = (requisitoIndex, participanteIndex, value, idRequisito) => {
+        setValores((prevValores) => {
+            const nuevosValores = [...prevValores];
+            nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
+            return nuevosValores;
+        });
+        console.log(valores);
     };
 
     return (
         <div className="card-body tarjeta">
             <div className="mb-3">
                 <div>
-                    <h2 className="text-center mb-4 heading">Datos Generales</h2>
+                    <h2 className="text-center mb-4 heading">Requisitos</h2>
                     <div>
                         <div className="col-md-12">
-                            <div className="col-md-6">
-                                <label htmlFor="nombreRequisito" className="form-label">Nombre Equipo</label>
-                                <input
-                                    value={nombre_Equipo}
-                                    onChange={(e) => handleNombreEquipoChange(e.target.value)}
-                                    type="text"
-                                    className={`form-control ${nombreEquipoError ? "is-invalid" : ""}`}
-                                    id="nombreRequisito"
-                                    name="nombreRequisito"
-                                />
-                            </div>
-                            {nombres.map((nombre, index) => (
-                                <div key={index} className="row">
-                                    <button onClick={() => toggleEtapa(index+1)}>{nombre}</button>
-                                    {etapasAbiertas[index+1] && (
+                            {nombres.map((nombre, participanteIndex) => (
+                                <div key={participanteIndex} className="row">
+                                    <button onClick={() => toggleEtapa(participanteIndex + 1)}>{nombre}</button>
+                                    {etapasAbiertas[participanteIndex + 1] && (
                                         <div>
-                                            <div className="col-md-6 mb-3">
-                                                <label htmlFor={`nombre${index + 1}`} className="form-label">
-                                                    Nombres Integrante {index + 1}
-                                                </label>
-                                                <input
-                                                    value={nombre}
-                                                    onChange={(e) => handleNombreChange(index, e.target.value)}
-                                                    type="text"
-                                                    className="form-control"
-                                                    id={`nombre${index + 1}`}
-                                                    name={`nombre${index + 1}`}
-                                                />
-                                            </div>
-                                            <div className="col-md-6 mb-3">
-                                                <label htmlFor={`apellido${index + 1}`} className="form-label">
-                                                    Apellidos Integrante {index + 1}
-                                                </label>
-                                                <input
-                                                    value={apellidos[index]}
-                                                    onChange={(e) => handleApellidosChange(index, e.target.value)}
-                                                    type="text"
-                                                    className="form-control"
-                                                    id={`apellido${index + 1}`}
-                                                    name={`apellido${index + 1}`}
-                                                />
-                                            </div>
+                                            {requisitos.map((requisito, requisitoIndex) => (
+                                                <div key={requisitoIndex} className="col-md-6 mb-3">
+                                                    <label htmlFor={`requisito${requisitoIndex + 1}`} className="form-label">
+                                                        {requisito.requisitos_evento.nombre_requisito}
+                                                    </label>
+                                                    <input
+                                                        value={valores[requisitoIndex][participanteIndex].valor}
+                                                        onChange={(e) => handleValorChange(requisitoIndex, participanteIndex, e.target.value, requisito.id_requisito)}
+                                                        type="text"
+                                                        className="form-control"
+                                                        id={`requisito${requisitoIndex + 1}`}
+                                                        name={`requisito${requisitoIndex + 1}`}
+                                                    />
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
-
                                 </div>
                             ))}
                         </div>
@@ -107,4 +81,4 @@ const DatosGenerales = ({ participantesIn, requisitosIn }) => {
     );
 };
 
-export default DatosGenerales;
+export default Requisitos;

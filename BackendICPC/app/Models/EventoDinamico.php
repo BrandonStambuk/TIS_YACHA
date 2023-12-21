@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Models\DetalleRequisitos;
+use App\Models\Inscripcion;
 
 class EventoDinamico extends Model
 {
@@ -32,6 +33,10 @@ class EventoDinamico extends Model
     public function detalleRequisitos()
     {
         return $this->hasMany(DetalleRequisitos::class, 'id_evento_dinamico');
+    }
+    public function inscripcion()
+    {
+        return $this->hasMany(Inscripcion::class, 'evento_dinamicos_id');
     }
     
 }
