@@ -148,12 +148,18 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         setTipoRequisito("");
         setDescripcionRequisito("");
     };
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setNombreRequisitoError("");
+            setDescripcionRequisitoError("");
+        }, 5000);
+        return () => clearTimeout(timeoutId);
+      }, [nombreRequisitoError, descripcionRequisitoError]);
 
     return (
         <div className="card-body tarjeta">
             <div className="mb-3">
                 <div>
-                    <h2 className="text-center mb-4 heading">Requisitos</h2>
                     <div>
                         <table className="table table-striped">
                             <thead>

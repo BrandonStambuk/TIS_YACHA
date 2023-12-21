@@ -11,6 +11,7 @@ import jusImage from "./images/jus.png";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { URL_API } from "./const";
+import NavbarOrganizador from "./NavbarOrganizador";
 
 
 import Swal from 'sweetalert2';
@@ -237,9 +238,14 @@ const EditComp = () => {
     maxHeight: "24px",
   };
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">

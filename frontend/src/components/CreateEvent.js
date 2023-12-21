@@ -10,6 +10,7 @@ import TipoEventoForm from "./componentesEventoDinamico/TipoEventoForm";
 import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
+import NavbarOrganizador from "./NavbarOrganizador";
 import AficheForm from "./componentesEventoDinamico/AficheForm";
 
 
@@ -134,13 +135,18 @@ const CreateEvento = () => {
     console.log(requisitos);
     setRequisitosSeleccionados(requisitos);
   }
+
+const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
   const handleAfiche = (afiche) => {
     setAfiche(afiche);
   }
 
-  return (
-    <div>
-      <NavbarAdmin />
+return (
+  <div>
+    {isAuthenticated && (
+    rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+    )}
       <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">

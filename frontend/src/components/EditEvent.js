@@ -10,6 +10,7 @@ import izqImage from "./images/izq.png";
 import derImage from "./images/der.png";
 import cenImage from "./images/cen.png";
 import jusImage from "./images/jus.png";
+import NavbarOrganizador from './NavbarOrganizador';
 
 const inputStyle = {
   width: '170px',
@@ -248,9 +249,14 @@ const EditEvento = () => {
     maxWidth: "24px",
     maxHeight: "24px",
   };
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-8 mx-auto">
