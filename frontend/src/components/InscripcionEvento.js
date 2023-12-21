@@ -71,6 +71,7 @@ const InscripcionEvento = () => {
       }
 
     }
+    navigate('/home');
   }
 
 
