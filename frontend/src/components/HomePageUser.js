@@ -40,7 +40,7 @@ const HomePage = () => {
   };
 
   const getAllEventos = async () => {
-    const event = await axios.get(`${endpoint}/eventosDinamicos`);
+    const event = await axios.get(`${endpoint}/eventosDinamicosPublicos`);
     setEventos(event.data);
     const fechas = await axios.get(`${endpoint}/fechasInscripcion`);
     setFecha_inicio_evento(fechas.data);
@@ -122,7 +122,8 @@ const HomePage = () => {
                             <div className="event-info">
                               <p className="event-info-text left"><strong>Nombre: </strong>{evento.nombre_evento_dinamico}</p>
                               <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</p>
-                              <p className="event-info-text left col-md-12"><strong>Inscripciones: </strong>{fechaInicio ? fechaInicio.fecha_inicio_inscripcion : 'Fecha no disponible'}</p>
+                              <p className="event-info-text left col-md-12"><strong>Inscripcion: </strong>{fechaInicio ? fechaInicio.fecha_inicio_inscripcion : 'Fecha no disponible'}</p>
+                              <p className="event-info-text left col-md-12"><strong>Fin Inscripcion: </strong>{fechaInicio ? fechaInicio.fecha_fin_inscripcion : 'Fecha no disponible'}</p>
                               <p className="event-info-text left"><strong>Lugar: </strong>{evento.lugar_evento_dinamico}</p>
                               <Link to={`/mostrar/${evento.id}`} className='text-decoration-none boton-ver'>Ver</Link>
                             </div>

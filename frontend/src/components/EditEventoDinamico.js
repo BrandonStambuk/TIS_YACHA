@@ -36,6 +36,8 @@ const CreateEvento = () => {
   const [rutaInit, setRutaInit] = useState(null);
   const [requisitosInit, setRequisitosInit] = useState([{}]);
   const navigate = useNavigate();
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const { id } = useParams();
 
 
@@ -53,6 +55,13 @@ const CreateEvento = () => {
         setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
         setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
         setRutaInit(response.data.afiche);
+        if(response.data.mostrar_publico){
+          setPublico(true);
+          setMensajePublico("Evento Publicado");
+        }else{
+          setPublico(false);
+          setMensajePublico("Publicar Evento");
+        };
         const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
           id: etapa.id,
           contenido_etapa: etapa.contenido_etapa,
@@ -113,6 +122,7 @@ const CreateEvento = () => {
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      mostrar_publico: publico,
       afiche: ruta
     });
 
@@ -258,6 +268,16 @@ const CreateEvento = () => {
     setAfiche(afiche);
   }
 
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Evento");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Evento Publicado");
+      setPublico(!publico);
+    }
+  }
+
   return (
     <div>
       <NavbarAdmin />
@@ -305,7 +325,11 @@ const CreateEvento = () => {
                 className={`button mb-2${activeSection === "Afiche" ? "active" : ""
                   }`}
               >
-                Afiche
+                Afiche                
+              </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
               </button>
               <button onClick={handleUpdateEventoDinamico} className='btn btn-success'>Actualizar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>

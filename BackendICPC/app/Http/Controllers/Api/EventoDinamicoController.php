@@ -23,6 +23,20 @@ class EventoDinamicoController extends Controller
     return $eventos;
     }
 
+    public function indexPublico()
+    {
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento' => function ($query) {
+            $query->where('fecha_fin_inscripcion', '>=', today());
+        }])
+        ->where('mostrar_publico', true)
+        ->whereHas('fechaInscripcionEvento', function ($query) {
+            $query->where('fecha_fin_inscripcion', '>=', today());
+        })
+        ->get();
+    
+    return $eventos;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\OtroRequisitoController;
 
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
+  Route::get('/eventosDinamicosPublicos', 'indexPublico');
   Route::post('/crearEventoDinamico', 'store');
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarEventoDinamico/{id}', 'update');
