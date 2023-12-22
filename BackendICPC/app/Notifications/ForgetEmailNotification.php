@@ -22,6 +22,7 @@ class ForgetEmailNotification extends Notification
             ->greeting('Hola!')
             ->subject('Recuperación de contraseña')
             ->line('Hemos recibido una solicitud para restablecer su contraseña.')
+            ->line('Puede restablecer su contraseña haciendo clic en el siguiente botón.')
             ->action('Restablecer Contraseña', $this->resetPasswordLink)
             ->line('Si no solicitó esto, puede ignorar este correo electrónico.')
             ->line('Gracias por usar nuestra aplicación!');

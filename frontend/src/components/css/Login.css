@@ -87,3 +87,8 @@
   box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 15px 10px -10px;
 }
 
+.success-message {
+  color: #0f5fa6;
+  font-size: 17px;
+  text-align: center;
+}
