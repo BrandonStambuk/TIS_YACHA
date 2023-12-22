@@ -38,6 +38,34 @@ const Noticia = () => {
       return;
     }
 
+
+    if (!titulo.trim() || titulo.length < 10 || !contenido.trim() || contenido.length < 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos inválidos',
+        text: 'Por favor, asegúrate de que tanto el título como el contenido tengan al menos 10 caracteres.',
+        customClass: {
+          confirmButton: 'btn btn-danger', // Clase para el botón "OK"
+        },
+        buttonsStyling: false, // Desactiva el estilizado por defecto
+      });
+      return;
+    }
+    const alphanumericRegex = /^[a-zA-Z0-9\s\u200B!.,;?]+$/;
+
+    if (!alphanumericRegex.test(titulo)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos inválidos',
+        text: 'No estan permitidos caracteres especiales en el titulo',
+        customClass: {
+          confirmButton: 'btn btn-danger', // Clase para el botón "OK"
+        },
+        buttonsStyling: false, // Desactiva el estilizado por defecto
+      });
+      return;
+    }
+
     let formData = new FormData();
     let ruta = null;
 
