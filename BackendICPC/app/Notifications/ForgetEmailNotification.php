@@ -19,6 +19,7 @@ class ForgetEmailNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Hola!')
             ->subject('Recuperación de contraseña')
             ->line('Hemos recibido una solicitud para restablecer su contraseña.')

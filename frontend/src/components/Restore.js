@@ -120,7 +120,7 @@ const Restore = () => {
                         value={password_confirmation}
                         onChange={handleConfirmPasswordChange}
                     />
-                    <input className="register-button" type="button" value="Actualizar" onClick={handleRestorePassword} />
+                    <input className="register-button" type="button" value="Restablecer" onClick={handleRestorePassword} />
                     {error && <div className="error-message">{error}</div>}
                     <label>Ingrese su nueva contraseña</label>
                 </form>
