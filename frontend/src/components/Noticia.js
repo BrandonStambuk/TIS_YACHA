@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import NavbarAdmin from './NavbarAdmin';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +9,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Link } from 'react-router-dom';
 import AficheForm from './componentesEventoDinamico/AficheForm';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const endpoint = URL_API;
 
@@ -21,8 +23,24 @@ const Noticia = () => {
 
   const handleGuardarNoticia = async (e) => {
     e.preventDefault();
+
+    // Verificar campos vacíos
+    if (!titulo.trim() || !contenido.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos vacíos',
+        text: 'Por favor, completa todos los campos antes de guardar la noticia.',
+        customClass: {
+          confirmButton: 'btn btn-danger', // Clase para el botón "OK"
+        },
+        buttonsStyling: false, // Desactiva el estilizado por defecto
+      });
+      return;
+    }
+
     let formData = new FormData();
-    let ruta =null;
+    let ruta = null;
+
     if (imagen) {
       formData.append('image', imagen);
       const responseImage = await axios.post(`${URL_API}/upload`, formData, {
@@ -32,6 +50,7 @@ const Noticia = () => {
       });
       ruta = responseImage.data.path;
     }
+
     await axios.post(`${endpoint}/crearNoticia`, {
       titulo: titulo,
       contenido: contenido,
@@ -43,9 +62,19 @@ const Noticia = () => {
     .catch(error => {
       console.error('Error al enviar la solicitud:', error);
     });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Noticia guardada',
+      text: 'La noticia se ha guardado correctamente.',
+      customClass: {
+        confirmButton: 'btn-swal-confirm ', // Clase para el botón "OK"
+      },
+      buttonsStyling: false, // Desactiva el estilizado por defecto
+    });
+
     navigate('/tabla-noticias');
   };
-
   const handleContenidoChange = (content, editor) => {
     setContenido(content);
   };

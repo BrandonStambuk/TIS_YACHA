@@ -8,10 +8,14 @@ import { Link } from 'react-router-dom';
 
 const endpoint = URL_API;
 
+// Función para truncar el contenido
+const truncate = (text, maxLength) => {
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+};
+
 const TablaNoticia = () => {
   const [noticias, setNoticias] = useState([]);
 
-  // Recuperar noticias al montar el componente
   useEffect(() => {
     axios.get(`${endpoint}/noticiasDisponibles`)
       .then(response => {
@@ -20,15 +24,11 @@ const TablaNoticia = () => {
       .catch(error => {
         console.error('Error al recuperar noticias:', error);
       });
-  }, []); // La dependencia vacía asegura que se ejecute solo al montar el componente
-
+  }, []);
 
   const handleEliminarNoticia = (id) => {
-    // Lógica para eliminar la noticia con el ID proporcionado
     axios.delete(`${endpoint}/eliminarNoticia/${id}`)
-
       .then(response => {
-        // Actualizar la lista de noticias después de eliminar
         setNoticias(prevNoticias => prevNoticias.filter(noticia => noticia.id !== id));
       })
       .catch(error => {
@@ -36,19 +36,15 @@ const TablaNoticia = () => {
       });
   };
 
-
   return (
     <div>
       <NavbarAdmin />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">
-            {/* Card translucent que envuelve la tabla */}
             <div className="card card-translucent">
-              {/* Card header */}
               <h3 className='card-header'>Noticias Disponibles</h3>
               <div className="card-body">
-                {/* Tabla para mostrar las noticias */}
                 <div className="row">
                   <div className="col-md-12">
                     <table>
@@ -56,18 +52,17 @@ const TablaNoticia = () => {
                         <tr>
                           <th className='centrado'>Título</th>
                           <th className='centrado'>Contenido</th>
-                          <th className='centraod'>Eliminar</th>
+                          <th className=''>Eliminar</th>
                         </tr>
                       </thead>
                       <tbody>
                         {noticias.map(noticia => (
                           <tr key={noticia.id}>
                             <td className='centrado'>{noticia.titulo}</td>
-                            <td className="event-description centrado" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></td>
-                            
+                            <td className="event-description centrado" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
                             <td>
                               <button
-                                className="btn btn-danger"
+                                className="btn btn-danger centrado"
                                 onClick={() => handleEliminarNoticia(noticia.id)}
                               >
                                 Eliminar
