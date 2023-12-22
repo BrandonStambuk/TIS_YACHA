@@ -87,17 +87,38 @@ const HomePage = () => {
     const container = containerRef.current;
     container.scrollTo({ left: 0, behavior: 'smooth' });
   };
+  async function getImagen(url) {
+    try {
+      const response = await axios.get(`${endpoint}/getImagen/${url}`, { responseType: 'arraybuffer' });
+      const base64 = btoa(
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          '',
+        ),
+      );
+      return "data:;base64," + base64;
+    } catch (error) {
+      console.error("Error during fetch: ", error);
+    }
+  }
+  const getNoticiaImage = (name) => {
+    try {
+      return require(`../../../BackendICPC/storage/app/public${name}`);
+    } catch (err) {
+      return null;
+    }
+  };
 
   useEffect(() => {
     resetScroll();
   }, [filtroTipo]);
 
-  
+
 
   return (
     <div className="d-flex flex-column min-vh-100">
       {isAuthenticated && (
-      rol === "Coach") ? <NavbarCoach /> : <Navbar />
+        rol === "Coach") ? <NavbarCoach /> : <Navbar />
       }
       <div className="container mt-5 flex-grow-1">
         <div className="row">
@@ -119,7 +140,7 @@ const HomePage = () => {
                   let elements = [];
                   for (let i = 0; i < eventos.length; i++) {
                     let evento = eventos[i];
-                    if((isAuthenticated && rol === 'Coach') && !evento.requiere_coach) continue;
+                    if ((isAuthenticated && rol === 'Coach') && !evento.requiere_coach) continue;
                     let fechaInicio = fecha_inicio_evento.find(fecha => fecha.evento_dinamicos_id === evento.id);
                     if (filtroTipo === '' || evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico === filtroTipo) {
                       elements.push(
@@ -144,17 +165,20 @@ const HomePage = () => {
                   return elements;
                 })()}
               </div>
-              
+
             </div>
             {noticias.map((noticia) => (
-                      <div key={noticia.id} className="card card-translucent mt-5">
-                        <div className="card-body">
-                          <h5 className="card-title">{noticia.titulo}</h5>
-                          <p className="event-description card-text" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></p>
-                          {/* Otros detalles de la noticia */}
-                        </div>
-                      </div>
-                    ))}
+              <div key={noticia.id} className="card card-translucent mt-5">
+                <div className="card-body">
+                  <h5 className="card-title">{noticia.titulo}</h5>
+                  {noticia.imagen && (
+                  <img src={getNoticiaImage(noticia.imagen)} alt="Imagen de noticia" className="card-img-top" />
+                  )}
+                  <p className="event-description card-text" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></p>
+                  {/* Otros detalles de la noticia */}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
