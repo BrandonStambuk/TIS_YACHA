@@ -1,27 +1,22 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { URL_API } from "../../const";
 
 const endpoint = URL_API;
 
-const ConfiguracionTipoEvento = ({onValorSeleccionado }) => {
+const ConfiguracionTipoEvento = () => {
   const [nombre_tipo_evento_dinamico, setTipoEventoDinamico] = useState("");
   const [nombreTipoEventoError, setNombreTipoEventoError] = useState("");
   const [opciones, setOpciones] = useState([]);
-  const [valorSeleccionado, setValorSeleccionado] = useState("");
-  const [etapasAbiertas, setEtapasAbiertas] = useState([]);
   const [editingId, setEditingId] = useState(null);
-  const [mostrarTabla, setMostrarTabla] = useState(false);
 
   useEffect(() => {
     axios
       .get(`${endpoint}/tipoEventosDinamicos`)
       .then((response) => {
         setOpciones(response.data);
-        setValorSeleccionado(onValorSeleccionado);
       })
       .catch((error) => {
         console.error("Error al obtener las opciones:", error);
@@ -34,12 +29,6 @@ const ConfiguracionTipoEvento = ({onValorSeleccionado }) => {
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       const data = response.data;
       setOpciones(data);
-
-      if (data.length > 0) {
-        setValorSeleccionado(data[0].id);
-      } else {
-        setValorSeleccionado("");
-      }
     } catch (error) {
       console.error("Error al eliminar el tipo de evento:", error);
     }
@@ -68,10 +57,6 @@ const ConfiguracionTipoEvento = ({onValorSeleccionado }) => {
     }
   };
 
-  const toggleTabla = () => {
-    setMostrarTabla((prevMostrarTabla) => !prevMostrarTabla);
-  };
-
   const validateTipoEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
       return "El primer carácter debe ser una letra mayúscula.";
@@ -93,7 +78,6 @@ const ConfiguracionTipoEvento = ({onValorSeleccionado }) => {
       });
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       setOpciones(response.data);
-      setValorSeleccionado(response.data[0]);
     }
   };
 

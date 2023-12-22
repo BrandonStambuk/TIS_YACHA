@@ -6,9 +6,8 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
+const ConfiguracionRequisito = () => {
     const [requisitos, setRequisitos] = useState([]);
-    const [requisitosSeleccionados, setRequisitosSeleccionados] = useState(RequisitosIn || []);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
     const [nombre_requisito, setNombreRequisito] = useState("");
     const [tipoRequisito, setTipoRequisito] = useState("");
@@ -16,9 +15,17 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
     const [editNombreRequisito, setEditNombreRequisito] = useState("");
     const [editTipoRequisito, setEditTipoRequisito] = useState("");
     const [editDescripcionRequisito, setEditDescripcionRequisito] = useState("");
+    const [valor_minimo,setValorMinimo]=useState("");
+    const [valor_maximo,setValorMaximo]=useState("");
+    const [editValorMinimo,setEditValorMinimo]=useState("");
+    const [editValorMaximo,setEditValorMaximo]=useState("");
+
     const [editingId, setEditingId] = useState(null);
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
+    const [valorMinimoError,setValorMinimoError]=useState("");
+    const [valorMaximoError,setValorMaximoError]=useState("");
+
 
     const validateNombreRequisito = (value) => {
         if (!/^[A-Z]/.test(value) && value.length > 0) {
@@ -28,7 +35,7 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
         } else if (value.length > 21) {
             return "No se permiten más de 21 caracteres.";
         }
-        return null; // Devolver null cuando no hay errores
+        return null;
     };
 
     const handleNombreRequisitoChange = (event) => {
@@ -38,15 +45,11 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
             setNombreRequisito(event.target.value);
         }
     };
-
-
-
-
     const validateDescripcionRequisito = (value) => {
         if (value.length > 30) {
             return "No se permiten más de 30 caracteres.";
         }
-        return null; // Devolver null cuando no hay errores
+        return null;
     };
 
     const handleDescripcionRequisitoChange = (event) => {
@@ -55,24 +58,10 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
         if (!error) {
             setDescripcionRequisito(event.target.value);
         }
-    }; console.log(requisitosSeleccionados);
+    };
 
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
-    };
-
-    const handleCheckboxChange = (requisitoId, isChecked) => {
-        if (isChecked) {
-            const newRequisitosSeleccionados = [...requisitosSeleccionados, requisitoId];
-            setRequisitosSeleccionados(newRequisitosSeleccionados);
-            console.log(newRequisitosSeleccionados);
-            onRequisitos(newRequisitosSeleccionados);
-        } else {
-            const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
-            setRequisitosSeleccionados(newRequisitosSeleccionados);
-            console.log(newRequisitosSeleccionados);
-            onRequisitos(newRequisitosSeleccionados);
-        }
     };
 
     const handleEditRequisito = (id) => {
@@ -100,6 +89,8 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
                 nombre_requisito: editNombreRequisito,
                 tipo_requisito: editTipoRequisito,
                 descripcion_requisito: editDescripcionRequisito,
+                valor_minimo:editValorMinimo,
+                valor_maximo:editValorMaximo
             });
 
             const response = await axios.get(`${endpoint}/requisitos`);
@@ -133,6 +124,8 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
             nombre_requisito: nombre_requisito,
             tipo_requisito: tipoRequisito,
             descripcion_requisito: descripcion_requisito,
+            valor_minimo:valor_minimo,
+            valor_maximo:valor_maximo
         });
         const idRequisito = response.data.id;
         setRequisitos([
@@ -142,11 +135,15 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
                 nombre_requisito: nombre_requisito,
                 tipo_requisito: tipoRequisito,
                 descripcion_requisito: descripcion_requisito,
+                valor_minimo:valor_minimo,
+                valor_maximo:valor_maximo
             },
         ]);
         setNombreRequisito("");
         setTipoRequisito("");
         setDescripcionRequisito("");
+        setValorMinimo("");
+        setValorMaximo("");
     };
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -156,62 +153,24 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
         return () => clearTimeout(timeoutId);
     }, [nombreRequisitoError, descripcionRequisitoError]);
 
+
     return (
-        
+
         <div className="container mt-5">
-        {/*`form-control ${nombreRequisitoError ? "is-invalid" : ""}`*/}
             <div className="col-md-8 mx-auto">
                 <div className="card border-0">
                     <div className="card-body tarjeta">
                         <div className="row text-black">
                             <div className="mb-3">
-                                
-                                    <label htmlFor="nombreRequisito" className="form-label">Nombre requisito</label>
-                                    <input
-                                        value={nombre_requisito}
-                                        onChange={handleNombreRequisitoChange}
-                                        type="text"
-                                        className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
-                                        
-                                        id="nombreRequisito"
-                                        name="nombreRequisito"
-                                    />
-                                    {nombreRequisitoError && (
-                                        <div className="invalid-feedback">{nombreRequisitoError}</div>
-                                    )}
-                                    <label htmlFor="tipoRequisito" className="form-label">Tipo de requisito</label>
-                                    <select
-                                        value={tipoRequisito}
-                                        onChange={handleTipoRequisitoChange}
-                                        className="form-select"
-                                        id="tipoRequisito"
-                                        name="tipoRequisito"
-                                    >
-                                        <option value="">Selecciona el tipo</option>
-                                        <option value="numero">Número</option>
-                                        <option value="cadena">Cadena</option>
-                                    </select>
-                                    <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>
-                                    <input
-                                        value={descripcion_requisito}
-                                        onChange={handleDescripcionRequisitoChange}
-                                        type="text"
-                                        className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
-                                        id="descripcionRequisito"
-                                        name="descripcionRequisito"
-                                    />
-                                    {descripcionRequisitoError && (
-                                        <div className="invalid-feedback">{descripcionRequisitoError}</div>
-                                    )}
-                                    <button onClick={handleAgregarRequisito} className="btn btn-success">Agregar requisito</button>
-                               
                                 <div>
                                     <table className="table table-hover">
-                                        <thead>
+                                        <thead className="thead-dark">
                                             <tr>
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Descripción</th>
+                                                <th scope="col">Valor minimo</th>
+                                                <th scope="col">Valor maximo</th>
                                                 <th scope="col">accion</th>
                                             </tr>
                                         </thead>
@@ -234,8 +193,9 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
                                                         name="tipoRequisito"
                                                     >
                                                         <option value="">Selecciona el tipo</option>
-                                                        <option value="numero">Número</option>
-                                                        <option value="cadena">Cadena</option>
+                                                        <option value="Número">Número</option>
+                                                        <option value="Caracteres">Caracteres</option>
+                                                        <option value="Fecha">Fecha</option>
                                                     </select>) : (requisito?.tipo_requisito)}</td>
                                                     <td>{editingId === requisito?.id ? (
                                                         <input
@@ -245,40 +205,137 @@ const ConfiguracionRequisito = ({ onRequisitos, RequisitosIn }) => {
                                                             className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
                                                         />
                                                     ) : (requisito?.descripcion_requisito)}</td>
-                                                    <td>
-                                                        {editingId === requisito?.id ? (
-                                                            <>
-                                                                <button
-                                                                    onClick={handleUpdateRequisito}
-                                                                    className="btn btn-success">
-                                                                    Actualizar
-                                                                </button>
-                                                                <button
-                                                                    onClick={handleCancelRequisito}
-                                                                    className="btn btn-success">
-                                                                    Cancelar
-                                                                </button>
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <button
-                                                                    onClick={() => handleDeleteRequisito(requisito?.id)}
-                                                                    className="btn btn-danger">
-                                                                    Eliminar
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => handleEditRequisito(requisito?.id)}
-                                                                    className="btn btn-warning">
-                                                                    Editar
-                                                                </button>
-                                                            </>
-                                                        )}
+                                                    <td>{editingId === requisito?.id ? (
+                                                        <input
+                                                            value={editValorMinimo}
+                                                            onChange={(e) => setEditValorMinimo(e.target.value)}
+                                                            type="number"
+                                                            className={`form-control ${valorMinimoError ? "is-invalid" : ""}`}
+                                                        />
+                                                    ) : (requisito?.valor_minimo)}</td>
+                                                    <td>{editingId === requisito?.id ? (
+                                                        <input
+                                                            value={editValorMaximo}
+                                                            onChange={(e) => setEditValorMaximo(e.target.value)}
+                                                            type="number"
+                                                            className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
+                                                        />
+                                                    ) : (requisito?.valor_maximo)}</td>
+                                                    <td>{([1, 2, 3, 4].includes(requisito.id)) ? (
+                                                        <span>Valor por defecto</span>
+                                                    ) : (
+                                                        <>
+                                                            {editingId === requisito?.id ? (
+                                                                <>
+                                                                    <button
+                                                                        onClick={handleUpdateRequisito}
+                                                                        className="btn btn-success">
+                                                                        Actualizar
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={handleCancelRequisito}
+                                                                        className="btn btn-success">
+                                                                        Cancelar
+                                                                    </button>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <button
+                                                                        onClick={() => handleDeleteRequisito(requisito?.id)}
+                                                                        className="btn btn-danger">
+                                                                        Eliminar
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleEditRequisito(requisito?.id)}
+                                                                        className="btn btn-warning">
+                                                                        Editar
+                                                                    </button>
+                                                                </>
+                                                            )}
+                                                        </>
+                                                    )}
+
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
+                                <div>
+                                    <button onClick={() => toggleEtapa(1)}>
+                                        Gestionar requisitos {etapasAbiertas[1]}
+                                    </button>
+                                </div>
+                                {etapasAbiertas[1] && (
+                                    <div>
+                                        <div className="mt-4 d-flex d-row">
+                                            <div className="col-md-8">
+                                                <label htmlFor="nombreRequisito" className="form-label padding-top">Nombre requisito</label>
+                                                <input
+                                                    value={nombre_requisito}
+                                                    onChange={handleNombreRequisitoChange}
+                                                    type="text"
+                                                    className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
+
+                                                    id="nombreRequisito"
+                                                    name="nombreRequisito"
+                                                />
+                                                {nombreRequisitoError && (
+                                                    <div className="invalid-feedback">{nombreRequisitoError}</div>
+                                                )}
+                                                <label htmlFor="tipoRequisito" className="form-label">Tipo de requisito</label>
+                                                <select
+                                                    value={tipoRequisito}
+                                                    onChange={handleTipoRequisitoChange}
+                                                    className="form-select"
+                                                    id="tipoRequisito"
+                                                    name="tipoRequisito"
+                                                >
+                                                    <option value="">Selecciona el tipo</option>
+                                                    <option value="Número">Número</option>
+                                                    <option value="Caracteres">Caracteres</option>
+                                                    <option value="Fecha">Fecha</option>
+                                                </select>
+                                                <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>
+                                                <input
+                                                    value={descripcion_requisito}
+                                                    onChange={handleDescripcionRequisitoChange}
+                                                    type="text"
+                                                    className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
+                                                    id="descripcionRequisito"
+                                                    name="descripcionRequisito"
+                                                />
+                                                {descripcionRequisitoError && (
+                                                    <div className="invalid-feedback">{descripcionRequisitoError}</div>
+                                                )}
+                                            </div>
+                                            {(tipoRequisito === "Número") && (
+                                                <div className="col-md-4">
+                                                    <p>Seleccione los valores en los cuales esta permitido {nombre_requisito}</p>
+                                                    <label htmlFor="descripcionRequisito" className="form-label">Valor Minimo</label>
+                                                    <input
+                                                        value={valor_minimo}
+                                                        onChange={(e) => setValorMinimo(e.target.value)}
+                                                        type="number"
+                                                        className={`form-control ${valorMinimoError ? "is-invalid" : ""}`}
+                                                        id="valorMinimo"
+                                                        name="valorMinimo"
+                                                    />
+                                                    <label htmlFor="descripcionRequisito" className="form-label">Valor Maximo</label>
+                                                    <input
+                                                        value={valor_maximo}
+                                                        onChange={(e) => setValorMaximo(e.target.value)}
+                                                        type="number"
+                                                        className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
+                                                        id="valorMaximo"
+                                                        name="valorMaximo"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <button onClick={handleAgregarRequisito} className="btn btn-success">Guardar</button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -12,8 +12,8 @@ class RequisitosEvento extends Model
         'nombre_requisito',
         'descripcion_requisito',
         'tipo_requisito',
-        'maximo_valor',
-        'minimo_valor'
+        'valor_minimo',
+        'valor_maximo'
     ];
     public function detalleRequisitos()
     {
