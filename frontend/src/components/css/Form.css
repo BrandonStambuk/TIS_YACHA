@@ -15,6 +15,10 @@ img{
     width: 50%;
     margin-left: 10px;
 }
+.form-control-table{
+    width: 95%;
+    margin-left: 5px;
+}
 .form-label{
     margin-left:20px;
 }
@@ -22,4 +26,9 @@ img{
 .form-select{
     width: 50%;
     margin-left: 10px;
+}
+
+.form-select-table{
+    width: 95%;
+    margin-left: 5px;
 }

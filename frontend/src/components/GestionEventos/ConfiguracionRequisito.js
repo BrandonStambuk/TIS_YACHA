@@ -16,16 +16,15 @@ const ConfiguracionRequisito = () => {
     const [editNombreRequisito, setEditNombreRequisito] = useState("");
     const [editTipoRequisito, setEditTipoRequisito] = useState("");
     const [editDescripcionRequisito, setEditDescripcionRequisito] = useState("");
-    const [valor_minimo,setValorMinimo]=useState("");
-    const [valor_maximo,setValorMaximo]=useState("");
-    const [editValorMinimo,setEditValorMinimo]=useState("");
-    const [editValorMaximo,setEditValorMaximo]=useState("");
-
+    const [valor_minimo, setValorMinimo] = useState("");
+    const [valor_maximo, setValorMaximo] = useState("");
+    const [editValorMinimo, setEditValorMinimo] = useState("");
+    const [editValorMaximo, setEditValorMaximo] = useState("");
     const [editingId, setEditingId] = useState(null);
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
-    const [valorMinimoError,setValorMinimoError]=useState("");
-    const [valorMaximoError,setValorMaximoError]=useState("");
+    const [valorMinimoError, setValorMinimoError] = useState("");
+    const [valorMaximoError, setValorMaximoError] = useState("");
 
 
     const validateNombreRequisito = (value) => {
@@ -84,32 +83,57 @@ const ConfiguracionRequisito = () => {
     };
 
     const handleDeleteRequisito = async (id) => {
-        try {
-            const responseDelete=await axios.delete(`${endpoint}/eliminarRequisito/${id}`);            
-        } catch (error) {
-            if (error.response) {
-                Swal.fire(error.response.data)
-                console.error('Error de respuesta del servidor:', error.response.data);
-                console.error('Código de estado:', error.response.status);
-            } else if (error.request) {
-                console.error('Error de solicitud sin respuesta del servidor:', error.request);
-            } else {
-                console.error('Error durante la configuración de la solicitud:', error.message);
+        Swal.fire({
+            title: '¿Estás seguro de que deseas eliminar este requisito?',
+            text: 'No podrás revertir esta acción.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const responseDelete = await axios.delete(`${endpoint}/eliminarRequisito/${id}`);
+                    Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
+                    const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
+                    setRequisitos(newRequisitos);
+                } catch (error) {
+                    if (error.response) {
+                        const errorMessage = error.response.data.error || 'Error al eliminar el requisito';
+                        Swal.fire({
+                            title: 'Este requisito esta siendo utilizado por eventos ¿ Estas seguro que deseas eliminarlo ?',
+                            text: 'No podrás revertir esta acción.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, eliminarlo',
+                            cancelButtonText: 'Cancelar',
+                        }).then(async (result2) => {
+                            if (result2.isConfirmed) {
+                                const responseDelete = await axios.delete(`${endpoint}/eliminarTodoRequisito/${id}`);
+                                Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
+                                const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
+                                setRequisitos(newRequisitos);
+                            }
+                        });
+                    }
+                }
             }
-        }
-        
+        });
 
-        const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
-        setRequisitos(newRequisitos);
     }
+
     const handleUpdateRequisito = async () => {
         try {
             await axios.put(`${endpoint}/actualizarRequisito/${editingId}`, {
                 nombre_requisito: editNombreRequisito,
                 tipo_requisito: editTipoRequisito,
                 descripcion_requisito: editDescripcionRequisito,
-                valor_minimo:editValorMinimo,
-                valor_maximo:editValorMaximo
+                valor_minimo: editValorMinimo,
+                valor_maximo: editValorMaximo
             });
 
             const response = await axios.get(`${endpoint}/requisitos`);
@@ -143,8 +167,8 @@ const ConfiguracionRequisito = () => {
             nombre_requisito: nombre_requisito,
             tipo_requisito: tipoRequisito,
             descripcion_requisito: descripcion_requisito,
-            valor_minimo:valor_minimo,
-            valor_maximo:valor_maximo
+            valor_minimo: valor_minimo,
+            valor_maximo: valor_maximo
         });
         const idRequisito = response.data.id;
         setRequisitos([
@@ -154,8 +178,8 @@ const ConfiguracionRequisito = () => {
                 nombre_requisito: nombre_requisito,
                 tipo_requisito: tipoRequisito,
                 descripcion_requisito: descripcion_requisito,
-                valor_minimo:valor_minimo,
-                valor_maximo:valor_maximo
+                valor_minimo: valor_minimo,
+                valor_maximo: valor_maximo
             },
         ]);
         setNombreRequisito("");
@@ -201,13 +225,13 @@ const ConfiguracionRequisito = () => {
                                                             value={editNombreRequisito}
                                                             onChange={(e) => setEditNombreRequisito(e.target.value)}
                                                             type="text"
-                                                            className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
+                                                            className={`form-control form-control-table ${nombreRequisitoError ? "is-invalid" : ""}`}
                                                         />
                                                     ) : (requisito?.nombre_requisito)}</td>
                                                     <td>{editingId === requisito?.id ? (<select
                                                         value={editTipoRequisito}
                                                         onChange={(e) => setEditTipoRequisito(e.target.value)}
-                                                        className="form-select"
+                                                        className="form-select form-select-table"
                                                         id="tipoRequisito"
                                                         name="tipoRequisito"
                                                     >
@@ -221,29 +245,29 @@ const ConfiguracionRequisito = () => {
                                                             value={editDescripcionRequisito}
                                                             onChange={(e) => setEditDescripcionRequisito(e.target.value)}
                                                             type="text"
-                                                            className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
+                                                            className={`form-control form-control-table ${descripcionRequisitoError ? "is-invalid" : ""}`}
                                                         />
                                                     ) : (requisito?.descripcion_requisito)}</td>
-                                                    
+
                                                     <td>
                                                         {editingId === requisito?.id ? (<>
-                                                            {(editTipoRequisito === "Número")&& (
-                                                        <input
-                                                            value={editValorMinimo}
-                                                            onChange={(e) => setEditValorMinimo(e.target.value)}
-                                                            type="number"
-                                                            className={`form-control ${valorMinimoError ? "is-invalid" : ""}`}
-                                                        />)}
-                                                    </>) : (requisito?.valor_minimo)}</td>
+                                                            {(editTipoRequisito === "Número") && (
+                                                                <input
+                                                                    value={editValorMinimo}
+                                                                    onChange={(e) => setEditValorMinimo(e.target.value)}
+                                                                    type="number"
+                                                                    className={`form-control form-control-table ${valorMinimoError ? "is-invalid" : ""}`}
+                                                                />)}
+                                                        </>) : (requisito?.valor_minimo)}</td>
                                                     <td>{editingId === requisito?.id ? (<>
-                                                        {(editTipoRequisito === "Número")&& (
-                                                        <input
-                                                            value={editValorMaximo}
-                                                            onChange={(e) => setEditValorMaximo(e.target.value)}
-                                                            type="number"
-                                                            className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
+                                                        {(editTipoRequisito === "Número") && (
+                                                            <input
+                                                                value={editValorMaximo}
+                                                                onChange={(e) => setEditValorMaximo(e.target.value)}
+                                                                type="number"
+                                                                className={`form-control form-control-table ${valorMaximoError ? "is-invalid" : ""}`}
                                                             />)}
-                                                            </>) : (requisito?.valor_maximo)}</td>
+                                                    </>) : (requisito?.valor_maximo)}</td>
                                                     <td>{([1, 2, 3, 4].includes(requisito.id)) ? (
                                                         <span>Valor por defecto</span>
                                                     ) : (

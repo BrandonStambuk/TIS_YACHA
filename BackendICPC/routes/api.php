@@ -71,6 +71,7 @@ Route::controller(RequisitoController::class)->group(function (){
   Route::get('/requisitos', 'index');
   Route::post('/crearRequisito', 'store');
   Route::delete('/eliminarRequisito/{id}', 'destroy');
+  Route::delete('/eliminarTodoRequisito/{id}', 'destroyAll');
   Route::put('/actualizarRequisito/{id}', 'update');
   Route::get('/requisitos/{id}', 'show');
 });

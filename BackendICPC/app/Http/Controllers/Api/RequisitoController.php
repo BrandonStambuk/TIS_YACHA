@@ -87,20 +87,12 @@ class RequisitoController extends Controller
 
     public function destroyAll($id)
     {
-        RequisitosEvento::destroy($id);
+        
+        $requisito = RequisitosEvento::find($id);
 
-        $evento = EventoDinamico::find($id);
+        $requisito->detalleRequisitos()->delete();
 
-        if (!$evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
-        }
-            $evento->detalleRequisitos()->delete();
-            $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
-            $fechaInscripcion->etapaEvento()->delete();
-        });
-    
-        $evento->fechaInscripcionEvento()->delete();
-        $evento->delete();
+        $requisito->delete();
     
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
