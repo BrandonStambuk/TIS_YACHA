@@ -28,6 +28,8 @@ import TablaNoticias from './components/TablaNoticias';
 import Noticia from './components/Noticia';
 import Detalles from './components/Detalles';
 import ConfiguracionEvento from './components/ConfiguracionEvento';
+import PasswordRestore from './components/PassworRestore';
+import Restore from './components/Restore';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -174,6 +176,8 @@ function App() {
           <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
           <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
           <Route path='/detalles/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Detalles/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
+          <Route path='/forget-password' element={<PasswordRestore/>}/>
+          <Route path='/restore' element={<Restore/>}/>
         </Routes>
       </BrowserRouter>
     </div>

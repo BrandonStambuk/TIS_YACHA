@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\InscripcionController;
 use App\Http\Controllers\Api\ParticipanteController;
 use App\Http\Controllers\Api\OtroRequisitoController;
 use App\Http\Controllers\Api\NoticiaController;
+use App\Http\Controllers\Api\ForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -56,6 +57,7 @@ Route::controller(FechaInscripcionEventoController::class)->group(function (){
   Route::post('/crearFechaInscripcion', 'store');
   Route::delete('/eliminarFechaInscripcion/{id}', 'destroy');
   Route::put('/actualizarFechaInscripcion/{id}', 'update');
+  Route::get('/fechasInscripcion/{id}', 'show');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
   Route::get('/etapasEvento', 'index');
@@ -126,6 +128,8 @@ Route::controller(EquipoController::class)->group(function (){
 });
 Route::post('upload', [App\Http\Controllers\ImageController::class, 'upload']);
 Route::get('getImage/{id}', [App\Http\Controllers\ImageController::class, 'get']);
+Route::get('getImagen/{name}', [App\Http\Controllers\ImageController::class, 'getImage']);
+Route::get('getImageNoticia/{id}', [App\Http\Controllers\ImageController::class, 'getNoticia']);
 
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarioss', 'index');
@@ -160,7 +164,8 @@ Route::controller(EstudianteController::class)->group(function (){
     Route::delete('/estudiantes/{id}', 'destroy');
 });
 
-
+Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::post('/restore', [ForgotPasswordController::class, 'submitResetPasswordForm']);
 
 
 
