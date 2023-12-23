@@ -9,11 +9,15 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
     const [requisitos, setRequisitos] = useState([]);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
     const [valores, setValores] = useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")||valoresIn));
+    const [requisitoValor, setRequisitoValor]=useState(Array.from({ length: requisitosIn.length }, (_, rowIndex) => 
+    Array(participantesIn.length).fill("").map((_, colIndex) => requisitosIn[rowIndex])));
+    const [requisitoError, setRequisitoError]=useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
 
     useEffect(() => {
         setNombres(participantesIn);
-        setRequisitos(requisitosIn);
+        setRequisitos(requisitosIn);        
     }, [participantesIn, requisitosIn]);
+
     useEffect(() => {
         if (valoresIn && valoresIn.length > 0) {
             setValores(valoresIn);
@@ -34,13 +38,55 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
     };
 
     const handleValorChange = (requisitoIndex, participanteIndex, value, idRequisito) => {
-        setValores((prevValores) => {
+        if(requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.tipo_requisito==="Número"){
+            const valorMinimo=requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_minimo;
+            const valorMaximo=requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_maximo;
+            if (value<valorMinimo){
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = `El valor debe ser mayor a ${valorMinimo}`;
+                    return nuevosErrores;
+                });
+            }else if(value>valorMaximo){
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = `El valor debe ser menor a ${valorMaximo}`;
+                    return nuevosErrores;
+                });
+            }else{
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = "";
+                    return nuevosErrores;
+                });
+                setValores((prevValores) => {
+                    const nuevosValores = [...prevValores];
+                    nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
+                    return nuevosValores;
+                });
+            }
+        }
+
+       /*setValores((prevValores) => {
             const nuevosValores = [...prevValores];
             nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
             return nuevosValores;
         });
-        console.log(valores);
+        console.log(valores);*/
     };
+
+    const getInputType= (tipoRequisito)=>{
+        switch (tipoRequisito) {
+            case "Número":
+                return "number";
+            case "Fecha":
+                return "date";
+            case "Email":
+                return "email";
+            default:
+                return "text";
+        }
+    }
 
     return (
         <div className="card-body tarjeta">
@@ -63,11 +109,14 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
                                                     <input
                                                         value={valores[requisitoIndex][participanteIndex].valor}
                                                         onChange={(e) => handleValorChange(requisitoIndex, participanteIndex, e.target.value, requisito.id_requisito)}
-                                                        type="text"
-                                                        className="form-control"
+                                                        type={getInputType(requisito.requisitos_evento.tipo_requisito)}
+                                                        className={`form-control ${requisitoError[requisitoIndex][participanteIndex] ? "is-invalid" : ""}`}
                                                         id={`requisito${requisitoIndex + 1}`}
                                                         name={`requisito${requisitoIndex + 1}`}
-                                                    />
+                                                    />{requisitoError && (
+                                                        <div className="invalid-feedback">{requisitoError[requisitoIndex][participanteIndex]}</div>
+                                                      )}
+
                                                 </div>
                                             ))}
                                         </div>
