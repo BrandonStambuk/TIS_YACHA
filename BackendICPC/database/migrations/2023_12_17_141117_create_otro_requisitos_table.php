@@ -19,7 +19,7 @@ class CreateOtroRequisitosTable extends Migration
             $table->unsignedBigInteger('requisitos_eventos_id');
             $table->unsignedBigInteger('paticipantes_id');
             $table->timestamps();
-            //$table->foreign('requisitos_eventos_id')->references('id')->on('requisitos_eventos');
+            $table->foreign('requisitos_eventos_id')->references('id')->on('requisitos_eventos');
             $table->foreign('paticipantes_id')->references('id')->on('paticipantes');
         });
         

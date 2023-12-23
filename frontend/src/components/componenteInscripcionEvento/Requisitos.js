@@ -55,6 +55,7 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
                                     {etapasAbiertas[participanteIndex + 1] && (
                                         <div>
                                             {requisitos.map((requisito, requisitoIndex) => (
+                                                
                                                 <div key={requisitoIndex} className="col-md-6 mb-3">
                                                     <label htmlFor={`requisito${requisitoIndex + 1}`} className="form-label">
                                                         {requisito.requisitos_evento.nombre_requisito}

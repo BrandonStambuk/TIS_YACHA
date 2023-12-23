@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RequisitosEvento;
+use App\Models\DetalleRequisitos;
 
 class RequisitoController extends Controller
 {
@@ -76,6 +77,31 @@ class RequisitoController extends Controller
      */
     public function destroy($id)
     {
+        $referencias = DetalleRequisitos::where('id_requisito', $id)->count();
+        if ($referencias > 0) {
+            return response()->json(['error' => 'No se puede eliminar el requisito. Está siendo utilizado en un evento.'], 422);
+        }
         RequisitosEvento::destroy($id);
+        return response()->json(['message' => 'El requisito fue eliminado correctamente']);
+    }
+
+    public function destroyAll($id)
+    {
+        RequisitosEvento::destroy($id);
+
+        $evento = EventoDinamico::find($id);
+
+        if (!$evento) {
+            return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
+            $evento->detalleRequisitos()->delete();
+            $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
+            $fechaInscripcion->etapaEvento()->delete();
+        });
+    
+        $evento->fechaInscripcionEvento()->delete();
+        $evento->delete();
+    
+        return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import '../css/Form.css';
 import { URL_API } from "../const";
+import Swal from 'sweetalert2';
 
 const endpoint = URL_API;
 
@@ -70,16 +71,34 @@ const ConfiguracionRequisito = () => {
         setEditNombreRequisito(requisito.nombre_requisito);
         setEditTipoRequisito(requisito.tipo_requisito);
         setEditDescripcionRequisito(requisito.descripcion_requisito);
+        setEditValorMinimo(requisito.valor_minimo);
+        setEditValorMaximo(requisito.valor_maximo);
     }
     const handleCancelRequisito = () => {
         setEditingId(null);
         setEditNombreRequisito("");
         setEditTipoRequisito("");
         setEditDescripcionRequisito("");
+        setEditValorMinimo("");
+        setEditValorMaximo("");
     };
 
     const handleDeleteRequisito = async (id) => {
-        await axios.delete(`${endpoint}/eliminarRequisito/${id}`);
+        try {
+            const responseDelete=await axios.delete(`${endpoint}/eliminarRequisito/${id}`);            
+        } catch (error) {
+            if (error.response) {
+                Swal.fire(error.response.data)
+                console.error('Error de respuesta del servidor:', error.response.data);
+                console.error('Código de estado:', error.response.status);
+            } else if (error.request) {
+                console.error('Error de solicitud sin respuesta del servidor:', error.request);
+            } else {
+                console.error('Error durante la configuración de la solicitud:', error.message);
+            }
+        }
+        
+
         const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
         setRequisitos(newRequisitos);
     }
@@ -205,22 +224,26 @@ const ConfiguracionRequisito = () => {
                                                             className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
                                                         />
                                                     ) : (requisito?.descripcion_requisito)}</td>
-                                                    <td>{editingId === requisito?.id ? (
+                                                    
+                                                    <td>
+                                                        {editingId === requisito?.id ? (<>
+                                                            {(editTipoRequisito === "Número")&& (
                                                         <input
                                                             value={editValorMinimo}
                                                             onChange={(e) => setEditValorMinimo(e.target.value)}
                                                             type="number"
                                                             className={`form-control ${valorMinimoError ? "is-invalid" : ""}`}
-                                                        />
-                                                    ) : (requisito?.valor_minimo)}</td>
-                                                    <td>{editingId === requisito?.id ? (
+                                                        />)}
+                                                    </>) : (requisito?.valor_minimo)}</td>
+                                                    <td>{editingId === requisito?.id ? (<>
+                                                        {(editTipoRequisito === "Número")&& (
                                                         <input
                                                             value={editValorMaximo}
                                                             onChange={(e) => setEditValorMaximo(e.target.value)}
                                                             type="number"
                                                             className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
-                                                        />
-                                                    ) : (requisito?.valor_maximo)}</td>
+                                                            />)}
+                                                            </>) : (requisito?.valor_maximo)}</td>
                                                     <td>{([1, 2, 3, 4].includes(requisito.id)) ? (
                                                         <span>Valor por defecto</span>
                                                     ) : (
