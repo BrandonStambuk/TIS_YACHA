@@ -8,6 +8,7 @@ use App\Models\EventoDinamico;
 use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Models\Inscripcion;
+use App\Notifications\ChangeNotification;
 
 class EventoDinamicoController extends Controller
 {
@@ -115,6 +116,17 @@ class EventoDinamicoController extends Controller
         $evento->delete();
     
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
+    }
+
+    public function notificarCambios(Request $request)
+    {
+        $inscripciones = Inscripcion::where('evento_dinamico_id', $request->evento_dinamico_id)->get();
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])->find($request->evento_dinamico_id);
+        $eventoEditLink = 'http://localhost:8080/eventos-dinamicos/' . $request->evento_dinamico_id . '/edit';
+        foreach ($inscripciones as $inscripcion) {
+            $inscripcion->user->notify(new ChangeNotification($eventoEditLink));
+        }
+        return response()->json(['message' => 'Notificación enviada con éxito'], 200);
     }
 
 }

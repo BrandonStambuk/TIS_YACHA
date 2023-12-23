@@ -19,10 +19,11 @@ class ChangeNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Hola!')
-            ->subject('El evento al que te inscribiste ha cambiado')
+            ->subject('El evento al que te inscribiste ha sufrido cambios')
             ->line('Los organizaadores del evento han realizado cambios en el evento al que te inscribiste.')
-            ->action('Puedes ver los cambios aca', $this->eventEditLink)
+            ->action('Puedes ver los cambios en ', $this->eventEditLink)
             ->line('Si no te inscribiste a ningun evento, puede ignorar este correo electrónico.')
             ->line('¡Gracias por usar participar!');
     }

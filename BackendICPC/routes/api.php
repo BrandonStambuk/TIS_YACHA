@@ -36,6 +36,7 @@ Route::controller(EventoDinamicoController::class)->group(function (){
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarEventoDinamico/{id}', 'update');
   Route::get('/eventosDinamicos/{id}', 'show');
+  Route::post('/notificarCambios/{id}', 'notificarCambios');
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
