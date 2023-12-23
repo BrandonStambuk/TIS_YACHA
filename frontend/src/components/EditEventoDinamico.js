@@ -129,6 +129,8 @@ const CreateEvento = () => {
       afiche: ruta
     });
 
+    await axios.post(`${endpoint}/notificarCambios/${id}`);
+
     const idEvento = responseEvento.data.id;
 
     const response = await axios.put(`${endpoint}/actualizarFechaInscripcion/${id}`, {
