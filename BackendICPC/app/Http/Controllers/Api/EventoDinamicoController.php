@@ -9,6 +9,8 @@ use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Models\Inscripcion;
 use App\Notifications\ChangeNotification;
+use App\Models\Participante;
+use Illuminate\Notifications\Notifiable;
 
 class EventoDinamicoController extends Controller
 {
@@ -118,15 +120,20 @@ class EventoDinamicoController extends Controller
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
 
-    public function notificarCambios(Request $request)
+    public function notificarCambios($id)
     {
-        $inscripciones = Inscripcion::where('evento_dinamico_id', $request->evento_dinamico_id)->get();
-        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])->find($request->evento_dinamico_id);
-        $eventoEditLink = 'http://localhost:8080/eventos-dinamicos/' . $request->evento_dinamico_id . '/edit';
-        foreach ($inscripciones as $inscripcion) {
-            $inscripcion->user->notify(new ChangeNotification($eventoEditLink));
+        $evento = EventoDinamico::find($id);
+        $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
+        $participantes = Participante::whereIn('inscripciones_id', $inscripciones->pluck('id'))->get();
+        $eventoLink = "http://localhost:3000/mostrar/{$evento->id}";
+        
+        foreach ($participantes as $participante) {
+            $correos = $participante->correo;
+            $correos->notify(new ChangeNotification($eventoLink));
         }
+
         return response()->json(['message' => 'Notificación enviada con éxito'], 200);
     }
+
 
 }
