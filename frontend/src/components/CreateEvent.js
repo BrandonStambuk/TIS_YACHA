@@ -34,6 +34,8 @@ const CreateEvento = () => {
   const [aficheUrl, setAficheUrl] = useState("");
   const [publico, setPublico] = useState(false);
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
+  const [sePuedeGuardarEvento,setGuardarEvento] = useState(true);
+
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -209,8 +211,7 @@ const CreateEvento = () => {
                 onClick={() => handlePublicoChange()}      >
                 {mensajePublico}
               </button>
-
-              <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>
+              <button onClick={sePuedeGuardarEvento ? handleStoreEventoDinamico : undefined} className='btn btn-success' disabled={!sePuedeGuardarEvento}>Guardar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
@@ -223,13 +224,14 @@ const CreateEvento = () => {
                 onNombreEventoChange={handleNombreEventoChange}
                 onLugarEventoChange={handleLugarEventoChange}
                 onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
-
+                onGuardarEvento={setGuardarEvento}
               />
             )}
             {activeSection === "tipoEvento" && (
               <TipoEventoForm
                 onTipoEvento={handleTipoEventoChange}
                 onValorSeleccionado={tipo_evento_dinamico_id}
+                onGuardarEvento={setGuardarEvento}
               />
             )}
             {activeSection === "fechasHoras" && (

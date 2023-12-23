@@ -26,7 +26,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    const isAlpha = (str) => /^[a-zA-Z]+$/.test(str);
+    //const isAlpha = (str) => /^[a-zA-Z]+$/.test(str);
     const isAlphaWithSpaces = (str) => /^[a-zA-Z\s]+$/.test(str);
 
     const handleTipoRequisitoChange = (e) => {

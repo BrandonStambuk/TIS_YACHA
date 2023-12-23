@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 
-const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
+const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange
+,onGuardarEvento }) => {
   const [nombreEventoError, setNombreEventoError] = useState("");
   const [lugarEventoError, setLugarEventoError] = useState("");
   const [cantidadError, setCantidadError] = useState("");
+  const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEvento); // 
 
   const validateEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
@@ -29,20 +31,24 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   };
 
   const handleNombreEventoChange = (event) => {
-    let error = validateEvento(event.target.value);
+    const inputValue = event.target.value;
+    let error = validateEvento(inputValue);
     setNombreEventoError(error);
+    setPuedeGuardar(!error && inputValue.trim() !== ""); // Actualizar según si hay errores o el campo está vacío
     if (!error) {
-      onNombreEventoChange(event.target.value);
+      onNombreEventoChange(inputValue);
     }
   };
-
+  
   const handleLugarEventoChange = (event) => {
-    let error = validateLugar(event.target.value);
+    const inputValue = event.target.value;
+    let error = validateLugar(inputValue);
     setLugarEventoError(error);
+    setPuedeGuardar(!error && inputValue.trim() !== ""); // Actualizar según si hay errores o el campo está vacío
     if (!error) {
-      onLugarEventoChange(event.target.value);
+      onLugarEventoChange(inputValue);
     }
-  }
+  };
 
   const handleCantidadParticipanetesEventoChange = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -57,14 +63,54 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
   }
   
   useEffect(() => {
+    if (
+      !nombreEvento.trim() ||
+      !lugarEvento.trim() ||
+      !cantidadParticiapantesEvento.trim() ||
+      nombreEventoError ||
+      lugarEventoError ||
+      cantidadError
+    ) {
+      setPuedeGuardar((prevPuedeGuardar) => {
+        if (prevPuedeGuardar) {
+          console.log(
+            "No se puede guardar (al menos un campo está vacío o tiene errores)"
+          );
+          onGuardarEvento(false);
+        }
+        return false;
+      });
+    } else {
+      setPuedeGuardar((prevPuedeGuardar) => {
+        if (!prevPuedeGuardar) {
+          console.log("Se puede guardar");
+          onGuardarEvento(true);
+        }
+        return true;
+      });
+    }
+    /////////////////////////////////
+
+
+    // Verificar errores específicos y mostrar en consola
+    if (nombreEventoError) {
+      console.log("Error en Nombre Evento:", nombreEventoError);
+    }
+    if (lugarEventoError) {
+      console.log("Error en Lugar Evento:", lugarEventoError);
+    }
+    if (cantidadError) {
+      console.log("Error en Cantidad Participantes:", cantidadError);
+    }
+  
     const timeoutId = setTimeout(() => {
       setNombreEventoError("");
       setLugarEventoError("");
       setCantidadError("");
     }, 5000);
+  
     return () => clearTimeout(timeoutId);
-  }, [nombreEventoError, lugarEventoError, cantidadError]);
-
+  }, [nombreEvento, lugarEvento, cantidadParticiapantesEvento, nombreEventoError, lugarEventoError, cantidadError]);
   return (
     <div className="card-body tarjeta">
       <div className="mb-3">
