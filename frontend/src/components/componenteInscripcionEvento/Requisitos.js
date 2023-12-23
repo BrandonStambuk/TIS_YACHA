@@ -117,7 +117,7 @@ const Requisitos = ({
                 setErrores((prevErrores) => {
                   const nuevosErrores = [...prevErrores];
                   nuevosErrores[requisitoIndex][participanteIndex] =
-                    "Correo inválido";
+                    "Ingrese un correo válido, dominios permitidos: gmail, hotmail, institucional";
               
                   return nuevosErrores;
                 });
@@ -132,15 +132,13 @@ const Requisitos = ({
                 setErrores((prevErrores) => {
                   const nuevosErrores = [...prevErrores];
                   nuevosErrores[requisitoIndex][participanteIndex] =
-                    "Número de celular inválido";
+                    "Ingrese un número de celular valido de 8 cifras";
                 
                   return nuevosErrores;
                   
                 });
                 // Cambiamos el estado a false si hay error
-                puedeGuardar = false;
-                  
-                
+                puedeGuardar = false; 
               }
               break;
             case 3: // Validación para la carrera
@@ -149,14 +147,11 @@ const Requisitos = ({
                 setErrores((prevErrores) => {
                   const nuevosErrores = [...prevErrores];
                   nuevosErrores[requisitoIndex][participanteIndex] =
-                    "Carrera inválida";
-                   
+                    "Ingrese un mínimo de 8 caracteres";
                   return nuevosErrores;
                 });
                 // Cambiamos el estado a false si hay error
-                
                     puedeGuardar = false;
-                
               }
               break;
             case 4: // Validación para la fecha de nacimiento (mayor de 18 años y menor de 23 años)

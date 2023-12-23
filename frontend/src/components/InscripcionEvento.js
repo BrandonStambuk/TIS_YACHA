@@ -27,6 +27,7 @@ const InscripcionEvento = () => {
   const [valores, setValores] = useState([]);
   const { id } = useParams();
   const [sePuedeGuardar, setGuardar] = useState(true);
+  const [sePuedeGuardar2,setSegundoGuardar] = useState(true);
   const navigate = useNavigate();
 
 
@@ -148,6 +149,7 @@ const InscripcionEvento = () => {
                 nombresIn={nombres}
                 apellidosIn={apellidos}
                 cantidadParticipantesIn={cantidadParticipantes}
+                onGuardarEstado={setGuardar}
               />
             )}
             {activeSection === "requisitos" && (
