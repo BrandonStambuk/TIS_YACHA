@@ -80,6 +80,12 @@ const TablaNoticia = () => {
                             <td className='centrado'>{noticia.titulo}</td>
                             <td className="event-description centrado" dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
                             <td>
+                              <Link
+                                className="btn btn-warning centrado"
+                                to={`/editNoticia/${noticia.id}`}
+                              >
+                                Editar
+                              </Link>
                               <button
                                 className="btn btn-danger centrado"
                                 onClick={() => handleEliminarNoticia(noticia.id)}

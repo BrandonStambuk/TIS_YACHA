@@ -49,6 +49,8 @@ Route::controller(NoticiaController::class)->group(function (){
   Route::get('/noticiasDisponibles', 'index');
   Route::post('/crearNoticia', 'store');
   Route::delete('/eliminarNoticia/{id}', 'destroy');
+  Route::put('/actualizarNoticia/{id}', 'update');
+  Route::get('/noticia/{id}', 'show');
   //Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
 });
 

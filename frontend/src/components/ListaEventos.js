@@ -67,7 +67,8 @@ const ListaEventos = () => {
     let fin = response.data.fecha_fin_inscripcion;
     let fecha = new Date(fin);
     let hoy = new Date();
-    if (!visible || fecha < hoy) {
+    console.log(visible);
+    if (visible && fecha < hoy) {
       Swal.fire({
         title: 'No se puede editar este evento',
         text: 'La fecha de inscripcion ya ha terminado',
@@ -115,7 +116,7 @@ const ListaEventos = () => {
                             <td className="centrado">{evento.lugar_evento_dinamico}</td>
                             <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
                             <td className="centrado centrar-botones">
-                              <button onClick={() => handleEditar(evento.id,evento.mostar_publico)} className="btn btn-editar">
+                              <button onClick={() => handleEditar(evento.id,evento.mostrar_publico)} className="btn btn-editar">
                                 Editar
                               </button>
                               <button
