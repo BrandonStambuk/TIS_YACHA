@@ -32,6 +32,8 @@ const CreateEvento = () => {
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
   const [aficheUrl, setAficheUrl] = useState("");
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Competencia");
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -50,10 +52,12 @@ const CreateEvento = () => {
     const ruta = responseImage.data.path;
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
-      tipo_evento_dinamico_id: tipo_evento_dinamico_id,
+      tipo_competencia_dinamica_id: tipo_evento_dinamico_id, 
+      tipo_modalidad: 'Competencia', 
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      mostrar_publico: publico,
       afiche: ruta
     });
     const idEvento = responseEvento.data.id;
@@ -136,6 +140,16 @@ const CreateEvento = () => {
     setRequisitosSeleccionados(requisitos);
   }
 
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Competencia");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Competencia Publicada");
+      setPublico(!publico);
+    }
+  }
+
 const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
   const handleAfiche = (afiche) => {
@@ -193,6 +207,11 @@ return (
               >
                 Afiche
               </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
+              </button>
+
               <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>
               <Link to="/listaCompetencias" className='btn btn-danger'>Cancelar</Link>
             </div>
@@ -202,7 +221,7 @@ return (
               <NombreEventoForm
                 nombreEvento={nombre_evento_dinamico}
                 lugarEvento={lugar_evento_dinamico}
-                cantidadParticipantesEvento={cantidad_participantes_evento_dinamico}
+                cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico}
                 onNombreEventoChange={handleNombreEventoChange}
                 onLugarEventoChange={handleLugarEventoChange}
                 onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}

@@ -59,6 +59,9 @@ const NavbarAdmin = () => {
                 <a className="nav-link" href="/listaEventos">Eventos</a>
               </li>
               <li className="nav-item p-2">
+                <a className="nav-link" href="/configuracionEventos">Configuracion Eventos</a>
+              </li>
+              <li className="nav-item p-2">
                 <a className="nav-link" href="/listaUsuarios">Usuarios</a>
               </li>
               <li className="nav-item p-2">

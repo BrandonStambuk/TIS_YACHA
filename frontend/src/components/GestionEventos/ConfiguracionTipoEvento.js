@@ -1,47 +1,34 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { URL_API } from "../const";
+import { URL_API } from "../../const";
 
 const endpoint = URL_API;
 
-const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
+const ConfiguracionTipoEvento = () => {
   const [nombre_tipo_evento_dinamico, setTipoEventoDinamico] = useState("");
   const [nombreTipoEventoError, setNombreTipoEventoError] = useState("");
   const [opciones, setOpciones] = useState([]);
-  const [opcionesComp, setOpcionesComp] = useState([]);
-  const [valorSeleccionado, setValorSeleccionado] = useState("");
-  const [etapasAbiertas, setEtapasAbiertas] = useState([]);
   const [editingId, setEditingId] = useState(null);
-  const [mostrarTabla, setMostrarTabla] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/tipoCompetenciasDinamicas`)
+      .get(`${endpoint}/tipoEventosDinamicos`)
       .then((response) => {
         setOpciones(response.data);
-        setValorSeleccionado(onValorSeleccionado);
       })
       .catch((error) => {
         console.error("Error al obtener las opciones:", error);
       });
-
   }, []);
 
   const handleDeleteTipoEvento = async (id) => {
     try {
-      await axios.delete(`${endpoint}/eliminarTipoCompetenciaDinamica/${id}`);
-      const response = await axios.get(`${endpoint}/tipoCompetenciasDinamicas`);
+      await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       const data = response.data;
       setOpciones(data);
-
-      if (data.length > 0) {
-        setValorSeleccionado(data[0].id);
-      } else {
-        setValorSeleccionado("");
-      }
     } catch (error) {
       console.error("Error al eliminar el tipo de evento:", error);
     }
@@ -50,16 +37,16 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
   const handleEditTipoEvento = (id) => {
     setEditingId(id);
     const tipoEventoSeleccionado = opciones.find((opcion) => opcion.id === id);
-    setTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_competencia_dinamico);
+    setTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
   };
 
   const handleUpdateTipoEvento = async () => {
     try {
-      await axios.put(`${endpoint}/actualizarTipoCompetenciaDinamica/${editingId}`, {
-        nombre_tipo_competencia_dinamico: nombre_tipo_evento_dinamico,
+      await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
+        nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
       });
 
-      const response = await axios.get(`${endpoint}/tipoCompetenciasDinamicas`);
+      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       const data = response.data;
       setOpciones(data);
 
@@ -68,15 +55,6 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
     } catch (error) {
       console.error("Error al actualizar el tipo de evento:", error);
     }
-  };
-
-  const handleChangeTipoEvento = (event) => {
-    onTipoEvento(event.target.value);
-    setValorSeleccionado(event.target.value);
-  };
-
-  const toggleTabla = () => {
-    setMostrarTabla((prevMostrarTabla) => !prevMostrarTabla);
   };
 
   const validateTipoEvento = (value) => {
@@ -95,12 +73,11 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
     setNombreTipoEventoError(error);
     if (!error) {
       e.preventDefault();
-      await axios.post(`${endpoint}/crearTipoCompetenciaDinamica`, {
-        nombre_tipo_competencia_dinamico: nombre_tipo_evento_dinamico,
+      await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
+        nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
       });
-      const response = await axios.get(`${endpoint}/tipoCompetenciasDinamicas`);
+      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       setOpciones(response.data);
-      setValorSeleccionado(response.data[0]);
     }
   };
 
@@ -114,17 +91,11 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
               </div>
               <div className="row text-black">
                 <div className="col-md-6">
-                  <div>
-                    <button onClick={toggleTabla}>
-                      {mostrarTabla ? "Agregar tipo de Competencia" : "Agregar tipo de Competencia"}
-                    </button>
-                  </div>
 
-                  {mostrarTabla && (
                     <div>
                       <div className="mb-3">
                         <label htmlFor="tipoEvento" className="form-label">
-                          Tipo de Competencia
+                          Tipo de Evento
                         </label>
                         <input
                           value={nombre_tipo_evento_dinamico}
@@ -146,29 +117,19 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                       </div>
                 
                     </div>
-                  )}
-
-                  <div>
-                    <label htmlFor="selector">Selecciona una opción:</label>
-                    <select
-                      id="selector"
-                      value={valorSeleccionado}
-                      onChange={handleChangeTipoEvento}
-                    >
-                      {opciones.map((opcion) => (
-                        <option key={opcion.id} value={opcion.id}>
-                          {opcion.nombre_tipo_competencia_dinamico}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {mostrarTabla && (
+                    <button
+                        onClick={handleSubmitStoreTipo}
+                        id="botoncito"
+                        className="btn btn-primary"
+                      >
+                        Guardar
+                      </button>
+                  
                     <table className="table">
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Nombre Tipo Competencia</th>
+                          <th>Nombre Tipo Evento</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -190,7 +151,7 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                                     }`}
                                   />
                                 ) : (
-                                  opcion?.nombre_tipo_competencia_dinamico
+                                  opcion?.nombre_tipo_evento_dinamico
                                 )}
                               </td>
                               <td>
@@ -230,15 +191,9 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
                           </tr>
                         )}
                       </tbody>
-                      <button
-                        onClick={handleSubmitStoreTipo}
-                        id="botoncito"
-                        className="btn btn-primary"
-                      >
-                        Guardar
-                      </button>
+                      
                     </table>
-                  )}
+                  
                 </div>
               </div>
             </div>
@@ -249,4 +204,4 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado }) => {
   );
 };
 
-export default TipoEventoForm;
+export default ConfiguracionTipoEvento;

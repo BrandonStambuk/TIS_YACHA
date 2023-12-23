@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 
-const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticipantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
+const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
   const [nombreEventoError, setNombreEventoError] = useState("");
   const [lugarEventoError, setLugarEventoError] = useState("");
   const [cantidadError, setCantidadError] = useState("");
@@ -96,7 +96,7 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticipantesEven
 
         <label className="form-label">Cantidad Participantes</label>
         <input
-          value={cantidadParticipantesEvento}
+          value={cantidadParticiapantesEvento}
           onChange={handleCantidadParticipanetesEventoChange}
           type="number"
           className={`form-control ${cantidadError ? "is-invalid" : ""}`}

@@ -315,7 +315,6 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
             </div>
         </div>
     );
-
 };
 
 export default RequisitosForm;

@@ -30,6 +30,14 @@ class usuario extends Seeder
             'role' => 'Coach',
             'password' => bcrypt('12345678'),
         ]);
+
+        DB::table('users')->insert([
+            'firstName' => 'Organizador',
+            'lastName' => 'Organizador',
+            'email' => 'organizador@gmail.com',
+            'role' => 'Creador',
+            'password' => bcrypt('12345678'),
+        ]);
         
     }
 }

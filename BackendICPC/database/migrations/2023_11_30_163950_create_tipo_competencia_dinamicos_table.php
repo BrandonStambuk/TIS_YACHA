@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInscripcionsTable extends Migration
+class CreateTipoCompetenciaDinamicosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateInscripcionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inscripcions', function (Blueprint $table) {
+        Schema::create('tipo_competencia_dinamicos', function (Blueprint $table) {
             $table->id();
-            $table->String('nombre_equipo')->nullable();
-            $table->unsignedBigInteger('evento_dinamicos_id');
+            $table->string('nombre_tipo_competencia_dinamico');
             $table->timestamps();
-            $table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos');
         });
-        
     }
 
     /**
@@ -30,6 +27,6 @@ class CreateInscripcionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inscripcions');
+        Schema::dropIfExists('tipo_competencia_dinamicos');
     }
 }

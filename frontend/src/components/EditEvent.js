@@ -35,7 +35,8 @@ const EditEvento = () => {
   const [fechaFinEventError, setFechaFinEventError] = useState("");
   const [horaEventoError, sethoraEventoError] = useState("");
   const [nombreEventoError, setNombreEventoError] = useState('');
-  const [publico, setPublico] = useState('');
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const navigate = useNavigate();
   const { id } = useParams();
 

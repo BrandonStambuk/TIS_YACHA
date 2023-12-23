@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class TipoEvento extends Seeder
+class TipoCompetencia extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,17 +15,17 @@ class TipoEvento extends Seeder
      */
     public function run()
     {
-        DB::table('tipo_evento_dinamicos')->insert([
+        /*DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Reclutamiento',
         ]);
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Taller de reclutamiento',
-        ]);
-        /*DB::table('tipo_evento_dinamicos')->insert([
-            'nombre_tipo_evento_dinamico' => 'Competencia de entrenamiento',
-        ]);
-        DB::table('tipo_evento_dinamicos')->insert([
-            'nombre_tipo_evento_dinamico' => 'Competencia interna',
         ]);*/
+        DB::table('tipo_competencia_dinamicos')->insert([
+            'nombre_tipo_competencia_dinamico' => 'Competencia de entrenamiento',
+        ]);
+        DB::table('tipo_competencia_dinamicos')->insert([
+            'nombre_tipo_competencia_dinamico' => 'Competencia interna',
+        ]);
     }
 }

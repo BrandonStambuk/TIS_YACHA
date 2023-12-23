@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Inscripcion;
+use Illuminate\Notifications\Notifiable;
 
 class Paticipante extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     protected $fillable = [
         'nombre',
         'apellido',
@@ -23,5 +25,10 @@ class Paticipante extends Model
     ];
     public function inscripcion(){
         return $this->belongsTo(Inscripcion::class);
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->correo;
     }
 }

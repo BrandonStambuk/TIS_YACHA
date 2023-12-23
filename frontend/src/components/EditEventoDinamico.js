@@ -11,6 +11,7 @@ import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 import AficheForm from "./componentesEventoDinamico/AficheForm";
+import Swal from 'sweetalert2';
 
 
 
@@ -36,8 +37,44 @@ const CreateEvento = () => {
   const [rutaInit, setRutaInit] = useState(null);
   const [requisitosInit, setRequisitosInit] = useState([{}]);
   const navigate = useNavigate();
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const { id } = useParams();
 
+  const notificarCambios = async () => {
+    try {
+      Swal.fire({
+        title: 'Notificando Cambios a los Inscritos',
+        text: 'Espere un momento por favor',
+        icon: 'info',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+      await axios.post(`${endpoint}/notificarCambios/${id}`);
+      Swal.fire({
+        title: 'Notificación Enviada',
+        text: 'Se ha notificado a los inscritos del evento',
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Entendido',
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'No existen inscritos',
+        text: 'El evento no tiene inscritos',
+        icon: 'error',
+        showCancelButton: false,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Entendido',
+      });
+    }
+  }
 
 
   useEffect(() => {
@@ -53,6 +90,13 @@ const CreateEvento = () => {
         setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
         setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
         setRutaInit(response.data.afiche);
+        if(response.data.mostrar_publico){
+          setPublico(true);
+          setMensajePublico("Evento Publicado");
+        }else{
+          setPublico(false);
+          setMensajePublico("Publicar Evento");
+        };
         const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
           id: etapa.id,
           contenido_etapa: etapa.contenido_etapa,
@@ -96,6 +140,7 @@ const CreateEvento = () => {
   const handleUpdateEventoDinamico = async (e) => {
     e.preventDefault();
     let ruta = null;
+
     if (afiche) {
       const formData = new FormData();
       formData.append('image', afiche);
@@ -105,16 +150,28 @@ const CreateEvento = () => {
         },
       });
       ruta = responseImage.data.path;
+    }else if(rutaInit){
+      ruta = rutaInit;
     }
 
     const responseEvento = await axios.put(`${endpoint}/actualizarEventoDinamico/${id}`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: tipo_evento_dinamico_id,
+      tipo_modalidad: 'Evento', 
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      mostrar_publico: publico,
       afiche: ruta
     });
+
+    // try {
+    //   await axios.post(`${endpoint}/notificarCambios/${id}`);
+    // }catch(error){
+    //   console.error('Error al notificar cambios:', error);
+    // }
+    notificarCambios();
+    
 
     const idEvento = responseEvento.data.id;
 
@@ -258,6 +315,16 @@ const CreateEvento = () => {
     setAfiche(afiche);
   }
 
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Evento");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Evento Publicado");
+      setPublico(!publico);
+    }
+  }
+
   return (
     <div>
       <NavbarAdmin />
@@ -288,24 +355,28 @@ const CreateEvento = () => {
               </button>
               <button
                 onClick={() => handleSectionClick("descripcion")}
-                className={`button mb-2${activeSection === "descripcion" ? "active" : ""
+                className={`button mb-2 ${activeSection === "descripcion" ? "active" : ""
                   }`}
               >
                 Descripción
               </button>
               <button
                 onClick={() => handleSectionClick("requisitos")}
-                className={`button mb-2${activeSection === "requisitos" ? "active" : ""
+                className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""
                   }`}
               >
                 Requisitos
               </button>
               <button
                 onClick={() => handleSectionClick("Afiche")}
-                className={`button mb-2${activeSection === "Afiche" ? "active" : ""
+                className={`button mb-2 ${activeSection === "Afiche" ? "active" : ""
                   }`}
               >
-                Afiche
+                Afiche                
+              </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
               </button>
               <button onClick={handleUpdateEventoDinamico} className='btn btn-success'>Actualizar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
