@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\InscripcionController;
 use App\Http\Controllers\Api\ParticipanteController;
 use App\Http\Controllers\Api\OtroRequisitoController;
 use App\Http\Controllers\Api\NoticiaController;
+use App\Http\Controllers\Api\ForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -163,7 +164,8 @@ Route::controller(EstudianteController::class)->group(function (){
     Route::delete('/estudiantes/{id}', 'destroy');
 });
 
-
+Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::post('/restore', [ForgotPasswordController::class, 'submitResetPasswordForm']);
 
 
 
