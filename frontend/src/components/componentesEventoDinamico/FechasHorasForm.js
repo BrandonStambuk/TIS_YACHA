@@ -160,6 +160,7 @@ const FechasHorasForm = ({
               style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_inicio_inscripcion}
               onChange={handleFechaInicioInscripcionChange}
+              min={new Date().toISOString().split("T")[0]} 
             />
             {fechaInicioError && (
               <div className="invalid-feedback">{fechaInicioError}</div>
@@ -182,6 +183,7 @@ const FechasHorasForm = ({
               style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_fin_inscripcion}
               onChange={handleFechaFinInscripcionChange}
+              min={new Date().toISOString().split("T")[0]}
             />
             {fechaFinError && (
               <div className="invalid-feedback">{fechaFinError}</div>
@@ -215,6 +217,7 @@ const FechasHorasForm = ({
                           e.target.value
                         )
                       }
+                      min={new Date().toISOString().split("T")[0]}
                     />
                     {fechaInicioEventError && (
                       <div className="invalid-feedback">
@@ -244,6 +247,7 @@ const FechasHorasForm = ({
                           e.target.value
                         )
                       }
+                      min={new Date().toISOString().split("T")[0]}
                     />
                     {fechaFinEventError && (
                       <div className="invalid-feedback">
