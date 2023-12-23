@@ -71,7 +71,7 @@ const TablaNoticia = () => {
                         <tr>
                           <th className='centrado'>Título</th>
                           <th className='centrado'>Contenido</th>
-                          <th className=''>Eliminar</th>
+                          <th className='centrado'>Acción</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -79,7 +79,7 @@ const TablaNoticia = () => {
                           <tr key={noticia.id}>
                             <td className='centrado'>{noticia.titulo}</td>
                             <td className="event-description centrado" dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
-                            <td>
+                            <td className='centrado'>
                               <Link
                                 className="btn btn-warning centrado"
                                 to={`/editNoticia/${noticia.id}`}
