@@ -87,7 +87,7 @@ const PasswordRestore = () => {
         <div>
             <Navbar />
             <div className="container login">
-                <div className="heading">Recuperación de la cuenta</div>
+                <div className="heading">Ingrese su email para recuperar su cuenta</div>
                 {success && <div className="success-message">{success}</div>}
                 <form action="" className="form">
                     <input
@@ -102,7 +102,7 @@ const PasswordRestore = () => {
                     />
                     <input className="login-button" type="button" onClick={handleRestore} value="Enviar Correo" />
                     {error && <div className="error-message">{error}</div>}
-                    <label>Ingrese su email para recuperar su cuenta</label>
+                    <label>Volver a Inicio de Sesión</label> <a href="/login">Click aqui.</a>
                 </form>
                 <span className="agreement"></span>
             </div>

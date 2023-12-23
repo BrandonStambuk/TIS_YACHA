@@ -98,7 +98,7 @@ const Login = () => {
           />
           <input className="login-button" type="submit" value="Iniciar Sesion" />
           {error && <div className="error-message">{error}</div>}
-          <label>Si olvidaste la contraseña, contacta a la empresa.</label>
+          <label>Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aqui.</a>
         </form>
         <span className="agreement"></span>
       </div>
