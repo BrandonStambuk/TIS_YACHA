@@ -28,6 +28,7 @@ import TablaNoticias from './components/TablaNoticias';
 import Noticia from './components/Noticia';
 import EditNoticia from './components/EditNoticia';
 import Detalles from './components/Detalles';
+import ConfiguracionEvento from './components/ConfiguracionEvento';
 import PasswordRestore from './components/PassworRestore';
 import Restore from './components/Restore';
 import { URL_API } from './const';
@@ -119,7 +120,8 @@ function App() {
           <Route path="/home" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />
           <Route path='/editComp' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/> :(rol === 'Coach') ? <HomePageUser/>:<Login />} />    
           <Route path="/mostrar/:id" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <MostrarEventoUsuario/>} />    
-          <Route path="/listaEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />  
+          <Route path="/listaEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
+          <Route path="/configuracionEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ConfiguracionEvento/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />   
           <Route path="/inicio" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: (rol === 'Coach') ? <HomePageUser/>:<Login />}/>
           <Route path="/login" element={<Login/>}/> 

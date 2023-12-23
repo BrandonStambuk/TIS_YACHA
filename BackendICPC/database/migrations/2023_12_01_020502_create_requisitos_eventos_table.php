@@ -18,8 +18,8 @@ class CreateRequisitosEventosTable extends Migration
             $table->string('nombre_requisito');
             $table->string('descripcion_requisito');
             $table->string('tipo_requisito');
-            $table->string('maximo_valor')->nullable();
-            $table->string('minimo_valor')->nullable();
+            $table->string('valor_minimo')->nullable();
+            $table->string('valor_maximo')->nullable();            
             $table->timestamps();
         });
     }
