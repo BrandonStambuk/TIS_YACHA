@@ -56,6 +56,7 @@ Route::controller(FechaInscripcionEventoController::class)->group(function (){
   Route::post('/crearFechaInscripcion', 'store');
   Route::delete('/eliminarFechaInscripcion/{id}', 'destroy');
   Route::put('/actualizarFechaInscripcion/{id}', 'update');
+  Route::get('/fechasInscripcion/{id}', 'show');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
   Route::get('/etapasEvento', 'index');
