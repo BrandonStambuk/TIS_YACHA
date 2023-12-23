@@ -5,6 +5,7 @@ import "./css/Noticia.css";
 import { URL_API } from './const';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const endpoint = URL_API;
 
@@ -27,6 +28,24 @@ const TablaNoticia = () => {
   }, []);
 
   const handleEliminarNoticia = (id) => {
+    Swal.fire({
+      title: '¿Estás seguro de que deseas eliminar esta noticia?',
+      text: 'No podrás revertir esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteNoticia(id);
+        Swal.fire('¡Eliminado!', 'La noticia ha sido eliminada.', 'success');
+      }
+    });
+  };
+  const deleteNoticia= (id) => {
+    
     axios.delete(`${endpoint}/eliminarNoticia/${id}`)
       .then(response => {
         setNoticias(prevNoticias => prevNoticias.filter(noticia => noticia.id !== id));
@@ -59,8 +78,14 @@ const TablaNoticia = () => {
                         {noticias.map(noticia => (
                           <tr key={noticia.id}>
                             <td className='centrado'>{noticia.titulo}</td>
-                            <td className="event-description centrado" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
+                            <td className="event-description centrado" dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
                             <td>
+                              <Link
+                                className="btn btn-warning centrado"
+                                to={`/editNoticia/${noticia.id}`}
+                              >
+                                Editar
+                              </Link>
                               <button
                                 className="btn btn-danger centrado"
                                 onClick={() => handleEliminarNoticia(noticia.id)}

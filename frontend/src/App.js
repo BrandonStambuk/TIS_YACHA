@@ -26,6 +26,7 @@ import Decription from './components/Decription'
 import InscripcionEvento from './components/InscripcionEvento';
 import TablaNoticias from './components/TablaNoticias';
 import Noticia from './components/Noticia';
+import EditNoticia from './components/EditNoticia';
 import Detalles from './components/Detalles';
 import ConfiguracionEvento from './components/ConfiguracionEvento';
 import PasswordRestore from './components/PassworRestore';
@@ -174,6 +175,7 @@ function App() {
           <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
           <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
+          <Route path='/editNoticia/:id' element={isAuthenticated ? <EditNoticia/> : <Login />} />
           <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
           <Route path='/detalles/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Detalles/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
           <Route path='/forget-password' element={<PasswordRestore/>}/>
