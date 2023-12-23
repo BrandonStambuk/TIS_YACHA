@@ -4,6 +4,8 @@ namespace App\Models;
 use App\Models\DetalleRequisito;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DetalleRequisitos;
+
 
 class RequisitosEvento extends Model
 {
@@ -12,11 +14,12 @@ class RequisitosEvento extends Model
         'nombre_requisito',
         'descripcion_requisito',
         'tipo_requisito',
-        'maximo_valor',
-        'minimo_valor'
+        'valor_minimo',
+        'valor_maximo'
     ];
     public function detalleRequisitos()
     {
-        return $this->hasMany(DetalleRequisito::class, 'id_requisito');
+        return $this->hasMany(DetalleRequisitos::class, 'id_requisito');
     }
+
 }

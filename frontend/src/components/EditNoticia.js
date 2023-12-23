@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import AficheForm from './componentesEventoDinamico/AficheForm';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useParams } from 'react-router-dom';
 
 const endpoint = URL_API;
 
@@ -20,7 +21,21 @@ const Noticia = () => {
   const [imagenUrl, setImagenUrl] = useState(null);
   const [activeSection, setActiveSection] = useState('titulo');
   const navigate = useNavigate();
+  const { id } = useParams();
 
+  useState(() => {
+    axios.get(`${endpoint}/noticia/${id}`)
+        .then(response => {
+            setTitulo(response.data.titulo);
+            setContenido(response.data.contenido);
+            if (response.data.imagen) {
+                setImagenUrl(require(`../../../BackendICPC/storage/app/public${response.data.imagen}`));
+            }
+        })
+        .catch(error => {
+            console.error('Error al recuperar noticia:', error);
+        });
+    }, []);
   const handleGuardarNoticia = async (e) => {
     e.preventDefault();
 
@@ -79,7 +94,7 @@ const Noticia = () => {
       ruta = responseImage.data.path;
     }
 
-    await axios.post(`${endpoint}/crearNoticia`, {
+    await axios.put(`${endpoint}/actualizarNoticia/${id}`, {
       titulo: titulo,
       contenido: contenido,
       imagen: ruta,
@@ -175,7 +190,7 @@ const Noticia = () => {
               <AficheForm
               setInput={handleImagen}
               input={imagen}
-              inputUrl={imagenUrl}
+              inputFile={imagenUrl}
             />
           )}
           </div>

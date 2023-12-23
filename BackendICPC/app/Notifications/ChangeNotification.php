@@ -10,21 +10,25 @@ use Illuminate\Notifications\Notification;
 class ChangeNotification extends Notification
 {
     public $eventEditLink;
+    public $personalizedMessage;
 
-    public function __construct($eventEditLink)
+    public function __construct($eventEditLink, $personalizedMessage)
     {
         $this->eventEditLink = $eventEditLink;
+        $this->personalizedMessage = $personalizedMessage;
     }
 
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Hola!')
-            ->subject('El evento al que te inscribiste ha cambiado')
-            ->line('Los organizaadores del evento han realizado cambios en el evento al que te inscribiste.')
-            ->action('Puedes ver los cambios aca', $this->eventEditLink)
-            ->line('Si no te inscribiste a ningun evento, puede ignorar este correo electrónico.')
-            ->line('¡Gracias por usar participar!');
+            ->subject('El evento al que te inscribiste ha sufrido cambios')
+            ->line('Los organizadores han realizado cambios en el evento al que te inscribiste.')
+            ->line($this->personalizedMessage)
+            ->action('Por favor revisa estos cambios', $this->eventEditLink)
+            ->line('Si no te inscribiste a ningún evento, puedes ignorar este correo electrónico.')
+            ->line('¡Gracias por participar!');
     }
 
     public function via($notifiable)

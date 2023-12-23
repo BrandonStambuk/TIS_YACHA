@@ -6,12 +6,15 @@ import './css/eventList.css';
 import Swal from 'sweetalert2';
 import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
+import { useNavigate } from 'react-router-dom';
 
 const endpoint = URL_API;
+
 
 const ListaEventos = () => {
   const [pagina, setPagina] = useState(0);
   const [eventos, setEventos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllEventos();
@@ -59,6 +62,24 @@ const ListaEventos = () => {
 
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
+  const handleEditar = async (id, visible) => {
+    const response = await axios.get(`${endpoint}/fechasInscripcion/${id}`);
+    let fin = response.data.fecha_fin_inscripcion;
+    let fecha = new Date(fin);
+    let hoy = new Date();
+    console.log(visible);
+    if (visible && fecha < hoy) {
+      Swal.fire({
+        title: 'No se puede editar este evento',
+        text: 'La fecha de inscripcion ya ha terminado',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+      });
+      return;
+    }
+
+    navigate(`/edit/${id}`);
+  }
 
   return (
     <div>
@@ -89,15 +110,15 @@ const ListaEventos = () => {
                         let evento = eventosVisibles[i];
                         rows.push(
                           <tr key={evento.id}>
-                            <td className="centrado">{evento.nombre_evento_dinamico}</td>
+                            <td className="centrado"><Link className="text-black" to={`/detalles/${evento.id}`}>{evento.nombre_evento_dinamico}</Link></td>
                             <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
                             <td className="centrado">{evento.fecha_inscripcion_evento[0].fecha_inicio_inscripcion}</td>
                             <td className="centrado">{evento.lugar_evento_dinamico}</td>
                             <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
                             <td className="centrado centrar-botones">
-                              <Link to={`/edit/${evento.id}`} className="btn btn-editar">
+                              <button onClick={() => handleEditar(evento.id,evento.mostrar_publico)} className="btn btn-editar">
                                 Editar
-                              </Link>
+                              </button>
                               <button
                                 onClick={() => confirmarEliminacion(evento.id)}
                                 className="btn btn-eliminar"

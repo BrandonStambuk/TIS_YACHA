@@ -3,7 +3,7 @@ import './css/Footer.css';
 const Footer = () => {
     return (
         <footer className="footer-user text-white ">
-            <div class="container mt-4">
+            <div className="container mt-4">
                 <div className='d-flex justify-content-between'>
                     <p>© {new Date().getFullYear()} YachayPachaSoft S.A.</p>
                     <div className='d-flex'>

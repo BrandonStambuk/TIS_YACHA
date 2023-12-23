@@ -45,7 +45,8 @@ class FechaInscripcionEventoController extends Controller
      */
     public function show($id)
     {
-        //
+        $fecha = FechaInscripcionEvento::where('evento_dinamicos_id', $id)->first();
+        return $fecha;
     }
 
     /**

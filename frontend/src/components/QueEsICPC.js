@@ -8,20 +8,7 @@ import { URL_API } from './const';
 const endpoint = URL_API;
 
 const WICPC = () => {
-  const [noticias, setNoticias] = useState([]);
 
-  useEffect(() => {
-    const fetchNoticias = async () => {
-      try {
-        const response = await axios.get(`${endpoint}/noticiasDisponibles`);
-        setNoticias(response.data);
-      } catch (error) {
-        console.error('Error al obtener noticias:', error);
-      }
-    };
-
-    fetchNoticias();
-  }, []);
 
   return (
     <div>
@@ -50,15 +37,7 @@ const WICPC = () => {
               </div>
               
             </div>
-            {noticias.map((noticia) => (
-                      <div key={noticia.id} className="card mt-3">
-                        <div className="card-body">
-                          <h5 className="card-title">{noticia.titulo}</h5>
-                          <p className="card-text">{noticia.contenido}</p>
-                          {/* Otros detalles de la noticia */}
-                        </div>
-                      </div>
-                    ))}
+          
           </div>
         </div>
       </div>

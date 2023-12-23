@@ -18,6 +18,7 @@ class EventoDinamico extends Model
         'descripcion_evento_dinamico',
         'lugar_evento_dinamico',
         'cantidad_participantes_evento_dinamico',
+        'mostrar_publico',
         'afiche'
     ];
 

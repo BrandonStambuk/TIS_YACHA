@@ -17,7 +17,23 @@
     margin-top: 10px;
 }
 
+
+
 .card .notice-content {
     text-align: left;
     margin-top: 20px;
 }
+
+.tarjeta-title{
+    text-align: center;
+    font-weight: 900;
+    font-size: 30px;
+    color: #0f5fa6;
+    margin-left: 80px;
+}
+
+
+.btn-swal-confirm {
+    background-color:#0f5fa6;/* Color de fondo personalizado */
+    color: #fff; /* Color del texto personalizado */
+  }

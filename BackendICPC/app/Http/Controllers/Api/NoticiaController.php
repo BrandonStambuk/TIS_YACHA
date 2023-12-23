@@ -49,7 +49,7 @@ class NoticiaController extends Controller
             return response()->json(['error' => 'Noticia no encontrada'], 404);
         }
 
-        return response()->json(['titulo' => $noticia->Titulo, 'contenido' => $noticia->Contenido]);
+        return response()->json(['titulo' => $noticia->titulo, 'contenido' => $noticia->contenido, 'imagen' => $noticia->imagen]);
     }
     
 
@@ -62,7 +62,17 @@ class NoticiaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    try {
+            $noticia = Noticia::findOrFail($id);
+            $noticia->titulo = $request->titulo;
+            $noticia->contenido = $request->contenido;
+            $noticia->imagen = $request->imagen;
+            $noticia->save();
+            return response()->json(['message' => 'la noticia se ha actualizado correctamente', 'noticia' => $noticia], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage(), $e->getTrace());
+            return response()->json(['message' => 'Error al actualizar la noticia', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**

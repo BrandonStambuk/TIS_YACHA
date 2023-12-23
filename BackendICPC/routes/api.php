@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\InscripcionController;
 use App\Http\Controllers\Api\ParticipanteController;
 use App\Http\Controllers\Api\OtroRequisitoController;
 use App\Http\Controllers\Api\NoticiaController;
+use App\Http\Controllers\Api\ForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,10 +31,12 @@ use App\Http\Controllers\Api\NoticiaController;
 
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
+  Route::get('/eventosDinamicosPublicos', 'indexPublico');
   Route::post('/crearEventoDinamico', 'store');
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarEventoDinamico/{id}', 'update');
   Route::get('/eventosDinamicos/{id}', 'show');
+  Route::post('/notificarCambios/{id}', 'notificarCambios');
 });
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
@@ -47,6 +50,8 @@ Route::controller(NoticiaController::class)->group(function (){
   Route::get('/noticiasDisponibles', 'index');
   Route::post('/crearNoticia', 'store');
   Route::delete('/eliminarNoticia/{id}', 'destroy');
+  Route::put('/actualizarNoticia/{id}', 'update');
+  Route::get('/noticia/{id}', 'show');
   //Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
 });
 
@@ -55,6 +60,7 @@ Route::controller(FechaInscripcionEventoController::class)->group(function (){
   Route::post('/crearFechaInscripcion', 'store');
   Route::delete('/eliminarFechaInscripcion/{id}', 'destroy');
   Route::put('/actualizarFechaInscripcion/{id}', 'update');
+  Route::get('/fechasInscripcion/{id}', 'show');
 });
 Route::controller(EtapaEventoController::class)->group(function (){
   Route::get('/etapasEvento', 'index');
@@ -68,6 +74,7 @@ Route::controller(RequisitoController::class)->group(function (){
   Route::get('/requisitos', 'index');
   Route::post('/crearRequisito', 'store');
   Route::delete('/eliminarRequisito/{id}', 'destroy');
+  Route::delete('/eliminarTodoRequisito/{id}', 'destroyAll');
   Route::put('/actualizarRequisito/{id}', 'update');
   Route::get('/requisitos/{id}', 'show');
 });
@@ -125,6 +132,8 @@ Route::controller(EquipoController::class)->group(function (){
 });
 Route::post('upload', [App\Http\Controllers\ImageController::class, 'upload']);
 Route::get('getImage/{id}', [App\Http\Controllers\ImageController::class, 'get']);
+Route::get('getImagen/{name}', [App\Http\Controllers\ImageController::class, 'getImage']);
+Route::get('getImageNoticia/{id}', [App\Http\Controllers\ImageController::class, 'getNoticia']);
 
 Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarioss', 'index');
@@ -159,7 +168,8 @@ Route::controller(EstudianteController::class)->group(function (){
     Route::delete('/estudiantes/{id}', 'destroy');
 });
 
-
+Route::post('/forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::post('/restore', [ForgotPasswordController::class, 'submitResetPasswordForm']);
 
 
 

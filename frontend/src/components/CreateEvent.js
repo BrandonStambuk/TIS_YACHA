@@ -32,6 +32,8 @@ const CreateEvento = () => {
   const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
   const [afiche, setAfiche] = useState("");
   const [aficheUrl, setAficheUrl] = useState("");
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -54,6 +56,7 @@ const CreateEvento = () => {
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      mostrar_publico: publico,
       afiche: ruta
     });
     const idEvento = responseEvento.data.id;
@@ -135,18 +138,27 @@ const CreateEvento = () => {
     console.log(requisitos);
     setRequisitosSeleccionados(requisitos);
   }
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Evento");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Evento Publicado");
+      setPublico(!publico);
+    }
+  }
 
-const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
   const handleAfiche = (afiche) => {
     setAfiche(afiche);
   }
 
-return (
-  <div>
-    {isAuthenticated && (
-    rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
-    )}
+  return (
+    <div>
+      {isAuthenticated && (
+        rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">
@@ -193,6 +205,11 @@ return (
               >
                 Afiche
               </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
+              </button>
+
               <button onClick={handleStoreEventoDinamico} className='btn btn-success'>Guardar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
