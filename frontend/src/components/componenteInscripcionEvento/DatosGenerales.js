@@ -5,11 +5,10 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, nombresIn, apellidosIn, cantidadParticipantesIn  }) => {
-    const [nombre_Equipo, setNombreEquipo] = useState(nombreEquipoIn || "");
-    const [tipoRequisito, setTipoRequisito] = useState("");
+const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos, onCorreos ,nombreEquipoIn, nombresIn, apellidosIn, correosIn, cantidadParticipantesIn  }) => {
     const [nombres, setNombres] = useState(nombresIn||[]);
     const [apellidos, setApellidos] = useState(apellidosIn || []);
+    const [correos, setCorreos] = useState(correosIn||[]);
     const [nombreEquipoError, setNombreEquipoError] = useState(false);
 
 
@@ -23,11 +22,6 @@ const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, 
         
     }, [cantidadParticipantesIn]);
 
-
-
-    const handleTipoRequisitoChange = (e) => {
-        setTipoRequisito(e.target.value);
-    };
     const handleNombreEquipoChange = (value) => {
         onNombreEquipo(value);
     }
@@ -43,6 +37,12 @@ const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, 
         nuevosApellidos[index] = value;
         setApellidos(nuevosApellidos);
         onApellidos(nuevosApellidos);
+    };
+    const handleCorreosChange = (index, value) => {
+        const nuevosCorreos = [...correos];
+        nuevosCorreos[index] = value;
+        setCorreos(nuevosCorreos);
+        onCorreos(nuevosCorreos);
     };
 
     return (
@@ -63,21 +63,9 @@ const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, 
                                 name="nombreRequisito"
                             />
                             </div>
-                            {/*<label htmlFor="tipoRequisito" className="form-label">Tipo de requisito</label>
-                            <select
-                                value={tipoRequisito}
-                                onChange={handleTipoRequisitoChange}
-                                className="form-select"
-                                id="tipoRequisito"
-                                name="tipoRequisito"
-                            >
-                                <option value="">Selecciona el tipo</option>
-                                <option value="numero">Número</option>
-                                <option value="cadena">Cadena</option>
-    </select>*/}
                             {nombres.map((nombre, index) => (
                                 <div key={index} className="row">
-                                    <div className="col-md-6 mb-3">
+                                    <div className="col-md-4 mb-3">
                                         <label htmlFor={`nombre${index + 1}`} className="form-label">
                                             Nombres Integrante {index + 1}
                                         </label>
@@ -90,7 +78,7 @@ const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, 
                                             name={`nombre${index + 1}`}
                                         />
                                     </div>
-                                    <div className="col-md-6 mb-3">
+                                    <div className="col-md-4 mb-3">
                                         <label htmlFor={`apellido${index + 1}`} className="form-label">
                                             Apellidos Integrante {index + 1}
                                         </label>
@@ -101,6 +89,19 @@ const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, 
                                             className="form-control"
                                             id={`apellido${index + 1}`}
                                             name={`apellido${index + 1}`}
+                                        />
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label htmlFor={`correo${index + 1}`} className="form-label">
+                                            Correo {index + 1}
+                                        </label>
+                                        <input
+                                            value={correos[index]}
+                                            onChange={(e) => handleCorreosChange(index, e.target.value)}
+                                            type="email"
+                                            className="form-control"
+                                            id={`correo${index + 1}`}
+                                            name={`correo${index + 1}`}
                                         />
                                     </div>
                                 </div>
