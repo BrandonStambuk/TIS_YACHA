@@ -141,3 +141,8 @@ input[type="radio"] {
   background-color: #0F5FA6;
   color: white;
 }
+
+.btn-success-custom {
+  background-color:#0f5fa6;/* Color de fondo personalizado */
+    color: #fff; /* Color del texto personalizado */
+}

@@ -9,6 +9,7 @@ import DatosGenerales from "./componenteInscripcionEvento/DatosGenerales";
 import Requisitos from "./componenteInscripcionEvento/Requisitos";
 import Navbar from "./Navbar";
 import NavbarCoach from "./NavbarCoach";
+import Swal from "sweetalert2";
 
 
 import { URL_API } from "../const";
@@ -25,6 +26,7 @@ const InscripcionEvento = () => {
   const [apellidos, setApellidos] = useState([]);
   const [valores, setValores] = useState([]);
   const { id } = useParams();
+  const [sePuedeGuardar, setGuardar] = useState(true);
   const navigate = useNavigate();
 
 
@@ -45,6 +47,16 @@ const InscripcionEvento = () => {
 
     getEventById();
   }, [id]);
+
+
+  const mostrarAlertaError = (mensaje) => {
+    Swal.fire({
+      title: "Error",
+      text: mensaje,
+      icon: "error",
+      confirmButtonText: "Aceptar"
+    });
+  };
 
   const handleStoreInscripcion = async () => {
     const response = await axios.post(`${endpoint}/crearInscripcion`, {
@@ -71,6 +83,16 @@ const InscripcionEvento = () => {
       }
 
     }
+    Swal.fire({
+      title: "Éxito",
+      text: "La inscripción se ha guardado correctamente.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      customClass: {
+        confirmButton: 'btn-swal-confirm ', // Clase para el botón "OK"
+      },
+      buttonsStyling: false, 
+    });
     navigate('/home');
   }
 
@@ -112,7 +134,7 @@ const InscripcionEvento = () => {
                 className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""}`}>
                 Requisitos
               </button>
-              <button onClick={handleStoreInscripcion} className='btn btn-success'>Guardar</button>
+              <button onClick={sePuedeGuardar ? handleStoreInscripcion : undefined} className='btn btn-success' disabled={!sePuedeGuardar}>Guardar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
@@ -134,7 +156,8 @@ const InscripcionEvento = () => {
                 requisitosIn={requisitos}
                 onValores={handleValorRequisitoChange}
                 valoresIn={valores}
-              />
+                onGuardarEstado={setGuardar} 
+                />
             )}
           </div>
         </div>
