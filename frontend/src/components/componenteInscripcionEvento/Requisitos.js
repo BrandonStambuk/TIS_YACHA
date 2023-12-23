@@ -4,7 +4,7 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => {
+const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn, onCorreo }) => {
     const [nombres, setNombres] = useState([]);
     const [requisitos, setRequisitos] = useState([]);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
@@ -12,10 +12,13 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
     const [requisitoValor, setRequisitoValor]=useState(Array.from({ length: requisitosIn.length }, (_, rowIndex) => 
     Array(participantesIn.length).fill("").map((_, colIndex) => requisitosIn[rowIndex])));
     const [requisitoError, setRequisitoError]=useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
+    
 
     useEffect(() => {
         setNombres(participantesIn);
-        setRequisitos(requisitosIn);        
+        setRequisitos(requisitosIn);
+        console.log(Array.from({ length: requisitosIn.length }, (_, rowIndex) => 
+        Array(participantesIn.length).fill("").map((_, colIndex) => requisitosIn[rowIndex])));        
     }, [participantesIn, requisitosIn]);
 
     useEffect(() => {
@@ -38,7 +41,13 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
     };
 
     const handleValorChange = (requisitoIndex, participanteIndex, value, idRequisito) => {
-        if(requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.tipo_requisito==="Número"){
+        if(requisitoValor[requisitoIndex][participanteIndex].id_requisito===1){
+            setValores((prevValores) => {
+                const nuevosValores = [...prevValores];
+                nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
+                return nuevosValores;
+            });            
+        }else if(requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.tipo_requisito==="Número"){
             const valorMinimo=requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_minimo;
             const valorMaximo=requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_maximo;
             if (value<valorMinimo){

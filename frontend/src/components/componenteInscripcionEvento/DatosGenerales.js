@@ -8,14 +8,19 @@ const endpoint = URL_API;
 const DatosGenerales = ({onNombreEquipo, onNombres, onApellidos,nombreEquipoIn, nombresIn, apellidosIn, cantidadParticipantesIn  }) => {
     const [nombre_Equipo, setNombreEquipo] = useState(nombreEquipoIn || "");
     const [tipoRequisito, setTipoRequisito] = useState("");
-    const [nombres, setNombres] = useState(nombresIn || []);
+    const [nombres, setNombres] = useState(nombresIn||[]);
     const [apellidos, setApellidos] = useState(apellidosIn || []);
     const [nombreEquipoError, setNombreEquipoError] = useState(false);
 
 
-    useEffect(() => {
-        const arrayNombres = Array.from({ length: cantidadParticipantesIn });
-        setNombres(arrayNombres);
+   useEffect(() => {
+        if (nombres.length > 0){
+            setNombres(nombresIn);
+        }else{
+            const arrayNombres = Array.from({ length: cantidadParticipantesIn });
+            setNombres(arrayNombres);
+        }
+        
     }, [cantidadParticipantesIn]);
 
 

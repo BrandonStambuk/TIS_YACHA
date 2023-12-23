@@ -20,6 +20,7 @@ const InscripcionEvento = () => {
   const [activeSection, setActiveSection] = useState("datosGenerales");
   const [cantidadParticipantes, setCantidadParticipantes] = useState("");
   const [nombre_equipo, setNombreEquipo] = useState("");
+  const [correo, setCorreo] = useState("");
   const [requisitos, setRequisitos] = useState([]);
   const [nombres, setNombres] = useState([]);
   const [apellidos, setApellidos] = useState([]);
