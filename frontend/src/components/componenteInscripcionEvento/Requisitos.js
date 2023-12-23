@@ -67,12 +67,12 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn }) => 
             }
         }
 
-       /*setValores((prevValores) => {
+       setValores((prevValores) => {
             const nuevosValores = [...prevValores];
             nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
             return nuevosValores;
         });
-        console.log(valores);*/
+        console.log(valores);
     };
 
     const getInputType= (tipoRequisito)=>{
