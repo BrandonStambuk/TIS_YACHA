@@ -9,8 +9,9 @@ use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Models\Inscripcion;
 use App\Notifications\ChangeNotification;
-use App\Models\Participante;
+use App\Models\Paticipante;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\ForgetEmailNotification;
 
 class EventoDinamicoController extends Controller
 {
@@ -124,14 +125,13 @@ class EventoDinamicoController extends Controller
     {
         $evento = EventoDinamico::find($id);
         $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
-        $participantes = Participante::whereIn('inscripciones_id', $inscripciones->pluck('id'))->get();
+        $participantes = Paticipante::whereIn('inscripcions_id', $inscripciones->pluck('id'))->get();
         $eventoLink = "http://localhost:3000/mostrar/{$evento->id}";
         
         foreach ($participantes as $participante) {
-            $correos = $participante->correo;
-            $correos->notify(new ChangeNotification($eventoLink));
+            $participante->notify(new ChangeNotification($eventoLink));
         }
-
+        
         return response()->json(['message' => 'Notificación enviada con éxito'], 200);
     }
 
