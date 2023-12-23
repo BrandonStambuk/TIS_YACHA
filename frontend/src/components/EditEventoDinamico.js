@@ -11,6 +11,7 @@ import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 import AficheForm from "./componentesEventoDinamico/AficheForm";
+import Swal from 'sweetalert2';
 
 
 
@@ -40,6 +41,40 @@ const CreateEvento = () => {
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const { id } = useParams();
 
+  const notificarCambios = async () => {
+    try {
+      Swal.fire({
+        title: 'Notificando Cambios a los Inscritos',
+        text: 'Espere un momento por favor',
+        icon: 'info',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+      });
+      await axios.post(`${endpoint}/notificarCambios/${id}`);
+      Swal.fire({
+        title: 'Notificación Enviada',
+        text: 'Se ha notificado a los inscritos del evento',
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Entendido',
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'No existen inscritos',
+        text: 'El evento no tiene inscritos',
+        icon: 'error',
+        showCancelButton: false,
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Entendido',
+      });
+    }
+  }
 
 
   useEffect(() => {
@@ -129,7 +164,13 @@ const CreateEvento = () => {
       afiche: ruta
     });
 
-    await axios.post(`${endpoint}/notificarCambios/${id}`);
+    // try {
+    //   await axios.post(`${endpoint}/notificarCambios/${id}`);
+    // }catch(error){
+    //   console.error('Error al notificar cambios:', error);
+    // }
+    notificarCambios();
+    
 
     const idEvento = responseEvento.data.id;
 
