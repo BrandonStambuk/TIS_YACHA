@@ -43,38 +43,79 @@ const CreateEvento = () => {
 
   const notificarCambios = async () => {
     try {
-      Swal.fire({
-        title: 'Notificando Cambios a los Inscritos',
-        text: 'Espere un momento por favor',
-        icon: 'info',
-        showCancelButton: false,
-        showConfirmButton: false,
-        allowOutsideClick: false,
-      });
-      await axios.post(`${endpoint}/notificarCambios/${id}`);
-      Swal.fire({
-        title: 'Notificación Enviada',
-        text: 'Se ha notificado a los inscritos del evento',
-        icon: 'success',
-        showCancelButton: false,
-        showConfirmButton: true,
-        allowOutsideClick: false,
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Entendido',
-      });
+        const { value: extraMessage } = await Swal.fire({
+            title: 'Desea adjuntar información adicional sobre los cambios?',
+            html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Mensaje extra">',
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'No, solo notificar',
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Adjuntar',
+            allowOutsideClick: false,
+            preConfirm: () => {
+                return document.getElementById('extra-message').value;
+            }
+        });
+
+        if (extraMessage) {
+            Swal.fire({
+                title: 'Adjuntando información adicional a las notificaciones',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+
+            await axios.post(`${endpoint}/notificarCambios/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
+
+            Swal.fire({
+                title: 'Notificación Enviada',
+                text: 'Se ha notificado a los inscritos del evento',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido',
+            });
+        } else {
+            // extraMessage esté vacío
+            Swal.fire({
+                title: 'Enviando notificación a los inscritos',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            await axios.post(`${endpoint}/notificarCambios/${id}`);
+            Swal.fire({
+              title: 'Notificación Enviada',
+              text: 'Se ha notificado a los inscritos del evento',
+              icon: 'success',
+              showCancelButton: false,
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido',
+            });
+        }
     } catch (error) {
-      Swal.fire({
-        title: 'No existen inscritos',
-        text: 'El evento no tiene inscritos',
-        icon: 'error',
-        showCancelButton: false,
-        showConfirmButton: true,
-        allowOutsideClick: false,
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Entendido',
-      });
+        Swal.fire({
+            title: 'No existen inscritos',
+            text: 'El evento no tiene inscritos',
+            icon: 'error',
+            showCancelButton: false,
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido',
+        });
     }
-  }
+};
 
 
   useEffect(() => {
@@ -140,7 +181,7 @@ const CreateEvento = () => {
   const handleUpdateEventoDinamico = async (e) => {
     e.preventDefault();
     let ruta = null;
-
+    await notificarCambios();
     if (afiche) {
       const formData = new FormData();
       formData.append('image', afiche);
@@ -164,14 +205,7 @@ const CreateEvento = () => {
       afiche: ruta
     });
 
-    // try {
-    //   await axios.post(`${endpoint}/notificarCambios/${id}`);
-    // }catch(error){
-    //   console.error('Error al notificar cambios:', error);
-    // }
-    notificarCambios();
-    
-
+  
     const idEvento = responseEvento.data.id;
 
     const response = await axios.put(`${endpoint}/actualizarFechaInscripcion/${id}`, {
