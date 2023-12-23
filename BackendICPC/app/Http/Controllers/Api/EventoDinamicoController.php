@@ -124,15 +124,24 @@ class EventoDinamicoController extends Controller
     public function notificarCambios($id)
     {
         $evento = EventoDinamico::find($id);
+        if (!$evento) {
+            return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
         $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
+        if ($inscripciones->isEmpty()) {
+            return response()->json(['message' => 'No hay inscripciones para este evento'], 404);
+        }
         $participantes = Paticipante::whereIn('inscripcions_id', $inscripciones->pluck('id'))->get();
+        if ($participantes->isEmpty()) {
+            return response()->json(['message' => 'No hay participantes para este evento'], 404);
+        }
         $eventoLink = "http://localhost:3000/mostrar/{$evento->id}";
         
         foreach ($participantes as $participante) {
             $participante->notify(new ChangeNotification($eventoLink));
         }
         
-        return response()->json(['message' => 'Notificación enviada con éxito'], 200);
+        return response()->json(['message' => 'Notificaciones enviadas con éxito'], 200);
     }
 
 
