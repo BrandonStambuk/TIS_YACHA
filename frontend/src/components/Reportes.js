@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
-import Swal from 'sweetalert2';
 import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
-import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -60,9 +57,9 @@ const Reportes = () => {
     const exportarExcel = () => {
         const data = eventos.map((evento) => ({
             Nombre: evento.nombre_evento_dinamico,
-            Tipo: evento.tipo_evento_dinamico_id,
-            Gestión: evento.gestion,
-            Estado: evento.mostrar_publico,
+            Tipo: evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico,
+            Gestión: evento.fecha_inscripcion_evento[0].fecha_fin_inscripcion.substring(0, 4),
+            Estado: evento.mostrar_publico === 1 ? 'Publico':'Privado',
             Participantes: evento.cantidad_participantes_evento_dinamico,
         }));
 
@@ -80,9 +77,9 @@ const Reportes = () => {
             head: [['Nombre', 'Tipo', 'Gestión', 'Estado', 'Participantes']],
             body: eventos.map((evento) => [
                 evento.nombre_evento_dinamico,
-                evento.tipo_evento_dinamico_id,
-                evento.gestion,
-                evento.mostrar_publico,
+                evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico,
+                evento.fecha_inscripcion_evento[0].fecha_fin_inscripcion.substring(0, 4),
+                evento.mostrar_publico === 1 ? 'Publico':'Privado',
                 evento.cantidad_participantes_evento_dinamico,
             ]),
         });
@@ -155,9 +152,9 @@ const Reportes = () => {
                                         {eventosVisibles.map((evento) => (
                                             <tr key={evento.id}>
                                                 <td>{evento.nombre_evento_dinamico}</td>
-                                                <td>{evento.tipo_evento_dinamico_id}</td>
-                                                <td>{evento.gestion}</td>
-                                                <td>{evento.mostrar_publico}</td>
+                                                <td>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
+                                                <td>{evento.fecha_inscripcion_evento[0].fecha_fin_inscripcion.substring(0, 4)}</td>
+                                                <td>{evento.mostrar_publico === 1 ? 'Publico':'Privado'}</td>
                                                 <td>{evento.cantidad_participantes_evento_dinamico}</td>
                                             </tr>
                                         ))}
