@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from 'sweetalert2';
 
 import { URL_API } from "../../const";
 
@@ -26,14 +27,50 @@ const ConfiguracionTipoEvento = () => {
   }, []);
 
   const handleDeleteOpcion = async (id) => {
-    try {
-      await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
-      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
-      const data = response.data;
-      setOpciones(data);
-    } catch (error) {
-      console.error("Error al eliminar el tipo de evento:", error);
-    }
+    
+      Swal.fire({
+          title: '¿Estás seguro que deseas eliminar este Tipo de Evento?',
+          text: 'No podrás revertir esta acción.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminarlo',
+          cancelButtonText: 'Cancelar',
+      }).then(async (result) => {
+          if (result.isConfirmed) {
+              try {
+                  const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+                  Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
+                  const newTipo = opciones.filter((tipo) => tipo.id !== id);
+                  setOpciones(newTipo);
+              } catch (error) {
+                /*  if (error.response) {
+                      const errorMessage = error.response.data.error || 'Error al eliminar el requisito';
+                      Swal.fire({
+                          title: 'Este requisito esta siendo utilizado por eventos ¿ Estas seguro que deseas eliminarlo ?',
+                          text: 'No podrás revertir esta acción.',
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Sí, eliminarlo',
+                          cancelButtonText: 'Cancelar',
+                      }).then(async (result2) => {
+                          if (result2.isConfirmed) {
+                              const responseDelete = await axios.delete(`${endpoint}/eliminarTodoRequisito/${id}`);
+                              Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
+                              const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
+                              setRequisitos(newRequisitos);
+                          }
+                      });
+                  }*/
+              }
+          }
+      });
+
+  
+    
   };
   const handleCancelOpcion = () => {
     setEditingId(null);
