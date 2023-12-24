@@ -237,7 +237,7 @@ const ConfiguracionRequisito = () => {
                                                     >
                                                         <option value="">Selecciona el tipo</option>
                                                         <option value="Número">Número</option>
-                                                        <option value="Caracteres">Caracteres</option>
+                                                        <option value="Cadena Alfabetica">Cadena Alfabetica</option>
                                                         <option value="Fecha">Fecha</option>
                                                     </select>) : (requisito?.tipo_requisito)}</td>
                                                     <td>{editingId === requisito?.id ? (
@@ -250,15 +250,29 @@ const ConfiguracionRequisito = () => {
                                                     ) : (requisito?.descripcion_requisito)}</td>
 
                                                     <td>
-                                                        {editingId === requisito?.id ? (<>
-                                                            {(editTipoRequisito === "Número") && (
-                                                                <input
-                                                                    value={editValorMinimo}
-                                                                    onChange={(e) => setEditValorMinimo(e.target.value)}
-                                                                    type="number"
-                                                                    className={`form-control form-control-table ${valorMinimoError ? "is-invalid" : ""}`}
-                                                                />)}
-                                                        </>) : (requisito?.valor_minimo)}</td>
+                                                        {editingId === requisito?.id ? (
+                                                            <>
+                                                                {editTipoRequisito === "Número" && (
+                                                                    <input
+                                                                        value={editValorMinimo}
+                                                                        onChange={(e) => setEditValorMinimo(e.target.value)}
+                                                                        type="number"
+                                                                        className={`form-control form-control-table ${valorMinimoError ? "is-invalid" : ""}`}
+                                                                    />
+                                                                )}
+                                                                {editTipoRequisito === "Fecha" && (
+                                                                    <input
+                                                                        value={editValorMinimo}
+                                                                        onChange={(e) => setEditValorMinimo(e.target.value)}
+                                                                        type="date"
+                                                                        className={`form-control form-control-table ${valorMinimoError ? "is-invalid" : ""}`}
+                                                                    />
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            requisito?.valor_minimo
+                                                        )}
+                                                    </td>
                                                     <td>{editingId === requisito?.id ? (<>
                                                         {(editTipoRequisito === "Número") && (
                                                             <input
@@ -267,8 +281,15 @@ const ConfiguracionRequisito = () => {
                                                                 type="number"
                                                                 className={`form-control form-control-table ${valorMaximoError ? "is-invalid" : ""}`}
                                                             />)}
+                                                            {(editTipoRequisito === "Fecha") && (
+                                                            <input
+                                                                value={editValorMaximo}
+                                                                onChange={(e) => setEditValorMaximo(e.target.value)}
+                                                                type="date"
+                                                                className={`form-control form-control-table ${valorMaximoError ? "is-invalid" : ""}`}
+                                                            />)}
                                                     </>) : (requisito?.valor_maximo)}</td>
-                                                    <td>{([1, 2, 3, 4].includes(requisito.id)) ? (
+                                                    <td>{([1, 2, 3].includes(requisito.id)) ? (
                                                         <span>Valor por defecto</span>
                                                     ) : (
                                                         <>
@@ -340,7 +361,7 @@ const ConfiguracionRequisito = () => {
                                                 >
                                                     <option value="">Selecciona el tipo</option>
                                                     <option value="Número">Número</option>
-                                                    <option value="Caracteres">Caracteres</option>
+                                                    <option value="Cadena Alfabetica">Cadena Alfabetica</option>
                                                     <option value="Fecha">Fecha</option>
                                                 </select>
                                                 <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>
@@ -373,6 +394,29 @@ const ConfiguracionRequisito = () => {
                                                         value={valor_maximo}
                                                         onChange={(e) => setValorMaximo(e.target.value)}
                                                         type="number"
+                                                        className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
+                                                        id="valorMaximo"
+                                                        name="valorMaximo"
+                                                    />
+                                                </div>
+                                            )}
+                                            {(tipoRequisito === "Fecha") && (
+                                                <div className="col-md-4">
+                                                    <p>Seleccione los valores en los cuales esta permitido {nombre_requisito}</p>
+                                                    <label htmlFor="descripcionRequisito" className="form-label">Valor Minimo</label>
+                                                    <input
+                                                        value={valor_minimo}
+                                                        onChange={(e) => setValorMinimo(e.target.value)}
+                                                        type="date"
+                                                        className={`form-control ${valorMinimoError ? "is-invalid" : ""}`}
+                                                        id="valorMinimo"
+                                                        name="valorMinimo"
+                                                    />
+                                                    <label htmlFor="descripcionRequisito" className="form-label">Valor Maximo</label>
+                                                    <input
+                                                        value={valor_maximo}
+                                                        onChange={(e) => setValorMaximo(e.target.value)}
+                                                        type="date"
                                                         className={`form-control ${valorMaximoError ? "is-invalid" : ""}`}
                                                         id="valorMaximo"
                                                         name="valorMaximo"
