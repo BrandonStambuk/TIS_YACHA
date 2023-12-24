@@ -27,6 +27,7 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
       return "Solo están permitidas letras, numeros, espacios y guiones.";
     } else if (value.length > 50) {
       return "No se permiten más de 50 caracteres.";
+      
     }
     return "";
   };

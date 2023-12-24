@@ -15,11 +15,6 @@ class Requisitos extends Seeder
      */
     public function run()
     {
-        DB::table('requisitos_eventos')->insert([
-            'nombre_requisito' => 'correo',
-            'descripcion_requisito' => 'correo del participante',
-            'tipo_requisito' => 'alfanumerico'
-        ]);
        /* DB::table('requisitos_eventos')->insert([
             'nombre_requisito' => 'correo institucional',
             'descripcion_requisito' => 'correo del participante de la UMSS',
@@ -47,7 +42,7 @@ class Requisitos extends Seeder
         ]);
         DB::table('requisitos_eventos')->insert([
             'nombre_requisito' => 'fecha de nacimiento',
-            'descripcion_requisito' => 'fecha de nacimiento del participante',
+            'descripcion_requisito' => 'fecha de nacimiento del participante para validar edad mayor a 18 años',
             'tipo_requisito' => 'Fecha'
         ]);
     }

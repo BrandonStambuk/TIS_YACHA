@@ -121,7 +121,7 @@ class EventoDinamicoController extends Controller
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
     }
 
-    public function notificarCambios($id)
+    public function notificarCambios($id, Request $request)
     {
         $evento = EventoDinamico::find($id);
         if (!$evento) {
@@ -136,9 +136,10 @@ class EventoDinamicoController extends Controller
             return response()->json(['message' => 'No hay participantes para este evento'], 404);
         }
         $eventoLink = "http://localhost:3000/mostrar/{$evento->id}";
+        $personalizedMessage = $request->personalizedMessage;
         
         foreach ($participantes as $participante) {
-            $participante->notify(new ChangeNotification($eventoLink));
+            $participante->notify(new ChangeNotification($eventoLink, $personalizedMessage));
         }
         
         return response()->json(['message' => 'Notificaciones enviadas con éxito'], 200);
