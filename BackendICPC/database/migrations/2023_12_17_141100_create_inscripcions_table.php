@@ -17,8 +17,8 @@ class CreateInscripcionsTable extends Migration
             $table->id();
             $table->String('nombre_equipo')->nullable();
             $table->unsignedBigInteger('evento_dinamicos_id');
-            $table->String('problemas_resueltos')->nullable();
-            $table->String('penalidad')->nullable();
+            $table->integer('problemas_resueltos')->nullable();
+            $table->integer('penalidad')->nullable();
             $table->timestamps();
             $table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos')->onDelete('cascade');
         });
