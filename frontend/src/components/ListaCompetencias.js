@@ -18,7 +18,7 @@ const ListaEventos = () => {
   }, []);
 
   const getAllEventos = async () => {
-    const response = await axios.get(`${endpoint}/eventosDinamicos`);
+    const response = await axios.get(`${endpoint}/eventosDinamicosCompetencia`);
     setEventos(response.data);
     console.log(response.data);
   };

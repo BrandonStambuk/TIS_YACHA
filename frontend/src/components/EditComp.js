@@ -11,7 +11,7 @@ import FechasHorasForm from "./componentesCompetenciaDinamica/FechasHorasForm";
 import DescripcionForm from "./componentesCompetenciaDinamica/DescripcionForm";
 import RequisitosForm from "./componentesCompetenciaDinamica/RequisitosForm";
 import AficheForm from "./componentesCompetenciaDinamica/AficheForm";
-
+import Swal from 'sweetalert2';
 
 
 import { URL_API } from "../const";
@@ -36,7 +36,82 @@ const CreateEvento = () => {
   const [rutaInit, setRutaInit] = useState(null);
   const [requisitosInit, setRequisitosInit] = useState([{}]);
   const navigate = useNavigate();
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Competencia");
   const { id } = useParams();
+
+  const notificarCambios = async () => {
+    try {
+        const { value: extraMessage } = await Swal.fire({
+            title: 'Desea adjuntar información adicional sobre los cambios?',
+            html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Mensaje extra">',
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'No, solo notificar',
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Adjuntar',
+            allowOutsideClick: false,
+            preConfirm: () => {
+                return document.getElementById('extra-message').value;
+            }
+        });
+        if (extraMessage) {
+            Swal.fire({
+                title: 'Adjuntando información adicional a las notificaciones',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            await axios.post(`${endpoint}/notificarCambios/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
+            Swal.fire({
+                title: 'Notificación Enviada',
+                text: 'Se ha notificado a los inscritos del evento',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido',
+            });
+        } else {
+            // extraMessage esté vacío
+            Swal.fire({
+                title: 'Enviando notificación a los inscritos',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            await axios.post(`${endpoint}/notificarCambios/${id}`);
+            Swal.fire({
+              title: 'Notificación Enviada',
+              text: 'Se ha notificado a los inscritos del evento',
+              icon: 'success',
+              showCancelButton: false,
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido',
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            title: 'No existen inscritos',
+            text: 'El evento no tiene inscritos',
+            icon: 'error',
+            showCancelButton: false,
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido',
+        });
+    }
+};
 
 
 
@@ -53,6 +128,13 @@ const CreateEvento = () => {
         setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
         setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
         setRutaInit(response.data.afiche);
+        if(response.data.mostrar_publico){
+          setPublico(true);
+          setMensajePublico("Evento Publicado");
+        }else{
+          setPublico(false);
+          setMensajePublico("Publicar Evento");
+        };
         const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
           id: etapa.id,
           contenido_etapa: etapa.contenido_etapa,
@@ -96,6 +178,7 @@ const CreateEvento = () => {
   const handleUpdateEventoDinamico = async (e) => {
     e.preventDefault();
     let ruta = null;
+    await notificarCambios();
     if (afiche) {
       const formData = new FormData();
       formData.append('image', afiche);
@@ -105,7 +188,10 @@ const CreateEvento = () => {
         },
       });
       ruta = responseImage.data.path;
+    }else if(rutaInit){
+      ruta = rutaInit;
     }
+    
 
     const responseEvento = await axios.put(`${endpoint}/actualizarEventoDinamico/${id}`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
@@ -113,6 +199,8 @@ const CreateEvento = () => {
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      requiere_coach: 1,
+      mostrar_publico: publico,
       afiche: ruta
     });
 
@@ -258,6 +346,16 @@ const CreateEvento = () => {
     setAfiche(afiche);
   }
 
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Competencia");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Competencia Publicada");
+      setPublico(!publico);
+    }
+  }
+
   return (
     <div>
       <NavbarAdmin />
@@ -271,13 +369,13 @@ const CreateEvento = () => {
                   }`}
               >
                 Nombre Competencia
-              </button>
+                </button>
               <button
                 onClick={() => handleSectionClick("tipoEvento")}
                 className={`button mb-2 ${activeSection === "tipoEvento" ? "active" : ""
                   }`}
               >
-                Tipo Competencia
+                Tipo Evento
               </button>
               <button
                 onClick={() => handleSectionClick("fechasHoras")}
@@ -306,6 +404,10 @@ const CreateEvento = () => {
                   }`}
               >
                 Afiche
+                </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
               </button>
               <button onClick={handleUpdateEventoDinamico} className='btn btn-success'>Actualizar</button>
               <Link to="/listaCompetencias" className='btn btn-danger'>Cancelar</Link>

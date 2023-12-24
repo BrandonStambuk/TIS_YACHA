@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 
-const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticipantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
+const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange }) => {
   const [nombreEventoError, setNombreEventoError] = useState("");
   const [lugarEventoError, setLugarEventoError] = useState("");
   const [cantidadError, setCantidadError] = useState("");
@@ -46,8 +46,8 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticipantesEven
 
   const handleCantidadParticipanetesEventoChange = (event) => {
     const value = parseInt(event.target.value, 10);
-    if (value < 1) {
-      setCantidadError("El minimo de competidores es de 1.");
+    if (value < 3) {
+      setCantidadError("El minimo de competidores es de 3.");
     } else if (value > 3) {
       setCantidadError("El maximo de competidores es de 3.");
     } else {
@@ -96,13 +96,12 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticipantesEven
 
         <label className="form-label">Cantidad Participantes</label>
         <input
-          value={cantidadParticipantesEvento}
+          value={3}
           onChange={handleCantidadParticipanetesEventoChange}
           type="number"
           className={`form-control ${cantidadError ? "is-invalid" : ""}`}
           id="cantidadError"
           name="cantidadError"
-          placeholder="1-3"
         />
         {cantidadError && (
           <div className="invalid-feedback">{cantidadError}</div>

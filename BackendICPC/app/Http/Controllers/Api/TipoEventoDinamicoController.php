@@ -15,9 +15,22 @@ class TipoEventoDinamicoController extends Controller
      */
     public function index()
     {
+        //$tipoEvento = TipoEventoDinamico::all();
+        $tipoEvento = TipoEventoDinamico::where('nombre_tipo_evento_dinamico', '!=', 'Competencia oficial ICPC')->get();
+        return $tipoEvento;
+    }
+
+    public function indexPublico()
+    {
         $tipoEvento = TipoEventoDinamico::all();
         return $tipoEvento;
     }
+
+    /*public function indexCompetencia()
+    {
+        $tipoEvento = TipoEventoDinamico::where('nombre_tipo_evento_dinamico', 'Competencia oficial ICPC')->get();
+        return $tipoEvento;
+    }*/
 
     /**
      * Store a newly created resource in storage.

@@ -313,33 +313,6 @@ const FechasHorasForm = ({
                 </div>
               </div>
 
-              <div className="mb-3">
-                <label htmlFor={`contenido${index}`} className="form-label">
-                  Contenido Etapa
-                </label>
-                <textarea
-                  className="form-control-descArea textarea-estilo"
-                  id={`descripcion`}
-                  name={`descripcion`}
-                  value={fechaHora.contenido_etapa}
-                  onChange={(e) =>
-                    handleFechasHorasChange(
-                      index,
-                      "contenido_etapa",
-                      e.target.value
-                    )
-                  }
-                  rows="4"
-                  style={{
-                    width: "100%",
-                    height: "200px",
-                    resize: "none",
-                  }}
-                ></textarea>
-                {horaEventoError && (
-                  <div className="invalid-feedback">{horaEventoError}</div>
-                )}
-              </div>
             </div>
           ))}
         </div>
