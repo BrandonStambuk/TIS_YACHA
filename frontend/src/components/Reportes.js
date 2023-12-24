@@ -8,6 +8,8 @@ import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const endpoint = URL_API;
 
@@ -22,7 +24,7 @@ const Reportes = () => {
     const [gestion, setGestion] = useState("");
     const [estado, setEstado] = useState("");
     const [participantes, setParticipantes] = useState("");
-    
+
     const cambiarPagina = (nuevaPagina) => {
         setPagina(nuevaPagina);
     };
@@ -63,18 +65,34 @@ const Reportes = () => {
             Estado: evento.mostrar_publico,
             Participantes: evento.cantidad_participantes_evento_dinamico,
         }));
-    
+
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Eventos');
-    
-        XLSX.writeFile(wb, 'eventos.xlsx');
+
+        XLSX.writeFile(wb, 'reporte_eventos.xlsx');
+    };
+
+    const exportarPDF = () => {
+        const doc = new jsPDF();
+        doc.text('Reporte', 95, 10);
+        doc.autoTable({
+            head: [['Nombre', 'Tipo', 'Gestión', 'Estado', 'Participantes']],
+            body: eventos.map((evento) => [
+                evento.nombre_evento_dinamico,
+                evento.tipo_evento_dinamico_id,
+                evento.gestion,
+                evento.mostrar_publico,
+                evento.cantidad_participantes_evento_dinamico,
+            ]),
+        });
+        doc.save('reporte_eventos.pdf');
     };
 
     useEffect(() => {
         getEventosFiltrados();
         getTipoEventos();
-    },[tipoEvento, gestion, estado, participantes]);
+    }, [tipoEvento, gestion, estado, participantes]);
 
 
     return (
@@ -185,6 +203,7 @@ const Reportes = () => {
                             </div>
                         </div>
                         <button className='btn btn-primary float-end' onClick={exportarExcel}>Exportar a Excel</button>
+                        <button className='btn btn-primary float-end' onClick={exportarPDF}>Exportar a PDF</button>
                     </div>
                 </div>
             </div>
