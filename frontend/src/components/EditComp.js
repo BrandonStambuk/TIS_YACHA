@@ -130,10 +130,10 @@ const CreateEvento = () => {
         setRutaInit(response.data.afiche);
         if(response.data.mostrar_publico){
           setPublico(true);
-          setMensajePublico("Evento Publicado");
+          setMensajePublico("Competencia Publicada");
         }else{
           setPublico(false);
-          setMensajePublico("Publicar Evento");
+          setMensajePublico("Publicar Competencia");
         };
         const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
           id: etapa.id,
@@ -370,13 +370,6 @@ const CreateEvento = () => {
               >
                 Nombre Competencia
                 </button>
-              <button
-                onClick={() => handleSectionClick("tipoEvento")}
-                className={`button mb-2 ${activeSection === "tipoEvento" ? "active" : ""
-                  }`}
-              >
-                Tipo Evento
-              </button>
               <button
                 onClick={() => handleSectionClick("fechasHoras")}
                 className={`button mb-2 ${activeSection === "fechasHoras" ? "active" : ""
