@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\ForgotPasswordController;
 
 Route::controller(EventoDinamicoController::class)->group(function (){
   Route::get('/eventosDinamicos', 'index');
+  Route::get('/eventosDinamicosCompetencia', 'indexCompetencia');
   Route::get('/eventosDinamicosPublicos', 'indexPublico');
   Route::post('/crearEventoDinamico', 'store');
   Route::delete('/eliminarEventoDinamico/{id}', 'destroy');
@@ -42,6 +43,7 @@ Route::controller(EventoDinamicoController::class)->group(function (){
 
 Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::get('/tipoEventosDinamicos', 'index');
+  Route::get('/tipoEventosDinamicosPublicos', 'indexPublico');
   Route::post('/crearTipoEventoDinamico', 'store');
   Route::delete('/eliminarTipoEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
