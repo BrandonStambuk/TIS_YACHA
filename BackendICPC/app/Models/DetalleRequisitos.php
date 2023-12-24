@@ -22,4 +22,5 @@ class DetalleRequisitos extends Model
     {
         return $this->belongsTo(RequisitosEvento::class, 'id_requisito');
     }
+   
 }

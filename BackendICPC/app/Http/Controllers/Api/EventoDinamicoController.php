@@ -106,19 +106,17 @@ class EventoDinamicoController extends Controller
     public function destroy($id)
     {
         $evento = EventoDinamico::find($id);
-
-        if (!$evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
-        }
-            $evento->detalleRequisitos()->delete();
-            $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
-            $fechaInscripcion->etapaEvento()->delete();
-        });
-    
-        $evento->fechaInscripcionEvento()->delete();
-        $evento->delete();
-    
+        $evento->delete();    
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
+    }
+
+    public function existeInscripciones($id)
+    {
+        $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
+        if ($inscripciones->isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     public function notificarCambios($id, Request $request)

@@ -24,7 +24,7 @@ class CreateEventoDinamicosTable extends Migration
             $table->boolean('requiere_coach')->default(false);
             $table->string('afiche', 500)->nullable();
             $table->timestamps();
-            $table->foreign('tipo_evento_dinamico_id')->references('id')->on('tipo_evento_dinamicos');
+            $table->foreign('tipo_evento_dinamico_id')->references('id')->on('tipo_evento_dinamicos')->onDelete('cascade');
             
         });
     }

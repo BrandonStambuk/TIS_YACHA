@@ -18,8 +18,8 @@ class CreateDetalleRequisitosTable extends Migration
             $table->unsignedBigInteger('id_evento_dinamico');
             $table->unsignedBigInteger('id_requisito');
             $table->timestamps();
-            $table->foreign('id_evento_dinamico')->references('id')->on('evento_dinamicos');
-            $table->foreign('id_requisito')->references('id')->on('requisitos_eventos');
+            $table->foreign('id_evento_dinamico')->references('id')->on('evento_dinamicos')->onDelete('cascade');
+            $table->foreign('id_requisito')->references('id')->on('requisitos_eventos')->onDelete('cascade');
         });
     }
 
