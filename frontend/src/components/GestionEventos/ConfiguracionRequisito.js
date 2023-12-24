@@ -237,7 +237,7 @@ const ConfiguracionRequisito = () => {
                                                     >
                                                         <option value="">Selecciona el tipo</option>
                                                         <option value="Número">Número</option>
-                                                        <option value="Caracteres">Caracteres</option>
+                                                        <option value="Cadena Alfabetica">Cadena Alfabetica</option>
                                                         <option value="Fecha">Fecha</option>
                                                     </select>) : (requisito?.tipo_requisito)}</td>
                                                     <td>{editingId === requisito?.id ? (
@@ -361,7 +361,7 @@ const ConfiguracionRequisito = () => {
                                                 >
                                                     <option value="">Selecciona el tipo</option>
                                                     <option value="Número">Número</option>
-                                                    <option value="Caracteres">Caracteres</option>
+                                                    <option value="Cadena Alfabetica">Cadena Alfabetica</option>
                                                     <option value="Fecha">Fecha</option>
                                                 </select>
                                                 <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>

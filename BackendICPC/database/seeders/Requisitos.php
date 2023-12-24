@@ -42,7 +42,7 @@ class Requisitos extends Seeder
         ]);
         DB::table('requisitos_eventos')->insert([
             'nombre_requisito' => 'fecha de nacimiento',
-            'descripcion_requisito' => 'fecha de nacimiento del participante',
+            'descripcion_requisito' => 'fecha de nacimiento del participante para validar edad mayor a 18 años',
             'tipo_requisito' => 'Fecha'
         ]);
     }

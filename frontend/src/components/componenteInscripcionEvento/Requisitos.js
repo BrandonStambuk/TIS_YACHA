@@ -12,8 +12,7 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn, onCor
     const [requisitoValor, setRequisitoValor] = useState(Array.from({ length: requisitosIn.length }, (_, rowIndex) =>
         Array(participantesIn.length).fill("").map((_, colIndex) => requisitosIn[rowIndex])));
     const [requisitoError, setRequisitoError] = useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
-    const [fechaNacimientoMin, setFechaNacimientoMin] = useState(null);
-    const [fechaNacimientoMax, setFechaNacimientoMax] = useState(null);
+
 
 
 
@@ -98,13 +97,6 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn, onCor
                     nuevosErrores[requisitoIndex][participanteIndex] = "El valor no puede tener mas de 30 caracter";
                     return nuevosErrores;
                 });
-                if (value.length < 15) {
-                    setValores((prevValores) => {
-                        const nuevosValores = [...prevValores];
-                        nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
-                        return nuevosValores;
-                    });
-                }
             } else {
                 setRequisitoError((prevError) => {
                     const nuevosErrores = [...prevError];
@@ -180,13 +172,70 @@ const Requisitos = ({ participantesIn, requisitosIn, onValores, valoresIn, onCor
                     return nuevosValores;
                 });
             }
-        }
+        }else if (requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.tipo_requisito === "Fecha") {
+            const valorMinimo = requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_minimo;
+            const valorMaximo = requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.valor_maximo;
+            const fechaActual = new Date(value);
+            const fechaNacimientoMin = new Date(valorMinimo);
+            const fechaNacimientoMax = new Date(valorMaximo);
 
-        /* setValores((prevValores) => {
-              const nuevosValores = [...prevValores];
-              nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
-              return nuevosValores;
-          });*/
+            if (fechaActual <= fechaNacimientoMin || fechaActual >= fechaNacimientoMax) {
+                let mensajeError = "La fecha no es válida.";
+
+                if (fechaActual >= fechaNacimientoMax) {
+                    mensajeError = `La fecha no puede ser mayor a ${fechaNacimientoMax.toLocaleDateString("es-ES")}.`;
+                } else if (fechaActual <= fechaNacimientoMin) {
+                    mensajeError = `La fecha no puede ser menor a ${fechaNacimientoMin.toLocaleDateString("es-ES")}.`;
+                }
+
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = mensajeError;
+                    return nuevosErrores;
+                });
+            } else {
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = "";
+                    return nuevosErrores;
+                });
+
+                setValores((prevValores) => {
+                    const nuevosValores = [...prevValores];
+                    nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
+                    return nuevosValores;
+                });
+            }
+
+        }else if (requisitoValor[requisitoIndex][participanteIndex].requisitos_evento.tipo_requisito === "Cadena Alfabetica") {
+            const regex = /^[a-zA-Z\s]*$/;
+
+            if (!regex.test(value)) {
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = "Solo se permiten letras y espacios";
+                    return nuevosErrores;
+                });
+            } else if (value && value.length > 30) {
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = "El valor no puede tener mas de 30 caracter";
+                    return nuevosErrores;
+                });                
+            } else {
+                setRequisitoError((prevError) => {
+                    const nuevosErrores = [...prevError];
+                    nuevosErrores[requisitoIndex][participanteIndex] = "";
+                    return nuevosErrores;
+                });
+
+                setValores((prevValores) => {
+                    const nuevosValores = [...prevValores];
+                    nuevosValores[requisitoIndex][participanteIndex] = { valor: value, id_requisito: idRequisito };
+                    return nuevosValores;
+                });
+            }
+        }
     };
 
     const getInputType = (tipoRequisito) => {
