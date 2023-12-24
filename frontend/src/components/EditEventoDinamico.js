@@ -40,7 +40,13 @@ const CreateEvento = () => {
   const [publico, setPublico] = useState(false);
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const { id } = useParams();
-
+  const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
+  //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(0);
+  const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
+  const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
+  const [contadorDescEvento, setContadorDescEvento] = useState(false);
+  const [contadorRequisitos, setContadorRequisitos] = useState(false);
   const notificarCambios = async () => {
     try {
         const { value: extraMessage } = await Swal.fire({
@@ -179,6 +185,7 @@ const CreateEvento = () => {
   };
 
   const handleUpdateEventoDinamico = async (e) => {
+   try{
     e.preventDefault();
     let ruta = null;
     await notificarCambios();
@@ -304,8 +311,30 @@ const CreateEvento = () => {
 
       }
     }
-
+    console.log("La seccion nombreEvento tiene un valor de");
+    console.log(contadorNombreEvento);
+    console.log("La seccion tipoEvento tiene un valor de");
+    console.log(contadorTipoEvento);
     navigate("/listaEventos");
+    console.log("La seccion FECHA tiene un valor de");
+    console.log(booleanFechaEvento);
+    console.log("La seccion descripcion tiene un valor de");
+    console.log(contadorDescEvento);
+    console.log("La seccion REQUISITOS tiene un valor de");
+    console.log(contadorRequisitos);
+    navigate("/listaEventos");
+   }catch(error){
+    //console.error("Error al actualizar el evento:", error);
+    if ((error.response && error.response.status===500)) {
+      Swal.fire({
+        icon: "error",
+        title: "Verifique los datos ingresados",
+        text: "Debe llenar todos los campos",
+      });
+    } else {
+      console.error("Error inesperado:", error);
+    }
+   }
   }
 
   const handleNombreEventoChange = (nombre_evento) => {
@@ -411,7 +440,13 @@ const CreateEvento = () => {
                 onClick={() => handlePublicoChange()}      >
                 {mensajePublico}
               </button>
-              <button onClick={handleUpdateEventoDinamico} className='btn btn-success'>Actualizar</button>
+              <button
+                onClick={handleUpdateEventoDinamico}
+                className="btn btn-success"
+                
+              >
+                Actualizar Evento
+              </button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
@@ -424,13 +459,18 @@ const CreateEvento = () => {
                 onNombreEventoChange={handleNombreEventoChange}
                 onLugarEventoChange={handleLugarEventoChange}
                 onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
-
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorNombreEvento}
+                onContadorChange={setContadorNombreEvento}
               />
             )}
             {activeSection === "tipoEvento" && (
               <TipoEventoForm
                 onTipoEvento={handleTipoEventoChange}
                 onValorSeleccionado={tipo_evento_dinamico_id}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorTipoEvento}
+                onContadorChange={setContadorTipoEvento}
               />
             )}
             {activeSection === "fechasHoras" && (
@@ -441,18 +481,27 @@ const CreateEvento = () => {
                 FechaInicioIn={fecha_inicio_inscripcion}
                 FechaFinIn={fecha_fin_inscripcion}
                 FechasHorasNuevo={fechasHoras}
+                onGuardarEvento={setGuardarEvento}
+                boolean={booleanFechaEvento}
+                onBooleanChange={setBooleanFechaEvento}
               />
             )}
             {activeSection === "descripcion" && (
               <DescripcionForm
                 onDescripcionChange={handleDescripcion}
                 DescripcionIn={descripcion}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorDescEvento}
+                onContadorChange={setContadorDescEvento}
               />
             )}
             {activeSection === "requisitos" && (
               <RequisitosForm
                 onRequisitos={handleRequisitosSeleccionados}
                 RequisitosIn={requisitosSeleccionados}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorRequisitos}
+                onContadorChange={setContadorRequisitos}
               />
             )}
             {activeSection === "Afiche" && (

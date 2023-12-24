@@ -57,27 +57,33 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     const value = parseInt(event.target.value, 10);
     if (value < 1) {
       setCantidadError("El minimo de competidores es de 1.");
+      setPuedeGuardar(false);
+      onContadorChange(false);
     } else if (value > 3) {
       setCantidadError("El maximo de competidores es de 3.");
+      setPuedeGuardar(false);
+      onContadorChange(false);
     } else {
       setCantidadError("");
       onCantidadParticipantesChange(event.target.value);
     }
-    setPuedeGuardar(!nombreEventoError && !lugarEventoError && !cantidadError && nombreEvento.trim() !== "" && lugarEvento.trim() !== "" && cantidadParticiapantesEvento.trim() !== "");
+    setPuedeGuardar(!nombreEventoError && !lugarEventoError && !cantidadError && nombreEvento.trim() !== "" && lugarEvento.trim() !== "" &&  value > 0 );
 
   }
   
   useEffect(() => {
-    if (!nombreEvento.trim() || !lugarEvento.trim() || !cantidadParticiapantesEvento.trim() || nombreEventoError || lugarEventoError || cantidadError) {
+    if (!nombreEvento.trim() || !lugarEvento.trim() || cantidadParticiapantesEvento === 0 || nombreEventoError || lugarEventoError || cantidadError) {
       setPuedeGuardar(false);
       console.log("No se puede guardar (al menos un campo está vacío o tiene errores)");
-      onContadorChange(0);
+      onContadorChange(false);
 
      // onGuardarEvento(puedeGuardar);
     } else {
       setPuedeGuardar(true);
       console.log("Se puede guardar");
-      onContadorChange(contador + 1);
+      onContadorChange(true);
+      console.log("contador tiene el valor");
+      console.log(contador);
 
       //onGuardarEvento(puedeGuardar);
     }

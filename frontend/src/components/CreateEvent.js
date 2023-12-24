@@ -38,7 +38,7 @@ const CreateEvento = () => {
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
   //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
-  const [contadorNombreEvento, setContadorNombreEvento] = useState(0);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(false);
   const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
   const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
   const [contadorDescEvento, setContadorDescEvento] = useState(false);
@@ -129,9 +129,14 @@ const CreateEvento = () => {
       console.log(contadorDescEvento);
       console.log("La seccion REQUISITOS tiene un valor de");
       console.log(contadorRequisitos);
+      Swal.fire({
+        icon: "success",
+        title: "Éxito!",
+        text: "El evento se creo correctamente!",
+      });
       navigate("/listaEventos");
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.status === 400 || (error.response && error.response.status===500)) {
         Swal.fire({
           icon: "error",
           title: "Verifique los datos ingresados",
@@ -264,7 +269,7 @@ const CreateEvento = () => {
                 className="btn btn-success"
                 disabled={
                   handleStoreEventoDinamico === undefined ||
-                  !contadorNombreEvento === 2 ||
+                  !contadorNombreEvento ||
                   !contadorTipoEvento === 1 ||
                   !booleanFechaEvento ||
                   !contadorDescEvento ||
