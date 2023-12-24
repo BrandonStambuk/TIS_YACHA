@@ -96,6 +96,7 @@ Route::controller(InscripcionController::class)->group(function (){
   Route::put('/actualizarInscripcion/{id}', 'update');
   Route::get('/inscripciones/{id}', 'show');
   Route::get('/inscritos/{id}', 'getParticipantesPorEvento');
+  Route::put('/actualizarInscripcion/{id}', 'setNotas');
 });
 
 Route::controller(ParticipanteController::class)->group(function (){

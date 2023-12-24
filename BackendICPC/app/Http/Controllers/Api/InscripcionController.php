@@ -81,4 +81,15 @@ class InscripcionController extends Controller
     
         return $participantes;
     }
+    public function setNotas(Request $request, $id) {
+        $inscripcion = Inscripcion::findOrFail($id);
+        if(isset($request->problemas_resueltos)){
+            $inscripcion->problemas_resueltos = $request->problemas_resueltos;
+        }
+        if(isset($request->penalidad)){
+            $inscripcion->penalidad = $request->penalidad;
+        }
+        $inscripcion->save();
+        return $inscripcion;
+    }
 }
