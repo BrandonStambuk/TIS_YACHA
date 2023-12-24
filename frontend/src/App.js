@@ -32,6 +32,7 @@ import ConfiguracionEvento from './components/ConfiguracionEvento';
 import PasswordRestore from './components/PassworRestore';
 import Restore from './components/Restore';
 import Reportes from './components/Reportes';
+import Resultados from './components/Resultados';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -113,6 +114,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <HomePageUser/>} />   
+          <Route path='/resultados/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Resultados/>: <HomePageUser/>} />
           <Route path='/create' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateEvento /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
           <Route path='/createCompe' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CreateCompe/>:(rol === 'Coach') ? <HomePageUser/>:<Login />}/>   
           <Route path='/editCompetencia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditComp/>:(rol === 'Coach') ? <HomePageUser/>:<Login />}/>

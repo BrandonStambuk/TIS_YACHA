@@ -95,6 +95,7 @@ Route::controller(InscripcionController::class)->group(function (){
   Route::delete('/eliminarInscripcion/{id}', 'destroy');
   Route::put('/actualizarInscripcion/{id}', 'update');
   Route::get('/inscripciones/{id}', 'show');
+  Route::get('/inscritos/{id}', 'getParticipantesPorEvento');
 });
 
 Route::controller(ParticipanteController::class)->group(function (){

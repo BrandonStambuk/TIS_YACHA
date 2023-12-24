@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Inscripcion;
 use App\Models\Paticipante;
 use App\Models\EventoDinamico;
+use Illuminate\Support\Facades\DB;
 
 class InscripcionController extends Controller
 {
@@ -69,5 +70,15 @@ class InscripcionController extends Controller
     {
         $inscripcion = Inscripcion::findOrFail($id);
         $inscripcion->delete();
+    }
+    public function getParticipantesPorEvento($idEvento) {
+        $participantes = DB::table('paticipantes')
+            ->join('inscripcions', 'paticipantes.inscripcions_id', '=', 'inscripcions.id')
+            ->join('evento_dinamicos', 'inscripcions.evento_dinamicos_id', '=', 'evento_dinamicos.id')
+            ->where('evento_dinamicos.id', $idEvento)
+            ->select('paticipantes.nombre', 'paticipantes.apellido', 'inscripcions.nombre_equipo', 'inscripcions.problemas_resueltos', 'inscripcions.penalidad')
+            ->get();
+    
+        return $participantes;
     }
 }
