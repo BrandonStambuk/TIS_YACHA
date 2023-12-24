@@ -9,6 +9,8 @@ const endpoint = URL_API;
 const ConfiguracionTipoEvento = () => {
   const [nombre_tipo_evento_dinamico, setTipoEventoDinamico] = useState("");
   const [nombreTipoEventoError, setNombreTipoEventoError] = useState("");
+  const [edit_nombre_tipo_evento_dinamico, setEditTipoEventoDinamico] = useState("");
+  const [editNombreTipoEventoError, setEditNombreTipoEventoError] = useState("");
   const [opciones, setOpciones] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
@@ -35,19 +37,20 @@ const ConfiguracionTipoEvento = () => {
   };
   const handleCancelOpcion = () => {
     setEditingId(null);
-    setTipoEventoDinamico("");
+    setEditTipoEventoDinamico("");
   };
 
   const handleEditOpcion = (id) => {
     setEditingId(id);
+    setEditNombreTipoEventoError("");
     const tipoEventoSeleccionado = opciones.find((opcion) => opcion.id === id);
-    setTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
+    setEditTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
   };
 
   const handleUpdateOpcion = async () => {
     try {
       await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
-        nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
+        nombre_tipo_evento_dinamico: edit_nombre_tipo_evento_dinamico,
       });
 
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
@@ -55,9 +58,23 @@ const ConfiguracionTipoEvento = () => {
       setOpciones(data);
 
       setEditingId(null);
-      setTipoEventoDinamico("");
+      setEditTipoEventoDinamico("");
     } catch (error) {
       console.error("Error al actualizar el tipo de evento:", error);
+    }
+  };
+  const handleTipoDeEventoDinamicoChange = (e) => {
+    let error = validateTipoEvento(e.target.value);
+    setNombreTipoEventoError(error);
+    if (!error) {
+      setTipoEventoDinamico(e.target.value);
+    }
+  };
+  const handleEditNombreTipoEventoDinamicoChange = (e) => {
+    let error = validateTipoEvento(e.target.value);
+    setEditNombreTipoEventoError(error);
+    if (!error) {
+      setEditTipoEventoDinamico(e.target.value);
     }
   };
 
@@ -73,16 +90,14 @@ const ConfiguracionTipoEvento = () => {
   };
 
   const handleSubmitStoreTipo = async (e) => {
-    let error = validateTipoEvento(nombre_tipo_evento_dinamico);
-    setNombreTipoEventoError(error);
-    if (!error) {
       e.preventDefault();
       await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
         nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
       });
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
       setOpciones(response.data);
-    }
+      setTipoEventoDinamico("");
+
   };
 
   return (
@@ -108,15 +123,20 @@ const ConfiguracionTipoEvento = () => {
                             <td>{opcion?.id}</td>
                             <td>
                               {editingId === opcion?.id ? (
+                                <>
                                 <input
-                                  value={nombre_tipo_evento_dinamico}
-                                  onChange={(e) =>
-                                    setTipoEventoDinamico(e.target.value)
-                                  }
+                                  value={edit_nombre_tipo_evento_dinamico}
+                                  onChange={handleEditNombreTipoEventoDinamicoChange}
                                   type="text"
-                                  className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""
+                                  className={`form-control ${editNombreTipoEventoError ? "is-invalid" : ""
                                     }`}
                                 />
+                                {editNombreTipoEventoError && (
+                                  <div className="invalid-feedback">
+                                    {editNombreTipoEventoError}
+                                  </div>
+                                )}
+                                </>
                               ) : (
                                 opcion?.nombre_tipo_evento_dinamico
                               )}
@@ -174,9 +194,7 @@ const ConfiguracionTipoEvento = () => {
                       </label>
                       <input
                         value={nombre_tipo_evento_dinamico}
-                        onChange={(e) =>
-                          setTipoEventoDinamico(e.target.value)
-                        }
+                        onChange={handleTipoDeEventoDinamicoChange}
                         type="text"
                         className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""
                           }`}
