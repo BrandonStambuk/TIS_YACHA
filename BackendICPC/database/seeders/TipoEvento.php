@@ -30,8 +30,5 @@ class TipoEvento extends Seeder
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Competencia Oficial ICPC',
         ]);
-        DB::table('tipo_evento_dinamicos')->insert([
-            'nombre_tipo_evento_dinamico' => 'Competencia oficial ICPC',
-        ]);
     }
 }
