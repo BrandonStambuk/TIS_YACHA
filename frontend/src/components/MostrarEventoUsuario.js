@@ -77,7 +77,7 @@ const HomePage = () => {
         <div className="row">
           {/* Image Card */}
           <div className="col-md-6">
-            <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
+            <div className="card card-custom p-4" style={{ border: '4px' }}>
               <h2 className='card-title'>Afiche</h2>
               <img className="imagenevento" src={imagen} alt={nombre_evento} />
             </div>
@@ -85,7 +85,7 @@ const HomePage = () => {
 
           {/* Event Details Card */}
           <div className="col-md-6">
-            <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
+            <div className="card card-custom p-4" style={{ border: '4px' }}>
               <div className="event-info-text center">
                 <h2 className='card-title'>{nombre_evento}</h2>
               </div>

@@ -140,7 +140,7 @@ const InscripcionEvento = () => {
                 className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""}`}>
                 Requisitos
               </button>
-              <button onClick={sePuedeGuardar ? handleStoreInscripcion : undefined} className='btn btn-success' disabled={!sePuedeGuardar}>Guardar</button>
+              <button onClick={handleStoreInscripcion} className='btn btn-success'>Guardar</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
