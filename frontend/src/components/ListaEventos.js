@@ -41,7 +41,80 @@ const ListaEventos = () => {
         const response = await axios.get(`${endpoint}/existeInscripcion/${id}`);        
         console.log(response.data);
         if (response.data){
-          Swal.fire('¡No se puede eliminar!', 'El evento tiene inscripciones activas.', 'error');
+          const { isConfirmed } = await Swal.fire({
+            title: '¡Advertencia!',
+            text: 'El evento tiene inscripciones activas. ¿Deseas eliminarlo de todos modos?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText: 'Cancelar',
+          });
+          if (isConfirmed){
+            const { value: extraMessage } = await Swal.fire({
+              title: '¿Desea adjuntar información adicional?',
+              html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Mensaje extra">',
+              icon: 'info',
+              showCancelButton: true,
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'No, solo notificar',
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Adjuntar',
+              allowOutsideClick: false,
+              preConfirm: () => {
+                  return document.getElementById('extra-message').value;
+              }
+            });
+            if (extraMessage){
+              Swal.fire({
+                title: 'Adjuntando información adicional a las notificaciones',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+              });
+              await axios.post(`${endpoint}/notificarEliminado/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
+              Swal.fire({
+                title: 'Notificación Enviada',
+                text: 'Se ha notificado a los inscritos',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido',
+              });
+              deleteEvento(id);
+              Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+            }else{
+              Swal.fire({
+                title: 'Notificando a los inscritos',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+              });
+              await axios.post(`${endpoint}/notificarEliminado/${id}`);
+              Swal.fire({
+                title: 'Notificación Enviada',
+                text: 'Se ha notificado a los inscritos',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido',
+              });
+              deleteEvento(id);
+              Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+            }
+          }else{
+            Swal.fire('Cancelado', 'El evento no ha sido eliminado', 'error');
+          }
         }else{
           deleteEvento(id);
           Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
