@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
 import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 
 const endpoint = URL_API;
 
@@ -53,6 +54,22 @@ const Reportes = () => {
             {tipoEvento.nombre_tipo_evento_dinamico}
         </option>
     ));
+
+    const exportarExcel = () => {
+        const data = eventos.map((evento) => ({
+            Nombre: evento.nombre_evento_dinamico,
+            Tipo: evento.tipo_evento_dinamico_id,
+            Gestión: evento.gestion,
+            Estado: evento.mostrar_publico,
+            Participantes: evento.cantidad_participantes_evento_dinamico,
+        }));
+    
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Eventos');
+    
+        XLSX.writeFile(wb, 'eventos.xlsx');
+    };
 
     useEffect(() => {
         getEventosFiltrados();
@@ -167,6 +184,7 @@ const Reportes = () => {
                                 </ul>
                             </div>
                         </div>
+                        <button className='btn btn-primary float-end' onClick={exportarExcel}>Exportar a Excel</button>
                     </div>
                 </div>
             </div>
