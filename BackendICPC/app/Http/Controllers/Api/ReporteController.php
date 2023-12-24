@@ -15,9 +15,9 @@ class ReporteController extends Controller{
         $tipo=$request->tipo;
         $estado=$request->estado;
         $participantes=$request->participantes;
-
+    
         $resultados=EventoDinamico::query();
-
+    
         if (isset($gestion)) {
             $resultados=$resultados->whereHas('fechaInscripcionEvento', function ($query) use ($gestion) {
                 $query->whereYear('fecha_fin_inscripcion', $gestion);
@@ -32,7 +32,7 @@ class ReporteController extends Controller{
         if(isset($participantes)){
             $resultados=$resultados->where('cantidad_participantes_evento_dinamico', '=',(int)$participantes);
         }
-        $resultados=$resultados->get();
+        $resultados=$resultados->with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos.requisitosEvento'])->get();
         return $resultados;
     }
 }
