@@ -6,10 +6,10 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado, onGuardarEvento}) => {
+const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado, onGuardarEvento,contador,onContadorChange}) => {
   const [opciones, setOpciones] = useState([]);
   const [valorSeleccionado, setValorSeleccionado] = useState("");
-  const [puedeGuardar, setPuedeGuardar] = useState(false);
+  const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEvento);
 
   useEffect(() => {
     axios
@@ -28,6 +28,8 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado, onGuardarEvento}) =
     onTipoEvento(selectedValue);
     setValorSeleccionado(selectedValue);
     onGuardarEvento(true);
+    onContadorChange(contador + 1);
+
     console.log("se puede guardar tipo") // Llamar a onGuardarEvento con true cuando se selecciona un valor
   };
 

@@ -28,6 +28,7 @@ const Perfil = () => {
   const getInitials = (firstName, lastName) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   };
+  const [rolUsuario, setRol] = useState(""); // Nuevo estado para almacenar el rol del usuario
 
   const validateEmail = (email) => {
     let errores = [];
@@ -59,6 +60,8 @@ const Perfil = () => {
         };
 
         setUserData(usuarioLogueado);
+        setRol(localStorage.getItem('role')); // Obtener el rol del almacenamiento local
+
       } catch (error) {
         console.error('Error al obtener los datos del usuario:', error);
       }
@@ -183,12 +186,15 @@ const Perfil = () => {
         </div>
         <div className='col-md-7 d-flex align-items-center'>
           <div className='card card-translucent mx-auto card-container'>
-            <h2 className='card-header'>Perfil de Usuario</h2>
+            <h2 className='card-header'>Perfil de Usuario - {rol}</h2>
             <div className='card-body text-perfil'>
               {selectedOption == 'perfil' && (
                 <div className='justify-content-center'>
                   <p className='border-right p-2'>
+                    
                     <strong>Nombre:</strong> {userData.nombre}
+                    
+
                   </p>
                   <p className='border-left p-2'>
                     <strong>Apellido:</strong> {userData.apellido}

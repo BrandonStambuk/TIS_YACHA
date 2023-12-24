@@ -5,21 +5,26 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn, nombresIn, apellidosIn, cantidadParticipantesIn,
+const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , nombreEquipoIn, nombresIn, apellidosIn, correosIn, cantidadParticipantesIn,
     onGuardarEstado, }) => {
-    const [nombre_Equipo, setNombreEquipo] = useState(nombreEquipoIn || "");
-    const [tipoRequisito, setTipoRequisito] = useState("");
-    const [nombres, setNombres] = useState(nombresIn || []);
+    const [nombres, setNombres] = useState(nombresIn||[]);
     const [apellidos, setApellidos] = useState(apellidosIn || []);
+    const [correos, setCorreos] = useState(correosIn||[]);
+    const [nombreEquipo, setNombreEquipo] = useState(nombreEquipoIn||[]);;
     const [nombreEquipoError, setNombreEquipoError] = useState(false);
     const [nombresError, setNombresError] = useState(new Array(nombres.length).fill(false));
     const [apellidosError, setApellidosError] = useState(new Array(apellidos.length).fill(false));
 
-    useEffect(() => {
-        const arrayNombres = Array.from({ length: cantidadParticipantesIn });
-        setNombres(arrayNombres);
+   useEffect(() => {
+        if (nombres.length > 0){
+            setNombres(nombresIn);
+        }else{
+            const arrayNombres = Array.from({ length: cantidadParticipantesIn });
+            setNombres(arrayNombres);
         setNombresError(new Array(arrayNombres.length).fill(false));
         setApellidosError(new Array(arrayNombres.length).fill(false));
+        }
+        
     }, [cantidadParticipantesIn]);
     const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEstado); // 
     const capitalizeFirstLetter = (str) => {
@@ -29,9 +34,6 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
     //const isAlpha = (str) => /^[a-zA-Z]+$/.test(str);
     const isAlphaWithSpaces = (str) => /^[a-zA-Z\s]+$/.test(str);
 
-    const handleTipoRequisitoChange = (e) => {
-        setTipoRequisito(e.target.value);
-    };
 
     const handleNombreEquipoChange = (value) => {
         const capitalizedValue = capitalizeFirstLetter(value);
@@ -72,6 +74,13 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
         console.log("NO PUEDE GUARDAR");
     };
 
+    const handleCorreosChange = (index, value) => {
+        const nuevosCorreos = [...correos];
+        nuevosCorreos[index] = value;
+        setCorreos(nuevosCorreos);
+        onCorreos(nuevosCorreos);
+    };
+
     return (
         <div className="card-body tarjeta">
             <div className="mb-3">
@@ -97,7 +106,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
                             </div>
                             {nombres.map((nombre, index) => (
                                 <div key={index} className="row">
-                                    <div className="col-md-6 mb-3">
+                                    <div className="col-md-4 mb-3">
                                         <label htmlFor={`nombre${index + 1}`} className="form-label">
                                             Nombres Integrante {index + 1}
                                         </label>
@@ -115,7 +124,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
                                             </div>
                                         )}
                                     </div>
-                                    <div className="col-md-6 mb-3">
+                                    <div className="col-md-4 mb-3">
                                         <label htmlFor={`apellido${index + 1}`} className="form-label">
                                             Apellidos Integrante {index + 1}
                                         </label>
@@ -133,6 +142,20 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, nombreEquipoIn
                                             </div>
                                         )}
                                     </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label htmlFor={`correo${index + 1}`} className="form-label">
+                                            Correo {index + 1}
+                                        </label>
+                                        <input
+                                            value={correos[index]}
+                                            onChange={(e) => handleCorreosChange(index, e.target.value)}
+                                            type="email"
+                                            className="form-control"
+                                            id={`correo${index + 1}`}
+                                            name={`correo${index + 1}`}
+                                        />
+                                    </div>
+                                
                                 </div>
                             ))}
                         </div>

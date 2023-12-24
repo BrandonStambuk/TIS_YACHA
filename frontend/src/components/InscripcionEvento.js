@@ -21,6 +21,7 @@ const InscripcionEvento = () => {
   const [activeSection, setActiveSection] = useState("datosGenerales");
   const [cantidadParticipantes, setCantidadParticipantes] = useState("");
   const [nombre_equipo, setNombreEquipo] = useState("");
+  const [correos, setCorreos] = useState([]);
   const [requisitos, setRequisitos] = useState([]);
   const [nombres, setNombres] = useState([]);
   const [apellidos, setApellidos] = useState([]);
@@ -68,10 +69,12 @@ const InscripcionEvento = () => {
     for (let i = 0; i < nombres.length; i++) {
       const nombreParticipante = nombres[i];
       const apellidoParticipante = apellidos[i];
+      const correoParticipante = correos[i];
       const responseParticipante = await axios.post(`${endpoint}/crearParticipante`, {
         nombre: nombreParticipante,
         apellido: apellidoParticipante,
-        inscripcions_id: idInscripcion
+        inscripcions_id: idInscripcion,
+        correo: correoParticipante
       });
       const idParticipante = responseParticipante.data.id;
       for (let j = 0; j < valores.length; j++) {
@@ -109,6 +112,9 @@ const InscripcionEvento = () => {
   const handleValorRequisitoChange = (valores) => {
     setValores(valores);
   }
+  const handleCorreosChange = (correos) => {
+    setCorreos(correos);
+  }
 
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
@@ -144,9 +150,11 @@ const InscripcionEvento = () => {
                 onNombreEquipo={handleNombreEquipoChange}
                 onNombres={handleNombreChange}
                 onApellidos={handleApellidosChange}
+                onCorreos={handleCorreosChange}
                 nombreEquipoIn={nombre_equipo}
                 nombresIn={nombres}
                 apellidosIn={apellidos}
+                correosIn={correos}
                 cantidadParticipantesIn={cantidadParticipantes}
                 onGuardarEstado={setGuardar}
               />

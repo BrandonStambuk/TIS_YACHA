@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import '../css/Form.css';
 
 const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEvento, onNombreEventoChange, onLugarEventoChange, onCantidadParticipantesChange
-,onGuardarEvento }) => {
+,onGuardarEvento, contador,onContadorChange }) => {
   const [nombreEventoError, setNombreEventoError] = useState("");
   const [lugarEventoError, setLugarEventoError] = useState("");
   const [cantidadError, setCantidadError] = useState("");
-  const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEvento); // 
+  const [puedeGuardar, setPuedeGuardar] = useState(false);
+
 
   const validateEvento = (value) => {
     if (!/^[A-Z]/.test(value) && value.length > 0) {
@@ -34,7 +35,7 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     const inputValue = event.target.value;
     let error = validateEvento(inputValue);
     setNombreEventoError(error);
-    setPuedeGuardar(!error && inputValue.trim() !== ""); // Actualizar según si hay errores o el campo está vacío
+    setPuedeGuardar(!error && inputValue.trim() !== "" && !lugarEventoError && !cantidadError);
     if (!error) {
       onNombreEventoChange(inputValue);
     }
@@ -44,11 +45,12 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     const inputValue = event.target.value;
     let error = validateLugar(inputValue);
     setLugarEventoError(error);
-    setPuedeGuardar(!error && inputValue.trim() !== ""); // Actualizar según si hay errores o el campo está vacío
+    setPuedeGuardar(!error && inputValue.trim() !== "" && !nombreEventoError && !cantidadError);
     if (!error) {
       onLugarEventoChange(inputValue);
     }
   };
+
 
   const handleCantidadParticipanetesEventoChange = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -60,37 +62,25 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
       setCantidadError("");
       onCantidadParticipantesChange(event.target.value);
     }
+    setPuedeGuardar(!nombreEventoError && !lugarEventoError && !cantidadError && nombreEvento.trim() !== "" && lugarEvento.trim() !== "" && cantidadParticiapantesEvento.trim() !== "");
+
   }
   
   useEffect(() => {
-    if (
-      !nombreEvento.trim() ||
-      !lugarEvento.trim() ||
-      !cantidadParticiapantesEvento.trim() ||
-      nombreEventoError ||
-      lugarEventoError ||
-      cantidadError
-    ) {
-      setPuedeGuardar((prevPuedeGuardar) => {
-        if (prevPuedeGuardar) {
-          console.log(
-            "No se puede guardar (al menos un campo está vacío o tiene errores)"
-          );
-          onGuardarEvento(false);
-        }
-        return false;
-      });
-    } else {
-      setPuedeGuardar((prevPuedeGuardar) => {
-        if (!prevPuedeGuardar) {
-          console.log("Se puede guardar");
-          onGuardarEvento(true);
-        }
-        return true;
-      });
-    }
-    /////////////////////////////////
+    if (!nombreEvento.trim() || !lugarEvento.trim() || !cantidadParticiapantesEvento.trim() || nombreEventoError || lugarEventoError || cantidadError) {
+      setPuedeGuardar(false);
+      console.log("No se puede guardar (al menos un campo está vacío o tiene errores)");
+      onContadorChange(0);
 
+     // onGuardarEvento(puedeGuardar);
+    } else {
+      setPuedeGuardar(true);
+      console.log("Se puede guardar");
+      onContadorChange(contador + 1);
+
+      //onGuardarEvento(puedeGuardar);
+    }
+    onGuardarEvento(puedeGuardar);
 
     // Verificar errores específicos y mostrar en consola
     if (nombreEventoError) {
@@ -110,7 +100,7 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     }, 5000);
   
     return () => clearTimeout(timeoutId);
-  }, [nombreEvento, lugarEvento, cantidadParticiapantesEvento, nombreEventoError, lugarEventoError, cantidadError]);
+  }, [nombreEvento, lugarEvento, cantidadParticiapantesEvento, nombreEventoError, lugarEventoError, cantidadError, puedeGuardar]);
   return (
     <div className="card-body tarjeta">
       <div className="mb-3">

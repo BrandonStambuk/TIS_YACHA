@@ -7,6 +7,9 @@ const FechasHorasForm = ({
   FechaInicioIn,
   FechaFinIn,
   FechasHorasNuevo,
+  onGuardarEvento,
+  contador,
+  onBooleanChange,
 }) => {
   const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState(
     FechaInicioIn || ""
@@ -22,6 +25,48 @@ const FechasHorasForm = ({
   const [fechasHorasLocal, setFechasHorasLocal] = useState(
     FechasHorasNuevo || [{}]
   );
+  const [errorGeneral, setErrorGeneral] = useState("");
+
+  const verificarCampos = () => {
+    let camposVacios = false;
+    // Verificar campos vacíos en fechas y horas
+    fechasHorasLocal.forEach((fechaHora) => {
+      if (
+        !fechaHora.fecha_inicio_etapa ||
+        !fechaHora.fecha_fin_etapa ||
+        !fechaHora.hora_inicio ||
+        !fechaHora.hora_fin ||
+        !fechaHora.contenido_etapa
+      ) {
+        camposVacios = true;
+      }
+    });
+
+    // Verificar errores específicos y mostrar en consola
+    if (fechasHorasLocal.length > 0) {
+      if (
+        fechaInicioError ||
+        fechaFinError ||
+        fechaInicioEventError ||
+        fechaFinEventError ||
+        horaEventoError
+      ) {
+        camposVacios = true;
+      }
+    }
+
+    // Actualizar estado en el componente padre
+    onGuardarEvento(!camposVacios);
+
+    if (camposVacios) {
+      setErrorGeneral("Por favor, complete todos los campos de la Etapa.");
+      onBooleanChange(false);
+    } else {
+      setErrorGeneral("");
+      onBooleanChange(true);
+      // Limpiar el mensaje de error si no hay campos vacíos
+    }
+  };
 
   useEffect(() => {
     onFechasHorasChange(fechasHorasLocal || [{}]);
@@ -132,6 +177,17 @@ const FechasHorasForm = ({
   };
 
   useEffect(() => {
+    verificarCampos();
+  }, [
+    fechaInicioError,
+    fechaFinError,
+    fechaInicioEventError,
+    fechaFinEventError,
+    horaEventoError,
+    fechasHorasLocal,
+  ]);
+
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       setFechaInicioError("");
       setFechaFinError("");
@@ -139,7 +195,12 @@ const FechasHorasForm = ({
       setFechaFinEventError("");
     }, 5000);
     return () => clearTimeout(timeoutId);
-  }, [fechaInicioError, fechaFinError, fechaInicioEventError, fechaFinEventError]);
+  }, [
+    fechaInicioError,
+    fechaFinError,
+    fechaInicioEventError,
+    fechaFinEventError,
+  ]);
   return (
     <div className="card-body tarjeta ml-3">
       <div className="mb-3">
@@ -160,6 +221,7 @@ const FechasHorasForm = ({
               style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_inicio_inscripcion}
               onChange={handleFechaInicioInscripcionChange}
+              min={new Date().toISOString().split("T")[0]}
             />
             {fechaInicioError && (
               <div className="invalid-feedback">{fechaInicioError}</div>
@@ -182,6 +244,7 @@ const FechasHorasForm = ({
               style={{ ...inputStyle, ...marginRightStyle }}
               value={fecha_fin_inscripcion}
               onChange={handleFechaFinInscripcionChange}
+              min={new Date().toISOString().split("T")[0]}
             />
             {fechaFinError && (
               <div className="invalid-feedback">{fechaFinError}</div>
@@ -191,6 +254,14 @@ const FechasHorasForm = ({
           {fechasHorasLocal.map((fechaHora, index) => (
             <div key={index}>
               <h2>Etapa {index + 1}</h2>
+              {}
+
+              {errorGeneral && (
+                <div className="alert alert-success" style={{maxWidth:'35%'}} role="alert">
+                  {errorGeneral}
+                </div>
+              )}
+
               <div className="mb-3">
                 <div className="row">
                   <div className="col-md-6">
@@ -215,6 +286,7 @@ const FechasHorasForm = ({
                           e.target.value
                         )
                       }
+                      min={new Date().toISOString().split("T")[0]}
                     />
                     {fechaInicioEventError && (
                       <div className="invalid-feedback">
@@ -244,6 +316,7 @@ const FechasHorasForm = ({
                           e.target.value
                         )
                       }
+                      min={new Date().toISOString().split("T")[0]}
                     />
                     {fechaFinEventError && (
                       <div className="invalid-feedback">
