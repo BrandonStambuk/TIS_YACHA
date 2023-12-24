@@ -23,7 +23,7 @@ class DeleteEvent extends Notification
         return (new MailMessage)
             ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Importante!')
-            ->subject('El evento al que te inscribiste' . $this->eventoNombre . ' ha sido Cancelado.')
+            ->subject('El evento al que te inscribiste ' . $this->eventoNombre . ' ha sido Cancelado.')
             ->line('Los organizadores han cancelado el evento '. $this->eventoNombre .' al que te inscribiste.')
             ->line($this->personalizedMessage)
             ->line('Si no te inscribiste a ningún evento, puedes ignorar este correo electrónico.')
