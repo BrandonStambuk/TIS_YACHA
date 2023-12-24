@@ -23,7 +23,7 @@ const ConfiguracionTipoEvento = () => {
       });
   }, []);
 
-  const handleDeleteTipoEvento = async (id) => {
+  const handleDeleteOpcion = async (id) => {
     try {
       await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
@@ -33,14 +33,18 @@ const ConfiguracionTipoEvento = () => {
       console.error("Error al eliminar el tipo de evento:", error);
     }
   };
+  const handleCancelOpcion = () => {
+    setEditingId(null);
+    setTipoEventoDinamico("");
+  };
 
-  const handleEditTipoEvento = (id) => {
+  const handleEditOpcion = (id) => {
     setEditingId(id);
     const tipoEventoSeleccionado = opciones.find((opcion) => opcion.id === id);
     setTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
   };
 
-  const handleUpdateTipoEvento = async () => {
+  const handleUpdateOpcion = async () => {
     try {
       await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
         nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
@@ -83,117 +87,117 @@ const ConfiguracionTipoEvento = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-8 mx-auto">
-          <div className="card border-0">
-            <div className="card-body tarjeta">
-              <div className="row">
-              </div>
-              <div className="row text-black">
-                <div className="col-md-6">
-
-                    <div>
-                      <div className="mb-3">
-                        <label htmlFor="tipoEvento" className="form-label">
-                          Tipo de Evento
-                        </label>
-                        <input
-                          value={nombre_tipo_evento_dinamico}
-                          onChange={(e) =>
-                            setTipoEventoDinamico(e.target.value)
-                          }
-                          type="text"
-                          className={`form-control ${
-                            nombreTipoEventoError ? "is-invalid" : ""
-                          }`}
-                          id="tipoEvento"
-                          name="tipoEvento"
-                        />
-                        {nombreTipoEventoError && (
-                          <div className="invalid-feedback">
-                            {nombreTipoEventoError}
-                          </div>
-                        )}
-                      </div>
-                
-                    </div>
-                    <button
-                        onClick={handleSubmitStoreTipo}
-                        id="botoncito"
-                        className="btn btn-primary"
-                      >
-                        Guardar
-                      </button>
-                  
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Nombre Tipo Evento</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {opciones.length > 0 ? (
-                          opciones.map((opcion) => (
-                            <tr key={opcion?.id}>
-                              <td>{opcion?.id}</td>
-                              <td>
-                                {editingId === opcion?.id ? (
-                                  <input
-                                    value={nombre_tipo_evento_dinamico}
-                                    onChange={(e) =>
-                                      setTipoEventoDinamico(e.target.value)
-                                    }
-                                    type="text"
-                                    className={`form-control ${
-                                      nombreTipoEventoError ? "is-invalid" : ""
+      <div className="col-md-8 mx-auto">
+        <div className="card border-0">
+          <div className="card-body tarjeta">
+            <div className="row text-black">
+              <div className="mb-3">
+                <div>
+                  <table className="table table-hover">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre Tipo Evento</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {opciones.length > 0 ? (
+                        opciones.map((opcion) => (
+                          <tr key={opcion?.id}>
+                            <td>{opcion?.id}</td>
+                            <td>
+                              {editingId === opcion?.id ? (
+                                <input
+                                  value={nombre_tipo_evento_dinamico}
+                                  onChange={(e) =>
+                                    setTipoEventoDinamico(e.target.value)
+                                  }
+                                  type="text"
+                                  className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""
                                     }`}
-                                  />
-                                ) : (
-                                  opcion?.nombre_tipo_evento_dinamico
-                                )}
-                              </td>
-                              <td>
+                                />
+                              ) : (
+                                opcion?.nombre_tipo_evento_dinamico
+                              )}
+                            </td>
+                            <td>{([1, 2, 3, 4, 5].includes(opcion.id)) ? (
+                              <span>Valor por defecto</span>
+                            ) : (
+                              <>
                                 {editingId === opcion?.id ? (
-                                  <button
-                                    onClick={handleUpdateTipoEvento}
-                                    className="btn btn-success"
-                                  >
-                                    Actualizar
-                                  </button>
+                                  <>
+                                    <button
+                                      onClick={handleUpdateOpcion}
+                                      className="btn btn-success">
+                                      Actualizar
+                                    </button>
+                                    <button
+                                      onClick={handleCancelOpcion}
+                                      className="btn btn-success">
+                                      Cancelar
+                                    </button>
+                                  </>
                                 ) : (
                                   <>
                                     <button
-                                      onClick={() =>
-                                        handleDeleteTipoEvento(opcion?.id)
-                                      }
-                                      className="btn btn-danger"
-                                    >
+                                      onClick={() => handleDeleteOpcion(opcion?.id)}
+                                      className="btn btn-danger">
                                       Eliminar
                                     </button>
                                     <button
-                                      onClick={() =>
-                                        handleEditTipoEvento(opcion?.id)
-                                      }
-                                      className="btn btn-warning"
-                                    >
+                                      onClick={() => handleEditOpcion(opcion?.id)}
+                                      className="btn btn-warning">
                                       Editar
                                     </button>
                                   </>
                                 )}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="3">No hay tipos de eventos creados</td>
+                              </>
+                            )}
+
+                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                      
-                    </table>
-                  
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="3">No hay tipos de eventos creados</td>
+                        </tr>
+                      )}
+                    </tbody>
+
+                  </table>
+
+                  <div>
+                    <div className="mb-3">
+                      <label htmlFor="tipoEvento" className="form-label">
+                        Tipo de Evento
+                      </label>
+                      <input
+                        value={nombre_tipo_evento_dinamico}
+                        onChange={(e) =>
+                          setTipoEventoDinamico(e.target.value)
+                        }
+                        type="text"
+                        className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""
+                          }`}
+                        id="tipoEvento"
+                        name="tipoEvento"
+                      />
+                      {nombreTipoEventoError && (
+                        <div className="invalid-feedback">
+                          {nombreTipoEventoError}
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                  <button
+                    onClick={handleSubmitStoreTipo}
+                    id="botoncito"
+                    className="btn btn-primary"
+                  >
+                    Guardar
+                  </button>
                 </div>
               </div>
             </div>
@@ -201,6 +205,7 @@ const ConfiguracionTipoEvento = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
