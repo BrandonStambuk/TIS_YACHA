@@ -15,11 +15,6 @@ class Requisitos extends Seeder
      */
     public function run()
     {
-        DB::table('requisitos_eventos')->insert([
-            'nombre_requisito' => 'correo',
-            'descripcion_requisito' => 'correo del participante',
-            'tipo_requisito' => 'alfanumerico'
-        ]);
        /* DB::table('requisitos_eventos')->insert([
             'nombre_requisito' => 'correo institucional',
             'descripcion_requisito' => 'correo del participante de la UMSS',
