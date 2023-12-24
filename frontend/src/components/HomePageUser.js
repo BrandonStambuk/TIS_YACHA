@@ -57,7 +57,7 @@ const HomePage = () => {
   };
 
   const obtenerTiposEventos = async () => {
-    const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
+    const response = await axios.get(`${endpoint}/tipoEventosDinamicosPublicos`);
     setTiposEventos(response.data);
   };
   // const getAllFechasInicio = async () => {

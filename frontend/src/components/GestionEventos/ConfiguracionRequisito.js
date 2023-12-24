@@ -198,7 +198,6 @@ const ConfiguracionRequisito = () => {
 
 
     return (
-
         <div className="container mt-5">
             <div className="col-md-8 mx-auto">
                 <div className="card border-0">

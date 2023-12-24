@@ -22,4 +22,5 @@ class FechaInscripcionEvento extends Model
     public function etapaEvento(){
         return $this->hasMany(EtapaEvento::class, 'etapa_fecha_inscripcion_eventos_id');
     }
+    
 }

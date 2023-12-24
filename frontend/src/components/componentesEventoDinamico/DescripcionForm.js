@@ -27,7 +27,7 @@ const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,c
   };
 
   useEffect(() => {
-    onGuardarEvento(puedeGuardar);
+    //onGuardarEvento(puedeGuardar);
     onContadorChange(true);
 
     // Verificar errores específicos y mostrar en consola

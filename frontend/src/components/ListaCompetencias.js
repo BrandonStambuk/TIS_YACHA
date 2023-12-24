@@ -4,21 +4,23 @@ import { Link } from 'react-router-dom';
 import NavbarAdmin from './NavbarAdmin';
 import './css/eventList.css';
 import Swal from 'sweetalert2';
-import { URL_API } from "./const";
+import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
+
 const endpoint = URL_API;
 
-const ListaCompetecias = () => {
+const ListaEventos = () => {
   const [pagina, setPagina] = useState(0);
-  const [competencias, setCompetencias] = useState([]);
+  const [eventos, setEventos] = useState([]);
 
   useEffect(() => {
-    getAllCompetencias();
+    getAllEventos();
   }, []);
 
-  const getAllCompetencias = async () => {
-    const response = await axios.get(`${endpoint}/competencias`);
-    setCompetencias(response.data);
+  const getAllEventos = async () => {
+    const response = await axios.get(`${endpoint}/eventosDinamicosCompetencia`);
+    setEventos(response.data);
+    console.log(response.data);
   };
 
   const confirmarEliminacion = (id) => {
@@ -34,15 +36,15 @@ const ListaCompetecias = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Si el usuario confirma, elimina el evento
-        deleteCompetencia(id);
-        Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+        deleteEvento(id);
+        Swal.fire('¡Eliminado!', 'La competencia ha sido eliminada.', 'success');
       }
     });
   };
 
-  const deleteCompetencia = async (id) => {
-    await axios.delete(`${endpoint}/competencias/${id}`);
-    getAllCompetencias();
+  const deleteEvento = async (id) => {
+    await axios.delete(`${endpoint}/eliminarEventoDinamico/${id}`);
+    getAllEventos();
   };
 
   const cambiarPagina = (nuevaPagina) => {
@@ -52,8 +54,8 @@ const ListaCompetecias = () => {
   const eventosPorPagina = 5;
   const inicio = pagina * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
-  const eventosVisibles =  competencias.slice(inicio, fin);
-  const totalPaginas = Math.ceil(competencias.length / eventosPorPagina);
+  const eventosVisibles = eventos.slice(inicio, fin);
+  const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
 
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
@@ -73,9 +75,10 @@ const ListaCompetecias = () => {
                   <thead className='text-white'>
                     <tr>
                       <th className="centrado">Nombre</th>
-                      <th className="centrado">Cantidad participantes</th>
-                      <th className="centrado">Fecha de inicio Competencia</th>
-                      <th className="centrado">Duración (horas)</th>
+                      <th className="centrado">Tipo</th>
+                      <th className="centrado">Fecha de inicio Inscripcion</th>
+                      <th className="centrado">Lugar de la competencia</th>
+                      <th className="centrado">Cantidad Participantes</th>
                       <th className="centrado">Acción</th>
                     </tr>
                   </thead>
@@ -83,19 +86,20 @@ const ListaCompetecias = () => {
                     {eventosVisibles && eventosVisibles.length > 0 && (() => {
                       let rows = [];
                       for (let i = 0; i < eventosVisibles.length; i++) {
-                        let competencia = eventosVisibles[i];
+                        let evento = eventosVisibles[i];
                         rows.push(
-                          <tr key={competencia.id}>
-                            <td className="centrado">{competencia.nombre_competencia}</td>
-                            <td className="centrado">{competencia.integrantes_competencia}</td>
-                            <td className="centrado">{competencia.fecha_competencia}</td>
-                            <td className="centrado">{competencia.horas_competencia}</td>
+                          <tr key={evento.id}>
+                            <td className="centrado">{evento.nombre_evento_dinamico}</td>
+                            <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
+                            <td className="centrado">{evento.fecha_inscripcion_evento[0].fecha_inicio_inscripcion}</td>
+                            <td className="centrado">{evento.lugar_evento_dinamico}</td>
+                            <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
                             <td className="centrado centrar-botones">
-                              <Link to={`/editCompetencia/${competencia.id}`} className="btn btn-editar">
+                              <Link to={`/editCompetencia/${evento.id}`} className="btn btn-editar">
                                 Editar
                               </Link>
                               <button
-                                onClick={() => confirmarEliminacion(competencia.id)}
+                                onClick={() => confirmarEliminacion(evento.id)}
                                 className="btn btn-eliminar"
                               >
                                 Eliminar
@@ -147,4 +151,4 @@ const ListaCompetecias = () => {
   );
 };
 
-export default ListaCompetecias;
+export default ListaEventos;

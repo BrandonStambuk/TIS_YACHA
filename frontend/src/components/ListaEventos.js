@@ -36,11 +36,16 @@ const ListaEventos = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, eliminarlo',
       cancelButtonText: 'Cancelar',
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        // Si el usuario confirma, elimina el evento
-        deleteEvento(id);
-        Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+        const response = await axios.get(`${endpoint}/existeInscripcion/${id}`);        
+        console.log(response.data);
+        if (response.data){
+          Swal.fire('¡No se puede eliminar!', 'El evento tiene inscripciones activas.', 'error');
+        }else{
+          deleteEvento(id);
+          Swal.fire('¡Eliminado!', 'El evento ha sido eliminado.', 'success');
+        }        
       }
     });
   };

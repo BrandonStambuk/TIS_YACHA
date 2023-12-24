@@ -22,7 +22,7 @@ class CreateEtapaEventosTable extends Migration
             $table->string('contenido_etapa')->nullable();
             $table->unsignedBigInteger('etapa_fecha_inscripcion_eventos_id');
             $table->timestamps();
-            $table->foreign('etapa_fecha_inscripcion_eventos_id')->references('id')->on('fecha_inscripcion_eventos');
+            $table->foreign('etapa_fecha_inscripcion_eventos_id')->references('id')->on('fecha_inscripcion_eventos')->onDelete('cascade');
         });
     }
 

@@ -22,9 +22,24 @@ class EventoDinamicoController extends Controller
      */
     public function index()
     {
-        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])->get();
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])
+        ->whereHas('tipoEventoDinamico', function ($query) {
+            $query->where('nombre_tipo_evento_dinamico','!=','Competencia oficial ICPC');
+        })
+        ->get();
 
-    return $eventos;
+        return $eventos;
+    }
+
+    public function indexCompetencia()
+    {
+        $eventos = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento'])
+        ->whereHas('tipoEventoDinamico', function ($query) {
+            $query->where('nombre_tipo_evento_dinamico', 'Competencia oficial ICPC');
+        })
+        ->get();
+
+        return $eventos;
     }
 
     public function indexPublico()
@@ -55,6 +70,7 @@ class EventoDinamicoController extends Controller
         $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
         $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
         $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
+        $evento->requiere_coach = $request->requiere_coach;
         $evento->mostrar_publico = $request->mostrar_publico;
         $evento->afiche= $request->afiche;
         $evento->save();
@@ -91,6 +107,7 @@ class EventoDinamicoController extends Controller
         $evento->descripcion_evento_dinamico = $request->descripcion_evento_dinamico;
         $evento->lugar_evento_dinamico = $request->lugar_evento_dinamico;
         $evento->cantidad_participantes_evento_dinamico = $request->cantidad_participantes_evento_dinamico;
+        $evento->requiere_coach = $request->requiere_coach;
         $evento->mostrar_publico = $request->mostrar_publico;
         $evento->afiche= $request->afiche;
         $evento->save();
@@ -106,19 +123,17 @@ class EventoDinamicoController extends Controller
     public function destroy($id)
     {
         $evento = EventoDinamico::find($id);
-
-        if (!$evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
-        }
-            $evento->detalleRequisitos()->delete();
-            $evento->fechaInscripcionEvento->each(function ($fechaInscripcion) {
-            $fechaInscripcion->etapaEvento()->delete();
-        });
-    
-        $evento->fechaInscripcionEvento()->delete();
-        $evento->delete();
-    
+        $evento->delete();    
         return response()->json(['message' => 'Evento eliminado con éxito'], 200);
+    }
+
+    public function existeInscripciones($id)
+    {
+        $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
+        if ($inscripciones->isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     public function notificarCambios($id, Request $request)

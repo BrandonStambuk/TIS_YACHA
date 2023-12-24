@@ -1,489 +1,458 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import "./css/CrearEvento.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import izqImage from "./images/izq.png";
-import derImage from "./images/der.png";
-import cenImage from "./images/cen.png";
-import jusImage from "./images/jus.png";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { URL_API } from "./const";
-import NavbarOrganizador from "./NavbarOrganizador";
-
-
+import NombreEventoForm from "./componentesCompetenciaDinamica/NombreEventoForm";
+import TipoEventoForm from "./componentesCompetenciaDinamica/TipoEventoForm";
+import FechasHorasForm from "./componentesCompetenciaDinamica/FechasHorasForm";
+import DescripcionForm from "./componentesCompetenciaDinamica/DescripcionForm";
+import RequisitosForm from "./componentesCompetenciaDinamica/RequisitosForm";
+import AficheForm from "./componentesCompetenciaDinamica/AficheForm";
 import Swal from 'sweetalert2';
-const inputStyle = {
-  width: "170px",
-  height: "30px",
-  fontSize: "14px",
+
+
+import { URL_API } from "../const";
+
+
+const endpoint = URL_API;
+
+const CreateEvento = () => {
+  const [nombre_evento_dinamico, setNombreEventoDinamico] = useState("");
+  const [tipo_evento_dinamico_id, setTipoEventoDinamicoId] = useState("");
+  const [fecha_inicio_inscripcion, setFechaInicioInscripcion] = useState("");
+  const [fecha_fin_inscripcion, setFechaFinInscripcion] = useState("");
+  const [activeSection, setActiveSection] = useState("nombreEvento");
+  const [fechasHoras, setFechasHoras] = useState([{}]);
+  const [descripcion, setDescripcion] = useState("");
+  const [lugar_evento_dinamico, setLugarEventoDinamico] = useState("");
+  const [cantidad_participantes_evento_dinamico, setCantidadParticipantesEventoDinamico] = useState("");
+  const [requisitosSeleccionados, setRequisitosSeleccionados] = useState([]);
+  const [afiche, setAfiche] = useState("");
+  const [aficheUrl, setAficheUrl] = useState("");
+  const [fechasHorasInit, setFechasHorasInit] = useState([{}]);
+  const [rutaInit, setRutaInit] = useState(null);
+  const [requisitosInit, setRequisitosInit] = useState([{}]);
+  const navigate = useNavigate();
+  const [publico, setPublico] = useState(false);
+  const [mensajePublico, setMensajePublico] = useState("Publicar Competencia");
+  const { id } = useParams();
+
+  const notificarCambios = async () => {
+    try {
+        const { value: extraMessage } = await Swal.fire({
+            title: 'Desea adjuntar información adicional sobre los cambios?',
+            html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Mensaje extra">',
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'No, solo notificar',
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Adjuntar',
+            allowOutsideClick: false,
+            preConfirm: () => {
+                return document.getElementById('extra-message').value;
+            }
+        });
+        if (extraMessage) {
+            Swal.fire({
+                title: 'Adjuntando información adicional a las notificaciones',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            await axios.post(`${endpoint}/notificarCambios/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
+            Swal.fire({
+                title: 'Notificación Enviada',
+                text: 'Se ha notificado a los inscritos del evento',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido',
+            });
+        } else {
+            // extraMessage esté vacío
+            Swal.fire({
+                title: 'Enviando notificación a los inscritos',
+                text: 'Espere un momento por favor',
+                icon: 'info',
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            await axios.post(`${endpoint}/notificarCambios/${id}`);
+            Swal.fire({
+              title: 'Notificación Enviada',
+              text: 'Se ha notificado a los inscritos del evento',
+              icon: 'success',
+              showCancelButton: false,
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido',
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            title: 'No existen inscritos',
+            text: 'El evento no tiene inscritos',
+            icon: 'error',
+            showCancelButton: false,
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido',
+        });
+    }
 };
 
-const endpoint = `${URL_API}/crearcompe`;
 
-const EditComp = () => {
-  const [nombre_compe, setNombreCompe] = useState("");
-  const [numero_miembro, setMiembro] = useState("");
-  const [fecha_inicio, setFechaInicio] = useState("");
-  const [fecha_fin, setFechaFin] = useState("");
-  const [fecha_competencia, setFechaCompetencia] = useState("");
-  const [hora, setHora] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [nombreCompeError, setNombreCompeError] = useState("");
-  const navigate = useNavigate();
-  const [fechaInicioError, setFechaInicioError] = useState("");
-  const [fechaFinError, setFechaFinError] = useState("");
-  const [fechaCompError, setfechaCompError] = useState("");
-  const [horaEventoError, sethoraEventoError] = useState("");
-  const [publico, setPublico] = useState(false);
-  const {id} = useParams();
 
-  const handleMiembroChange = (event) => {
-    setMiembro(event.target.value);
-  };
+  useEffect(() => {
+    const getEventById = async () => {
+      try {
+        const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
+        console.log(response.data);
+        setNombreEventoDinamico(response.data.nombre_evento_dinamico);
+        setTipoEventoDinamicoId(response.data.tipo_evento_dinamico_id);
+        setLugarEventoDinamico(response.data.lugar_evento_dinamico);
+        setDescripcion(response.data.descripcion_evento_dinamico);
+        setCantidadParticipantesEventoDinamico(response.data.cantidad_participantes_evento_dinamico);
+        setFechaInicioInscripcion(response.data.fecha_inscripcion_evento[0].fecha_inicio_inscripcion);
+        setFechaFinInscripcion(response.data.fecha_inscripcion_evento[0].fecha_fin_inscripcion);
+        setRutaInit(response.data.afiche);
+        if(response.data.mostrar_publico){
+          setPublico(true);
+          setMensajePublico("Competencia Publicada");
+        }else{
+          setPublico(false);
+          setMensajePublico("Publicar Competencia");
+        };
+        const fechasHorasArray = response.data.fecha_inscripcion_evento[0].etapa_evento.map(etapa => ({
+          id: etapa.id,
+          contenido_etapa: etapa.contenido_etapa,
+          fecha_fin_etapa: etapa.fecha_fin_etapa,
+          fecha_inicio_etapa: etapa.fecha_inicio_etapa,
+          hora_fin: etapa.hora_fin_etapa,
+          hora_inicio: etapa.hora_inicio_etapa,
+        }));
+        setFechasHoras(fechasHorasArray);
+        setFechasHorasInit(fechasHorasArray);
+        const requisitosArray = response.data.detalle_requisitos.map(requisito => requisito.id_requisito);
+        setRequisitosInit(response.data.detalle_requisitos)
+        console.log(response.data.detalle_requisitos)
 
-  const [file, setFile] = useState(null);
+        setRequisitosSeleccionados(requisitosArray);
+        try {
+          const responsePath = await axios.get(`${endpoint}/getImage/${id}`);
+          setAficheUrl(getEventoImage(responsePath.data.path));
+        } catch (error) {
+          setAficheUrl("");
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos del evento:', error);
+      }
+    };
+    getEventById();
+  }, []);
 
-  const handleFechaInicioChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const currentDate = new Date();
-
-    if (selectedDate <= currentDate) {
-      setFechaInicioError(
-        "La fecha de inicio inscripcion debe ser posterior al día de hoy."
-      );
-    } else {
-      setFechaInicioError("");
-    }
-
-    setFechaInicio(event.target.value);
-  };
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-
-  };
-  const handleUpload = async (id) => {
-    if (!file) {
-      console.error('No file selected');
-      return;
-    }
-    let fileName = id + '.jpg';
-    const formData = new FormData();
-    formData.append('image', file, fileName);
-
+  const getEventoImage = (name) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/upload', formData, {
+      return require(`../../../BackendICPC/storage/app/public/${name}`);
+    } catch (err) {
+      return null;
+    }
+  };
+
+  const handleSectionClick = (section) => {
+    setActiveSection(section);
+  };
+
+  const handleUpdateEventoDinamico = async (e) => {
+    e.preventDefault();
+    let ruta = null;
+    await notificarCambios();
+    if (afiche) {
+      const formData = new FormData();
+      formData.append('image', afiche);
+      const responseImage = await axios.post(`${URL_API}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+      ruta = responseImage.data.path;
+    }else if(rutaInit){
+      ruta = rutaInit;
     }
-  };
-  const handleFechaFinChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDate = new Date(fecha_inicio); // Convierte la fecha de inicio a objeto Date
+    
 
-    if (selectedDate < startDate) {
-      setFechaFinError(
-        "La fecha de fin no puede ser anterior a la fecha de inicio."
-      );
-    } else {
-      setFechaFinError("");
-    }
+    const responseEvento = await axios.put(`${endpoint}/actualizarEventoDinamico/${id}`, {
+      nombre_evento_dinamico: nombre_evento_dinamico,
+      tipo_evento_dinamico_id: tipo_evento_dinamico_id,
+      descripcion_evento_dinamico: descripcion,
+      lugar_evento_dinamico: lugar_evento_dinamico,
+      cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      requiere_coach: 1,
+      mostrar_publico: publico,
+      afiche: ruta
+    });
 
-    setFechaFin(event.target.value);
-  };
-  const handleFechaFinCompetenciaChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDate = new Date(fecha_fin)
-    if (selectedDate <= startDate) {
-      setfechaCompError(
-        "La fecha de inicio de la competencia debe ser posterior a la fecha de inscripcion"
-      );
-    } else {
-      setfechaCompError("");
-    }
+    const idEvento = responseEvento.data.id;
 
-    setFechaCompetencia(event.target.value);
-  };
-
-  const handleHorasChange = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue !== "0") {
-      if (!/^(0|[1-9][0-9]*)$/.test(inputValue)) {
-        sethoraEventoError("El valor no puede empezar con 0");
-      } else if (inputValue.length <= 3) {
-        setHora(inputValue);
-        sethoraEventoError(null);
-      } else {
-        sethoraEventoError("No se permiten más de 3 caracteres.");
+    const response = await axios.put(`${endpoint}/actualizarFechaInscripcion/${id}`, {
+      fecha_inicio_inscripcion: fecha_inicio_inscripcion,
+      fecha_fin_inscripcion: fecha_fin_inscripcion,
+      evento_dinamicos_id: idEvento
+    });
+    const idFechaIns = response.data.id;
+    if (fechasHoras.length >= fechasHorasInit.length) {
+      for (const fechaHora of fechasHoras) {
+        const fechaEtapaId = fechaHora.id;
+        const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+        const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+        const horaInicioEtapa = fechaHora.hora_inicio;
+        const horaFinEtapa = fechaHora.hora_fin;
+        const contenidoEtapa = fechaHora.contenido_etapa;
+        if (fechaEtapaId === undefined) {
+          await axios.post(`${endpoint}/crearEtapaEvento`, {
+            fecha_inicio_etapa: fechaHora.fecha_inicio_etapa,
+            fecha_fin_etapa: fechaHora.fecha_fin_etapa,
+            hora_inicio_etapa: fechaHora.hora_inicio,
+            hora_fin_etapa: fechaHora.hora_fin,
+            contenido_etapa: fechaHora.contenido_etapa,
+            etapa_fecha_inscripcion_eventos_id: idFechaIns
+          });
+          continue;
+        } else {
+          await axios.put(`${endpoint}/actualizarEtapaEvento/${fechaEtapaId}`, {
+            fecha_inicio_etapa: fechaInicioEtapa,
+            fecha_fin_etapa: fechaFinEtapa,
+            hora_inicio_etapa: horaInicioEtapa,
+            hora_fin_etapa: horaFinEtapa,
+            contenido_etapa: contenidoEtapa,
+            etapa_fecha_inscripcion_eventos_id: idFechaIns
+          });
+        }
       }
     } else {
-      sethoraEventoError("No se permiten 0 horas.");
-    }
-       
-  };
+      for (let i = 0; i < fechasHorasInit.length; i++) {
+        const fechaHora = fechasHoras[i];
 
-  const update = async (e) => {
-    e.preventDefault();
-    const selectedStartDate = new Date(fecha_inicio);
-    const selectedEndDate = new Date(fecha_fin);
-    const currentDate = new Date();
-    let todosErrores = [];
-    // Validación del nombre del evento
-    if (
-      !nombre_compe ||
-      !numero_miembro ||
-      !fecha_inicio ||
-      !fecha_fin ||
-      !fecha_competencia||
-      !hora ||
-      !descripcion
-    ) {
-      Swal.fire('Ingrese todos los datos!')
-      return;
-    }
-    let errores = [];
-    if (!/^[A-Z]/.test(nombre_compe)) {
-      errores.push('El primer carácter debe ser una letra mayúscula.');
-    }
-
-    if (!/^[A-Za-z\- ]+$/.test(nombre_compe)) {
-      errores.push('Solo están permitidos letras, espacios y guiones.');
-    }
-
-    if (nombre_compe.length > 21) {
-      errores.push('No se permiten más de 21 caracteres.');
-    }
-
-    if (errores.length > 0) {
-      setNombreCompeError(errores.join(' '));
-      todosErrores.push(errores);
-    } else {
-      setNombreCompeError("");
-    }
-    if (selectedStartDate <= currentDate) {
-      setFechaInicioError('La fecha de inicio debe ser posterior al día de hoy.');
-      todosErrores.push('La fecha de inicio debe ser posterior al día de hoy.');
-    } else {
-      setFechaInicioError('');
-    }
-    if (selectedEndDate < selectedStartDate) {
-      setFechaFinError('La fecha de fin no puede ser anterior a la fecha de inicio.');
-      todosErrores.push('La fecha de fin no puede ser anterior a la fecha de inicio.');
-    } else {
-      setFechaFinError('');
-    }
-    if (todosErrores.length === 0) {
-      try{
-        let response = await axios.put(`${endpoint}/${id}`, {
-          nombre_competencia: nombre_compe,
-          integrantes_competencia: numero_miembro,
-          fecha_inicio_competencia: fecha_inicio,
-          fecha_fin_competencia: fecha_fin,
-          fecha_competencia:fecha_competencia,
-          horas_competencia: hora,
-          publicado_competencia: publico,
-          descripcion_competencia: descripcion,
-        });
-        handleUpload(response.data.id);
-        navigate("/listacompetencias");
-      } catch(error){
-        console.error('Error al actualizar los datos de la competencia', error);
-      }  
-    }
-
-  };
-
-  useEffect(() => {
-    const getCompe = async () => {
-      try{
-      const response = await axios.get(`${endpoint}/${id}`);
-      setNombreCompe(response.data.nombre_competencia);
-      setMiembro(response.data.integrantes_competencia);
-      setFechaInicio(response.data.fecha_inicio_competencia);
-      setFechaFin(response.data.fecha_fin_competencia);
-      setFechaCompetencia(response.data.fecha_competencia);
-      setHora(response.data.horas_competencia);
-      setPublico(response.data.publicado_competencia);
-      setDescripcion(response.data.descripcion_competencia);
-      }catch(error){
-        console.error('Error al obtener los datos de la competencia', error);
+        if (fechaHora === undefined) {
+          await axios.delete(`${endpoint}/eliminarEtapaEvento/${fechasHorasInit[i].id}`);
+          continue;
+        } else {
+          const fechaEtapaId = fechaHora.id;
+          const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+          const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+          const horaInicioEtapa = fechaHora.hora_inicio;
+          const horaFinEtapa = fechaHora.hora_fin;
+          const contenidoEtapa = fechaHora.contenido_etapa;
+          await axios.put(`${endpoint}/actualizarEtapaEvento/${fechaEtapaId}`, {
+            fecha_inicio_etapa: fechaInicioEtapa,
+            fecha_fin_etapa: fechaFinEtapa,
+            hora_inicio_etapa: horaInicioEtapa,
+            hora_fin_etapa: horaFinEtapa,
+            contenido_etapa: contenidoEtapa,
+            etapa_fecha_inscripcion_eventos_id: idFechaIns
+          });
+        }
       }
-    };
-    getCompe();
-  }, []);
+    }
+    console.log(requisitosInit)
+    if (requisitosInit.length >= requisitosSeleccionados.length) {
+      for (let i = 0; i < requisitosInit.length; i++) {
+        const requisito = requisitosSeleccionados[i];
+        const idDetalleRequisito = requisitosInit[i].id;
+        if (requisito !== undefined) {
+          await axios.put(`${endpoint}/actualizarDetalleRequisito/${idDetalleRequisito}`, {
+            id_evento_dinamico: idEvento,
+            id_requisito: requisito
+          });
+        } else {
+          await axios.delete(`${endpoint}/eliminarDetalleRequisito/${idDetalleRequisito}`);
+        }
 
+      }
+    } else {
+      for (let i = 0; i < requisitosSeleccionados.length; i++) {
+        const isRequisito = requisitosInit[i];
 
-  // Estados para el tamaño de fuente y la alineación del texto
-  const [fontSize, setFontSize] = useState(16); // Tamaño de fuente inicial
-  const [textAlign, setTextAlign] = useState("left"); // Alineación inicial
+        if (isRequisito) {
+          const requisito = requisitosSeleccionados[i];
+          const idDetalleRequisito = requisitosInit[i].id;
+          await axios.put(`${endpoint}/actualizarDetalleRequisito/${idDetalleRequisito}`, {
+            id_evento_dinamico: idEvento,
+            id_requisito: requisito
+          });
+        } else {
+          const requisito = requisitosSeleccionados[i];
+          await axios.post(`${endpoint}/crearDetalleRequisito`, {
+            id_evento_dinamico: idEvento,
+            id_requisito: requisito
+          });
+        }
 
-  const handleFontSizeChange = (size) => {
-    setFontSize(size);
+      }
+    }
+
+    navigate("/listaCompetencias");
+  }
+
+  const handleNombreEventoChange = (nombre_evento) => {
+    setNombreEventoDinamico(nombre_evento);
   };
 
-  const handleTextAlignChange = (alignment) => {
-    setTextAlign(alignment);
-  };
+  const handleTipoEventoChange = (tipo_evento) => {
+    setTipoEventoDinamicoId(tipo_evento);
+  }
 
-  const buttonImageStyle = {
-    maxWidth: "24px",
-    maxHeight: "24px",
-  };
 
-  const isAuthenticated = localStorage.getItem('token');
-  const rol = localStorage.getItem('role');
+  const handleFechaInicioInscripcion = (fecha) => {
+    setFechaInicioInscripcion(fecha);
+  }
+  const handleFechaFinInscripcion = (fecha) => {
+    setFechaFinInscripcion(fecha);
+  }
+
+  const handleFechasHorasChange = (fechas) => {
+    setFechasHoras(fechas);
+  }
+
+  const handleDescripcion = (descripcion) => {
+    setDescripcion(descripcion);
+  }
+
+  const handleLugarEventoChange = (lugar) => {
+    setLugarEventoDinamico(lugar);
+  }
+  const handleCantidadParticipanetesEventoChange = (cantidad) => {
+    setCantidadParticipantesEventoDinamico(cantidad);
+  }
+
+  const handleRequisitosSeleccionados = (requisitos) => {
+    console.log(requisitos);
+    setRequisitosSeleccionados(requisitos);
+  }
+  const handleAfiche = (afiche) => {
+    console.log(afiche);
+    setAfiche(afiche);
+  }
+
+  const handlePublicoChange = () => {
+    if (publico) {
+      setMensajePublico("Publicar Competencia");
+      setPublico(!publico);
+    } else {
+      setMensajePublico("Competencia Publicada");
+      setPublico(!publico);
+    }
+  }
 
   return (
     <div>
-      {isAuthenticated && (
-      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
-      )}
-      <div className="container mt-5">
+      <NavbarAdmin />
+      <div className="mt-5">
         <div className="row">
-          <div className="col-md-8 mx-auto">
-            <div className="card">
-              <div className="card-body tarjeta">
-                <div className="row">
-                  <div className="col-md-12">
-                    <h2 className="card-title text-center text-black">Crear Competencia</h2>
-                  </div>
-                </div>
-                <div className="row text-black">
-                  <div className="col-md-6">
-                    <form onSubmit={update} className="text-left">
-                      <div className="mb-3">
-                        <label htmlFor="nombreEvento" className="form-label">
-                          Nombre de la Competencia
-                        </label>
-                        <input
-                          value={nombre_compe}
-                          onChange={(e) => setNombreCompe(e.target.value)}
-                          type="text"
-                          className={`form-control ${nombreCompeError ? "is-invalid" : ""
-                            }`}
-                          id="nombreEvento"
-                          name="nombreEvento"
-                          style={inputStyle}
-                        />
-                        {nombreCompeError && (
-                          <div className="invalid-feedback">
-                            {nombreCompeError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Número de Integrantes</label>
-                        <select
-                          className="form-select"
-                          id="horas"
-                          name="horas"
-                          style={inputStyle}
-                          value={numero_miembro}
-                          onChange={handleMiembroChange}
-                        >
-                          <option value="">Seleccionar</option>
-                          <option value="1">1 miembro</option>
-                          <option value="2">2 miembros</option>
-                          <option value="3">3 miembros</option>
-                        </select>
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio Inscripción
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaInicioError ? "is-invalid" : ""
-                            }`}
-                          id="fechaInicio"
-                          name="fechaInicio"
-                          style={inputStyle}
-                          value={fecha_inicio}
-                          onChange={handleFechaInicioChange}
-                        />
-                        {fechaInicioError && (
-                          <div className="invalid-feedback">
-                            {fechaInicioError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="fechaFin" className="form-label">
-                          Fecha de Fin Inscripción
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaFinError ? "is-invalid" : ""
-                            }`}
-                          id="fechaFin"
-                          name="fechaFin"
-                          style={inputStyle}
-                          value={fecha_fin}
-                          onChange={handleFechaFinChange}
-                        />
-                        {fechaFinError && (
-                          <div className="invalid-feedback">
-                            {fechaFinError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="fechaInicio" className="form-label">
-                          Fecha de Inicio Competencia
-                        </label>
-                        <input
-                          type="date"
-                          className={`form-control ${fechaCompError ? "is-invalid" : ""
-                            }`}
-                          id="fechaInicio"
-                          name="fechaInicio"
-                          style={inputStyle}
-                          value={fecha_competencia}
-                          onChange={handleFechaFinCompetenciaChange}
-                        />
-                        {fechaCompError && (
-                          <div className="invalid-feedback">
-                            {fechaCompError}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="horas" className="form-label">
-                          horas
-                        </label>
-                        <input
-                          onKeyDown={(event) => {                            
-                            if (!(event.key === 'Backspace' ||event.key ==='ArrowLeft'||event.key ==='ArrowRight'|| event.key === 'Tab' || /[0-9]/.test(event.key))) {
-                              event.preventDefault();
-                            }}}
-                          value={hora}
-                          onChange={handleHorasChange}
-                          type="number"
-                          className={`form-control ${horaEventoError ? "is-invalid" : ""
-                            }`}
-                          id="horaEvento"
-                          name="horaEvento"
-                          style={inputStyle}
-                        />
-                        {horaEventoError && (
-                          <div className="invalid-feedback">
-                            {horaEventoError}
-                          </div>
-                        )}
-                      </div>
-                      <div><label className="form-check-label" htmlFor="flexSwitchCheckDefault">Publicar evento</label> </div>
-                      <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                          checked={publico}
-                          onChange={(e) => setPublico(e.target.checked)} />
-                      </div>
-                      <button type="submit" className="btn btn-primary">
-                        Guardar
-                      </button>
-                    </form>
-                  </div>
-                  <div className="col-md-6 mx-auto">
-                    <div className="mb-3">
-                      <label htmlFor="descripcion" className="form-label">
-                        Descripción
-                      </label>
-                      <div className="mb-3">
-                        <div className="btn-group me-2">
-                          <button
-                            onClick={() => handleFontSizeChange(fontSize + 2)}
-                            className="btn btn-light btn-lg"
-                          >
-                            <strong>A</strong>
-                          </button>
-                          <button
-                            onClick={() => handleFontSizeChange(fontSize - 2)}
-                            className="btn btn-light btn-sm"
-                          >
-                            <small>A</small>
-                          </button>
-                        </div>
-                        <div className="btn-group">
-                          <button
-                            onClick={() => handleTextAlignChange("left")}
-                            className={`btn btn-light ${textAlign === "left" ? "active" : ""
-                              }`}
-                          >
-                            <img
-                              src={izqImage}
-                              alt="Izquierda"
-                              style={buttonImageStyle}
-                            />
-                          </button>
-                          <button
-                            onClick={() => handleTextAlignChange("center")}
-                            className={`btn btn-light ${textAlign === "center" ? "active" : ""
-                              }`}
-                          >
-                            <img
-                              src={cenImage}
-                              alt="Centro"
-                              style={buttonImageStyle}
-                            />
-                          </button>
-                          <button
-                            onClick={() => handleTextAlignChange("right")}
-                            className={`btn btn-light ${textAlign === "right" ? "active" : ""
-                              }`}
-                          >
-                            <img
-                              src={derImage}
-                              alt="Derecha"
-                              style={buttonImageStyle}
-                            />
-                          </button>
-                          <button
-                            onClick={() => handleTextAlignChange("justify")}
-                            className={`btn btn-light ${textAlign === "justify" ? "active" : ""
-                              }`}
-                          >
-                            <img
-                              src={jusImage}
-                              alt="Justificado"
-                              style={buttonImageStyle}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                      <textarea
-                        className="form-control-descArea textarea-estilo"
-
-                        id="descripcion"
-                        name="descripcion"
-                        value={descripcion}
-                        onChange={(e) => setDescripcion(e.target.value)}
-                        rows="4"
-                        style={{
-                          fontSize: `${fontSize}px`,
-                          textAlign: textAlign,
-                          width: "100%",
-                          height: "200px",
-                          resize: "none",
-                        }}
-                      ></textarea>
-                    </div>
-                    <div>
-                      <button type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2" onClick={() => navigate('/crearafiche')} >Crear afiche</button>
-                      <br></br>
-                      <input type="file" onChange={handleFileChange} style={{ display: 'none', visibility: 'hidden' }} id="subirAfiche" />
-                      <label htmlFor="subirAfiche" type="button" className="btn btn-warning btn-lg btn-block mx-auto boton-2">Subir afiche</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="col-md-2 p-0">
+            <div className="d-flex flex-column">
+              <button
+                onClick={() => handleSectionClick("nombreEvento")}
+                className={`button mb-2 ${activeSection === "nombreEvento" ? "active" : ""
+                  }`}
+              >
+                Nombre Competencia
+                </button>
+              <button
+                onClick={() => handleSectionClick("fechasHoras")}
+                className={`button mb-2 ${activeSection === "fechasHoras" ? "active" : ""
+                  }`}
+              >
+                Fechas y Horas
+              </button>
+              <button
+                onClick={() => handleSectionClick("descripcion")}
+                className={`button mb-2${activeSection === "descripcion" ? "active" : ""
+                  }`}
+              >
+                Descripción
+              </button>
+              <button
+                onClick={() => handleSectionClick("requisitos")}
+                className={`button mb-2${activeSection === "requisitos" ? "active" : ""
+                  }`}
+              >
+                Requisitos
+              </button>
+              <button
+                onClick={() => handleSectionClick("Afiche")}
+                className={`button mb-2${activeSection === "Afiche" ? "active" : ""
+                  }`}
+              >
+                Afiche
+                </button>
+              <button className={publico ? "btn btn-warning" : "btn btn-secondary"}
+                onClick={() => handlePublicoChange()}      >
+                {mensajePublico}
+              </button>
+              <button onClick={handleUpdateEventoDinamico} className='btn btn-success'>Actualizar</button>
+              <Link to="/listaCompetencias" className='btn btn-danger'>Cancelar</Link>
             </div>
+          </div>
+          <div className="col-md-6">
+            {activeSection === "nombreEvento" && (
+              <NombreEventoForm
+                nombreEvento={nombre_evento_dinamico}
+                lugarEvento={lugar_evento_dinamico}
+                cantidadParticiapantesEvento={cantidad_participantes_evento_dinamico}
+                onNombreEventoChange={handleNombreEventoChange}
+                onLugarEventoChange={handleLugarEventoChange}
+                onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
+
+              />
+            )}
+            {activeSection === "tipoEvento" && (
+              <TipoEventoForm
+                onTipoEvento={handleTipoEventoChange}
+                onValorSeleccionado={tipo_evento_dinamico_id}
+              />
+            )}
+            {activeSection === "fechasHoras" && (
+              <FechasHorasForm
+                onFechaInicioInscripcion={handleFechaInicioInscripcion}
+                onFechaFinInscripcion={handleFechaFinInscripcion}
+                onFechasHorasChange={handleFechasHorasChange}
+                FechaInicioIn={fecha_inicio_inscripcion}
+                FechaFinIn={fecha_fin_inscripcion}
+                FechasHorasNuevo={fechasHoras}
+              />
+            )}
+            {activeSection === "descripcion" && (
+              <DescripcionForm
+                onDescripcionChange={handleDescripcion}
+                DescripcionIn={descripcion}
+              />
+            )}
+            {activeSection === "requisitos" && (
+              <RequisitosForm
+                onRequisitos={handleRequisitosSeleccionados}
+                RequisitosIn={requisitosSeleccionados}
+              />
+            )}
+            {activeSection === "Afiche" && (
+              <AficheForm
+                setInput={handleAfiche}
+                input={afiche}
+                inputFile={aficheUrl}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -491,4 +460,4 @@ const EditComp = () => {
   );
 };
 
-export default EditComp;
+export default CreateEvento;

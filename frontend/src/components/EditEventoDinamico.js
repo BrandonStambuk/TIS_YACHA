@@ -208,6 +208,7 @@ const CreateEvento = () => {
       descripcion_evento_dinamico: descripcion,
       lugar_evento_dinamico: lugar_evento_dinamico,
       cantidad_participantes_evento_dinamico: cantidad_participantes_evento_dinamico,
+      requiere_coach: 0,
       mostrar_publico: publico,
       afiche: ruta
     });

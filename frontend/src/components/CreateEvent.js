@@ -70,7 +70,8 @@ const CreateEvento = () => {
           lugar_evento_dinamico: lugar_evento_dinamico,
           cantidad_participantes_evento_dinamico:
             cantidad_participantes_evento_dinamico,
-          mostrar_publico: publico,
+          requiere_coach: 0,
+      mostrar_publico: publico,
           afiche: ruta,
         }
       );
