@@ -176,3 +176,4 @@ Route::post('/restore', [ForgotPasswordController::class, 'submitResetPasswordFo
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/reporte', [App\Http\Controllers\Api\ReporteController::class, 'filter']);
