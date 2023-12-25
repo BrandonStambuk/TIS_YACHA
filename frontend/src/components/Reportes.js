@@ -7,6 +7,7 @@ import NavbarOrganizador from './NavbarOrganizador';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { Link } from 'react-router-dom';
 
 const endpoint = URL_API;
 
@@ -103,7 +104,7 @@ const Reportes = () => {
                         value={tipoEvento}
                         onChange={(e) => setTipoEvento(e.target.value)}
                     >
-                        <option defaultValue value="">Tipo de Evento</option>
+                        <option defaultValue value="">Tipo</option>
                         {opcionesTipoEventos}
                     </select>
 
@@ -151,7 +152,7 @@ const Reportes = () => {
                                     <tbody>
                                         {eventosVisibles.map((evento) => (
                                             <tr key={evento.id}>
-                                                <td>{evento.nombre_evento_dinamico}</td>
+                                                <td><Link to={`/reporte-especifico/${evento.id}`}>{evento.nombre_evento_dinamico}</Link></td>
                                                 <td>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
                                                 <td>{evento.fecha_inscripcion_evento[0].fecha_fin_inscripcion.substring(0, 4)}</td>
                                                 <td>{evento.mostrar_publico === 1 ? 'Publico':'Privado'}</td>

@@ -19,12 +19,11 @@ const Noticia = () => {
   const [imagen, setImagen] = useState(null);
   const [imagenUrl, setImagenUrl] = useState(null);
   const [activeSection, setActiveSection] = useState('titulo');
+  const [contador, setContador] = useState(false);
   const navigate = useNavigate();
 
   const handleGuardarNoticia = async (e) => {
     e.preventDefault();
-
-    // Verificar campos vacíos
     if (!titulo.trim() || !contenido.trim()) {
       Swal.fire({
         icon: 'error',
@@ -68,7 +67,13 @@ const Noticia = () => {
 
     let formData = new FormData();
     let ruta = null;
-
+    Swal.fire({
+      title: 'Guardando noticia...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     if (imagen) {
       formData.append('image', imagen);
       const responseImage = await axios.post(`${URL_API}/upload`, formData, {
@@ -96,11 +101,10 @@ const Noticia = () => {
       title: 'Noticia guardada',
       text: 'La noticia se ha guardado correctamente.',
       customClass: {
-        confirmButton: 'btn-swal-confirm ', // Clase para el botón "OK"
+        confirmButton: 'btn-swal-confirm ',
       },
-      buttonsStyling: false, // Desactiva el estilizado por defecto
+      buttonsStyling: false,
     });
-
     navigate('/tabla-noticias');
   };
   const handleContenidoChange = (content, editor) => {
@@ -175,7 +179,9 @@ const Noticia = () => {
               <AficheForm
               setInput={handleImagen}
               input={imagen}
-              inputUrl={imagenUrl}
+              inputFile={imagenUrl}
+              contador={contador}
+              onContadorChange={setContador}
             />
           )}
           </div>

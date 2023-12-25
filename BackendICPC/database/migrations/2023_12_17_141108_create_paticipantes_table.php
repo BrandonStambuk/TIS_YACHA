@@ -17,7 +17,7 @@ class CreatePaticipantesTable extends Migration
             $table->id();
             $table->String('nombre');
             $table->String('apellido');
-            $table->String('correo')->nullable();
+            $table->String('correo');
             $table->String('telefono_celular')->nullable();
             $table->date('fecha_nacimiento')->nullable();           
             $table->unsignedBigInteger('inscripcions_id');

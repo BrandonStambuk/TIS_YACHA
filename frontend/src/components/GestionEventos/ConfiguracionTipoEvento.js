@@ -10,9 +10,12 @@ const endpoint = URL_API;
 const ConfiguracionTipoEvento = () => {
   const [nombre_tipo_evento_dinamico, setTipoEventoDinamico] = useState("");
   const [nombreTipoEventoError, setNombreTipoEventoError] = useState("");
+  const [etapasAbiertas, setEtapasAbiertas] = useState([]);
   const [edit_nombre_tipo_evento_dinamico, setEditTipoEventoDinamico] = useState("");
   const [editNombreTipoEventoError, setEditNombreTipoEventoError] = useState("");
   const [opciones, setOpciones] = useState([]);
+  const [permitirNota, setPermitirNota] = useState(false);
+  const [editPermitirNota, setEditPermitirNota] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
@@ -27,54 +30,76 @@ const ConfiguracionTipoEvento = () => {
   }, []);
 
   const handleDeleteOpcion = async (id) => {
-    
-      Swal.fire({
-          title: '¿Estás seguro que deseas eliminar este Tipo de Evento?',
-          text: 'No podrás revertir esta acción.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Sí, eliminarlo',
-          cancelButtonText: 'Cancelar',
-      }).then(async (result) => {
-          if (result.isConfirmed) {
-              try {
-                  const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
-                  Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
-                  const newTipo = opciones.filter((tipo) => tipo.id !== id);
-                  setOpciones(newTipo);
-              } catch (error) {
-                /*  if (error.response) {
-                      const errorMessage = error.response.data.error || 'Error al eliminar el requisito';
-                      Swal.fire({
-                          title: 'Este requisito esta siendo utilizado por eventos ¿ Estas seguro que deseas eliminarlo ?',
-                          text: 'No podrás revertir esta acción.',
-                          icon: 'warning',
-                          showCancelButton: true,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
-                          confirmButtonText: 'Sí, eliminarlo',
-                          cancelButtonText: 'Cancelar',
-                      }).then(async (result2) => {
-                          if (result2.isConfirmed) {
-                              const responseDelete = await axios.delete(`${endpoint}/eliminarTodoRequisito/${id}`);
-                              Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
-                              const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
-                              setRequisitos(newRequisitos);
-                          }
-                      });
-                  }*/
-              }
-          }
-      });
 
-  
-    
+    Swal.fire({
+      title: '¿Estás seguro que deseas eliminar este Tipo de Evento?',
+      text: 'No podrás revertir esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.get(`${endpoint}/existeEvento/${id}`);
+          if (response.data) {
+            await Swal.fire({
+              title: 'El Tipo de evento esta siendo utilizado por Eventos existentes',
+              text: 'Verifica de enviar un mensaje a los usuarios que tienen eventos con este tipo de evento',
+              icon: 'warning',
+              showCancelButton: false,
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido',
+            });
+
+            const { isConfirmed } = await Swal.fire({
+              title: '¡Advertencia!',
+              text: '¿Deseas eliminar este tipo de evento de todos modos?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Si, Eliminar',
+              cancelButtonText: 'Cancelar',
+            });
+            if (isConfirmed) {
+              const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+              Swal.fire('¡Eliminado!', 'El tipo de evento ha sido eliminado.', 'success');
+              const newTipo = opciones.filter((tipo) => tipo.id !== id);
+              setOpciones(newTipo);
+            }
+
+          } else {
+            const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+            Swal.fire('¡Eliminado!', 'El tipo de evento ha sido eliminado.', 'success');
+            const newTipo = opciones.filter((tipo) => tipo.id !== id);
+            setOpciones(newTipo);
+          }
+
+        } catch (error) {
+          console.error("Error al eliminar el tipo de evento:", error);
+        }
+      }
+    });
+
+
+
   };
   const handleCancelOpcion = () => {
     setEditingId(null);
     setEditTipoEventoDinamico("");
+    setPermitirNota(false);
+  };
+
+  const toggleEtapa = (etapa) => {
+    setEtapasAbiertas((prevEtapas) => ({
+      ...prevEtapas,
+      [etapa]: !prevEtapas[etapa],
+    }));
   };
 
   const handleEditOpcion = (id) => {
@@ -82,12 +107,18 @@ const ConfiguracionTipoEvento = () => {
     setEditNombreTipoEventoError("");
     const tipoEventoSeleccionado = opciones.find((opcion) => opcion.id === id);
     setEditTipoEventoDinamico(tipoEventoSeleccionado.nombre_tipo_evento_dinamico);
+    setEditPermitirNota(tipoEventoSeleccionado.tieneNota);
   };
 
   const handleUpdateOpcion = async () => {
+    if (!edit_nombre_tipo_evento_dinamico) {
+      setEditNombreTipoEventoError("El nombre del tipo de evento no puede estar vacío.");
+      return;
+    }
     try {
       await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
         nombre_tipo_evento_dinamico: edit_nombre_tipo_evento_dinamico,
+        tieneNota: editPermitirNota,
       });
 
       const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
@@ -96,6 +127,8 @@ const ConfiguracionTipoEvento = () => {
 
       setEditingId(null);
       setEditTipoEventoDinamico("");
+      setEditNombreTipoEventoError("");
+      setEditPermitirNota(false);
     } catch (error) {
       console.error("Error al actualizar el tipo de evento:", error);
     }
@@ -127,14 +160,21 @@ const ConfiguracionTipoEvento = () => {
   };
 
   const handleSubmitStoreTipo = async (e) => {
-      e.preventDefault();
-      await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
-        nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
-      });
-      const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
-      setOpciones(response.data);
-      setTipoEventoDinamico("");
-
+    if (!nombre_tipo_evento_dinamico) {
+      setNombreTipoEventoError("El nombre del tipo de evento no puede estar vacío.");
+      return;
+    }
+    e.preventDefault();
+    await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
+      nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
+      tieneNota: permitirNota,
+    });
+    const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
+    setOpciones(response.data);
+    setTipoEventoDinamico("");
+    setPermitirNota(false);
+    setNombreTipoEventoError("");
+    setEtapasAbiertas([]);
   };
 
   return (
@@ -148,8 +188,8 @@ const ConfiguracionTipoEvento = () => {
                   <table className="table table-hover">
                     <thead className="thead-dark">
                       <tr>
-                        <th>ID</th>
                         <th>Nombre Tipo Evento</th>
+                        <th>Permite Modificar Notas</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -157,27 +197,43 @@ const ConfiguracionTipoEvento = () => {
                       {opciones.length > 0 ? (
                         opciones.map((opcion) => (
                           <tr key={opcion?.id}>
-                            <td>{opcion?.id}</td>
                             <td>
                               {editingId === opcion?.id ? (
                                 <>
-                                <input
-                                  value={edit_nombre_tipo_evento_dinamico}
-                                  onChange={handleEditNombreTipoEventoDinamicoChange}
-                                  type="text"
-                                  className={`form-control ${editNombreTipoEventoError ? "is-invalid" : ""
-                                    }`}
-                                />
-                                {editNombreTipoEventoError && (
-                                  <div className="invalid-feedback">
-                                    {editNombreTipoEventoError}
-                                  </div>
-                                )}
+                                  <input
+                                    value={edit_nombre_tipo_evento_dinamico}
+                                    onChange={handleEditNombreTipoEventoDinamicoChange}
+                                    type="text"
+                                    className={`form-control ${editNombreTipoEventoError ? "is-invalid" : ""
+                                      }`}
+                                  />
+                                  {editNombreTipoEventoError && (
+                                    <div className="invalid-feedback">
+                                      {editNombreTipoEventoError}
+                                    </div>
+                                  )}
                                 </>
                               ) : (
                                 opcion?.nombre_tipo_evento_dinamico
                               )}
                             </td>
+                            <td>
+                              {editingId === opcion?.id ? (
+                                <>
+                                  <div className="form-check form-switch">
+                                    <input
+                                      className="form-check-input fs-3"
+                                      type="checkbox"
+                                      role="switch"
+                                      id="flexSwitchCheckDefault"
+                                      checked={editPermitirNota}
+                                      onChange={(e) => setEditPermitirNota(e.target.checked)}
+                                      style={{ marginLeft: '-20px' }}
+                                    />
+                                  </div>
+                                </>
+                              ) : (
+                                opcion?.tieneNota ? "Si" : "No")}</td>
                             <td>{([1, 2, 3, 4, 5].includes(opcion.id)) ? (
                               <span>Valor por defecto</span>
                             ) : (
@@ -223,36 +279,61 @@ const ConfiguracionTipoEvento = () => {
                     </tbody>
 
                   </table>
-
                   <div>
-                    <div className="mb-3">
-                      <label htmlFor="tipoEvento" className="form-label">
-                        Tipo de Evento
-                      </label>
-                      <input
-                        value={nombre_tipo_evento_dinamico}
-                        onChange={handleTipoDeEventoDinamicoChange}
-                        type="text"
-                        className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""
-                          }`}
-                        id="tipoEvento"
-                        name="tipoEvento"
-                      />
-                      {nombreTipoEventoError && (
-                        <div className="invalid-feedback">
-                          {nombreTipoEventoError}
-                        </div>
-                      )}
-                    </div>
-
+                    <button onClick={() => toggleEtapa(1)}>
+                      Gestionar requisitos {etapasAbiertas[1]}
+                    </button>
                   </div>
-                  <button
-                    onClick={handleSubmitStoreTipo}
-                    id="botoncito"
-                    className="btn btn-primary"
-                  >
-                    Guardar
-                  </button>
+                  {etapasAbiertas[1] && (
+                    <div>
+                      <div className="mt-4 d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <div className="mb-4 col-md-6 col-xs-12">
+                          <label htmlFor="tipoEvento" className="form-label">
+                            Nombre Tipo de Evento
+                          </label>
+                          <input
+                            value={nombre_tipo_evento_dinamico}
+                            onChange={handleTipoDeEventoDinamicoChange}
+                            type="text"
+                            className={`form-control ${nombreTipoEventoError ? "is-invalid" : ""}`}
+                            id="tipoEvento"
+                            name="tipoEvento"
+                          />
+                          {nombreTipoEventoError && (
+                            <div className="invalid-feedback">
+                              {nombreTipoEventoError}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="mb-4 col-md-6 col-xs-12">
+                          <div>
+                            <label className="form-label" htmlFor="flexSwitchCheckDefault">
+                              Permitir Modificar Notas
+                            </label>
+                          </div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input fs-3"
+                              type="checkbox"
+                              role="switch"
+                              id="flexSwitchCheckDefault"
+                              checked={permitirNota}
+                              onChange={(e) => setPermitirNota(e.target.checked)}
+                              style={{ marginLeft: '-20px' }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleSubmitStoreTipo}
+                        id="botoncito"
+                        className="btn btn-success"
+                      >
+                        Guardar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

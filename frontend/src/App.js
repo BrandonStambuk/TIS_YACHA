@@ -33,6 +33,7 @@ import PasswordRestore from './components/PassworRestore';
 import Restore from './components/Restore';
 import Reportes from './components/Reportes';
 import ListaParticipantes from './components/ListaParticipantes';
+import ReporteEspecifico from './components/ReporteEspecifico';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -184,6 +185,7 @@ function App() {
           <Route path='/forget-password' element={<PasswordRestore/>}/>
           <Route path='/restore' element={<Restore/>}/>
           <Route path='/reportes' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Reportes/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
+          <Route path='/reporte-especifico/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ReporteEspecifico/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
         </Routes>
       </BrowserRouter>
     </div>
