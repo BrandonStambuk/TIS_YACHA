@@ -154,48 +154,10 @@ const Detalles = () => {
               </div>
               <div className="d-flex justify-content-between">
                 <Link to={`/listaEventos`} className='text-decoration-none boton-atras'>Atras</Link>
-                <Link to={`/edit/${id}`} className='text-decoration-none boton-ver'>Editar</Link>
+                <Link to={`/listaParticipantes/${id}`} className='text-decoration-none boton-ver'>Lista de Participantes</Link>
               </div>
             </div>
           </div>
-        </div>
-        <div className='row'>
-        <table>
-  <thead className='text-white'>
-    <tr>
-      <th className="centrado">Nombre Equipo</th>
-      <th className="centrado">Nombre Participante</th>
-      <th className="centrado">Apellido Participante</th>
-      <th className="centrado">Correo Participante</th>
-    </tr>
-  </thead>
-  <tbody>
-    {inscripcion.map((evento) => (
-      <React.Fragment key={evento.id}>
-        <tr>
-          <td className="centrado" rowSpan={evento.paticipante.length}>
-            {evento.nombre_equipo}
-          </td>
-          {evento.paticipante.length > 0 && (
-            <>
-              <td className="centrado">{evento.paticipante[0].nombre}</td>
-              <td className="centrado">{evento.paticipante[0].apellido}</td>
-              <td className="centrado">{evento.paticipante[0].correo}</td>
-            </>
-          )}
-        </tr>
-        {evento.paticipante.slice(1).map((participante) => (
-          <tr key={participante.id}>
-            <td className="centrado">{participante.nombre}</td>
-            <td className="centrado">{participante.apellido}</td>
-            <td className="centrado">{participante.correo}</td>
-          </tr>
-        ))}
-      </React.Fragment>
-    ))}
-  </tbody>
-</table>
-
         </div>
       </div>
     </div>
