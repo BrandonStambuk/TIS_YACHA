@@ -16,6 +16,8 @@ class CreateInscripcionsTable extends Migration
         Schema::create('inscripcions', function (Blueprint $table) {
             $table->id();
             $table->String('nombre_equipo')->nullable();
+            $table->String('problemas_resueltos')->nullable();
+            $table->String('penalidad')->nullable();
             $table->unsignedBigInteger('evento_dinamicos_id');
             $table->timestamps();
             $table->foreign('evento_dinamicos_id')->references('id')->on('evento_dinamicos')->onDelete('cascade');

@@ -51,7 +51,7 @@ const CreateEvento = () => {
     try {
         const { value: extraMessage } = await Swal.fire({
             title: 'Desea adjuntar información adicional sobre los cambios?',
-            html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Información Adicional">',
+            html: '<input type="text" id="extra-message" class="swal2-input" placeholder="Mensaje extra">',
             icon: 'info',
             showCancelButton: true,
             cancelButtonColor: '#d33',

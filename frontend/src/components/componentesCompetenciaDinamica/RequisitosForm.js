@@ -181,7 +181,8 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
                                             type="checkbox"
                                             id={`checkbox-${requisito.id}`}
                                             onChange={(e) => handleCheckboxChange(requisito.id, e.target.checked)}
-                                            checked={requisitosSeleccionados.includes(requisito.id) || ["correo", "carrera", "fecha de nacimiento"].includes(requisito.nombre_requisito)}
+                                            checked={requisitosSeleccionados.includes(requisito.id)} 
+                                            //checked={requisitosSeleccionados.includes(requisito.id) || ["correo", "carrera", "fecha de nacimiento"].includes(requisito.nombre_requisito)}
                                         />
                                     </td>
                                 </tr>

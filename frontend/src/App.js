@@ -32,6 +32,7 @@ import ConfiguracionEvento from './components/ConfiguracionEvento';
 import PasswordRestore from './components/PassworRestore';
 import Restore from './components/Restore';
 import Reportes from './components/Reportes';
+import ListaParticipantes from './components/ListaParticipantes';
 import { URL_API } from './const';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -125,6 +126,7 @@ function App() {
           <Route path="/configuracionEventos" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ConfiguracionEvento/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />   
           <Route path="/inicio" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaEventos/>: <QueEsICPC/>} />    
           <Route path="/crearafiche" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <CrearAfiche/>: (rol === 'Coach') ? <HomePageUser/>:<Login />}/>
+          <Route path="/listaParticipantes/:id" element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <ListaParticipantes/>: (rol === 'Coach') ? <HomePageUser/>:<Login />}/>
           <Route path="/login" element={<Login/>}/> 
           <Route
             path="/registroEvento/:id"
@@ -175,9 +177,9 @@ function App() {
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
           <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
-          <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
-          <Route path='/editNoticia/:id' element={isAuthenticated ? <EditNoticia/> : <Login />} />
-          <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
+          <Route path='/crear-noticia' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Noticia /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/editNoticia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditNoticia /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/tabla-noticias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <TablaNoticias /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
           <Route path='/detalles/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Detalles/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
           <Route path='/forget-password' element={<PasswordRestore/>}/>
           <Route path='/restore' element={<Restore/>}/>

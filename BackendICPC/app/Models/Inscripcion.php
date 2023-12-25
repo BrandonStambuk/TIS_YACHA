@@ -12,12 +12,14 @@ class Inscripcion extends Model
     use HasFactory;
     protected $fillable = [
         'nombre_equipo',
+        'problemas_resueltos',
+        'penalidad',
         'evento_dinamicos_id',
     ];
-    public function participantes(){
-        return $this->hasMany(Paticipante::class);
+    public function paticipante(){
+        return $this->hasMany(Paticipante::class, 'inscripcions_id');
     }
-    /*public function eventoDinamico(){
-        return $this->belongsTo(EventoDinamico::class);
-    }*/
+    public function eventoDinamico(){
+        return $this->belongsTo(EventoDinamico::class, 'evento_dinamicos_id');
+    }
 }

@@ -5,6 +5,7 @@ import NavbarAdmin from './NavbarAdmin';
 import './css/Perfil.css'
 import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
+import NavbarCoach from './NavbarCoach';
 
 const Perfil = () => {
   const [userData, setUserData] = useState({
@@ -163,7 +164,7 @@ const Perfil = () => {
   return (
     <div>
       {isAuthenticated && (
-      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : rol === "Coach" ? <NavbarCoach /> : null)
       )}
       <div className='row mt-5 col-md-12'>
 

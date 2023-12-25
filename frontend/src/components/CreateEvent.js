@@ -62,6 +62,8 @@ const CreateEvento = () => {
         showConfirmButton: false,
         allowOutsideClick: false,
     });
+      let ruta = null;
+      if (afiche) {
       const formData = new FormData();
       formData.append("image", afiche);
       const responseImage = await axios.post(`${URL_API}/upload`, formData, {
@@ -69,8 +71,8 @@ const CreateEvento = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      const ruta = responseImage.data.path;
+      ruta = responseImage.data.path;
+    }
       const responseEvento = await axios.post(
         `${endpoint}/crearEventoDinamico`,
         {
