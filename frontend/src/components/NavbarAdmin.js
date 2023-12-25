@@ -9,6 +9,7 @@ import { URL_API } from '../const';
 import Swal from 'sweetalert2';
 import Cabecera from './Cabecera';
 import user from './images/perfil_nav.png';
+
 const endpoint = `${URL_API}/logout`;
 
 const NavbarAdmin = () => {
@@ -44,6 +45,8 @@ const NavbarAdmin = () => {
   };
 
   const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+  const nombre = localStorage.getItem('nombre');
 
   return (
     <div>
@@ -61,6 +64,7 @@ const NavbarAdmin = () => {
               <li className="nav-item p-2">
                 <a className="nav-link" href="/configuracionEventos">Configuracion Eventos</a>
               </li>
+              {/* Otras opciones del menú */}
               <li className="nav-item p-2">
                 <a className="nav-link" href="/listaUsuarios">Usuarios</a>
               </li>
@@ -80,12 +84,16 @@ const NavbarAdmin = () => {
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (
                 <li className="nav-item p-2 d-flex align-items-center">
-                  <a href="/perfil">
-                    <img
-                      src={user}
-                      alt='Perfil'
-                      style={{ width: '30px', height: '30px' }}
-                    />
+                  {/* Mostrar el nombre y el rol */}
+                  <a href="/perfil" style={{ textDecoration: 'none' }}>
+                      <p className="nav-link m-0">{nombre} - {rol}</p>
+                  </a>
+                  <a href="/perfil" style={{ display: 'flex', alignItems: 'center' }}>
+                  <img
+                    src={user}
+                    alt='Perfil'
+                    style={{ width: '30px', height: '30px', marginLeft: '10px', marginTop: '-1px' }}
+                  />
                   </a>
                   <button className="nav-link" onClick={handleSignOut}>Cerrar Sesión</button>
                 </li>

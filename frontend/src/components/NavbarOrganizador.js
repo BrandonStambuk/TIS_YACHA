@@ -44,6 +44,9 @@ const NavbarAdmin = () => {
   };
 
   const isAuthenticated = localStorage.getItem('token');
+  //const rol = 'Organizador';
+  const rol = localStorage.getItem('role');
+  const nombre = localStorage.getItem('nombre');
 
   return (
     <div>
@@ -61,6 +64,9 @@ const NavbarAdmin = () => {
               <li className="nav-item p-2">
                 <a className="nav-link" href="/listaCompetencias">Competencias</a>
               </li>
+              <li className="nav-item p-2">
+                <a className="nav-link" href="/tabla-noticias">Noticias</a>
+              </li>
               <li className='nav-item p-2'>
                 <a className='nav-link' href='/reportes'>Reportes</a>
               </li>
@@ -68,12 +74,15 @@ const NavbarAdmin = () => {
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (
                 <li className="nav-item p-2 d-flex align-items-center">
-                  <a href="/perfil">
-                    <img
-                      src={user}
-                      alt='Perfil'
-                      style={{ width: '30px', height: '30px' }}
-                    />
+                  <a href="/perfil" style={{ textDecoration: 'none' }}>
+                      <p className="nav-link m-0">{nombre} - {rol}</p>
+                  </a>
+                  <a href="/perfil" style={{ display: 'flex', alignItems: 'center' }}>
+                  <img
+                    src={user}
+                    alt='Perfil'
+                    style={{ width: '30px', height: '30px', marginLeft: '10px', marginTop: '-1px' }}
+                  />
                   </a>
                   <button className="nav-link" onClick={handleSignOut}>Cerrar Sesión</button>
                 </li>
