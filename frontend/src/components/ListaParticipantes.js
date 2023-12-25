@@ -34,6 +34,8 @@ const ListaParticipantes = () => {
     setNombreEvento(response.data.nombre_evento_dinamico);
     setPonerNota(response.data.tipo_evento_dinamico.tieneNota);
     setEventos(response.data.inscripcion);
+    setCantidadParticipante(response.data.cantidad_participantes_evento_dinamico);
+    console.log(response.data.cantidad_participantes_evento_dinamico)
   };
   const handleEditPenalidadChange = (e) => {
     let error = validateNota(e.target.value);
@@ -132,7 +134,7 @@ const ListaParticipantes = () => {
                 <table>
                   <thead className='text-white'>
                     <tr>
-                      <th className="centrado">Nombre Equipo</th>
+                    {(!cantidadParticipante===1)?(<th className="centrado">Nombre Equipo</th>): null}
                       {ponerNota ? (<th className="centrado">Problemas Resueltos</th>): null}
                       {ponerNota ? (<th className="centrado">Penalidad</th>): null}
                       <th className="centrado">Nombre Participante</th>
@@ -145,9 +147,11 @@ const ListaParticipantes = () => {
                     {eventosVisibles.map((evento) => (
                       <React.Fragment key={evento.id}>
                         <tr>
+                        {(!cantidadParticipante===1)?(
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {evento.nombre_equipo}
                           </td>
+                          ): null}
                           {ponerNota ? (
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {editingId === evento?.id ? (
