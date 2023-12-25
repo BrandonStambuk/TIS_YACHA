@@ -16,6 +16,7 @@ class CreateTipoEventoDinamicosTable extends Migration
         Schema::create('tipo_evento_dinamicos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_tipo_evento_dinamico');
+            $table->boolean('tieneNota')->default(false);
             $table->timestamps();
         });
     }
