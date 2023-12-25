@@ -38,11 +38,12 @@ const CreateEvento = () => {
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
   //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
-  const [contadorNombreEvento, setContadorNombreEvento] = useState(false);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(0);
   const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
   const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
   const [contadorDescEvento, setContadorDescEvento] = useState(false);
   const [contadorRequisitos, setContadorRequisitos] = useState(false);
+  const [contadorAfiche, setContadorAfiche] = useState(false);
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -274,7 +275,8 @@ const CreateEvento = () => {
                   !contadorTipoEvento === 1 ||
                   !booleanFechaEvento ||
                   !contadorDescEvento ||
-                  !contadorRequisitos
+                  !contadorRequisitos 
+                  
                 }
               >
                 Guardar
@@ -347,6 +349,8 @@ const CreateEvento = () => {
                 setInput={handleAfiche}
                 input={afiche}
                 inputUrl={aficheUrl}
+                contador={contadorAfiche}
+                onContadorChange={setContadorAfiche}
               />
             )}
           </div>

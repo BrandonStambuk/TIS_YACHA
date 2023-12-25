@@ -39,7 +39,14 @@ const CreateEvento = () => {
   const [publico, setPublico] = useState(false);
   const [mensajePublico, setMensajePublico] = useState("Publicar Competencia");
   const { id } = useParams();
-
+  const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
+  //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(false);
+  const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
+  const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
+  const [contadorDescEvento, setContadorDescEvento] = useState(false);
+  const [contadorRequisitos, setContadorRequisitos] = useState(false);
+  const [contadorAfiche, setContadorAfiche] = useState(false);
   const notificarCambios = async () => {
     try {
         const { value: extraMessage } = await Swal.fire({
@@ -415,13 +422,18 @@ const CreateEvento = () => {
                 onNombreEventoChange={handleNombreEventoChange}
                 onLugarEventoChange={handleLugarEventoChange}
                 onCantidadParticipantesChange={handleCantidadParticipanetesEventoChange}
-
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorNombreEvento}
+                onContadorChange={setContadorNombreEvento}
               />
             )}
             {activeSection === "tipoEvento" && (
               <TipoEventoForm
                 onTipoEvento={handleTipoEventoChange}
                 onValorSeleccionado={tipo_evento_dinamico_id}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorTipoEvento}
+                onContadorChange={setContadorTipoEvento}
               />
             )}
             {activeSection === "fechasHoras" && (
@@ -432,18 +444,27 @@ const CreateEvento = () => {
                 FechaInicioIn={fecha_inicio_inscripcion}
                 FechaFinIn={fecha_fin_inscripcion}
                 FechasHorasNuevo={fechasHoras}
+                onGuardarEvento={setGuardarEvento}
+                contador={booleanFechaEvento}
+                onBooleanChange={setBooleanFechaEvento}
               />
             )}
             {activeSection === "descripcion" && (
               <DescripcionForm
                 onDescripcionChange={handleDescripcion}
                 DescripcionIn={descripcion}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorDescEvento}
+                onContadorChange={setContadorDescEvento}
               />
             )}
             {activeSection === "requisitos" && (
               <RequisitosForm
                 onRequisitos={handleRequisitosSeleccionados}
                 RequisitosIn={requisitosSeleccionados}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorRequisitos}
+                onContadorChange={setContadorRequisitos}
               />
             )}
             {activeSection === "Afiche" && (
@@ -451,6 +472,10 @@ const CreateEvento = () => {
                 setInput={handleAfiche}
                 input={afiche}
                 inputFile={aficheUrl}
+                onGuardarEvento={setGuardarEvento}
+                contador={contadorAfiche}
+                onContadorChange={setContadorAfiche}
+
               />
             )}
           </div>

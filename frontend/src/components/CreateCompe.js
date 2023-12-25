@@ -112,7 +112,7 @@ const CreateEvento = () => {
     console.log(contadorNombreEvento);
     console.log("La seccion tipoEvento tiene un valor de");
     console.log(contadorTipoEvento);
-    navigate("/listaEventos");
+    navigate("/listaCompetencias");
     console.log("La seccion FECHA tiene un valor de");
     console.log(booleanFechaEvento);
     console.log("La seccion descripcion tiene un valor de");

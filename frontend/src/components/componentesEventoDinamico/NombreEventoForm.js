@@ -58,11 +58,11 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
     if (value < 1) {
       setCantidadError("El minimo de competidores es de 1.");
       setPuedeGuardar(false);
-      onContadorChange(false);
+      onContadorChange(0);
     } else if (value > 3) {
       setCantidadError("El maximo de competidores es de 3.");
       setPuedeGuardar(false);
-      onContadorChange(false);
+      onContadorChange(0);
     } else {
       setCantidadError("");
       onCantidadParticipantesChange(event.target.value);
@@ -71,43 +71,43 @@ const NombreEventoForm = ({ nombreEvento, lugarEvento, cantidadParticiapantesEve
 
   }
   
-  useEffect(() => {
-    if (!nombreEvento.trim() || !lugarEvento.trim() || cantidadParticiapantesEvento === 0 || nombreEventoError || lugarEventoError || cantidadError) {
-      setPuedeGuardar(false);
-      console.log("No se puede guardar (al menos un campo está vacío o tiene errores)");
-      onContadorChange(false);
+useEffect(() => {
+  // Verificar si ya hay datos
+  const tieneDatos = nombreEvento.trim() !== "" || lugarEvento.trim() !== "" || cantidadParticiapantesEvento !== 0;
 
-     // onGuardarEvento(puedeGuardar);
-    } else {
-      setPuedeGuardar(true);
-      console.log("Se puede guardar");
-      onContadorChange(true);
-      console.log("contador tiene el valor");
-      console.log(contador);
+  if (!tieneDatos || nombreEventoError || lugarEventoError || cantidadError) {
+    setPuedeGuardar(false);
+    console.log("No se puede guardar (al menos un campo está vacío o tiene errores)");
+    onContadorChange(0);
+  } else {
+    setPuedeGuardar(true);
+    console.log("Se puede guardar");
+    onContadorChange(contador + 1);
+    console.log("contador tiene el valor");
+    console.log(contador);
+  }
 
-      //onGuardarEvento(puedeGuardar);
-    }
-    onGuardarEvento(puedeGuardar);
+  onGuardarEvento(puedeGuardar);
 
-    // Verificar errores específicos y mostrar en consola
-    if (nombreEventoError) {
-      console.log("Error en Nombre Evento:", nombreEventoError);
-    }
-    if (lugarEventoError) {
-      console.log("Error en Lugar Evento:", lugarEventoError);
-    }
-    if (cantidadError) {
-      console.log("Error en Cantidad Participantes:", cantidadError);
-    }
-  
-    const timeoutId = setTimeout(() => {
-      setNombreEventoError("");
-      setLugarEventoError("");
-      setCantidadError("");
-    }, 5000);
-  
-    return () => clearTimeout(timeoutId);
-  }, [nombreEvento, lugarEvento, cantidadParticiapantesEvento, nombreEventoError, lugarEventoError, cantidadError, puedeGuardar]);
+  // Verificar errores específicos y mostrar en consola
+  if (nombreEventoError) {
+    console.log("Error en Nombre Evento:", nombreEventoError);
+  }
+  if (lugarEventoError) {
+    console.log("Error en Lugar Evento:", lugarEventoError);
+  }
+  if (cantidadError) {
+    console.log("Error en Cantidad Participantes:", cantidadError);
+  }
+
+  const timeoutId = setTimeout(() => {
+    setNombreEventoError("");
+    setLugarEventoError("");
+    setCantidadError("");
+  }, 5000);
+
+  return () => clearTimeout(timeoutId);
+}, [nombreEvento, lugarEvento, cantidadParticiapantesEvento, nombreEventoError, lugarEventoError, cantidadError, puedeGuardar]);
   return (
     <div className="card-body tarjeta">
       <div className="mb-3">

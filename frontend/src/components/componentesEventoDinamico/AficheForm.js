@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-const AficheForm = ({ setInput, input, inputFile }) => {
+const AficheForm = ({ setInput, input, inputFile, onGuardarEvento, contador,onContadorChange }) => {
     const [image, setImage] = useState(null);
     const [inputUrl, setInputFile] = useState(null);
 
     useEffect(() => {
         if (input) {
             setImage(URL.createObjectURL(input));
+            onContadorChange(true);
+
         } else {
             setInputFile(inputFile);
         }
@@ -23,8 +25,12 @@ const AficheForm = ({ setInput, input, inputFile }) => {
                 setImage(result);
             };
             reader.readAsDataURL(file);
+            onContadorChange(true);
+
         } else {
             setImage(null);
+            onContadorChange(false);
+
         }
     };
 
