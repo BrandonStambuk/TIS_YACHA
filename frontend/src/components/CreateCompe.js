@@ -107,7 +107,7 @@ const CreateEvento = () => {
         console.error("Datos de requisito o evento no válidos");
       }
     }
-    navigate("/listaCompetencias");
+    //navigate("/listaCompetencias");
     console.log("La seccion nombreEvento tiene un valor de");
     console.log(contadorNombreEvento);
     console.log("La seccion tipoEvento tiene un valor de");
@@ -229,8 +229,9 @@ return (
                   handleStoreEventoDinamico === undefined ||
                   !contadorNombreEvento ||
                   !booleanFechaEvento ||
-                  !contadorDescEvento || 
-                  contadorRequisitos
+                  !contadorDescEvento ||
+                  contadorRequisitos 
+                  
                 }
               >
                 Guardar
