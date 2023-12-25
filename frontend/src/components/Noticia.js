@@ -179,7 +179,7 @@ const Noticia = () => {
               <AficheForm
               setInput={handleImagen}
               input={imagen}
-              inputUrl={imagenUrl}
+              inputFile={imagenUrl}
               contador={contador}
               onContadorChange={setContador}
             />

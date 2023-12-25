@@ -20,6 +20,7 @@ const Noticia = () => {
   const [imagen, setImagen] = useState(null);
   const [imagenUrl, setImagenUrl] = useState(null);
   const [activeSection, setActiveSection] = useState('titulo');
+  const [contador, setContador] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -80,7 +81,17 @@ const Noticia = () => {
       });
       return;
     }
-
+    Swal.fire({
+      title: 'Guardando noticia...',
+      text: 'Espere un momento por favor',
+      icon: 'info',
+      showCancelButton: false,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     let formData = new FormData();
     let ruta = null;
 
@@ -191,6 +202,8 @@ const Noticia = () => {
               setInput={handleImagen}
               input={imagen}
               inputFile={imagenUrl}
+              contador={contador}
+              onContadorChange={setContador}
             />
           )}
           </div>
