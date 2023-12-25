@@ -85,7 +85,7 @@ class EventoDinamicoController extends Controller
      */
     public function show($id)
     {
-        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos.requisitosEvento' ])->find($id);
+        $evento = EventoDinamico::with(['tipoEventoDinamico', 'fechaInscripcionEvento.etapaEvento', 'detalleRequisitos.requisitosEvento','inscripcion.paticipante'  ])->find($id);
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
         }

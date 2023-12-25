@@ -9,6 +9,8 @@ import { URL_API } from './const';
 import NavbarOrganizador from './NavbarOrganizador';
 import NavbarAdmin from './NavbarAdmin';
 
+
+
 const endpoint = URL_API;
 
 const Detalles = () => {
@@ -20,6 +22,7 @@ const Detalles = () => {
   const [participantes, setParticipantes] = useState('');
   const [etapas, setEtapas] = useState([]);
   const [imagen, setImagen] = useState('');
+  const [inscripcion, setInscripcion] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
   const gradientBackground = {
@@ -37,7 +40,8 @@ const Detalles = () => {
         setParticipantes(response.data.cantidad_participantes_evento_dinamico);
         setDescripcion(response.data.descripcion_evento_dinamico);
         setEtapas(response.data.fecha_inscripcion_evento[0].etapa_evento);
-        console.log(response.data.fecha_inscripcion_evento[0].etapa_evento);
+        setInscripcion(response.data.inscripcion);
+        console.log(response.data.inscripcion);
       } catch (error) {
 
         console.error('Error al obtener los datos del evento:', error);
@@ -86,8 +90,6 @@ const Detalles = () => {
               )}
             </div>
           </div>
-
-          {/* Event Details Card */}
           <div className="col-md-7">
             <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <div className="event-info-text center">
@@ -156,6 +158,44 @@ const Detalles = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className='row'>
+        <table>
+  <thead className='text-white'>
+    <tr>
+      <th className="centrado">Nombre Equipo</th>
+      <th className="centrado">Nombre Participante</th>
+      <th className="centrado">Apellido Participante</th>
+      <th className="centrado">Correo Participante</th>
+    </tr>
+  </thead>
+  <tbody>
+    {inscripcion.map((evento) => (
+      <React.Fragment key={evento.id}>
+        <tr>
+          <td className="centrado" rowSpan={evento.paticipante.length}>
+            {evento.nombre_equipo}
+          </td>
+          {evento.paticipante.length > 0 && (
+            <>
+              <td className="centrado">{evento.paticipante[0].nombre}</td>
+              <td className="centrado">{evento.paticipante[0].apellido}</td>
+              <td className="centrado">{evento.paticipante[0].correo}</td>
+            </>
+          )}
+        </tr>
+        {evento.paticipante.slice(1).map((participante) => (
+          <tr key={participante.id}>
+            <td className="centrado">{participante.nombre}</td>
+            <td className="centrado">{participante.apellido}</td>
+            <td className="centrado">{participante.correo}</td>
+          </tr>
+        ))}
+      </React.Fragment>
+    ))}
+  </tbody>
+</table>
+
         </div>
       </div>
     </div>

@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Inscripcion;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Inscripcion;
 
 class Paticipante extends Model
 {
@@ -23,8 +23,13 @@ class Paticipante extends Model
         'fecha_nacimiento',
         'inscripcions_id',
     ];
-    public function inscripcion(){
-        return $this->belongsTo(Inscripcion::class);
+    public function inscripcion()
+    {
+        return $this->belongsTo(Inscripcion::class, 'inscripcions_id');
+    }
+    public function otroRequisito()
+    {
+        return $this->hasMany(OtroRequisito::class, 'paticipantes_id');
     }
 
     public function routeNotificationForMail()
