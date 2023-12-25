@@ -43,6 +43,7 @@ const ConfiguracionTipoEvento = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          
           const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
           Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
           const newTipo = opciones.filter((tipo) => tipo.id !== id);
@@ -142,6 +143,10 @@ const ConfiguracionTipoEvento = () => {
   };
 
   const handleSubmitStoreTipo = async (e) => {
+    if (!nombre_tipo_evento_dinamico) {
+      setNombreTipoEventoError("El nombre del tipo de evento no puede estar vacío.");
+      return;
+    }
     e.preventDefault();
     await axios.post(`${endpoint}/crearTipoEventoDinamico`, {
       nombre_tipo_evento_dinamico: nombre_tipo_evento_dinamico,
