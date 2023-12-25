@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import ICPCImage from './images/ICPC-contest.png';
+//imagenes cambiadas del carrusel
+import primera from './images/primera clasi.jpg';
 import imagen1 from './images/imagen3.jpg';
-import imagen2 from './images/imagen4.jpg';
+import segunda from './images/segunda clasi.jpg';
 
 import './css/carrousel.css';
+//cambio aqui las anteriores imagenes
 const images = [
-  ICPCImage,
+  primera,
+  segunda,
   imagen1,
-  imagen2,
-  // Agrega aquí más rutas de tus imágenes
 ];
-
-const CarouselComponent = () => {
+{/* agregado el text mas */ }
+const CarouselComponent = ({images,texts}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -21,15 +22,17 @@ const CarouselComponent = () => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length); 
   };
 
   return (
-    <div style={{ marginTop: '35px' }}>
+    <div style={{ marginTop: '20px' }}>
       <Carousel showThumbs={false} selectedItem={currentIndex}>
         {images.map((image, index) => (
-          <div key={index}>
-            <img src={image} alt={`Imagen ${index + 1}`} />
+          <div key={index} className="carousel-item">
+            <img src={image} alt={`Imagen ${index + 1}`} className="carousel-image"/> 
+            {/* agregado este text*/ }
+            <p className="carousel-text">{texts[index]}</p>
           </div>
         ))}
       </Carousel>

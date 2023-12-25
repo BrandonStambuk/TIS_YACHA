@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/Navbar.css';
 import './css/fondo.css';
+import { Dropdown } from 'react-bootstrap'; //Desplegable del menu
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
@@ -55,24 +56,40 @@ const NavbarAdmin = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaEventos">Eventos</a>
+
+            {/* Desplegables */ }
+            <li className="nav-item p-2"> 
+            <Dropdown>
+            <Dropdown.Toggle variant="" id="dropdown-basic">
+            <a className="nav-link">Eventos </a>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+              <Dropdown.Item href="/listaEventos" >Lista de Eventos</Dropdown.Item>
+                <Dropdown.Item href="/configuracionEventos">Configuracion Eventos</Dropdown.Item>
+                <Dropdown.Item href="/listaCompetencias">Competencias</Dropdown.Item>
+              </Dropdown.Menu>
+              </Dropdown>
               </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/configuracionEventos">Configuracion Eventos</a>
+              <li className="nav-item p-2"> 
+            
+              <Dropdown>
+            <Dropdown.Toggle variant="" id="dropdown-basic">
+            <a className="nav-link">Usuarios </a>  
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+              <Dropdown.Item href="/listaUsuarios">Lista de Usuarios</Dropdown.Item>
+              <Dropdown.Item href="/registerUsuario">Registrar Usuario</Dropdown.Item>
+
+              </Dropdown.Menu>
+              </Dropdown>
               </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaUsuarios">Usuarios</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/registerUsuario">Registrar</a>
-              </li>
+              {/* Desplegables hasta aqui */ }
+
               <li className="nav-item p-2">
                 <a className="nav-link" href="/tabla-noticias">Noticias</a>
               </li>
+              
             </ul>
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (

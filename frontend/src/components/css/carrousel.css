@@ -6,23 +6,60 @@ button {
     color: #fff; /* Color del texto */
     border: none; /* Quita el borde */
     padding: 10px 20px; /* Espaciado interno */
-    margin: 5px; /* Margen entre los botones */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de fuente */
-    outline: none; /* Quita el contorno en foco */
+    margin: 10px; /* Margen entre los botones */
+    cursor: pointer; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    outline: none; 
   }
   
   button:hover {
-    background-color: #0056b3; /* Cambia el color al pasar el ratón */
+    background-color: #0056b3; 
   }
   
-  /* Estilo específico para el botón "Anterior" */
+
   button:first-child {
-    margin-left: 0; /* Quita el margen izquierdo del primer botón */
+    margin-left: 0; 
   }
   
-  /* Estilo específico para el botón "Siguiente" */
+
   button:last-child {
-    margin-right: 0; /* Quita el margen derecho del último botón */
+    margin-right: 0;
   }
+  .carousel{
+    max-height: 700px;
+    margin-left: 20px;
+  }
+  .carousel img{
+    max-width: 100%;
+    height: auto;
+  }
+  /*Texto para cada imagen en las fotos del carrosuel*/
+  .carousel-text {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+  }
+  .carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+   /*Imagenes del mismo tamaño en el carrusel*/
+  .carousel-image {
+    max-width: 100%; /* Establece el ancho máximo de la imagen */
+    max-height: 400px; /* Establece la altura máxima de la imagen */
+    margin: auto; /* Centra la imagen dentro del contenedor */
+  }
+  .card{
+    margin-top: 25px;
+  }
+  

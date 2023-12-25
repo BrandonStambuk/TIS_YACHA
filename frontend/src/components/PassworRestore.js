@@ -102,7 +102,7 @@ const PasswordRestore = () => {
                     />
                     <input className="login-button" type="button" onClick={handleRestore} value="Enviar Correo" />
                     {error && <div className="error-message">{error}</div>}
-                    <label>Volver a Inicio de Sesión</label> <a href="/login">Click aqui.</a>
+                    <label>Volver a Inicio de Sesión</label> <a href="/login">Click aquí.</a>
                 </form>
                 <span className="agreement"></span>
             </div>

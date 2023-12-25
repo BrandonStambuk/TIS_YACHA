@@ -1,200 +1,92 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import imagen1 from '../components/images/cabeza.jpg';
-import imagen2 from '../components/images/cabeza2.jpg';
-import imagen3 from '../components/images/cabeza3.jpg';
-import imagen4 from '../components/images/cabeza4.jpg';
-import { Link } from 'react-router-dom';
+import CarouselComponent from './Carrousel';
+import { URL_API } from './const';
+import './css/carrousel.css';
 import Footer from './Footer';
-import { URL_API } from '../const';
-import Cabecera from './Cabecera';
-import NavbarCoach from './NavbarCoach';
-
+import BalloonAnimation from './BalloonAnimation';
+import primera from './images/primera clasi.jpg'
+import imagen1 from './images/imagen3.jpg';
+import segunda from './images/segunda clasi.jpg';
 const endpoint = URL_API;
 
-const HomePage = () => {
-  const isAuthenticated = localStorage.getItem('token');
-  const rol = localStorage.getItem('role');
-  const containerRef = useRef();
-  const [eventos, setEventos] = useState([]);
-  const [fecha_inicio_evento, setFecha_inicio_evento] = useState([]);
-  const [eventosPasados, setEventosPasados] = useState([]);
-  const [scrolling, setScrolling] = useState(0);
-  const [filtroTipo, setFiltroTipo] = useState('');
-  const [filtroTipoPasados, setFiltroTipoPasados] = useState('');
-  const [noticias, setNoticias] = useState([]);
-  const [tiposEventos, setTiposEventos] = useState([]);
+{/* Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahora este es lo que era que es la icpc, nuevo home page */ }
 
-  useEffect(() => {
-    const fetchNoticias = async () => {
-      try {
-        const response = await axios.get(`${endpoint}/noticiasDisponibles`);
-        setNoticias(response.data);
-      } catch (error) {
-        console.error('Error al obtener noticias:', error);
-      }
-    };
-    getAllEventos();
-    fetchNoticias();
-    obtenerTiposEventos();
-  }, []);
+const WICPC = () => {
+  {/* imagenes con el texto que les corresponde*/ }
+const images  = [primera,
+  segunda,
+  imagen1];
+const texts = ["1ra Clasificacion al mudial","2da Clasificacion al mudial","3ra Clasificacion al mudial"];
 
-  const imagenesEvento = {
-    "Reclutamiento": imagen1,
-    "Taller de reclutamiento": imagen2,
-    "Competencia de entrenamiento": imagen3,
-    "Competencia interna": imagen4
+ const [showBalloons, setShowBalloons] = useState(true);
+
+  const handleAnimationEnd = () => {
+    // Lógica cuando la animación de globos termina
+    setShowBalloons(false);
   };
-
-  const getAllEventos = async () => {
-    const event = await axios.get(`${endpoint}/eventosDinamicosPublicos`);
-    setEventos(event.data);
-    const fechas = await axios.get(`${endpoint}/fechasInscripcion`);
-    setFecha_inicio_evento(fechas.data);
-  };
-
-  const obtenerTiposEventos = async () => {
-    const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
-    setTiposEventos(response.data);
-  }
-  // const getAllFechasInicio = async () => {
-  //   const response = await axios.get(`${endpoint}/fechasInscripcion`);
-  //   setFecha_inicio_evento(response.data);
-  //   console.log(response.data);
-  // };
-  /*const getAllEventosPasados = async () => {
-    const response = await axios.get(`${endpoint}/mostrarPublicoPasados`);
-    setEventosPasados(response.data);
-  };*/
-
-  const scrollContainer = (scrollAmount) => {
-    const container = containerRef.current;
-    container.scrollLeft += scrollAmount;
-  };
-
-  const startScrolling = (scrollAmount) => {
-    setScrolling(setInterval(() => scrollContainer(scrollAmount), 10));
-  };
-
-  const stopScrolling = () => {
-    clearInterval(scrolling);
-  };
-
-  const resetScroll = () => {
-    const container = containerRef.current;
-    container.scrollTo({ left: 0, behavior: 'smooth' });
-  };
-  async function getImagen(url) {
-    try {
-      const response = await axios.get(`${endpoint}/getImagen/${url}`, { responseType: 'arraybuffer' });
-      const base64 = btoa(
-        new Uint8Array(response.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          '',
-        ),
-      );
-      return "data:;base64," + base64;
-    } catch (error) {
-      console.error("Error during fetch: ", error);
-    }
-  }
-  const getNoticiaImage = (name) => {
-    try {
-      return require(`../../../BackendICPC/storage/app/public${name}`);
-    } catch (err) {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    resetScroll();
-  }, [filtroTipo]);
-
-
+ 
 
   return (
-    <div className="d-flex flex-column min-vh-100">
-      {isAuthenticated && (
-        rol === "Coach") ? <NavbarCoach /> : <Navbar />
-      }
-      <div className="container mt-5 flex-grow-1">
+    <div>
+      <Navbar />
+      {/* Cambio en el tamaño y casi todo en el home*/ }
+
+      <div className="container md-12">
         <div className="row">
-          <div className="col-md-12 col-lg-12">
+          <div className="col-md-8">
+            
             <div className="card card-translucent">
-              <h3 className="card-header">Eventos Próximos UMSS</h3>
-              <div className="mb-3">
-                <select id="tipoEvento" className="form-select form-select-lg" value={filtroTipo}
-                  onChange={(e) => setFiltroTipo(e.target.value)}
-                >
-                  <option value="">Todos</option>
-                  {tiposEventos.map((tipoEvento) => (
-                    <option key={tipoEvento.id} value={tipoEvento.nombre_tipo_evento_dinamico}>{tipoEvento.nombre_tipo_evento_dinamico}</option>
-                  ))}
-                </select>
-              </div>
-              <div ref={containerRef} className="card-body event-container">
-                {eventos && eventos.length > 0 && (() => {
-                  let elements = [];
-                  for (let i = 0; i < eventos.length; i++) {
-                    let evento = eventos[i];
-                    if ((isAuthenticated && rol === 'Coach') && !evento.requiere_coach) continue;
-                    let fechaInicio = fecha_inicio_evento.find(fecha => fecha.evento_dinamicos_id === evento.id);
-                    if (filtroTipo === '' || evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico === filtroTipo) {
-                      elements.push(
-                        <div className="mt-1" key={evento.id}>
-                          <div className="image-container">
-                            <img src={imagen1} alt="Cabeza" />
-                            <p className="test">{evento.nombre_evento_dinamico}</p>
-                          </div>
-                          <div className="card-footer image-container">
-                            <div className="event-info">
-                              <p className="event-info-text left"><strong>Nombre: </strong>{evento.nombre_evento_dinamico}</p>
-                              <p className="event-info-text left"><strong>Tipo de evento: </strong>{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</p>
-                              <p className="event-info-text left col-md-12"><strong>Inscripcion: </strong>{fechaInicio ? fechaInicio.fecha_inicio_inscripcion : 'Fecha no disponible'}</p>
-                              <p className="event-info-text left col-md-12"><strong>Fin Inscripcion: </strong>{fechaInicio ? fechaInicio.fecha_fin_inscripcion : 'Fecha no disponible'}</p>
-                              <p className="event-info-text left"><strong>Lugar: </strong>{evento.lugar_evento_dinamico}</p>
-                              <Link to={`/mostrar/${evento.id}`} className='text-decoration-none boton-ver'>Ver</Link>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  }
-                  return elements;
-                })()}
+              <div className="card-body">
+                <h3 className="card-header" style={{ backgroundColor: "#0f5fa6", color: 'white'}}>ICPC-UMSS Trayectoria </h3>
+                <div className="row-justify-content-md-center">
+                <p style={{ textAlign: 'justify', marginTop: 25, lineHeight: 2.3, fontSize: "large" }}>
+                  La ICPC (Competición Internacional Universitaria de Programación) es una competición de programación a nivel internacional que involucra a equipos de estudiantes de universidades de todo el mundo. La competición está diseñada para desafiar a los participantes a resolver problemas algorítmicos complejos en un tiempo limitado.
+                  </p>
+                  <p style={{ textAlign: 'justify', marginTop: 25, lineHeight: 2.3, fontSize: "large" }}>
+                    La Universidad Mayor de San Simón lleva ya muchos años con la formación de competidores de alto nivel, dando como resultado múltiples competencias ganadas tanto a nivel nacional como a nivel regional y 
+                    actualmente cuenta con su tercera clasificación al mundial de programación competitiva, siendo la primera en 2017, la segunda en 2021 y la clasificación más reciente en 2022.
+                  </p>
+                  
+                  <div className="col-sm-11 carousel-container" id='balloon-container'>
+                  
+                    <CarouselComponent images={images} texts={texts}/>
+                    {showBalloons && <BalloonAnimation onAnimationEnd={handleAnimationEnd} />}
+                  </div>
+                  
+                </div>
+
               </div>
 
             </div>
-            {noticias.map((noticia) => (
-              <div key={noticia.id} className="card card-translucent mt-5">
-                <div className="card-body">
-                  <h5 className="card-title">{noticia.titulo}</h5>
-                  {noticia.imagen && (
-                  <img src={getNoticiaImage(noticia.imagen)} alt="Imagen de noticia" className="card-img-top" />
-                  )}
-                  <p className="event-description card-text" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: noticia.contenido }}></p>
-                  {/* Otros detalles de la noticia */}
+
+          </div>
+          <div className="col-md-4">
+            
+            <div className="card card-translucent">
+              
+                <h3 className="card-header" style={{ backgroundColor: "#0f5fa6", color: 'white'}}>Palabras motivadoras </h3>
+                <div className="row">
+                
+                  <p style={{ textAlign: 'justify', marginTop: 25, lineHeight: 2.4, fontSize: "large" }}>
+                    HOLA MUNDO
+                  </p>
+                 
                 </div>
-              </div>
-            ))}
+
+             
+
+            </div>
+
           </div>
         </div>
       </div>
-      <div className="scroll-buttons">
-        <button onMouseDown={() => startScrolling(-10)} onMouseUp={() => stopScrolling()}>&lt;</button>
-        <button onMouseDown={() => startScrolling(10)} onMouseUp={() => stopScrolling()}>&gt;</button>
-      </div>
-
-
-
-
-
       <Footer />
     </div>
   );
 };
 
-export default HomePage;
+export default WICPC;

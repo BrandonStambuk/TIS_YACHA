@@ -21,10 +21,11 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
               <li className="nav-item p-2">
+                
                 <Link to="/home" className="nav-link">Inicio</Link>
               </li>
               <li className="nav-item p-2">
-                <Link to="/inicio" className="nav-link">¿Qué es la ICPC?</Link>
+                <Link to="/inicio" className="nav-link">Eventos</Link>
               </li>            
             </ul>
             <ul className="navbar-nav ms-auto">

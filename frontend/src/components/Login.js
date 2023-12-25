@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import "./css/Login.css";
 import axios from "axios";
 import { URL_API } from '../const';
+import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 
 
@@ -22,6 +23,15 @@ const Login = () => {
   const navigate = useNavigate();
   //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { login } = useAuth();
+  {/* Alert si algunos de mis datos son incorrectos */ }
+  const Incorrecto=()=>{
+    Swal.fire({
+      icon: "error",
+      title: "Algo salió mal...",
+      text: "Credenciales incorrectas",
+      confirmButtonText: "Intentar de nuevo"
+    });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -61,7 +71,8 @@ const Login = () => {
     }
 
     } catch (error) {
-      setError("Credenciales incorrectas. Inténtalo de nuevo.");
+      setError(true);
+      Incorrecto(); {/* llamada al alert */ }
     }
   };
 
@@ -74,7 +85,7 @@ const Login = () => {
     <div>
       <Navbar />
       <div className="container login">
-        <div className="heading">Iniciar Sesion: ICPC-UMSS</div>
+        <div className="heading">Iniciar Sesión: ICPC-UMSS</div>
         <form action="" className="form" onSubmit={handleLogin}>
           <input
             required=""
@@ -96,9 +107,9 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input className="login-button" type="submit" value="Iniciar Sesion" />
+          <input className="login-button" type="submit" value="Iniciar Sesión" />
           {error && <div className="error-message">{error}</div>}
-          <label>Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aqui.</a>
+          <label>¿Olvidaste la contraseña?</label> <a href="/forget-password">Click aquí.</a>
         </form>
         <span className="agreement"></span>
       </div>
