@@ -78,8 +78,8 @@ const Detalles = () => {
         rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
       )}
       <div className="container mt-5">
-        <div className="row">
-          {/* Image Card */}
+      <div className="row justify-content-center align-items-center">
+          {imagen && (
           <div className="col-md-5">
             <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <h2 className='card-title'>Afiche</h2>
@@ -90,6 +90,7 @@ const Detalles = () => {
               )}
             </div>
           </div>
+          )}
           <div className="col-md-7">
             <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <div className="event-info-text center">

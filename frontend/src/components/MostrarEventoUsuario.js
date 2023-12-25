@@ -12,19 +12,19 @@ import NavbarCoach from './NavbarCoach';
 const endpoint = URL_API;
 
 const HomePage = () => {
-    const [nombre_evento, setNombreEvento] = useState('');
-    const [tipo_evento, setTipoEvento] = useState('');
-    const [fecha_inicio, setFechaInicio] = useState('');
-    const [fecha_fin, setFechaFin] = useState('');    
-    const [descripcion, setDescripcion] = useState('');
-    const [participantes, setParticipantes] = useState('');
-    const [etapas, setEtapas] = useState([]);
-    const [imagen, setImagen] = useState('');
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const gradientBackground = {
-  background: 'linear-gradient(to bottom,#007bff ,#ffffff )'
-    };
+  const [nombre_evento, setNombreEvento] = useState('');
+  const [tipo_evento, setTipoEvento] = useState('');
+  const [fecha_inicio, setFechaInicio] = useState('');
+  const [fecha_fin, setFechaFin] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [participantes, setParticipantes] = useState('');
+  const [etapas, setEtapas] = useState([]);
+  const [imagen, setImagen] = useState('');
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const gradientBackground = {
+    background: 'linear-gradient(to bottom,#007bff ,#ffffff )'
+  };
   useEffect(() => {
     const getEventById = async () => {
       try {
@@ -39,7 +39,7 @@ const HomePage = () => {
         setEtapas(response.data.fecha_inscripcion_evento[0].etapa_evento);
         console.log(response.data.fecha_inscripcion_evento[0].etapa_evento);
       } catch (error) {
-        
+
         console.error('Error al obtener los datos del evento:', error);
       }
       try {
@@ -59,33 +59,33 @@ const HomePage = () => {
       return null;
     }
   };
-  const hide=(id)=>{
-    if (getEventoImage(id)===imagen1) {
-      return {display: "none"};
+  const hide = (id) => {
+    if (getEventoImage(id) === imagen1) {
+      return { display: "none" };
     }
     return {};
   }
   const isAuthenticated = localStorage.getItem('token');
   const rol = localStorage.getItem('role');
 
- return (
+  return (
     <div>
       {isAuthenticated && (
-      rol === "Coach") ? <NavbarCoach /> : <Navbar />
+        rol === "Coach") ? <NavbarCoach /> : <Navbar />
       }
       <div className="container mt-5">
-        <div className="row">
-          {/* Image Card */}
-          <div className="col-md-6">
-            <div className="card card-custom p-4" style={{ border: '4px' }}>
-              <h2 className='card-title'>Afiche</h2>
-              <img className="imagenevento" src={imagen} alt={nombre_evento} />
-            </div>
-          </div>
 
-          {/* Event Details Card */}
-          <div className="col-md-6">
-            <div className="card card-custom p-4" style={{ border: '4px' }}>
+        <div className="row justify-content-center align-items-center">
+          {imagen && (
+            <div className="col-md-5">
+              <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
+                <h2 className='card-title'>Afiche</h2>
+                <img className="imagenevento" src={imagen} alt={nombre_evento} />
+              </div>
+            </div>
+          )}
+          <div className="col-md-7">
+            <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <div className="event-info-text center">
                 <h2 className='card-title'>{nombre_evento}</h2>
               </div>

@@ -49,13 +49,16 @@ const CreateEvento = () => {
   const handleStoreEventoDinamico = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    let ruta = null;
+      if (afiche) {
     formData.append('image', afiche);
     const responseImage = await axios.post(`${URL_API}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    const ruta = responseImage.data.path;
+    ruta = responseImage.data.path;
+    }
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: 5,
