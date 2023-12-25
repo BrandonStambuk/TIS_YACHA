@@ -291,7 +291,7 @@ const Requisitos = ({
         <div className="card-body tarjeta">
             <div className="mb-3">
                 <div>
-                    <h2 className="text-center mb-4 heading">Requisitos</h2>
+                    
                     <div>
                         <div className="col-md-12">
                             {nombres.map((nombre, participanteIndex) => (

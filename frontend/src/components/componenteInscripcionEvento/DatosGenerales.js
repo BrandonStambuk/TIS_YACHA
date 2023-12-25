@@ -40,9 +40,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         const capitalizedValue = capitalizeFirstLetter(value);
         setNombreEquipo(capitalizedValue);
         onNombreEquipo(capitalizedValue);
-        const error = value.length < 4 || !isAlphaWithSpaces(value);
-        setNombreEquipoError(error);
-        onBooleanDatosGeneralesChange(!error);
+        setNombreEquipoError(value.length < 4 || !isAlphaWithSpaces (value));
     };
 
     const handleNombreChange = (index, value) => {
@@ -111,7 +109,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         <div className="card-body tarjeta">
             <div className="mb-3">
                 <div>
-                    <h2 className="text-center mb-4 heading">Datos Generales</h2>
+                   
                     <div>
                         <div className="col-md-12">
                             <div className="col-md-6">

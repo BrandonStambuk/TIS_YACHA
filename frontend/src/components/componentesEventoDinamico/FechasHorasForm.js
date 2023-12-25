@@ -260,13 +260,6 @@ const FechasHorasForm = ({
             <div key={index}>
               <h2>Etapa {index + 1}</h2>
               {}
-
-              {errorGeneral && (
-                <div className="alert alert-success" style={{maxWidth:'35%'}} role="alert">
-                  {errorGeneral}
-                </div>
-              )}
-
               <div className="mb-3">
                 <div className="row">
                   <div className="col-md-6">

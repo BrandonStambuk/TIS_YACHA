@@ -41,10 +41,7 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado, onGuardarEvento,con
 
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-8 mx-auto">
-          <div className="card border-0">
+   
             <div className="card-body tarjeta">
               <div className="row"></div>
               <div className="row text-black">
@@ -69,10 +66,7 @@ const TipoEventoForm = ({ onTipoEvento, onValorSeleccionado, onGuardarEvento,con
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   );
 };
 
