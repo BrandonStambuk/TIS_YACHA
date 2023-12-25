@@ -42,7 +42,7 @@ const CreateEvento = () => {
   const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
   const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
   const [contadorDescEvento, setContadorDescEvento] = useState(false);
-  const [contadorRequisitos, setContadorRequisitos] = useState(false);
+  const [contadorRequisitos, setContadorRequisitos] = useState(true);
   const [contadorAfiche, setContadorAfiche] = useState(false);
   const navigate = useNavigate();
 
@@ -124,7 +124,7 @@ const CreateEvento = () => {
       console.log(contadorNombreEvento);
       console.log("La seccion tipoEvento tiene un valor de");
       console.log(contadorTipoEvento);
-      navigate("/listaEventos");
+     // navigate("/listaEventos");
       console.log("La seccion FECHA tiene un valor de");
       console.log(booleanFechaEvento);
       console.log("La seccion descripcion tiene un valor de");
