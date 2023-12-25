@@ -38,11 +38,12 @@ const CreateEvento = () => {
   const [mensajePublico, setMensajePublico] = useState("Publicar Evento");
   const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
   //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
-  const [contadorNombreEvento, setContadorNombreEvento] = useState(false);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(0);
   const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
   const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
   const [contadorDescEvento, setContadorDescEvento] = useState(false);
-  const [contadorRequisitos, setContadorRequisitos] = useState(false);
+  const [contadorRequisitos, setContadorRequisitos] = useState(true);
+  const [contadorAfiche, setContadorAfiche] = useState(false);
   const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
@@ -52,6 +53,8 @@ const CreateEvento = () => {
   const handleStoreEventoDinamico = async (e) => {
     try {
       e.preventDefault();
+      let ruta = null;
+      if (afiche) {
       const formData = new FormData();
       formData.append("image", afiche);
       const responseImage = await axios.post(`${URL_API}/upload`, formData, {
@@ -59,8 +62,8 @@ const CreateEvento = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      const ruta = responseImage.data.path;
+      ruta = responseImage.data.path;
+    }
       const responseEvento = await axios.post(
         `${endpoint}/crearEventoDinamico`,
         {
@@ -123,7 +126,7 @@ const CreateEvento = () => {
       console.log(contadorNombreEvento);
       console.log("La seccion tipoEvento tiene un valor de");
       console.log(contadorTipoEvento);
-      navigate("/listaEventos");
+     // navigate("/listaEventos");
       console.log("La seccion FECHA tiene un valor de");
       console.log(booleanFechaEvento);
       console.log("La seccion descripcion tiene un valor de");
@@ -274,7 +277,8 @@ const CreateEvento = () => {
                   !contadorTipoEvento === 1 ||
                   !booleanFechaEvento ||
                   !contadorDescEvento ||
-                  !contadorRequisitos
+                  !contadorRequisitos 
+                  
                 }
               >
                 Guardar
@@ -347,6 +351,8 @@ const CreateEvento = () => {
                 setInput={handleAfiche}
                 input={afiche}
                 inputUrl={aficheUrl}
+                contador={contadorAfiche}
+                onContadorChange={setContadorAfiche}
               />
             )}
           </div>

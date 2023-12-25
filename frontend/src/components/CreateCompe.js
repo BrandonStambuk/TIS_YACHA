@@ -49,13 +49,16 @@ const CreateEvento = () => {
   const handleStoreEventoDinamico = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    let ruta = null;
+      if (afiche) {
     formData.append('image', afiche);
     const responseImage = await axios.post(`${URL_API}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    const ruta = responseImage.data.path;
+    ruta = responseImage.data.path;
+    }
     const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
       nombre_evento_dinamico: nombre_evento_dinamico,
       tipo_evento_dinamico_id: 5,
@@ -107,12 +110,12 @@ const CreateEvento = () => {
         console.error("Datos de requisito o evento no válidos");
       }
     }
-    navigate("/listaCompetencias");
+    //navigate("/listaCompetencias");
     console.log("La seccion nombreEvento tiene un valor de");
     console.log(contadorNombreEvento);
     console.log("La seccion tipoEvento tiene un valor de");
     console.log(contadorTipoEvento);
-    navigate("/listaEventos");
+    navigate("/listaCompetencias");
     console.log("La seccion FECHA tiene un valor de");
     console.log(booleanFechaEvento);
     console.log("La seccion descripcion tiene un valor de");
@@ -229,8 +232,9 @@ return (
                   handleStoreEventoDinamico === undefined ||
                   !contadorNombreEvento ||
                   !booleanFechaEvento ||
-                  !contadorDescEvento || 
-                  contadorRequisitos
+                  !contadorDescEvento ||
+                  contadorRequisitos 
+                  
                 }
               >
                 Guardar

@@ -11,11 +11,15 @@ class DeleteEvent extends Notification
 {
     public $eventoNombre;
     public $personalizedMessage;
+    public $eventName;
+    public $envetType;
 
-    public function __construct($eventoNombre, $personalizedMessage)
+    public function __construct($eventoNombre, $personalizedMessage, $eventName, $eventType)
     {
         $this->eventoNombre = $eventoNombre;
         $this->personalizedMessage = $personalizedMessage;
+        $this->eventName = $eventName;
+        $this->eventType = $eventType;
     }
 
     public function toMail($notifiable)
@@ -23,10 +27,10 @@ class DeleteEvent extends Notification
         return (new MailMessage)
             ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Importante!')
-            ->subject('El evento al que te inscribiste ' . $this->eventoNombre . ' ha sido Cancelado.')
-            ->line('Los organizadores han cancelado el evento '. $this->eventoNombre .' al que te inscribiste.')
+            ->subject($this->eventName.' '.$this->eventType. ' ha sido Cancelado.')
+            ->line('Los organizadores han cancelado '. $this->eventoNombre)
             ->line($this->personalizedMessage)
-            ->line('Si no te inscribiste a ningún evento, puedes ignorar este correo electrónico.')
+            ->line('Si no te inscribiste a '.$this->eventName.', puedes ignorar este correo electrónico.')
             ->line('¡Gracias por participar!');
     }
 

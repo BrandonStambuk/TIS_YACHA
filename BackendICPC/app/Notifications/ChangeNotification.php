@@ -11,11 +11,15 @@ class ChangeNotification extends Notification
 {
     public $eventEditLink;
     public $personalizedMessage;
+    public $eventName;
+    public $envetType;
 
-    public function __construct($eventEditLink, $personalizedMessage)
+    public function __construct($eventEditLink, $personalizedMessage, $eventName, $eventType)
     {
         $this->eventEditLink = $eventEditLink;
         $this->personalizedMessage = $personalizedMessage;
+        $this->eventName = $eventName;
+        $this->eventType = $eventType;
     }
 
     public function toMail($notifiable)
@@ -23,11 +27,11 @@ class ChangeNotification extends Notification
         return (new MailMessage)
             ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Importante!')
-            ->subject('El evento al que te inscribiste ha sufrido cambios')
-            ->line('Los organizadores han realizado cambios en el evento al que te inscribiste.')
+            ->subject($this->eventName.' '.$this->eventType.' ha sufrido cambios')
+            ->line('Los organizadores han realizado cambios en '.$this->eventName)
             ->line($this->personalizedMessage)
             ->action('Por favor revisa estos cambios', $this->eventEditLink)
-            ->line('Si no te inscribiste a ningún evento, puedes ignorar este correo electrónico.')
+            ->line('Si no te inscribiste a '.$this->eventName.', puedes ignorar este correo electrónico.')
             ->line('¡Gracias por participar!');
     }
 

@@ -42,11 +42,12 @@ const CreateEvento = () => {
   const { id } = useParams();
   const [sePuedeGuardarEvento, setGuardarEvento] = useState(true);
   //const [seccionesGuardadas, setSeccionesGuardadas] = useState([]);
-  const [contadorNombreEvento, setContadorNombreEvento] = useState(0);
+  const [contadorNombreEvento, setContadorNombreEvento] = useState(false);
   const [contadorTipoEvento, setContadorTipoEvento] = useState(0);
   const [booleanFechaEvento, setBooleanFechaEvento] = useState(false);
   const [contadorDescEvento, setContadorDescEvento] = useState(false);
   const [contadorRequisitos, setContadorRequisitos] = useState(false);
+  const [contadorAfiche, setContadorAfiche] = useState(false);
   const notificarCambios = async () => {
     try {
         const { value: extraMessage } = await Swal.fire({
@@ -324,6 +325,12 @@ const CreateEvento = () => {
     console.log("La seccion REQUISITOS tiene un valor de");
     console.log(contadorRequisitos);
     navigate("/listaEventos");
+    console.log("el afiche tiene el valor de ");
+    console.log(contadorAfiche);
+    
+    
+
+    
    }catch(error){
     //console.error("Error al actualizar el evento:", error);
     if ((error.response && error.response.status===500)) {
@@ -442,12 +449,19 @@ const CreateEvento = () => {
                 {mensajePublico}
               </button>
               <button
-                onClick={handleUpdateEventoDinamico}
-                className="btn btn-success"
-                
-              >
-                Actualizar Evento
-              </button>
+  onClick={handleUpdateEventoDinamico}
+  className="btn btn-success"
+  disabled={
+    contadorTipoEvento === 0 &&
+    contadorNombreEvento <=3 &&
+    !booleanFechaEvento &&
+    !contadorDescEvento &&
+    !contadorRequisitos &&
+    !contadorAfiche
+  }
+>
+  Actualizar Evento
+</button>
               <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
             </div>
           </div>
@@ -510,6 +524,8 @@ const CreateEvento = () => {
                 setInput={handleAfiche}
                 input={afiche}
                 inputFile={aficheUrl}
+                onGuardarEvento={setGuardarEvento}
+                onContadorChange={setContadorAfiche}
               />
             )}
           </div>

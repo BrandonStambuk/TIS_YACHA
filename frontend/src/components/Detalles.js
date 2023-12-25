@@ -9,6 +9,8 @@ import { URL_API } from './const';
 import NavbarOrganizador from './NavbarOrganizador';
 import NavbarAdmin from './NavbarAdmin';
 
+
+
 const endpoint = URL_API;
 
 const Detalles = () => {
@@ -20,6 +22,7 @@ const Detalles = () => {
   const [participantes, setParticipantes] = useState('');
   const [etapas, setEtapas] = useState([]);
   const [imagen, setImagen] = useState('');
+  const [inscripcion, setInscripcion] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
   const gradientBackground = {
@@ -37,7 +40,8 @@ const Detalles = () => {
         setParticipantes(response.data.cantidad_participantes_evento_dinamico);
         setDescripcion(response.data.descripcion_evento_dinamico);
         setEtapas(response.data.fecha_inscripcion_evento[0].etapa_evento);
-        console.log(response.data.fecha_inscripcion_evento[0].etapa_evento);
+        setInscripcion(response.data.inscripcion);
+        console.log(response.data.inscripcion);
       } catch (error) {
 
         console.error('Error al obtener los datos del evento:', error);
@@ -74,8 +78,8 @@ const Detalles = () => {
         rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
       )}
       <div className="container mt-5">
-        <div className="row">
-          {/* Image Card */}
+      <div className="row justify-content-center align-items-center">
+          {imagen && (
           <div className="col-md-5">
             <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <h2 className='card-title'>Afiche</h2>
@@ -86,8 +90,7 @@ const Detalles = () => {
               )}
             </div>
           </div>
-
-          {/* Event Details Card */}
+          )}
           <div className="col-md-7">
             <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
               <div className="event-info-text center">
@@ -152,7 +155,7 @@ const Detalles = () => {
               </div>
               <div className="d-flex justify-content-between">
                 <Link to={`/listaEventos`} className='text-decoration-none boton-atras'>Atras</Link>
-                <Link to={`/edit/${id}`} className='text-decoration-none boton-ver'>Editar</Link>
+                <Link to={`/listaParticipantes/${id}`} className='text-decoration-none boton-ver'>Lista de Participantes</Link>
               </div>
             </div>
           </div>
