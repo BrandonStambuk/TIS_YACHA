@@ -17,18 +17,23 @@ class TipoEvento extends Seeder
     {
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Reclutamiento',
+            'tieneNota' => false
         ]);
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Taller de entrenamiento',
+            'tieneNota' => false
         ]);
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Competencia de entrenamiento',
+            'tieneNota' => true
         ]);
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Clasificatorios internos',
+            'tieneNota' => true
         ]);
         DB::table('tipo_evento_dinamicos')->insert([
             'nombre_tipo_evento_dinamico' => 'Competencia Oficial ICPC',
+            'tieneNota' => true
         ]);
     }
 }

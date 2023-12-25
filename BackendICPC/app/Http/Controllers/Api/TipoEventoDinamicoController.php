@@ -42,6 +42,7 @@ class TipoEventoDinamicoController extends Controller
     {
         $tipoEvento = new TipoEventoDinamico();
         $tipoEvento->nombre_tipo_evento_dinamico = $request->nombre_tipo_evento_dinamico;
+        $tipoEvento->tieneNota = $request->tieneNota;
         $tipoEvento->save();
         return $tipoEvento;
     }
@@ -69,6 +70,7 @@ class TipoEventoDinamicoController extends Controller
         try {
             $tipoEvento = TipoEventoDinamico::findOrFail($id);
             $tipoEvento->nombre_tipo_evento_dinamico = $request->nombre_tipo_evento_dinamico;
+            $tipoEvento->tieneNota = $request->tieneNota;
             $tipoEvento->save();
             return response()->json(['message' => 'Tipo de evento actualizado con éxito'], 200);
         } catch (\Exception $e) {

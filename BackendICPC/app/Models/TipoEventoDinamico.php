@@ -13,6 +13,7 @@ class TipoEventoDinamico extends Model
 
     protected $fillable = [
         'nombre_tipo_evento_dinamico',
+        'tieneNota'
     ];
     public function eventoDinamico()
     {

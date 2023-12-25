@@ -150,6 +150,7 @@ const ConfiguracionTipoEvento = () => {
                       <tr>
                         <th>ID</th>
                         <th>Nombre Tipo Evento</th>
+                        <th>Permite Modificar Notas</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -178,6 +179,7 @@ const ConfiguracionTipoEvento = () => {
                                 opcion?.nombre_tipo_evento_dinamico
                               )}
                             </td>
+                            <td>{opcion?.tieneNota ? "Si" : "No"}</td>
                             <td>{([1, 2, 3, 4, 5].includes(opcion.id)) ? (
                               <span>Valor por defecto</span>
                             ) : (
