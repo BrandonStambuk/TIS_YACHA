@@ -74,6 +74,9 @@ const CreateEvento = () => {
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
             });
 
             await axios.post(`${endpoint}/notificarCambios/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
@@ -97,6 +100,9 @@ const CreateEvento = () => {
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
             });
             await axios.post(`${endpoint}/notificarCambios/${id}`);
             Swal.fire({
