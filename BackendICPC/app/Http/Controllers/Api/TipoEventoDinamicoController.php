@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TipoEventoDinamico;
+use App\Models\EventoDinamico;
 
 class TipoEventoDinamicoController extends Controller
 {
@@ -94,5 +95,14 @@ class TipoEventoDinamicoController extends Controller
             dd($e->getMessage(), $e->getTrace());
             return response()->json(['message' => 'Error al eliminar el tipo de evento dinámico', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    public function existeEventos($id)
+    {
+        $evento = EventoDinamico::where('tipo_evento_dinamico_id', $id)->get();
+        if ($evento->isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

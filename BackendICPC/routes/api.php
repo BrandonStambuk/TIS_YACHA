@@ -48,6 +48,7 @@ Route::controller(TipoEventoDinamicoController::class)->group(function (){
   Route::post('/crearTipoEventoDinamico', 'store');
   Route::delete('/eliminarTipoEventoDinamico/{id}', 'destroy');
   Route::put('/actualizarTipoEventoDinamico/{id}', 'update');
+  Route::get('/existeEvento/{id}', 'existeEventos');
 });
 
 Route::controller(NoticiaController::class)->group(function (){

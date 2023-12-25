@@ -13,6 +13,9 @@ const endpoint = URL_API;
 
 const ListaParticipantes = () => {
   const [pagina, setPagina] = useState(0);
+  const [nombre_evento, setNombreEvento] = useState("");
+  const [ponerNota, setPonerNota] = useState(false);
+  const [cantidadParticipante, setCantidadParticipante] = useState(0);
   const [eventos, setEventos] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [edit_problemas_resueltos, setEditProblemasResueltos] = useState("");
@@ -28,7 +31,8 @@ const ListaParticipantes = () => {
 
   const getAllEventos = async () => {
     const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
-    console.log(response.data);
+    setNombreEvento(response.data.nombre_evento_dinamico);
+    setPonerNota(response.data.tipo_evento_dinamico.tieneNota);
     setEventos(response.data.inscripcion);
   };
   const handleEditPenalidadChange = (e) => {
@@ -123,18 +127,18 @@ const ListaParticipantes = () => {
         <div className="row">
           <div className="col-md-10">
             <div className="card card-translucent">
-              <h3 className="card-header">Eventos Disponibles</h3>
-              <div className="card-body table-responsive tabla-contenedor">
+              <h3 className="card-header">{nombre_evento}</h3>
+              <div className="card-body table-responsive tabla-contenedor">               
                 <table>
                   <thead className='text-white'>
                     <tr>
                       <th className="centrado">Nombre Equipo</th>
-                      <th className="centrado">Problemas Resueltos</th>
-                      <th className="centrado">Penalidad</th>
+                      {ponerNota ? (<th className="centrado">Problemas Resueltos</th>): null}
+                      {ponerNota ? (<th className="centrado">Penalidad</th>): null}
                       <th className="centrado">Nombre Participante</th>
                       <th className="centrado">Apellido Participante</th>
                       <th className="centrado">Correo Participante</th>
-                      <th className="centrado">Accion</th>
+                      {ponerNota ? (<th className="centrado">Accion</th>): null}
                     </tr>
                   </thead>
                   <tbody>
@@ -144,6 +148,7 @@ const ListaParticipantes = () => {
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {evento.nombre_equipo}
                           </td>
+                          {ponerNota ? (
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {editingId === evento?.id ? (
                               <>
@@ -164,7 +169,8 @@ const ListaParticipantes = () => {
                             ) : (
                               evento.problemas_resueltos ? evento.problemas_resueltos : 0
                             )}
-                          </td>
+                          </td>): null}
+                          {ponerNota ? (
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {editingId === evento?.id ? (
                               <>
@@ -185,7 +191,8 @@ const ListaParticipantes = () => {
                             ) : (
                               evento.penalidad ? evento.penalidad : 0
                             )}
-                          </td>
+                          </td>): null}
+                          
                           {evento.paticipante.length > 0 && (
                             <>
                               <td className="centrado">{evento.paticipante[0].nombre}</td>
@@ -193,6 +200,7 @@ const ListaParticipantes = () => {
                               <td className="centrado">{evento.paticipante[0].correo}</td>
                             </>
                           )}
+                          {ponerNota ? (
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             <>
                               {editingId === evento?.id ? (
@@ -218,7 +226,8 @@ const ListaParticipantes = () => {
                                 </>
                               )}
                             </>
-                          </td>
+                          </td>): null}
+
                         </tr>
                         {evento.paticipante.slice(1).map((participante) => (
                           <tr key={participante.id}>
@@ -231,6 +240,8 @@ const ListaParticipantes = () => {
                     ))}
                   </tbody>
                 </table>
+
+
               </div>
             </div>
           </div>
