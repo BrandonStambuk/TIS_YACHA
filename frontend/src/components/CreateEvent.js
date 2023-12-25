@@ -52,7 +52,16 @@ const CreateEvento = () => {
 
   const handleStoreEventoDinamico = async (e) => {
     try {
+      
       e.preventDefault();
+      Swal.fire({
+        title: 'Creando Evento...',
+        text: 'Espere un momento por favor',
+        icon: 'info',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
       const formData = new FormData();
       formData.append("image", afiche);
       const responseImage = await axios.post(`${URL_API}/upload`, formData, {
@@ -72,7 +81,7 @@ const CreateEvento = () => {
           cantidad_participantes_evento_dinamico:
             cantidad_participantes_evento_dinamico,
           requiere_coach: 0,
-      mostrar_publico: publico,
+         mostrar_publico: publico,
           afiche: ruta,
         }
       );
@@ -271,8 +280,8 @@ const CreateEvento = () => {
                 className="btn btn-success"
                 disabled={
                   handleStoreEventoDinamico === undefined ||
-                  !contadorNombreEvento ||
-                  !contadorTipoEvento === 1 ||
+                  !contadorNombreEvento>3 ||
+                  !contadorTipoEvento === 1 &&
                   !booleanFechaEvento ||
                   !contadorDescEvento ||
                   !contadorRequisitos 

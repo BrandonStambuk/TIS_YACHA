@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,contador,onContadorChange }) => {
+const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento, contador, onContadorChange }) => {
   const [descripcion, setDescripcion] = useState(DescripcionIn || "");
   const [descripcionError, setDescripcionError] = useState("");
   const [puedeGuardar, setPuedeGuardar] = useState(false);
@@ -12,12 +12,12 @@ const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,c
     setDescripcionError(error);
     setPuedeGuardar(!error && content.length >= 18);
     onDescripcionChange(content);
+    onContadorChange(!error); // Establecer en true si no hay errores
   };
 
+ 
   const validateDescripcion = (content) => {
     if (content.length < 18) {
-      
-
       return "La descripción debe tener al menos 10 caracteres.";
     }
     if (content.length > 500) {
@@ -27,13 +27,12 @@ const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,c
   };
 
   useEffect(() => {
-    //onGuardarEvento(puedeGuardar);
-    onContadorChange(true);
+    // onGuardarEvento(puedeGuardar);
+    onContadorChange(!descripcionError); // Establecer en true si no hay errores
 
     // Verificar errores específicos y mostrar en consola
     if (descripcionError) {
       console.log("Error en Descripción:", descripcionError);
-      onContadorChange(false);
     }
 
     const timeoutId = setTimeout(() => {
@@ -41,11 +40,10 @@ const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,c
     }, 5000);
 
     return () => clearTimeout(timeoutId);
-  }, [descripcion, descripcionError, puedeGuardar, onGuardarEvento]);
+  }, [descripcion, descripcionError, puedeGuardar, onGuardarEvento, onContadorChange]);
 
   return (
     <div className="card-body tarjeta">
-      
       <div className="mb-3">
         <Editor
           apiKey="et3kv22txmedmy751hwdgrmywr1k93evr5t5in9vmjh0mze8"
@@ -56,7 +54,7 @@ const DescripcionForm = ({ onDescripcionChange, DescripcionIn, onGuardarEvento,c
             directionality: 'ltr',
             setup: function (editor) {
               editor.on('init', function () {
-
+                // Configuraciones adicionales aquí
               });
             },
           }}

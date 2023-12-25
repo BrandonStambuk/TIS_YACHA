@@ -66,6 +66,9 @@ const CreateEvento = () => {
             }
         });
 
+
+      
+
         if (extraMessage) {
             Swal.fire({
                 title: 'Adjuntando información adicional a las notificaciones',
@@ -125,11 +128,13 @@ const CreateEvento = () => {
 };
 
 
+
   useEffect(() => {
     const getEventById = async () => {
       try {
         const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
         console.log(response.data);
+        
         setNombreEventoDinamico(response.data.nombre_evento_dinamico);
         setTipoEventoDinamicoId(response.data.tipo_evento_dinamico_id);
         setLugarEventoDinamico(response.data.lugar_evento_dinamico);

@@ -69,6 +69,11 @@ const FechasHorasForm = ({
   };
 
   useEffect(() => {
+    // Se ejecutará solo después del montaje inicial
+    onBooleanChange(false);
+  }, []); 
+
+  useEffect(() => {
     onFechasHorasChange(fechasHorasLocal || [{}]);
   }, [fechasHorasLocal, onFechasHorasChange]);
 
