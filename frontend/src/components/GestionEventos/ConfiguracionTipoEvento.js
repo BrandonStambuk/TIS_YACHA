@@ -188,7 +188,6 @@ const ConfiguracionTipoEvento = () => {
                   <table className="table table-hover">
                     <thead className="thead-dark">
                       <tr>
-                        <th>ID</th>
                         <th>Nombre Tipo Evento</th>
                         <th>Permite Modificar Notas</th>
                         <th>Acciones</th>
@@ -198,7 +197,6 @@ const ConfiguracionTipoEvento = () => {
                       {opciones.length > 0 ? (
                         opciones.map((opcion) => (
                           <tr key={opcion?.id}>
-                            <td>{opcion?.id}</td>
                             <td>
                               {editingId === opcion?.id ? (
                                 <>
@@ -330,7 +328,7 @@ const ConfiguracionTipoEvento = () => {
                       <button
                         onClick={handleSubmitStoreTipo}
                         id="botoncito"
-                        className="btn btn-primary"
+                        className="btn btn-success"
                       >
                         Guardar
                       </button>
