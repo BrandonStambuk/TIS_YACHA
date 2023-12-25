@@ -6,7 +6,6 @@ import './css/eventList.css';
 import Swal from 'sweetalert2';
 import { URL_API } from '../const';
 import NavbarOrganizador from './NavbarOrganizador';
-import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -17,22 +16,25 @@ const endpoint = URL_API;
 const ReporteEspecifico = () => {
     const [pagina, setPagina] = useState(0);
     const [eventos, setEventos] = useState([])
-    const [tipoEvento, setTipoEvento] = useState("s")
-    const navigate = useNavigate();
+    const [tipoEvento, setTipoEvento] = useState()
+    const [nombreEvento, setNombreEvento] = useState('');
     const { id } = useParams();
 
     useEffect(() => {
         getAllEventos();
-        // console.log(eventosVisibles);
     }, []);
 
     const getAllEventos = async () => {
         const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
-        console.log(response.data);
-        setEventos(response.data.inscripcion);
-        // console.log(eventos);
-        // console.log(response.data.tipo_evento_dinamico.tieneNota);
-        // setTipoEvento(response.data.tipo_evento_dinamico.tieneNota);
+        setNombreEvento(response.data.nombre_evento_dinamico);
+        const eventosOrdenados = response.data.inscripcion.sort((a, b) => {
+            if (a.problemas_resueltos !== b.problemas_resueltos) {
+                return b.problemas_resueltos - a.problemas_resueltos;
+            }
+            return a.penalidad - b.penalidad;
+        });
+        setEventos(eventosOrdenados);
+        setTipoEvento(response.data.tipo_evento_dinamico.tieneNota);
     };
 
     const cambiarPagina = (nuevaPagina) => {
@@ -49,11 +51,28 @@ const ReporteEspecifico = () => {
     const rol = localStorage.getItem('role');
 
     const exportarExcel = () => {
-        const data = eventos.map((evento) => ({
-            Nombre_Equipo: evento.nombre_equipo,
-            Problemas: evento.problemas_resueltos ? evento.problemas_resueltos : "0",
-            Penalidad: evento.penalidad ? evento.penalidad : "0",
-        }));
+        let data = [];
+        if (tipoEvento === 1) {
+            data = eventos.flatMap((evento) => {
+                return evento.paticipante.map((paticipante) => ({
+                    "Nombre Equipo": evento.nombre_equipo,
+                    "Problemas": evento.problemas_resueltos ? evento.problemas_resueltos : "0",
+                    "Penalidad": evento.penalidad ? evento.penalidad : "0",
+                    "Nombre Participante": paticipante.nombre,
+                    "Apellido Participante": paticipante.apellido,
+                    "Correo Participante": paticipante.correo,
+                }));
+            });
+        } else {
+            data = eventos.flatMap((evento) => {
+                return evento.paticipante.map((paticipante) => ({
+                    "Nombre Equipo": evento.nombre_equipo,
+                    "Nombre Participante": paticipante.nombre,
+                    "Apellido Participante": paticipante.apellido,
+                    "Correo Participante": paticipante.correo,
+                }));
+            });
+        }
 
         const workSheet = XLSX.utils.json_to_sheet(data);
         const workBook = XLSX.utils.book_new();
@@ -63,14 +82,34 @@ const ReporteEspecifico = () => {
 
     const exportarPDF = () => {
         const doc = new jsPDF();
-        doc.autoTable({
-            head: [['Nombre_Equipo', 'Problemas', 'Penalidad', 'Nombre_Participante', 'Apellido_Participante', 'Correo_Participante']],
-            body: eventos.map((evento) => [
-                evento.nombre_equipo,
-                evento.problemas_resueltos ? evento.problemas_resueltos : "0",
-                evento.penalidad ? evento.penalidad : "0",
-            ]),
-        });
+
+        if (tipoEvento === 1) {
+            doc.autoTable({
+                head: [['Nombre Equipo', 'Problemas', 'Penalidad', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']],
+                body: eventos.flatMap((evento) => {
+                    return evento.paticipante.map((paticipante) => [
+                        evento.nombre_equipo,
+                        evento.problemas_resueltos ? evento.problemas_resueltos : "0",
+                        evento.penalidad ? evento.penalidad : "0",
+                        paticipante.nombre,
+                        paticipante.apellido,
+                        paticipante.correo,
+                    ]);
+                }),
+            });
+        } else {
+            doc.autoTable({
+                head: [['Nombre Equipo', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']],
+                body: eventos.flatMap((evento) => {
+                    return evento.paticipante.map((paticipante) => [
+                        evento.nombre_equipo,
+                        paticipante.nombre,
+                        paticipante.apellido,
+                        paticipante.correo,
+                    ]);
+                }),
+            });
+        }
         doc.save("Reporte_Especifico.pdf");
     }
 
@@ -83,9 +122,9 @@ const ReporteEspecifico = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card card-translucent">
-                            <h3 className="card-header">Reporte Especifico</h3>
+                            <h3 className="card-header">Reporte {nombreEvento}</h3>
                             <div className="card-body table-responsive tabla-contenedor">
-                                {tipoEvento === null ? (
+                                {tipoEvento === 1 ? (
                                     <table>
                                         <thead className='text-white'>
                                             <tr>
