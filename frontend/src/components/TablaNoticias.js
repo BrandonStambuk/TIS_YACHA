@@ -6,6 +6,7 @@ import { URL_API } from './const';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import NavbarOrganizador from './NavbarOrganizador';
 
 const endpoint = URL_API;
 
@@ -65,9 +66,14 @@ const TablaNoticia = () => {
   const noticiasVisibles = noticias.slice(inicio, fin);
   const totalPaginas = Math.ceil(noticias.length / noticiasPorPagina);
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-10">

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import AficheForm from './componentesEventoDinamico/AficheForm';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import NavbarOrganizador from './NavbarOrganizador';
 
 const endpoint = URL_API;
 
@@ -114,9 +115,14 @@ const Noticia = () => {
     setImagen(e);
   }
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated && (
+      rol === "Admin" ? <NavbarAdmin /> : (rol === "Creador" ? <NavbarOrganizador /> : null)
+      )}
       <div className="mt-5">
         <div className="row">
           <div className="col-md-3 p-0">

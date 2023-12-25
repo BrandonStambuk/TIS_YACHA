@@ -34,7 +34,7 @@ const Reportes = () => {
     const totalPaginas = Math.ceil(eventos.length / eventosPorPagina);
 
     const getTipoEventos = async () => {
-        const response = await axios.get(`${endpoint}/tipoEventosDinamicos`);
+        const response = await axios.get(`${endpoint}/tipoEventosDinamicosPublicos`);
         setTipoEventos(response.data);
     }
 
