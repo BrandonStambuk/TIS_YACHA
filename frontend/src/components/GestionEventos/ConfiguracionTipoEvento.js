@@ -98,6 +98,10 @@ const ConfiguracionTipoEvento = () => {
   };
 
   const handleUpdateOpcion = async () => {
+    if (!edit_nombre_tipo_evento_dinamico) {
+      setEditNombreTipoEventoError("El nombre del tipo de evento no puede estar vacío.");
+      return;
+    }
     try {
       await axios.put(`${endpoint}/actualizarTipoEventoDinamico/${editingId}`, {
         nombre_tipo_evento_dinamico: edit_nombre_tipo_evento_dinamico,
