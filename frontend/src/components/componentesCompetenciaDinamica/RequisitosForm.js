@@ -6,7 +6,7 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
+const RequisitosForm = ({ onRequisitos, RequisitosIn,onGuardarEvento,contador,onContadorChange }) => {
     const [requisitos, setRequisitos] = useState([]);
     const [requisitosSeleccionados, setRequisitosSeleccionados] = useState(RequisitosIn || []);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
@@ -19,7 +19,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
     const [editingId, setEditingId] = useState(null);
     const [nombreRequisitoError, setNombreRequisitoError] = useState(false);
     const [descripcionRequisitoError, setDescripcionRequisitoError] = useState(false);
-
+    const [hayRequisitosSeleccionados, setHayRequisitosSeleccionados] = useState(false);
     const validateNombreRequisito = (value) => {
         if (!/^[A-Z]/.test(value) && value.length > 0) {
             return "El primer carácter debe ser una letra mayúscula.";
@@ -30,6 +30,13 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         }
         return null; // Devolver null cuando no hay errores
     };
+
+
+    useEffect(() => {
+        setHayRequisitosSeleccionados(requisitosSeleccionados.length > 0);
+        onRequisitos(requisitosSeleccionados);
+    }, [requisitosSeleccionados, onRequisitos]);
+
 
     const handleNombreRequisitoChange = (event) => {
         const error = validateNombreRequisito(event.target.value);
@@ -67,11 +74,15 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
             setRequisitosSeleccionados(newRequisitosSeleccionados);
             console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
+            //onGuardarEvento(true);
+            onContadorChange(true); // Notificar al componente padre que hay requisitos seleccionados
         } else {
             const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
             console.log(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
+            //onGuardarEvento(newRequisitosSeleccionados.length > 0);
+            onContadorChange(false); // Notificar al componente padre si hay requisitos seleccionados
         }
     };
 
@@ -147,6 +158,8 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn }) => {
         setNombreRequisito("");
         setTipoRequisito("");
         setDescripcionRequisito("");
+       //onGuardarEvento(hayRequisitosSeleccionados);
+
     };
     useEffect(() => {
         const timeoutId = setTimeout(() => {

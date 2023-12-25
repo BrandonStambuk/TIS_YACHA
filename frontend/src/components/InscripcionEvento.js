@@ -60,52 +60,79 @@ const InscripcionEvento = () => {
   };
 
   const handleStoreInscripcion = async () => {
-    const response = await axios.post(`${endpoint}/crearInscripcion`, {
-      nombre_equipo: nombre_equipo,
-      evento_dinamicos_id: id,
+    try {
+      Swal.fire({
+        title: 'Registrandose al evento...',
+        text: 'Espere un momento por favor',
+        icon: 'info',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
     });
-
-    const idInscripcion = response.data.id;
-    for (let i = 0; i < nombres.length; i++) {
-      const nombreParticipante = nombres[i];
-      const apellidoParticipante = apellidos[i];
-      const correoParticipante = correos[i];
-      const responseParticipante = await axios.post(
-        `${endpoint}/crearParticipante`,
-        {
-          nombre: nombreParticipante,
-          apellido: apellidoParticipante,
-          inscripcions_id: idInscripcion,
-          correo: correoParticipante,
-        }
-      );
-      const idParticipante = responseParticipante.data.id;
-      for (let j = 0; j < valores.length; j++) {
-        const responseRequisito = await axios.post(
-          `${endpoint}/crearOtroRequisito`,
+      const response = await axios.post(`${endpoint}/crearInscripcion`, {
+        nombre_equipo: nombre_equipo,
+        evento_dinamicos_id: id,
+      });
+  
+      const idInscripcion = response.data.id;
+      
+      for (let i = 0; i < nombres.length; i++) {
+        const nombreParticipante = nombres[i];
+        const apellidoParticipante = apellidos[i];
+        const correoParticipante = correos[i];
+        
+        const responseParticipante = await axios.post(
+          `${endpoint}/crearParticipante`,
           {
-            valor: valores[j][i].valor,
-            requisitos_eventos_id: valores[j][i].id_requisito,
-            paticipantes_id: idParticipante,
+            nombre: nombreParticipante,
+            apellido: apellidoParticipante,
+            inscripcions_id: idInscripcion,
+            correo: correoParticipante,
           }
         );
+        
+        const idParticipante = responseParticipante.data.id;
+        
+        for (let j = 0; j < valores.length; j++) {
+          const responseRequisito = await axios.post(
+            `${endpoint}/crearOtroRequisito`,
+            {
+              valor: valores[j][i].valor,
+              requisitos_eventos_id: valores[j][i].id_requisito,
+              paticipantes_id: idParticipante,
+            }
+          );
+        }
+      }
+  
+      Swal.fire({
+        title: "Éxito",
+        text: "La inscripción se ha guardado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
+        },
+        buttonsStyling: false,
+      });
+      navigate("/home");
+    } catch (error) {
+      // Captura de excepciones
+      if (error.response && error.response.status === 500) {
+        Swal.fire({
+          title: "Datos incompletos!",
+          text: "Por favor revise nuevamente los datos ingresados",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
+          },
+          buttonsStyling: false,
+        });
+      } else {
+        console.error("Hubo un error al guardar la inscripción:", error);
       }
     }
-    Swal.fire({
-      title: "Éxito",
-      text: "La inscripción se ha guardado correctamente.",
-      icon: "success",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
-      },
-      buttonsStyling: false,
-    });
-    console.log("datos generales");
-    console.log(booleanDatosGenerales);
-    console.log("requisitos");
-    console.log(booleanRequisitos);
-    navigate("/home");
   };
 
   const handleNombreChange = (nombres) => {

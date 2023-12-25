@@ -12,6 +12,7 @@ import DescripcionForm from "./componentesCompetenciaDinamica/DescripcionForm";
 import RequisitosForm from "./componentesCompetenciaDinamica/RequisitosForm";
 import NavbarOrganizador from "./NavbarOrganizador";
 import AficheForm from "./componentesCompetenciaDinamica/AficheForm";
+import Swal from "sweetalert2";
 
 
 import { URL_API } from "../const";
@@ -47,81 +48,111 @@ const CreateEvento = () => {
   };
 
   const handleStoreEventoDinamico = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    let ruta = null;
-      if (afiche) {
-    formData.append('image', afiche);
-    const responseImage = await axios.post(`${URL_API}/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    ruta = responseImage.data.path;
-    }
-    const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
-      nombre_evento_dinamico: nombre_evento_dinamico,
-      tipo_evento_dinamico_id: 5,
-      descripcion_evento_dinamico: descripcion,
-      lugar_evento_dinamico: lugar_evento_dinamico,
-      cantidad_participantes_evento_dinamico: 3,
-      requiere_coach: 1,
-      mostrar_publico: publico,
-      afiche: ruta
-    });
-    const idEvento = responseEvento.data.id;
-
-    const response = await axios.post(`${endpoint}/crearFechaInscripcion`, {
-      fecha_inicio_inscripcion: fecha_inicio_inscripcion,
-      fecha_fin_inscripcion: fecha_fin_inscripcion,
-      evento_dinamicos_id: idEvento
-    });
-    const idFechaIns = response.data.id;
-
-    for (const fechaHora of fechasHoras) {
-      const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
-      const fechaFinEtapa = fechaHora.fecha_fin_etapa;
-      const horaInicioEtapa = fechaHora.hora_inicio;
-      const horaFinEtapa = fechaHora.hora_fin;
-      const contenidoEtapa = fechaHora.contenido_etapa;
-
-      await axios.post(`${endpoint}/crearEtapaEvento`, {
-        fecha_inicio_etapa: fechaInicioEtapa,
-        fecha_fin_etapa: fechaFinEtapa,
-        hora_inicio_etapa: horaInicioEtapa,
-        hora_fin_etapa: horaFinEtapa,
-        contenido_etapa: contenidoEtapa,
-        etapa_fecha_inscripcion_eventos_id: idFechaIns
+      try{
+        e.preventDefault();
+        Swal.fire({
+          title: 'Creando Competencia...',
+          text: 'Espere un momento por favor',
+          icon: 'info',
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: false,
       });
-    }
-
-    for (const requisito of requisitosSeleccionados) {
-      if (requisito && idEvento) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        try {
-          const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
-            id_evento_dinamico: idEvento,
-            id_requisito: requisito
-          });
-        } catch (error) {
-          console.error("Error al crear detalle de requisito:", error);
+        const formData = new FormData();
+        let ruta = null;
+          if (afiche) {
+        formData.append('image', afiche);
+        const responseImage = await axios.post(`${URL_API}/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        ruta = responseImage.data.path;
         }
-      } else {
-        console.error("Datos de requisito o evento no válidos");
+        const responseEvento = await axios.post(`${endpoint}/crearEventoDinamico`, {
+          nombre_evento_dinamico: nombre_evento_dinamico,
+          tipo_evento_dinamico_id: 5,
+          descripcion_evento_dinamico: descripcion,
+          lugar_evento_dinamico: lugar_evento_dinamico,
+          cantidad_participantes_evento_dinamico: 3,
+          requiere_coach: 1,
+          mostrar_publico: publico,
+          afiche: ruta
+        });
+        const idEvento = responseEvento.data.id;
+    
+        const response = await axios.post(`${endpoint}/crearFechaInscripcion`, {
+          fecha_inicio_inscripcion: fecha_inicio_inscripcion,
+          fecha_fin_inscripcion: fecha_fin_inscripcion,
+          evento_dinamicos_id: idEvento
+        });
+        const idFechaIns = response.data.id;
+    
+        for (const fechaHora of fechasHoras) {
+          const fechaInicioEtapa = fechaHora.fecha_inicio_etapa;
+          const fechaFinEtapa = fechaHora.fecha_fin_etapa;
+          const horaInicioEtapa = fechaHora.hora_inicio;
+          const horaFinEtapa = fechaHora.hora_fin;
+          const contenidoEtapa = fechaHora.contenido_etapa;
+    
+          await axios.post(`${endpoint}/crearEtapaEvento`, {
+            fecha_inicio_etapa: fechaInicioEtapa,
+            fecha_fin_etapa: fechaFinEtapa,
+            hora_inicio_etapa: horaInicioEtapa,
+            hora_fin_etapa: horaFinEtapa,
+            contenido_etapa: contenidoEtapa,
+            etapa_fecha_inscripcion_eventos_id: idFechaIns
+          });
+        }
+    
+        for (const requisito of requisitosSeleccionados) {
+          if (requisito && idEvento) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            try {
+              const response = await axios.post(`${endpoint}/crearDetalleRequisito`, {
+                id_evento_dinamico: idEvento,
+                id_requisito: requisito
+              });
+            } catch (error) {
+              console.error("Error al crear detalle de requisito:", error);
+            }
+          } else {
+            console.error("Datos de requisito o evento no válidos");
+          }
+        }
+        //navigate("/listaCompetencias");
+        console.log("La seccion nombreEvento tiene un valor de");
+        console.log(contadorNombreEvento);
+        console.log("La seccion tipoEvento tiene un valor de");
+        console.log(contadorTipoEvento);
+        Swal.fire({
+          icon: "success",
+          title: "Éxito!",
+          text: "La competencia se creo correctamente!",
+          customClass: {
+            confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
+          },
+          buttonsStyling: false,
+        });
+        navigate("/listaCompetencias");
+        console.log("La seccion FECHA tiene un valor de");
+        console.log(booleanFechaEvento);
+        console.log("La seccion descripcion tiene un valor de");
+        console.log(contadorDescEvento);
+        console.log("La seccion REQUISITOS tiene un valor de");
+        console.log(contadorRequisitos);
+
+      }catch(error){
+        if (error.response && error.response.status === 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Verifique los datos ingresados",
+            text: "Debe llenar todos los campos requeridos",
+          });
+        } else {
+          console.error("Error en la operación:", error);
+        }
       }
-    }
-    //navigate("/listaCompetencias");
-    console.log("La seccion nombreEvento tiene un valor de");
-    console.log(contadorNombreEvento);
-    console.log("La seccion tipoEvento tiene un valor de");
-    console.log(contadorTipoEvento);
-    navigate("/listaCompetencias");
-    console.log("La seccion FECHA tiene un valor de");
-    console.log(booleanFechaEvento);
-    console.log("La seccion descripcion tiene un valor de");
-    console.log(contadorDescEvento);
-    console.log("La seccion REQUISITOS tiene un valor de");
-    console.log(contadorRequisitos);
   }
 
   const handleNombreEventoChange = (nombre_evento) => {
@@ -233,7 +264,7 @@ return (
                   !contadorNombreEvento ||
                   !booleanFechaEvento ||
                   !contadorDescEvento ||
-                  contadorRequisitos 
+                  !contadorRequisitos 
                   
                 }
               >

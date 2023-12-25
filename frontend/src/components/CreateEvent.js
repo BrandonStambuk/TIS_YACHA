@@ -146,6 +146,10 @@ const CreateEvento = () => {
         icon: "success",
         title: "Éxito!",
         text: "El evento se creo correctamente!",
+        customClass: {
+          confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
+        },
+        buttonsStyling: false,
       });
       navigate("/listaEventos");
     } catch (error) {

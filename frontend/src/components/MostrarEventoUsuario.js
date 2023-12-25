@@ -118,11 +118,11 @@ const HomePage = () => {
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th scope="col">hora inicio</th>
-                        <th scope="col">hora fin</th>
+                        <th scope="col">Hora inicio:</th>
+                        <th scope="col">Hora fin:</th>
                         <th scope="col">Fecha Inicio</th>
                         <th scope="col">Fecha Fin</th>
-                        <th scope="col">contenido</th>
+                        <th scope="col">Contenido</th>
                       </tr>
                     </thead>
                     <tbody>

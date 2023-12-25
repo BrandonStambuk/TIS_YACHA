@@ -40,7 +40,9 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         const capitalizedValue = capitalizeFirstLetter(value);
         setNombreEquipo(capitalizedValue);
         onNombreEquipo(capitalizedValue);
-        setNombreEquipoError(value.length < 4 || !isAlphaWithSpaces (value));
+        const error = value.length < 4 || !isAlphaWithSpaces(value);
+        setNombreEquipoError(error);
+        onBooleanDatosGeneralesChange(!error);
     };
 
     const handleNombreChange = (index, value) => {
@@ -49,7 +51,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         nuevosNombres[index] = capitalizedValue;
         setNombres(nuevosNombres);
         onNombres(nuevosNombres);
-        const error = capitalizedValue.trim().length < 5 || !isAlphaWithSpaces(value);
+        const error = capitalizedValue.trim().length < 4 || !isAlphaWithSpaces(value);
         setNombresError((errors) => {
             const newErrors = [...errors];
             newErrors[index] = error;
@@ -65,7 +67,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         nuevosApellidos[index] = capitalizedValue;
         setApellidos(nuevosApellidos);
         onApellidos(nuevosApellidos);
-        const error = capitalizedValue.trim().length < 5 || !isAlphaWithSpaces(value);
+        const error = capitalizedValue.trim().length < 4 || !isAlphaWithSpaces(value);
         setApellidosError((errors) => {
             const newErrors = [...errors];
             newErrors[index] = error;
@@ -124,7 +126,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
                                 />
                                 {nombreEquipoError && (
                                     <div className="invalid-feedback">
-                                        El nombre del equipo debe tener al menos 5 caracteres y no contener números ni caracteres especiales.
+                                        El nombre del equipo debe tener al menos 4 caracteres y no contener números ni caracteres especiales.
                                     </div>
                                 )}
                             </div>
@@ -144,7 +146,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
                                         />
                                         {nombresError[index] && (
                                             <div className="invalid-feedback">
-                                                El nombre debe tener al menos 3 caracteres no contener números ni caracteres especiales.
+                                                El nombre debe tener al menos 4 caracteres no contener números ni caracteres especiales.
                                             </div>
                                         )}
                                     </div>
