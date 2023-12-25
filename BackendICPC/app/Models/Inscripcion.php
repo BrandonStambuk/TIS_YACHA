@@ -12,6 +12,8 @@ class Inscripcion extends Model
     use HasFactory;
     protected $fillable = [
         'nombre_equipo',
+        'problemas_resueltos',
+        'penalidad',
         'evento_dinamicos_id',
     ];
     public function paticipante(){

@@ -14,6 +14,11 @@ const endpoint = URL_API;
 const ListaParticipantes = () => {
   const [pagina, setPagina] = useState(0);
   const [eventos, setEventos] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [edit_problemas_resueltos, setEditProblemasResueltos] = useState("");
+  const [editProblemasResueltosError, setEditProblemasResueltosError] = useState("");
+  const [edit_penalidad, setEditPenalidad] = useState("");
+  const [editPenalidadError, setEditPenalidadError] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -25,7 +30,75 @@ const ListaParticipantes = () => {
     const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
     console.log(response.data);
     setEventos(response.data.inscripcion);
-    
+  };
+  const handleEditPenalidadChange = (e) => {
+    let error = validateNota(e.target.value);
+    setEditPenalidadError(error);
+    if (!error) {
+      setEditPenalidad(e.target.value);
+    } 
+  };
+
+  const handleEditProblemasResueltosChange = (e) => {
+    let error = validateNota(e.target.value);
+    setEditProblemasResueltosError(error);
+    if (!error) {
+      setEditProblemasResueltos(e.target.value);
+    } 
+  };
+
+  const validateNota = (value) => {
+    const regex = /^[0-9]*$/;
+    if (value === "") {
+      return null; // Permitir campo vacío
+    } else if (!regex.test(value)) {
+      return "Solo se permiten números";
+    } else if (parseFloat(value) < 0) {
+      return "No se permiten números negativos";
+    } else {
+      return null;
+    }
+  };
+
+
+  const handleUpdateNota = async () => { 
+    try {
+      const response = await axios.put(`${endpoint}/actualizarInscripcion/${editingId}`, {
+        problemas_resueltos: edit_problemas_resueltos,
+        penalidad: edit_penalidad,
+      });
+      setEditingId(null);
+      setEditProblemasResueltos("");
+      setEditPenalidad("");
+      getAllEventos();
+      Swal.fire({
+        icon: 'success',
+        title: 'Nota Actualizada',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 400) {
+        setEditProblemasResueltosError(error.response.data.problemas_resueltos);
+        setEditPenalidadError(error.response.data.penalidad);
+      }
+    }
+
+  };
+
+
+  const handleCancel = () => {
+      setEditingId(null);
+      setEditProblemasResueltos("");
+      setEditPenalidad("");
+  };
+
+  const handleEditNota = (id) => {
+    setEditingId(id);
+    const tipoParticipanteSeleccionado = eventos.find((evento) => evento.id === id);
+    setEditProblemasResueltos(tipoParticipanteSeleccionado.problemas_resueltos);
+    setEditPenalidad(tipoParticipanteSeleccionado.penalidad);
   };
 
   const cambiarPagina = (nuevaPagina) => {
@@ -65,17 +138,53 @@ const ListaParticipantes = () => {
                     </tr>
                   </thead>
                   <tbody>
-                  {eventosVisibles.map((evento) => (
+                    {eventosVisibles.map((evento) => (
                       <React.Fragment key={evento.id}>
                         <tr>
                           <td className="centrado" rowSpan={evento.paticipante.length}>
                             {evento.nombre_equipo}
                           </td>
                           <td className="centrado" rowSpan={evento.paticipante.length}>
-                            {evento.problemas_resueltos?evento.problemas_resueltos:0}
+                            {editingId === evento?.id ? (
+                              <>
+                                <input
+                                  value={edit_problemas_resueltos}
+                                  onChange={handleEditProblemasResueltosChange}
+                                  type="number"
+                                  className={`form-control ${editProblemasResueltosError ? "is-invalid" : ""
+                                    }`}
+                                  required
+                                />
+                                {editProblemasResueltosError && (
+                                  <div className="invalid-feedback">
+                                    {editProblemasResueltosError}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              evento.problemas_resueltos ? evento.problemas_resueltos : 0
+                            )}
                           </td>
                           <td className="centrado" rowSpan={evento.paticipante.length}>
-                            {evento.penalidad?evento.penalidad:0}
+                            {editingId === evento?.id ? (
+                              <>
+                                <input
+                                  value={edit_penalidad}
+                                  onChange={handleEditPenalidadChange}
+                                  type="number"
+                                  className={`form-control ${editPenalidadError ? "is-invalid" : ""
+                                    }`}
+                                  required
+                                />
+                                {editPenalidadError && (
+                                  <div className="invalid-feedback">
+                                    {editPenalidadError}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              evento.penalidad ? evento.penalidad : 0
+                            )}
                           </td>
                           {evento.paticipante.length > 0 && (
                             <>
@@ -85,9 +194,30 @@ const ListaParticipantes = () => {
                             </>
                           )}
                           <td className="centrado" rowSpan={evento.paticipante.length}>
-                          <button onClick={() => cambiarPagina(evento.id,evento.mostrar_publico)} className="btn btn-editar">
-                                Editar
-                              </button>
+                            <>
+                              {editingId === evento?.id ? (
+                                <>
+                                  <button
+                                    onClick={handleUpdateNota}
+                                    className="btn btn-success">
+                                    Actualizar
+                                  </button>
+                                  <button
+                                    onClick={handleCancel}
+                                    className="btn btn-danger">
+                                    Cancelar
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    onClick={() => handleEditNota(evento?.id)}
+                                    className="btn btn-warning">
+                                    Editar
+                                  </button>
+                                </>
+                              )}
+                            </>
                           </td>
                         </tr>
                         {evento.paticipante.slice(1).map((participante) => (

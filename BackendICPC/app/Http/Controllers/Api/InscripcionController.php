@@ -55,8 +55,12 @@ class InscripcionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {            
+            $inscripcion = Inscripcion::findOrFail($id);
+            $inscripcion->problemas_resueltos = $request->problemas_resueltos;
+            $inscripcion->penalidad = $request->penalidad;
+            $inscripcion->save();
+            return $inscripcion;
     }
 
     /**
