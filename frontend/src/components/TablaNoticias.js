@@ -16,6 +16,7 @@ const truncate = (text, maxLength) => {
 
 const TablaNoticia = () => {
   const [noticias, setNoticias] = useState([]);
+  const [pagina, setPagina] = useState(0);
 
   useEffect(() => {
     axios.get(`${endpoint}/noticiasDisponibles`)
@@ -44,8 +45,8 @@ const TablaNoticia = () => {
       }
     });
   };
-  const deleteNoticia= (id) => {
-    
+  const deleteNoticia = (id) => {
+
     axios.delete(`${endpoint}/eliminarNoticia/${id}`)
       .then(response => {
         setNoticias(prevNoticias => prevNoticias.filter(noticia => noticia.id !== id));
@@ -54,6 +55,15 @@ const TablaNoticia = () => {
         console.error('Error al eliminar noticia:', error);
       });
   };
+  const cambiarPagina = (nuevaPagina) => {
+    setPagina(nuevaPagina);
+  };
+
+  const noticiasPorPagina = 5;
+  const inicio = pagina * noticiasPorPagina;
+  const fin = inicio + noticiasPorPagina;
+  const noticiasVisibles = noticias.slice(inicio, fin);
+  const totalPaginas = Math.ceil(noticias.length / noticiasPorPagina);
 
   return (
     <div>
@@ -75,26 +85,33 @@ const TablaNoticia = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {noticias.map(noticia => (
-                          <tr key={noticia.id}>
-                            <td className='centrado'>{noticia.titulo}</td>
-                            <td className="event-description centrado" dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
-                            <td className='centrado'>
-                              <Link
-                                className="btn btn-warning centrado"
-                                to={`/editNoticia/${noticia.id}`}
-                              >
-                                Editar
-                              </Link>
-                              <button
-                                className="btn btn-danger centrado"
-                                onClick={() => handleEliminarNoticia(noticia.id)}
-                              >
-                                Eliminar
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
+                        {noticiasVisibles && noticiasVisibles.length > 0 && (() => {
+                          let rows = [];
+                          for (let i = 0; i < noticiasVisibles.length; i++) {
+                            let noticia = noticiasVisibles[i];
+                            rows.push(
+                              <tr key={noticia.id}>
+                                <td className='centrado'>{noticia.titulo}</td>
+                                <td className="event-description centrado" dangerouslySetInnerHTML={{ __html: truncate(noticia.contenido, 20) }} />
+                                <td className='centrado'>
+                                  <Link
+                                    className="btn btn-warning centrado"
+                                    to={`/editNoticia/${noticia.id}`}
+                                  >
+                                    Editar
+                                  </Link>
+                                  <button
+                                    className="btn btn-danger centrado"
+                                    onClick={() => handleEliminarNoticia(noticia.id)}
+                                  >
+                                    Eliminar
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          }
+                          return rows;
+                        })()}
                       </tbody>
                     </table>
                   </div>
@@ -106,6 +123,31 @@ const TablaNoticia = () => {
             <Link to="/crear-noticia" className="btn btn-success text-white crear">
               Crear Noticia
             </Link>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="col-md-8 text-center">
+            <nav>
+              <ul className="pagination">
+                <li className={`page-item ${pagina === 0 ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => cambiarPagina(pagina - 1)}>
+                    Anterior
+                  </button>
+                </li>
+                {Array.from({ length: totalPaginas }).map((_, index) => (
+                  <li key={index} className={`page-item ${pagina === index ? 'active' : ''}`}>
+                    <button className="page-link" onClick={() => cambiarPagina(index)}>
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li className={`page-item ${pagina === totalPaginas - 1 ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => cambiarPagina(pagina + 1)}>
+                    Siguiente
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

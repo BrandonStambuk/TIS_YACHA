@@ -75,6 +75,9 @@ const ListaEventos = () => {
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
               });
               await axios.post(`${endpoint}/notificarEliminado/${id}?personalizedMessage=${encodeURIComponent(extraMessage)}`);
               Swal.fire({
@@ -97,6 +100,9 @@ const ListaEventos = () => {
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
               });
               await axios.post(`${endpoint}/notificarEliminado/${id}`);
               Swal.fire({
