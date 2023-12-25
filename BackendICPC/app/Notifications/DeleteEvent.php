@@ -7,14 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ChangeNotification extends Notification
+class DeleteEvent extends Notification
 {
-    public $eventEditLink;
+    public $eventoNombre;
     public $personalizedMessage;
 
-    public function __construct($eventEditLink, $personalizedMessage)
+    public function __construct($eventoNombre, $personalizedMessage)
     {
-        $this->eventEditLink = $eventEditLink;
+        $this->eventoNombre = $eventoNombre;
         $this->personalizedMessage = $personalizedMessage;
     }
 
@@ -23,10 +23,9 @@ class ChangeNotification extends Notification
         return (new MailMessage)
             ->from('rbnmarket@gmail.com', 'ICPC')
             ->greeting('Importante!')
-            ->subject('El evento al que te inscribiste ha sufrido cambios')
-            ->line('Los organizadores han realizado cambios en el evento al que te inscribiste.')
+            ->subject('El evento al que te inscribiste ' . $this->eventoNombre . ' ha sido Cancelado.')
+            ->line('Los organizadores han cancelado el evento '. $this->eventoNombre .' al que te inscribiste.')
             ->line($this->personalizedMessage)
-            ->action('Por favor revisa estos cambios', $this->eventEditLink)
             ->line('Si no te inscribiste a ningún evento, puedes ignorar este correo electrónico.')
             ->line('¡Gracias por participar!');
     }
