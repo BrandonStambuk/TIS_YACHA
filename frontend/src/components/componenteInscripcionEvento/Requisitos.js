@@ -10,6 +10,8 @@ const Requisitos = ({
   onValores,
   valoresIn, onCorreo,
   onGuardarEstado,
+  booleanRequisitos,
+  onRequisitosChange,
 }) => {
   const [nombres, setNombres] = useState([]);
   const [requisitos, setRequisitos] = useState([]);
@@ -31,7 +33,8 @@ const Requisitos = ({
     const [requisitoValor, setRequisitoValor]=useState(Array.from({ length: requisitosIn.length }, (_, rowIndex) => 
     Array(participantesIn.length).fill("").map((_, colIndex) => requisitosIn[rowIndex])));
     const [requisitoError, setRequisitoError]=useState(Array.from({ length: requisitosIn.length }, () => Array(participantesIn.length).fill("")));
-    
+    const [todosLosRequisitosCorrectos, setTodosLosRequisitosCorrectos] =
+    useState(false); // Nuevo estado local
 
     useEffect(() => {
         setNombres(participantesIn);
@@ -50,7 +53,7 @@ const Requisitos = ({
 
   useEffect(() => {
     onValores(valores);
-    //validarRequisitos(); // Llama a la función de validación cada vez que cambian los valores
+    validarRequisitos(); // Llama a la función de validación cada vez que cambian los valores
   }, [valores, onValores]);
 
 
@@ -272,6 +275,18 @@ const Requisitos = ({
         }
     }
 
+
+    const validarRequisitos = () => {
+        // Esta función verifica si hay algún error en los requisitos
+        // Si no hay errores, llama a onRequisitosChange(true), de lo contrario, llama a onRequisitosChange(false)
+    
+        const hayErrores = requisitoError.some((erroresParticipante) =>
+          erroresParticipante.some((error) => error !== "")
+        );
+    
+        setTodosLosRequisitosCorrectos(!hayErrores);
+        onRequisitosChange(!hayErrores);
+      };
     return (
         <div className="card-body tarjeta">
             <div className="mb-3">

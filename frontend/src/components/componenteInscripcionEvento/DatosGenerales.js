@@ -6,7 +6,7 @@ import { URL_API } from "../const";
 const endpoint = URL_API;
 
 const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , nombreEquipoIn, nombresIn, apellidosIn, correosIn, cantidadParticipantesIn,
-    onGuardarEstado, }) => {
+    onGuardarEstado,booleanDatosGenerales,onBooleanDatosGeneralesChange }) => {
     const [nombres, setNombres] = useState(nombresIn||[]);
     const [apellidos, setApellidos] = useState(apellidosIn || []);
     const [correos, setCorreos] = useState(correosIn||[]);
@@ -14,6 +14,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
     const [nombreEquipoError, setNombreEquipoError] = useState(false);
     const [nombresError, setNombresError] = useState(new Array(nombres.length).fill(false));
     const [apellidosError, setApellidosError] = useState(new Array(apellidos.length).fill(false));
+    const [correosError, setCorreosError] = useState(new Array(correos.length).fill(false));
 
    useEffect(() => {
         if (nombres.length > 0){
@@ -26,7 +27,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         }
         
     }, [cantidadParticipantesIn]);
-    const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEstado); // 
+    //const [puedeGuardar, setPuedeGuardar] = useState(onGuardarEstado); // 
     const capitalizeFirstLetter = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
@@ -54,7 +55,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
             newErrors[index] = error;
             return newErrors;
         });
-        setPuedeGuardar(!error);
+        onBooleanDatosGeneralesChange(!error);
         console.log("NO PUEDE GUARDAR");
     };
 
@@ -70,7 +71,7 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
             newErrors[index] = error;
             return newErrors;
         });
-        setPuedeGuardar(!error);
+        onBooleanDatosGeneralesChange(!error);
         console.log("NO PUEDE GUARDAR");
     };
 
@@ -79,6 +80,29 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
         nuevosCorreos[index] = value;
         setCorreos(nuevosCorreos);
         onCorreos(nuevosCorreos);
+    
+        // Expresión regular para validar el formato del correo electrónico
+        // Permitir solo Gmail y Hotmail
+        const emailRegex = /^[^\s@]+@(gmail\.com|hotmail\.com)$/i;
+    
+        const isValidFormat = emailRegex.test(value);
+    
+        if (!isValidFormat) {
+            setCorreosError((errors) => {
+                const newErrors = [...errors];
+                newErrors[index] = true;
+                return newErrors;
+            });
+            onBooleanDatosGeneralesChange(false);
+        } else {
+            setCorreosError((errors) => {
+                const newErrors = [...errors];
+                newErrors[index] = false;
+                return newErrors;
+            });
+            onBooleanDatosGeneralesChange(true);
+         
+        }
     };
 
     return (
@@ -150,10 +174,15 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
                                             value={correos[index]}
                                             onChange={(e) => handleCorreosChange(index, e.target.value)}
                                             type="email"
-                                            className="form-control"
+                                            className={`form-control ${correosError[index] ? "is-invalid" : ""}`}
                                             id={`correo${index + 1}`}
                                             name={`correo${index + 1}`}
                                         />
+                                        {correosError[index] && (
+                                            <div className="invalid-feedback">
+                                                El formato del correo electrónico no es válido.
+                                            </div>
+                                        )}
                                     </div>
                                 
                                 </div>

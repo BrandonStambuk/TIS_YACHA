@@ -11,9 +11,7 @@ import Navbar from "./Navbar";
 import NavbarCoach from "./NavbarCoach";
 import Swal from "sweetalert2";
 
-
 import { URL_API } from "../const";
-
 
 const endpoint = URL_API;
 
@@ -27,9 +25,10 @@ const InscripcionEvento = () => {
   const [apellidos, setApellidos] = useState([]);
   const [valores, setValores] = useState([]);
   const { id } = useParams();
-  const [sePuedeGuardar, setGuardar] = useState(true);
-  const navigate = useNavigate();
+  const [booleanDatosGenerales, setDatosGenerales] = useState(false);
+  const [booleanRequisitos, setRequisitosF] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -38,31 +37,32 @@ const InscripcionEvento = () => {
     const getEventById = async () => {
       try {
         const response = await axios.get(`${endpoint}/eventosDinamicos/${id}`);
-        setCantidadParticipantes(response.data.cantidad_participantes_evento_dinamico);
+        setCantidadParticipantes(
+          response.data.cantidad_participantes_evento_dinamico
+        );
         setRequisitos(response.data.detalle_requisitos);
         console.log(response.data.detalle_requisitos);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     getEventById();
   }, [id]);
-
 
   const mostrarAlertaError = (mensaje) => {
     Swal.fire({
       title: "Error",
       text: mensaje,
       icon: "error",
-      confirmButtonText: "Aceptar"
+      confirmButtonText: "Aceptar",
     });
   };
 
   const handleStoreInscripcion = async () => {
     const response = await axios.post(`${endpoint}/crearInscripcion`, {
       nombre_equipo: nombre_equipo,
-      evento_dinamicos_id: id
+      evento_dinamicos_id: id,
     });
 
     const idInscripcion = response.data.id;
@@ -70,21 +70,26 @@ const InscripcionEvento = () => {
       const nombreParticipante = nombres[i];
       const apellidoParticipante = apellidos[i];
       const correoParticipante = correos[i];
-      const responseParticipante = await axios.post(`${endpoint}/crearParticipante`, {
-        nombre: nombreParticipante,
-        apellido: apellidoParticipante,
-        inscripcions_id: idInscripcion,
-        correo: correoParticipante
-      });
+      const responseParticipante = await axios.post(
+        `${endpoint}/crearParticipante`,
+        {
+          nombre: nombreParticipante,
+          apellido: apellidoParticipante,
+          inscripcions_id: idInscripcion,
+          correo: correoParticipante,
+        }
+      );
       const idParticipante = responseParticipante.data.id;
       for (let j = 0; j < valores.length; j++) {
-        const responseRequisito = await axios.post(`${endpoint}/crearOtroRequisito`, {
-          valor: valores[j][i].valor,
-          requisitos_eventos_id: valores[j][i].id_requisito,
-          paticipantes_id: idParticipante
-        });
+        const responseRequisito = await axios.post(
+          `${endpoint}/crearOtroRequisito`,
+          {
+            valor: valores[j][i].valor,
+            requisitos_eventos_id: valores[j][i].id_requisito,
+            paticipantes_id: idParticipante,
+          }
+        );
       }
-
     }
     Swal.fire({
       title: "Éxito",
@@ -92,56 +97,70 @@ const InscripcionEvento = () => {
       icon: "success",
       confirmButtonText: "Aceptar",
       customClass: {
-        confirmButton: 'btn-swal-confirm ', // Clase para el botón "OK"
+        confirmButton: "btn-swal-confirm ", // Clase para el botón "OK"
       },
-      buttonsStyling: false, 
+      buttonsStyling: false,
     });
-    navigate('/home');
-  }
-
+    console.log("datos generales");
+    console.log(booleanDatosGenerales);
+    console.log("requisitos");
+    console.log(booleanRequisitos);
+    navigate("/home");
+  };
 
   const handleNombreChange = (nombres) => {
     setNombres(nombres);
-  }
+  };
   const handleApellidosChange = (apellidos) => {
     setApellidos(apellidos);
-  }
+  };
   const handleNombreEquipoChange = (nombreEquipo) => {
     setNombreEquipo(nombreEquipo);
-  }
+  };
   const handleValorRequisitoChange = (valores) => {
     setValores(valores);
-  }
+  };
   const handleCorreosChange = (correos) => {
     setCorreos(correos);
-  }
+  };
 
-  const isAuthenticated = localStorage.getItem('token');
-  const rol = localStorage.getItem('role');
-
+  const isAuthenticated = localStorage.getItem("token");
+  const rol = localStorage.getItem("role");
 
   return (
     <div>
-      {isAuthenticated && (
-      rol === "Coach") ? <NavbarCoach /> : <Navbar />
-      }
-      
+      {isAuthenticated && rol === "Coach" ? <NavbarCoach /> : <Navbar />}
+
       <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">
             <div className="d-flex flex-column">
               <button
                 onClick={() => handleSectionClick("datosGenerales")}
-                className={`button mb-2 ${activeSection === "datosGenerales" ? "active" : ""}`}>
+                className={`button mb-2 ${
+                  activeSection === "datosGenerales" ? "active" : ""
+                }`}
+              >
                 Datos Generales
               </button>
               <button
                 onClick={() => handleSectionClick("requisitos")}
-                className={`button mb-2 ${activeSection === "requisitos" ? "active" : ""}`}>
+                className={`button mb-2 ${
+                  activeSection === "requisitos" ? "active" : ""
+                }`}
+              >
                 Requisitos
               </button>
-              <button onClick={handleStoreInscripcion} className='btn btn-success'>Guardar</button>
-              <Link to="/listaEventos" className='btn btn-danger'>Cancelar</Link>
+              <button
+                onClick={handleStoreInscripcion}
+                className="btn btn-success"
+                disabled={!booleanDatosGenerales}
+              >
+                Guardar
+              </button>{" "}
+              <Link to="/listaEventos" className="btn btn-danger">
+                Cancelar
+              </Link>
             </div>
           </div>
           <div className="col-md-6">
@@ -156,7 +175,8 @@ const InscripcionEvento = () => {
                 apellidosIn={apellidos}
                 correosIn={correos}
                 cantidadParticipantesIn={cantidadParticipantes}
-                onGuardarEstado={setGuardar}
+                booleanDatosGenerales={booleanDatosGenerales}
+                onBooleanDatosGeneralesChange={setDatosGenerales}
               />
             )}
             {activeSection === "requisitos" && (
@@ -165,8 +185,9 @@ const InscripcionEvento = () => {
                 requisitosIn={requisitos}
                 onValores={handleValorRequisitoChange}
                 valoresIn={valores}
-                onGuardarEstado={setGuardar} 
-                />
+                booleanRequisitos={booleanRequisitos}
+                onRequisitosChange={setRequisitosF}
+              />
             )}
           </div>
         </div>
