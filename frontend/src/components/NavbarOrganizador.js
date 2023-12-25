@@ -44,8 +44,8 @@ const NavbarAdmin = () => {
   };
 
   const isAuthenticated = localStorage.getItem('token');
-  //const rol = 'Organizador';
-  const rol = localStorage.getItem('role');
+  const rol = 'Organizador';
+  //const rol = localStorage.getItem('role');
   const nombre = localStorage.getItem('nombre');
 
   return (
