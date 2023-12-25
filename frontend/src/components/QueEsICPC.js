@@ -5,14 +5,18 @@ import './css/Homepage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CarouselComponent from './Carrousel';
 import { URL_API } from './const';
+import NavbarCoach from './NavbarCoach';
 const endpoint = URL_API;
 
 const WICPC = () => {
 
+  const isAuthenticated = localStorage.getItem('token');
+  const rol = localStorage.getItem('role');
+
 
   return (
     <div>
-      <Navbar />
+      {isAuthenticated && rol === "Coach" ? <NavbarCoach /> : <Navbar />}
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-12">

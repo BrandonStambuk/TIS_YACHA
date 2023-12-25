@@ -34,10 +34,12 @@ const Login = () => {
       const token = response.data.token;
       const id=response.data.user_id;
       const role=response.data.role;
+      const nombre = response.data.name;
       const expires_at = response.data.expires_at;
       localStorage.setItem('token', token);
       localStorage.setItem('id',id);
       localStorage.setItem('role',role);
+      localStorage.setItem('nombre',nombre);
       const expirationDate = new Date(expires_at);
       localStorage.setItem('tokenExpiration', expirationDate.toISOString());
 

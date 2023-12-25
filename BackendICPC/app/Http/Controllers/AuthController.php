@@ -52,6 +52,7 @@ class AuthController extends Controller
             'message' => 'Success',
             'token' => $token, // Incluye el token en la respuesta
             'user_id' => $user->id,
+            'name' => $user->firstName,
             'role' => $user->role,
             'expires_at' => $expirationTime,
         ]);

@@ -177,9 +177,9 @@ function App() {
           <Route path='/perfil' element={isAuthenticated? <Perfil/>:<Login/>}/>
           <Route path='/descripcion' element={isAuthenticated? <Descripcion/>:<Login/>}/>
           <Route path='/description' element={isAuthenticated? <Decription/>:<Login/>}/>
-          <Route path='/crear-noticia' element={isAuthenticated ? <Noticia/> : <Login />} /> 
-          <Route path='/editNoticia/:id' element={isAuthenticated ? <EditNoticia/> : <Login />} />
-          <Route path='/tabla-noticias' element={isAuthenticated ? <TablaNoticias/> : <Login />} /> 
+          <Route path='/crear-noticia' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Noticia /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/editNoticia/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <EditNoticia /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
+          <Route path='/tabla-noticias' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <TablaNoticias /> : (rol === 'Coach') ? <HomePageUser/>:<Login />} /> 
           <Route path='/detalles/:id' element={isAuthenticated && (rol === 'Admin' || rol === 'Creador')? <Detalles/>: (rol === 'Coach') ? <HomePageUser/>:<Login />} />
           <Route path='/forget-password' element={<PasswordRestore/>}/>
           <Route path='/restore' element={<Restore/>}/>
