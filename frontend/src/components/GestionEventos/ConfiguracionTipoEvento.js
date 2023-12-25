@@ -43,32 +43,45 @@ const ConfiguracionTipoEvento = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          
-          const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
-          Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
-          const newTipo = opciones.filter((tipo) => tipo.id !== id);
-          setOpciones(newTipo);
+          const response = await axios.get(`${endpoint}/existeEvento/${id}`);
+          if (response.data) {
+            await Swal.fire({
+              title: 'El Tipo de evento esta siendo utilizado por Eventos existentes',
+              text: 'Verifica de enviar un mensaje a los usuarios que tienen eventos con este tipo de evento',
+              icon: 'warning',
+              showCancelButton: false,
+              showConfirmButton: true,
+              allowOutsideClick: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido',
+            });
+
+            const { isConfirmed } = await Swal.fire({
+              title: '¡Advertencia!',
+              text: '¿Deseas eliminar este tipo de evento de todos modos?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Si, Eliminar',
+              cancelButtonText: 'Cancelar',
+            });
+            if (isConfirmed) {
+              const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+              Swal.fire('¡Eliminado!', 'El tipo de evento ha sido eliminado.', 'success');
+              const newTipo = opciones.filter((tipo) => tipo.id !== id);
+              setOpciones(newTipo);
+            }
+
+          } else {
+            const responseDelete = await axios.delete(`${endpoint}/eliminarTipoEventoDinamico/${id}`);
+            Swal.fire('¡Eliminado!', 'El tipo de evento ha sido eliminado.', 'success');
+            const newTipo = opciones.filter((tipo) => tipo.id !== id);
+            setOpciones(newTipo);
+          }
+
         } catch (error) {
-          /*  if (error.response) {
-                const errorMessage = error.response.data.error || 'Error al eliminar el requisito';
-                Swal.fire({
-                    title: 'Este requisito esta siendo utilizado por eventos ¿ Estas seguro que deseas eliminarlo ?',
-                    text: 'No podrás revertir esta acción.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, eliminarlo',
-                    cancelButtonText: 'Cancelar',
-                }).then(async (result2) => {
-                    if (result2.isConfirmed) {
-                        const responseDelete = await axios.delete(`${endpoint}/eliminarTodoRequisito/${id}`);
-                        Swal.fire('¡Eliminado!', 'El requisito ha sido eliminado.', 'success');
-                        const newRequisitos = requisitos.filter((requisito) => requisito.id !== id);
-                        setRequisitos(newRequisitos);
-                    }
-                });
-            }*/
+          console.error("Error al eliminar el tipo de evento:", error);
         }
       }
     });
@@ -207,22 +220,22 @@ const ConfiguracionTipoEvento = () => {
                               )}
                             </td>
                             <td>
-                            {editingId === opcion?.id ? (
+                              {editingId === opcion?.id ? (
                                 <>
-                              <div className="form-check form-switch">
-                              <input
-                                className="form-check-input fs-3"
-                                type="checkbox"
-                                role="switch"
-                                id="flexSwitchCheckDefault"
-                                checked={editPermitirNota}
-                                onChange={(e) => setEditPermitirNota(e.target.checked)}
-                                style={{ marginLeft: '-20px' }}
-                              />
-                            </div>
-                            </>
+                                  <div className="form-check form-switch">
+                                    <input
+                                      className="form-check-input fs-3"
+                                      type="checkbox"
+                                      role="switch"
+                                      id="flexSwitchCheckDefault"
+                                      checked={editPermitirNota}
+                                      onChange={(e) => setEditPermitirNota(e.target.checked)}
+                                      style={{ marginLeft: '-20px' }}
+                                    />
+                                  </div>
+                                </>
                               ) : (
-                              opcion?.tieneNota ? "Si" : "No")}</td>
+                                opcion?.tieneNota ? "Si" : "No")}</td>
                             <td>{([1, 2, 3, 4, 5].includes(opcion.id)) ? (
                               <span>Valor por defecto</span>
                             ) : (
