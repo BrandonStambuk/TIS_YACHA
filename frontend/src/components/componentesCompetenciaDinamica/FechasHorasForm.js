@@ -35,7 +35,8 @@ const FechasHorasForm = ({
         !fechaHora.fecha_inicio_etapa ||
         !fechaHora.fecha_fin_etapa ||
         !fechaHora.hora_inicio ||
-        !fechaHora.hora_fin
+        !fechaHora.hora_fin ||
+        !fechaHora.contenido_etapa
       ) {
         camposVacios = true;
       }

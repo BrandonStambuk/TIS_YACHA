@@ -9,6 +9,7 @@ use App\Models\TipoEventoDinamico;
 use App\Models\FechaInscripcionEvento;
 use App\Models\Inscripcion;
 use App\Notifications\ChangeNotification;
+use App\Notifications\DeleteEvent;
 use App\Models\Paticipante;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ForgetEmailNotification;
@@ -139,6 +140,8 @@ class EventoDinamicoController extends Controller
     public function notificarCambios($id, Request $request)
     {
         $evento = EventoDinamico::find($id);
+        $eventoNombre = $evento->nombre_evento_dinamico;
+        $eventoTipo = $evento->tipoEventoDinamico->nombre_tipo_evento_dinamico;
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
         }
@@ -154,7 +157,33 @@ class EventoDinamicoController extends Controller
         $personalizedMessage = $request->personalizedMessage;
         
         foreach ($participantes as $participante) {
-            $participante->notify(new ChangeNotification($eventoLink, $personalizedMessage));
+            $participante->notify(new ChangeNotification($eventoLink, $personalizedMessage, $eventoNombre, $eventoTipo));
+        }
+        
+        return response()->json(['message' => 'Notificaciones enviadas con éxito'], 200);
+    }
+
+    public function notificarEliminado($id, Request $request)
+    {
+        $evento = EventoDinamico::find($id);
+        $eventoNombre = $evento->nombre_evento_dinamico;
+        $eventoTipo = $evento->tipoEventoDinamico->nombre_tipo_evento_dinamico;
+        if (!$evento) {
+            return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
+        $inscripciones = Inscripcion::where('evento_dinamicos_id', $id)->get();
+        if ($inscripciones->isEmpty()) {
+            return response()->json(['message' => 'No hay inscripciones para este evento'], 404);
+        }
+        $participantes = Paticipante::whereIn('inscripcions_id', $inscripciones->pluck('id'))->get();
+        if ($participantes->isEmpty()) {
+            return response()->json(['message' => 'No hay participantes para este evento'], 404);
+        }
+        $personalizedMessage = $request->personalizedMessage;
+        $nombreEvento = $evento->nombre_evento_dinamico;
+        
+        foreach ($participantes as $participante) {
+            $participante->notify(new DeleteEvent($nombreEvento, $personalizedMessage, $eventoNombre, $eventoTipo));
         }
         
         return response()->json(['message' => 'Notificaciones enviadas con éxito'], 200);

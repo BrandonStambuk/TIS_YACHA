@@ -38,6 +38,7 @@ Route::controller(EventoDinamicoController::class)->group(function (){
   Route::put('/actualizarEventoDinamico/{id}', 'update');
   Route::get('/eventosDinamicos/{id}', 'show');
   Route::post('/notificarCambios/{id}', 'notificarCambios');
+  Route::post('/notificarEliminado/{id}', 'notificarEliminado');
   Route::get('/existeInscripcion/{id}', 'existeInscripciones');
 });
 
