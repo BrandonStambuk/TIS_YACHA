@@ -184,13 +184,13 @@ const HomePage = () => {
                                   }
                                 </p>
                                 <p className="event-info-text left col-md-12">
-                                  <strong>Inscripcion: </strong>
+                                  <strong>Inscripción: </strong>
                                   {fechaInicio
                                     ? fechaInicio.fecha_inicio_inscripcion
                                     : "Fecha no disponible"}
                                 </p>
                                 <p className="event-info-text left col-md-12">
-                                  <strong>Fin Inscripcion: </strong>
+                                  <strong>Fin Inscripción: </strong>
                                   {fechaInicio
                                     ? fechaInicio.fecha_fin_inscripcion
                                     : "Fecha no disponible"}

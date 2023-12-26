@@ -181,7 +181,7 @@ const ListaEventos = () => {
                     <tr>
                       <th className="centrado">Nombre</th>
                       <th className="centrado">Tipo</th>
-                      <th className="centrado">Fecha de inicio Inscripcion</th>
+                      <th className="centrado">Fecha de inicio Inscripción</th>
                       <th className="centrado">Lugar del evento</th>
                       <th className="centrado">Cantidad Participantes</th>
                       <th className="centrado">Acción</th>

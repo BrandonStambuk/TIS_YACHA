@@ -263,8 +263,8 @@ return (
                   handleStoreEventoDinamico === undefined ||
                   !contadorNombreEvento ||
                   !booleanFechaEvento ||
-                  !contadorDescEvento ||
-                  !contadorRequisitos 
+                  !contadorDescEvento //||
+                  //!contadorRequisitos 
                   
                 }
               >

@@ -16,18 +16,18 @@ class Requisitos extends Seeder
     public function run()
     {
         DB::table('requisitos_eventos')->insert([
-            'nombre_requisito' => 'telefono celular',
-            'descripcion_requisito' => 'numero telefonico del participante',
+            'nombre_requisito' => 'Teléfono celular',
+            'descripcion_requisito' => 'Número telefónico del participante',
             'tipo_requisito' => 'Número'
         ]);
         DB::table('requisitos_eventos')->insert([
-            'nombre_requisito' => 'carrera',
-            'descripcion_requisito' => 'carrera a la que pertenece el participante',
+            'nombre_requisito' => 'Carrera',
+            'descripcion_requisito' => 'Carrera a la que pertenece el participante',
             'tipo_requisito' => 'Caracteres'
         ]);
         DB::table('requisitos_eventos')->insert([
-            'nombre_requisito' => 'fecha de nacimiento',
-            'descripcion_requisito' => 'fecha de nacimiento del participante para validar edad mayor a 18 años',
+            'nombre_requisito' => 'Fecha de nacimiento',
+            'descripcion_requisito' => 'Fecha de nacimiento del participante para validar edad mayor a 18 años',
             'tipo_requisito' => 'Fecha'
         ]);
     }

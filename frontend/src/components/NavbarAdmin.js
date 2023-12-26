@@ -62,7 +62,7 @@ const NavbarAdmin = () => {
                 <a className="nav-link" href="/listaEventos">Eventos</a>
               </li>
               <li className="nav-item p-2">
-                <a className="nav-link" href="/configuracionEventos">Configuracion Eventos</a>
+                <a className="nav-link" href="/configuracionEventos">Configuración Eventos</a>
               </li>
               {/* Otras opciones del menú */}
               <li className="nav-item p-2">

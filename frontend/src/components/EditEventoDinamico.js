@@ -11,6 +11,7 @@ import FechasHorasForm from "./componentesEventoDinamico/FechasHorasForm";
 import DescripcionForm from "./componentesEventoDinamico/DescripcionForm";
 import RequisitosForm from "./componentesEventoDinamico/RequisitosForm";
 import AficheForm from "./componentesEventoDinamico/AficheForm";
+import NavbarOrganizador from "./NavbarOrganizador";
 import Swal from 'sweetalert2';
 
 
@@ -400,9 +401,17 @@ const CreateEvento = () => {
     }
   }
 
+  const isAuthenticated = localStorage.getItem("token");
+  const rol = localStorage.getItem("role");
+
   return (
     <div>
-      <NavbarAdmin />
+      {isAuthenticated &&
+        (rol === "Admin" ? (
+          <NavbarAdmin />
+        ) : rol === "Creador" ? (
+          <NavbarOrganizador />
+        ) : null)}
       <div className="mt-5">
         <div className="row">
           <div className="col-md-2 p-0">

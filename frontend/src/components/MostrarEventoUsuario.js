@@ -79,8 +79,12 @@ const HomePage = () => {
           {imagen && (
             <div className="col-md-5">
               <div className="card card-custom p-4" style={{ border: '4px solid RGB(15, 93, 162)' }}>
-                <h2 className='card-title'>Afiche</h2>
-                <img className="imagenevento" src={imagen} alt={nombre_evento} />
+              <h2 className='card-title'>Afiche</h2>
+              {imagen ? (
+                <img className="imagenevento" src={imagen} alt={nombre_evento} style={{ width: '300px', height: '480px' }} />
+              ) : (
+                <p style={{ width: '300px', height: '480px' }}>No se Adjunto un Afiche</p>
+              )}
               </div>
             </div>
           )}
@@ -97,11 +101,11 @@ const HomePage = () => {
                       <td>{tipo_evento}</td>
                     </tr>
                     <tr>
-                      <td><strong>Inicio Inscripcion evento:</strong></td>
+                      <td><strong>Inicio Inscripción evento:</strong></td>
                       <td>{fecha_inicio}</td>
                     </tr>
                     <tr>
-                      <td><strong>Fin Inscripcion del evento:</strong></td>
+                      <td><strong>Fin Inscripción del evento:</strong></td>
                       <td>{fecha_fin}</td>
                     </tr>
                     <tr>
@@ -148,7 +152,7 @@ const HomePage = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <Link to={`/home`} className='text-decoration-none boton-atras'>Atras</Link>
+                <Link to={`/home`} className='text-decoration-none boton-atras'>Atrás</Link>
                 <Link to={`/registroEvento/${id}`} className='text-decoration-none boton-ver'>Ir a registro</Link>
               </div>
             </div>
