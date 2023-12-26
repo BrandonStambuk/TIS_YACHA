@@ -205,8 +205,8 @@ const InscripcionEvento = () => {
                 booleanDatosGenerales={booleanDatosGenerales}
                 onBooleanDatosGeneralesChange={setDatosGenerales}
               />
-            )}
-            {activeSection === "requisitos" && (
+            )}{requisitos.length>0 ? (<>
+             {activeSection === "requisitos" && (
               <Requisitos
                 participantesIn={nombres}
                 requisitosIn={requisitos}
@@ -215,7 +215,10 @@ const InscripcionEvento = () => {
                 booleanRequisitos={booleanRequisitos}
                 onRequisitosChange={setRequisitosF}
               />
-            )}
+            )}            
+            </>):(<div>
+              <h2>No existe requisitos para este Evento</h2>
+            </div>)}           
           </div>
         </div>
       </div>
