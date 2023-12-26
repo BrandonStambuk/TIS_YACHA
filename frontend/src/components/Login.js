@@ -100,7 +100,7 @@ const Login = () => {
           />
           <input className="login-button" type="submit" value="Iniciar Sesión" />
           {error && <div className="error-message">{error}</div>}
-          <label>Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aquí.</a>
+          <label>¿Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aquí.</a>
         </form>
         <span className="agreement"></span>
       </div>
