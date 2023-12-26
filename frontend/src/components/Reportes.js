@@ -122,8 +122,8 @@ const Reportes = () => {
                         onChange={(e) => setEstado(e.target.value)}
                     >
                         <option defaultValue value="">Estado</option>
-                        <option value="1">Activo</option>
-                        <option value="0">Inactivo</option>
+                        <option value="1">Publico</option>
+                        <option value="0">Privado</option>
                     </select>
                     <select className="col-md-3" aria-label="Default select example"
                         value={participantes}
