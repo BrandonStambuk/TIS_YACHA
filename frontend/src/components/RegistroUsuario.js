@@ -17,7 +17,7 @@ const RegistroUsuario = () => {
   const navigate = useNavigate();
 
   const validateName = (name) => /^[a-zA-Z]{1,30}$/.test(name);
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email) => /^[^\s@]+@(gmail\.com|hotmail\.com)$/.test(email);
 
   const handleRegistro = async (e) => {
     e.preventDefault();
