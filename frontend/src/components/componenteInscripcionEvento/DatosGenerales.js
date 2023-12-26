@@ -113,7 +113,8 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
                     <div>
                         <div className="col-md-12">
                             <div className="col-md-6">
-                                <label htmlFor="nombreRequisito" className="form-label">Nombre Equipo</label>
+                                {cantidadParticipantesIn!==1?(<>
+                                    <label htmlFor="nombreRequisito" className="form-label">Nombre Equipo</label>
                                 <input
                                     value={nombreEquipoIn}
                                     onChange={(e) => handleNombreEquipoChange(e.target.value)}
@@ -122,6 +123,9 @@ const DatosGenerales = ({ onNombreEquipo, onNombres, onApellidos, onCorreos , no
                                     id="nombreRequisito"
                                     name="nombreRequisito"
                                 />
+                                
+                                </>):null}
+                                
                                 {nombreEquipoError && (
                                     <div className="invalid-feedback">
                                         El nombre del equipo debe tener al menos 4 caracteres y no contener números ni caracteres especiales.
