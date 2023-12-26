@@ -59,12 +59,10 @@ const NavbarAdmin = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaEventos">Eventos</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
+            <NavDropdown title="Eventos" id="nav-dropdown-eventos" className='p-2'>
+                <NavDropdown.Item href="/listaEventos">Lista de Eventos</NavDropdown.Item>
+                <NavDropdown.Item href="/listaCompetencias">Lista de Competencias</NavDropdown.Item>
+              </NavDropdown>
               <li className="nav-item p-2">
                 <a className="nav-link" href="/tabla-noticias">Noticias</a>
               </li>
