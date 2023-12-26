@@ -27,8 +27,8 @@ const WICPC = () => {
                     <CarouselComponent />
                   </div>
                   <div className="col-md-6">
-                    <h3 className="card-header" style={{ backgroundColor: '#0f5fa6', color: 'white' }}>¿Qué es la ICPC UMSS?</h3>
-                    <p style={{ textAlign: 'justify', marginTop: 25 }}>
+                    <h3 className="card-header" style={{ backgroundColor: '#0f5fa6', color: 'white', fontSize: '28px'}}>¿Qué es la ICPC UMSS?</h3>
+                    <p style={{ textAlign: 'justify', marginTop: 25,  fontSize: '22px'}}>
                       La ICPC (International Collegiate Programming Contest) es un concurso de programación a nivel universitario que atrae a estudiantes de todo el mundo. Fue fundada en 1970 y es considerada una de las competencias de programación más prestigiosas y desafiantes a nivel mundial. La ICPC pone a prueba las habilidades de programación, resolución de problemas y trabajo en equipo de los estudiantes.
 
                       El concurso consiste en resolver una serie de problemas algorítmicos en un tiempo limitado, utilizando lenguajes de programación como C++, Java, Python, entre otros. Los equipos de tres estudiantes trabajan juntos para encontrar soluciones eficientes a estos problemas, y compiten contra otros equipos de diferentes universidades.
