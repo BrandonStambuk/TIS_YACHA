@@ -9,6 +9,7 @@ import { URL_API } from '../const';
 import Swal from 'sweetalert2';
 import Cabecera from './Cabecera';
 import user from './images/perfil_nav.png';
+import { NavDropdown } from 'react-bootstrap';
 const endpoint = `${URL_API}/logout`;
 
 const NavbarAdmin = () => {
@@ -58,12 +59,10 @@ const NavbarAdmin = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaEventos">Eventos</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
+            <NavDropdown title="Eventos" id="nav-dropdown-eventos" className='p-2'>
+                <NavDropdown.Item href="/listaEventos">Lista de Eventos</NavDropdown.Item>
+                <NavDropdown.Item href="/listaCompetencias">Lista de Competencias</NavDropdown.Item>
+              </NavDropdown>
               <li className="nav-item p-2">
                 <a className="nav-link" href="/tabla-noticias">Noticias</a>
               </li>
@@ -74,9 +73,10 @@ const NavbarAdmin = () => {
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (
                 <li className="nav-item p-2 d-flex align-items-center">
-                  <a href="/perfil" style={{ textDecoration: 'none' }}>
-                      <p className="nav-link m-0">{nombre} - {rol}</p>
-                  </a>
+                  <NavDropdown title={`${nombre} - ${rol}`} id="nav-dropdown-eventos" className="p-2">
+                    <NavDropdown.Item href="/perfil">Ver Perfil</NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleSignOut}>Cerrar Sesión</NavDropdown.Item>
+                  </NavDropdown>
                   <a href="/perfil" style={{ display: 'flex', alignItems: 'center' }}>
                   <img
                     src={user}
@@ -84,7 +84,6 @@ const NavbarAdmin = () => {
                     style={{ width: '30px', height: '30px', marginLeft: '10px', marginTop: '-1px' }}
                   />
                   </a>
-                  <button className="nav-link" onClick={handleSignOut}>Cerrar Sesión</button>
                 </li>
               ) : (
                 <li className="nav-item p-2"><Link to="/login" className="nav-link">Iniciar Sesión</Link></li>
