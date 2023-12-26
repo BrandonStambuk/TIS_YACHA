@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/Navbar.css';
 import './css/fondo.css';
+import { NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
@@ -48,6 +49,8 @@ const NavbarAdmin = () => {
   const rol = localStorage.getItem('role');
   const nombre = localStorage.getItem('nombre');
 
+  
+
   return (
     <div>
       <Cabecera></Cabecera>
@@ -58,22 +61,15 @@ const NavbarAdmin = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaEventos">Eventos</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/configuracionEventos">Configuracion Eventos</a>
-              </li>
-              {/* Otras opciones del menú */}
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaUsuarios">Usuarios</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/listaCompetencias">Competencias</a>
-              </li>
-              <li className="nav-item p-2">
-                <a className="nav-link" href="/registerUsuario">Registrar</a>
-              </li>
+              <NavDropdown title="Eventos" id="nav-dropdown-eventos" className='p-2'>
+                <NavDropdown.Item href="/listaEventos">Lista de Eventos</NavDropdown.Item>
+                <NavDropdown.Item href="/listaCompetencias">Lista de Competencias</NavDropdown.Item>
+                <NavDropdown.Item href="/configuracionEventos">Configuracion Eventos</NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown title="Usuario" id="nav-dropdown-eventos" className='p-2'>
+                <NavDropdown.Item href="/listaUsuarios">Lista de Usuarios</NavDropdown.Item>
+                <NavDropdown.Item href="/registerUsuario">Registrar</NavDropdown.Item>
+              </NavDropdown>
               <li className="nav-item p-2">
                 <a className="nav-link" href="/tabla-noticias">Noticias</a>
               </li>
@@ -84,18 +80,17 @@ const NavbarAdmin = () => {
             <ul className="navbar-nav ms-auto">
               {isAuthenticated ? (
                 <li className="nav-item p-2 d-flex align-items-center">
-                  {/* Mostrar el nombre y el rol */}
-                  <a href="/perfil" style={{ textDecoration: 'none' }}>
-                      <p className="nav-link m-0">{nombre} - {rol}</p>
-                  </a>
+                  <NavDropdown title={`${nombre} - ${rol}`} id="nav-dropdown-eventos" className="p-2">
+                    <NavDropdown.Item href="/perfil">Ver Perfil</NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleSignOut}>Cerrar Sesión</NavDropdown.Item>
+                  </NavDropdown>
                   <a href="/perfil" style={{ display: 'flex', alignItems: 'center' }}>
-                  <img
-                    src={user}
-                    alt='Perfil'
-                    style={{ width: '30px', height: '30px', marginLeft: '10px', marginTop: '-1px' }}
-                  />
+                    <img
+                      src={user}
+                      alt='Perfil'
+                      style={{ width: '30px', height: '30px', marginLeft: '10px', marginTop: '-1px' }}
+                    />
                   </a>
-                  <button className="nav-link" onClick={handleSignOut}>Cerrar Sesión</button>
                 </li>
               ) : (
                 <li className="nav-item p-2"><Link to="/login" className="nav-link">Iniciar Sesión</Link></li>
