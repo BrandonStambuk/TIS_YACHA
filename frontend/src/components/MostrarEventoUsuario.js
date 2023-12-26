@@ -148,7 +148,7 @@ const HomePage = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <Link to={`/home`} className='text-decoration-none boton-atras'>Atras</Link>
+                <Link to={`/home`} className='text-decoration-none boton-atras'>Atrás</Link>
                 <Link to={`/registroEvento/${id}`} className='text-decoration-none boton-ver'>Ir a registro</Link>
               </div>
             </div>
