@@ -6,7 +6,7 @@ import { URL_API } from "../const";
 
 const endpoint = URL_API;
 
-const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento,contador,onContadorChange }) => {
+const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento, contador, onContadorChange }) => {
     const [requisitos, setRequisitos] = useState([]);
     const [requisitosSeleccionados, setRequisitosSeleccionados] = useState(RequisitosIn || []);
     const [etapasAbiertas, setEtapasAbiertas] = useState([]);
@@ -61,7 +61,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento,contador,o
         if (!error) {
             setDescripcionRequisito(event.target.value);
         }
-    };    console.log(requisitosSeleccionados);
+    }; console.log(requisitosSeleccionados);
 
     const handleTipoRequisitoChange = (e) => {
         setTipoRequisito(e.target.value);
@@ -78,7 +78,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento,contador,o
             const newRequisitosSeleccionados = requisitosSeleccionados.filter((requisito) => requisito !== requisitoId);
             setRequisitosSeleccionados(newRequisitosSeleccionados);
             onRequisitos(newRequisitosSeleccionados);
-            onGuardarEvento(newRequisitosSeleccionados.length > 0); 
+            onGuardarEvento(newRequisitosSeleccionados.length > 0);
             onContadorChange(false); // Notificar al componente padre si hay requisitos seleccionados
         }
     };
@@ -163,7 +163,7 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento,contador,o
             setDescripcionRequisitoError("");
         }, 5000);
         return () => clearTimeout(timeoutId);
-      }, [nombreRequisitoError, descripcionRequisitoError]);
+    }, [nombreRequisitoError, descripcionRequisitoError]);
 
     return (
         <div className="card-body tarjeta">
@@ -196,128 +196,8 @@ const RequisitosForm = ({ onRequisitos, RequisitosIn, onGuardarEvento,contador,o
                             </tbody>
                         </table>
                     </div>
-                    <div>
-                        <button onClick={() => toggleEtapa(1)}>
-                            Gestionar requisitos {etapasAbiertas[1]}
-                        </button>
-                    </div>
-                    {etapasAbiertas[1] && (
-                        <div>
-                            <div className="col-md-6">
-                                <label htmlFor="nombreRequisito" className="form-label">Nombre requisito</label>
-                                <input
-                                    value={nombre_requisito}
-                                    onChange={handleNombreRequisitoChange}
-                                    type="text"
-                                    className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
-                                    id="nombreRequisito"
-                                    name="nombreRequisito"
-                                />
-                                {nombreRequisitoError && (
-                                    <div className="invalid-feedback">{nombreRequisitoError}</div>
-                                )}
-                                <label htmlFor="tipoRequisito" className="form-label">Tipo de requisito</label>
-                                <select
-                                    value={tipoRequisito}
-                                    onChange={handleTipoRequisitoChange}
-                                    className="form-select"
-                                    id="tipoRequisito"
-                                    name="tipoRequisito"
-                                >
-                                    <option value="">Selecciona el tipo</option>
-                                    <option value="numero">Número</option>
-                                    <option value="cadena">Cadena</option>
-                                </select>
-                                <label htmlFor="descripcionRequisito" className="form-label">Descripcion</label>
-                                <input
-                                    value={descripcion_requisito}
-                                    onChange={handleDescripcionRequisitoChange}
-                                    type="text"
-                                    className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
-                                    id="descripcionRequisito"
-                                    name="descripcionRequisito"
-                                />
-                                {descripcionRequisitoError && (
-                                    <div className="invalid-feedback">{descripcionRequisitoError}</div>
-                                )}
-                                <button onClick={handleAgregarRequisito} className="btn btn-success">Agregar requisito</button>
-                            </div>
-                            <div>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Tipo</th>
-                                            <th scope="col">Descripción</th>
-                                            <th scope="col">accion</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {requisitos.map((requisito) => (
-                                            <tr key={requisito.id}>
-                                                <td>{editingId === requisito?.id ? (
-                                                    <input
-                                                        value={editNombreRequisito}
-                                                        onChange={(e) => setEditNombreRequisito(e.target.value)}
-                                                        type="text"
-                                                        className={`form-control ${nombreRequisitoError ? "is-invalid" : ""}`}
-                                                    />
-                                                ) : (requisito?.nombre_requisito)}</td>
-                                                <td>{editingId === requisito?.id ? (<select
-                                                    value={editTipoRequisito}
-                                                    onChange={(e) => setEditTipoRequisito(e.target.value)}
-                                                    className="form-select"
-                                                    id="tipoRequisito"
-                                                    name="tipoRequisito"
-                                                >
-                                                    <option value="">Selecciona el tipo</option>
-                                                    <option value="numero">Número</option>
-                                                    <option value="cadena">Cadena</option>
-                                                </select>) : (requisito?.tipo_requisito)}</td>
-                                                <td>{editingId === requisito?.id ? (
-                                                    <input
-                                                        value={editDescripcionRequisito}
-                                                        onChange={(e) => setEditDescripcionRequisito(e.target.value)}
-                                                        type="text"
-                                                        className={`form-control ${descripcionRequisitoError ? "is-invalid" : ""}`}
-                                                    />
-                                                ) : (requisito?.descripcion_requisito)}</td>
-                                                <td>
-                                                    {editingId === requisito?.id ? (
-                                                        <>
-                                                            <button
-                                                                onClick={handleUpdateRequisito}
-                                                                className="btn btn-success">
-                                                                Actualizar
-                                                            </button>
-                                                            <button
-                                                                onClick={handleCancelRequisito}
-                                                                className="btn btn-success">
-                                                                Cancelar
-                                                            </button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <button
-                                                                onClick={() => handleDeleteRequisito(requisito?.id)}
-                                                                className="btn btn-danger">
-                                                                Eliminar
-                                                            </button>
-                                                            <button
-                                                                onClick={() => handleEditRequisito(requisito?.id)}
-                                                                className="btn btn-warning">
-                                                                Editar
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )}
+                    
+                    
                 </div>
             </div>
         </div>
