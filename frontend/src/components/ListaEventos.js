@@ -182,8 +182,7 @@ const ListaEventos = () => {
                       <th className="centrado">Nombre</th>
                       <th className="centrado">Tipo</th>
                       <th className="centrado">Fecha de inicio Inscripcion</th>
-                      <th className="centrado">Lugar del evento</th>
-                      <th className="centrado">Cantidad Participantes</th>
+                      <th className="centrado">Evento Publicado</th>
                       <th className="centrado">Acción</th>
                     </tr>
                   </thead>
@@ -197,8 +196,7 @@ const ListaEventos = () => {
                             <td className="centrado"><Link className="text-black" to={`/detalles/${evento.id}`}>{evento.nombre_evento_dinamico}</Link></td>
                             <td className="centrado">{evento.tipo_evento_dinamico.nombre_tipo_evento_dinamico}</td>
                             <td className="centrado">{evento.fecha_inscripcion_evento[0].fecha_inicio_inscripcion}</td>
-                            <td className="centrado">{evento.lugar_evento_dinamico}</td>
-                            <td className="centrado">{evento.cantidad_participantes_evento_dinamico}</td>
+                            <td className="centrado">{evento?.mostrar_publico? "Si": "No"}</td>
                             <td className="centrado centrar-botones">
                               <button onClick={() => handleEditar(evento.id,evento.mostrar_publico)} className="btn btn-editar">
                                 Editar
