@@ -211,9 +211,9 @@ const ConfiguracionRequisito = () => {
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">Descripción</th>
-                                                <th scope="col">Valor minimo</th>
-                                                <th scope="col">Valor maximo</th>
-                                                <th scope="col">accion</th>
+                                                <th scope="col">Valor mínimo</th>
+                                                <th scope="col">Valor máximo</th>
+                                                <th scope="col">Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody>

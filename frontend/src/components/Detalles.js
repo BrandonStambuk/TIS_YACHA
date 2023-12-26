@@ -104,11 +104,11 @@ const Detalles = () => {
                       <td>{tipo_evento}</td>
                     </tr>
                     <tr>
-                      <td><strong>Inicio Inscripcion evento:</strong></td>
+                      <td><strong>Inicio Inscripción evento:</strong></td>
                       <td>{fecha_inicio}</td>
                     </tr>
                     <tr>
-                      <td><strong>Fin Inscripcion del evento:</strong></td>
+                      <td><strong>Fin Inscripción del evento:</strong></td>
                       <td>{fecha_fin}</td>
                     </tr>
                     <tr>
@@ -125,11 +125,11 @@ const Detalles = () => {
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th scope="col">hora inicio</th>
-                        <th scope="col">hora fin</th>
+                        <th scope="col">Hora inicio</th>
+                        <th scope="col">Hora fin</th>
                         <th scope="col">Fecha Inicio</th>
                         <th scope="col">Fecha Fin</th>
-                        <th scope="col">contenido</th>
+                        <th scope="col">Contenido</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -154,7 +154,7 @@ const Detalles = () => {
                 <div className="event-description" style={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: descripcion }} />
               </div>
               <div className="d-flex justify-content-between">
-                <Link to={`/listaEventos`} className='text-decoration-none boton-atras'>Atras</Link>
+                <Link to={`/listaEventos`} className='text-decoration-none boton-atras'>Atrás</Link>
                 <Link to={`/listaParticipantes/${id}`} className='text-decoration-none boton-ver'>Lista de Participantes</Link>
               </div>
             </div>

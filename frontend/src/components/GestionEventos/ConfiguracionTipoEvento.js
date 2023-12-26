@@ -20,7 +20,7 @@ const ConfiguracionTipoEvento = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/tipoEventosDinamicos`)
+      .get(`${endpoint}/tipoEventosDinamicosPublicos`)
       .then((response) => {
         setOpciones(response.data);
       })
@@ -281,7 +281,7 @@ const ConfiguracionTipoEvento = () => {
                   </table>
                   <div>
                     <button onClick={() => toggleEtapa(1)}>
-                      Gestionar requisitos {etapasAbiertas[1]}
+                      Añadir Tipo de Evento {etapasAbiertas[1]}
                     </button>
                   </div>
                   {etapasAbiertas[1] && (

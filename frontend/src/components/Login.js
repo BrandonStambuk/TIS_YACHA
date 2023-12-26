@@ -76,7 +76,7 @@ const Login = () => {
     <div>
       <Navbar />
       <div className="container login">
-        <div className="heading">Iniciar Sesion: ICPC-UMSS</div>
+        <div className="heading">Iniciar Sesión: ICPC-UMSS</div>
         <form action="" className="form" onSubmit={handleLogin}>
           <input
             required=""
@@ -98,9 +98,9 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input className="login-button" type="submit" value="Iniciar Sesion" />
+          <input className="login-button" type="submit" value="Iniciar Sesión" />
           {error && <div className="error-message">{error}</div>}
-          <label>Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aqui.</a>
+          <label>Olvidaste tu Contraseña?</label> <a href="/forget-password">Click aquí.</a>
         </form>
         <span className="agreement"></span>
       </div>

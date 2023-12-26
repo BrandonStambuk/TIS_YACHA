@@ -160,7 +160,7 @@ const ListaEventos = () => {
                     <tr>
                       <th className="centrado">Nombre</th>
                       <th className="centrado">Tipo</th>
-                      <th className="centrado">Fecha de inicio Inscripcion</th>
+                      <th className="centrado">Fecha de inicio Inscripción</th>
                       <th className="centrado">Competencia Publicada</th>
                       <th className="centrado">Acción</th>
                     </tr>

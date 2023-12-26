@@ -64,7 +64,7 @@ const NavbarAdmin = () => {
               <NavDropdown title="Eventos" id="nav-dropdown-eventos" className='p-2'>
                 <NavDropdown.Item href="/listaEventos">Lista de Eventos</NavDropdown.Item>
                 <NavDropdown.Item href="/listaCompetencias">Lista de Competencias</NavDropdown.Item>
-                <NavDropdown.Item href="/configuracionEventos">Configuracion Eventos</NavDropdown.Item>
+                <NavDropdown.Item href="/configuracionEventos">Configuración Eventos</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Usuario" id="nav-dropdown-eventos" className='p-2'>
                 <NavDropdown.Item href="/listaUsuarios">Lista de Usuarios</NavDropdown.Item>
