@@ -68,7 +68,7 @@ const NavbarAdmin = () => {
               </NavDropdown>
               <NavDropdown title="Usuario" id="nav-dropdown-eventos" className='p-2'>
                 <NavDropdown.Item href="/listaUsuarios">Lista de Usuarios</NavDropdown.Item>
-                <NavDropdown.Item href="/registerUsuario">Registrar</NavDropdown.Item>
+                <NavDropdown.Item href="/registerUsuario">Registrar Nuevo Usuario</NavDropdown.Item>
               </NavDropdown>
               <li className="nav-item p-2">
                 <a className="nav-link" href="/tabla-noticias">Noticias</a>
