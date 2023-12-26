@@ -129,7 +129,7 @@ const Detalles = () => {
                         <th scope="col">Hora fin</th>
                         <th scope="col">Fecha Inicio</th>
                         <th scope="col">Fecha Fin</th>
-                        <th scope="col">Contenido</th>
+                        {tipo_evento !== "Competencia Oficial ICPC" && <th scope="col">Contenido</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -139,7 +139,7 @@ const Detalles = () => {
                           <td>{etapa.hora_fin_etapa}</td>
                           <td>{etapa.fecha_inicio_etapa}</td>
                           <td>{etapa.fecha_fin_etapa}</td>
-                          <td>{etapa.contenido_etapa}</td>
+                          {tipo_evento !== "Competencia Oficial ICPC" && <td>{etapa.contenido_etapa}</td>}
                         </tr>
                       ))}
                     </tbody>
