@@ -19,6 +19,7 @@ const ReporteEspecifico = () => {
     const [tipoEvento, setTipoEvento] = useState()
     const [nombreEvento, setNombreEvento] = useState('');
     const { id } = useParams();
+    const [cantidadParticipante, setCantidadParticipante] = useState(0);
 
     useEffect(() => {
         getAllEventos();
@@ -35,6 +36,7 @@ const ReporteEspecifico = () => {
         });
         setEventos(eventosOrdenados);
         setTipoEvento(response.data.tipo_evento_dinamico.tieneNota);
+        setCantidadParticipante(response.data.cantidad_participantes_evento_dinamico);
     };
 
     const cambiarPagina = (nuevaPagina) => {
@@ -74,7 +76,15 @@ const ReporteEspecifico = () => {
             });
         }
 
+        if (cantidadParticipante === 1) {
+            data.forEach(item => {
+                delete item["Nombre Equipo"];
+            });
+        }
+
+        const wscols = Object.keys(data[0] || {}).map(key => ({ wch: Math.max(15, ...data.map(item => item[key].length)) }));
         const workSheet = XLSX.utils.json_to_sheet(data);
+        workSheet['!cols'] = wscols;
         const workBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workBook, workSheet, "Reporte");
         XLSX.writeFile(workBook, "Reporte_Especifico.xlsx");
@@ -84,29 +94,58 @@ const ReporteEspecifico = () => {
         const doc = new jsPDF();
 
         if (tipoEvento === 1) {
+
+            let headData = cantidadParticipante === 1
+                ? [['Problemas', 'Penalidad', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']]
+                : [['Nombre Equipo', 'Problemas', 'Penalidad', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']];
             doc.autoTable({
-                head: [['Nombre Equipo', 'Problemas', 'Penalidad', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']],
+                head: headData,
                 body: eventos.flatMap((evento) => {
-                    return evento.paticipante.map((paticipante) => [
-                        evento.nombre_equipo,
-                        evento.problemas_resueltos ? evento.problemas_resueltos : "0",
-                        evento.penalidad ? evento.penalidad : "0",
-                        paticipante.nombre,
-                        paticipante.apellido,
-                        paticipante.correo,
-                    ]);
+                    return evento.paticipante.map((paticipante) => {
+                        if (cantidadParticipante === 1) {
+                            return [
+                                evento.problemas_resueltos ? evento.problemas_resueltos : "0",
+                                evento.penalidad ? evento.penalidad : "0",
+                                paticipante.nombre,
+                                paticipante.apellido,
+                                paticipante.correo,
+                            ];
+                        } else {
+                            return [
+                                evento.nombre_equipo,
+                                evento.problemas_resueltos ? evento.problemas_resueltos : "0",
+                                evento.penalidad ? evento.penalidad : "0",
+                                paticipante.nombre,
+                                paticipante.apellido,
+                                paticipante.correo,
+                            ];
+                        }
+                    });
                 }),
             });
         } else {
+            let headData = cantidadParticipante === 1
+                ? [['Nombre Participante', 'Apellido Participante', 'Correo Participante']]
+                : [['Nombre Equipo', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']];
             doc.autoTable({
-                head: [['Nombre Equipo', 'Nombre Participante', 'Apellido Participante', 'Correo Participante']],
+                head: headData,
                 body: eventos.flatMap((evento) => {
-                    return evento.paticipante.map((paticipante) => [
-                        evento.nombre_equipo,
-                        paticipante.nombre,
-                        paticipante.apellido,
-                        paticipante.correo,
-                    ]);
+                    return evento.paticipante.map((paticipante) => {
+                        if (cantidadParticipante === 1) {
+                            return [
+                                paticipante.nombre,
+                                paticipante.apellido,
+                                paticipante.correo,
+                            ];
+                        } else {
+                            return [
+                                evento.nombre_equipo,
+                                paticipante.nombre,
+                                paticipante.apellido,
+                                paticipante.correo,
+                            ];
+                        }
+                    });
                 }),
             });
         }
@@ -128,7 +167,7 @@ const ReporteEspecifico = () => {
                                     <table>
                                         <thead className='text-white'>
                                             <tr>
-                                                <th className="centrado">Nombre Equipo</th>
+                                                {cantidadParticipante === 1 ? null : (<th className="centrado">Nombre Equipo</th>)}
                                                 <th className="centrado">Problemas Resueltos</th>
                                                 <th className="centrado">Penalidad</th>
                                                 <th className="centrado">Nombre Participante</th>
@@ -140,9 +179,9 @@ const ReporteEspecifico = () => {
                                             {eventosVisibles.map((evento) => (
                                                 <React.Fragment key={evento.id}>
                                                     <tr>
-                                                        <td className="centrado" rowSpan={evento.paticipante.length}>
+                                                        {cantidadParticipante === 1 ? null : (<td className="centrado" rowSpan={evento.paticipante.length}>
                                                             {evento.nombre_equipo}
-                                                        </td>
+                                                        </td>)}
                                                         <td className="centrado" rowSpan={evento.paticipante.length}>
                                                             {evento.problemas_resueltos ? evento.problemas_resueltos : 0}
                                                         </td>
@@ -172,7 +211,7 @@ const ReporteEspecifico = () => {
                                     <table>
                                         <thead className='text-white'>
                                             <tr>
-                                                <th className="centrado">Nombre Equipo</th>
+                                                {cantidadParticipante === 1 ? null : (<th className="centrado">Nombre Equipo</th>)}
                                                 <th className="centrado">Nombre Participante</th>
                                                 <th className="centrado">Apellido Participante</th>
                                                 <th className="centrado">Correo Participante</th>
@@ -182,9 +221,9 @@ const ReporteEspecifico = () => {
                                             {eventosVisibles.map((evento) => (
                                                 <React.Fragment key={evento.id}>
                                                     <tr>
-                                                        <td className="centrado" rowSpan={evento.paticipante.length}>
+                                                        {cantidadParticipante === 1 ? null : (<td className="centrado" rowSpan={evento.paticipante.length}>
                                                             {evento.nombre_equipo}
-                                                        </td>
+                                                        </td>)}
                                                         {evento.paticipante.length > 0 && (
                                                             <>
                                                                 <td className="centrado">{evento.paticipante[0].nombre}</td>
