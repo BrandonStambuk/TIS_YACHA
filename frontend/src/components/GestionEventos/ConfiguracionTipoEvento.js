@@ -20,7 +20,7 @@ const ConfiguracionTipoEvento = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/tipoEventosDinamicos`)
+      .get(`${endpoint}/tipoEventosDinamicosPublicos`)
       .then((response) => {
         setOpciones(response.data);
       })

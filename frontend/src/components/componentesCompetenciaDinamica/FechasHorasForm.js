@@ -105,7 +105,6 @@ const FechasHorasForm = ({
       "Fecha Fin Etapa": fechaHora.fecha_fin_etapa,
       "Hora Inicio Etapa": fechaHora.hora_inicio,
       "Hora Fin Etapa": fechaHora.hora_fin,
-      "Contenido Etapa": fechaHora.contenido_etapa,
     }));
 
     const ws = XLSX.utils.json_to_sheet(data);

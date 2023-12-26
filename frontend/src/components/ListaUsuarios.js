@@ -86,7 +86,7 @@ const ListaUsuarios = () => {
                             <td className="centrado">{usuario.firstName}</td>
                             <td className="centrado">{usuario.lastName}</td>
                             <td className="centrado">{usuario.email}</td>
-                            <td className="centrado">{usuario.role}</td>
+                            <td className="centrado">{usuario.role === 'Creador' ? 'Organizador' : usuario.role}</td>
                             <td className="centrado centrar-botones">
                               <button
                                 onClick={() => confirmarEliminacion(usuario.id)}
