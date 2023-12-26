@@ -21,6 +21,7 @@ const Noticia = () => {
   const [imagen, setImagen] = useState(null);
   const [imagenUrl, setImagenUrl] = useState(null);
   const [activeSection, setActiveSection] = useState('titulo');
+  const [rutaInit, setRutaInit] = useState(null);
   const [contador, setContador] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,6 +31,7 @@ const Noticia = () => {
         .then(response => {
             setTitulo(response.data.titulo);
             setContenido(response.data.contenido);
+            setRutaInit(response.data.imagen);
             if (response.data.imagen) {
                 setImagenUrl(require(`../../../BackendICPC/storage/app/public${response.data.imagen}`));
             }
@@ -104,6 +106,8 @@ const Noticia = () => {
         },
       });
       ruta = responseImage.data.path;
+    }else if(rutaInit){
+      ruta = rutaInit;
     }
 
     await axios.put(`${endpoint}/actualizarNoticia/${id}`, {
